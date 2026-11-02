@@ -6,13 +6,12 @@ import { QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
-import { beforeEach, expect, vi } from 'vitest'
-import { mockedActivityAuthorizations } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { ACTIVITY_WITH_AUTHORIZATIONS_ID, mockedActivityAuthorizations } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { generateExternalUserAffiliationOverviewDTOs } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
-import { defineActivityAuthorizationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { getAffiliationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityRight, EActivityStatus, EAuthorization, getDefineActivityAuthorizationsUrl, getGetActivityAuthorizationsUrl, getGetAffiliationsUrl } from '@/api/avenir-esr'
+import { EActivityRight, EActivityStatus, EAuthorization, getGetAffiliationsUrl } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
 import ActivityRightsSection
@@ -90,6 +89,7 @@ BddTest().given('an ActivityRightsSection component', () => {
   const getCardContainer = () => wrapper.findComponent(IconTitleCardContainerStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getAutocomplete = () => wrapper.findComponent(AutocompleteStub)
+  const getScrollableList = () => wrapper.find('.activity-rights-section__list--scrollable')
   const getSelectedUsersContainer = () => wrapper.find('[data-testid="activity-rights-selected-users"]')
   const getSelectedUserInfos = () => wrapper.findAllComponents(UserInfoStub)
   const getRemoveButtons = () => wrapper.findAll('[data-testid="delete-overlay-stub"] > button')
@@ -97,8 +97,8 @@ BddTest().given('an ActivityRightsSection component', () => {
   const getAuthorizationSelects = () => wrapper.findAllComponents(AvSelectStub)
   const getSelectedAuthorizationIcons = () => wrapper.findAllComponents(AvIconStub)
 
-  const mountSection = async () => {
-    wrapper = mountComponent(ActivityRightsSection, { props: defaultProps, global: { stubs } })
+  const mountSection = async (props: Partial<typeof defaultProps> = {}) => {
+    wrapper = mountComponent(ActivityRightsSection, { props: { ...defaultProps, ...props }, global: { stubs } })
     await flushPromises()
     await vi.waitFor(() => expect(getAutocomplete().props('options')).toHaveLength(users.length))
   }
@@ -234,7 +234,7 @@ BddTest().given('an ActivityRightsSection component', () => {
     })
 
     BddTest().then('it should not cap the list height', () => {
-      expect(wrapper.find('.activity-rights-section__list--scrollable').exists()).toBe(false)
+      expect(getScrollableList().exists()).toBe(false)
     })
   })
 
@@ -245,17 +245,13 @@ BddTest().given('an ActivityRightsSection component', () => {
     })
 
     BddTest().then('it should render a scrollable list', () => {
-      expect(wrapper.find('.activity-rights-section__list--scrollable').exists()).toBe(true)
+      expect(getScrollableList().exists()).toBe(true)
     })
   })
 
   BddTest().when('the activity already has authorizations', () => {
     beforeEach(async () => {
-      server.use(http.get(
-        `*${getGetActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`,
-        () => HttpResponse.json(mockedActivityAuthorizations),
-      ))
-      await mountSection()
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
       await vi.waitFor(() => expect(getSelectedUserInfos()).toHaveLength(mockedActivityAuthorizations.length))
     })
 
@@ -307,22 +303,26 @@ BddTest().given('an ActivityRightsSection component', () => {
   BddTest().when('the save button is clicked', () => {
     let savedBody: unknown
 
+    const captureSavedBody = async ({ request }: { request: Request }) => {
+      if (request.method === 'PUT') {
+        savedBody = await request.clone().json()
+      }
+    }
+
     beforeEach(async () => {
       savedBody = undefined
-      server.use(http.put(
-        `*${getDefineActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`,
-        async ({ request }) => {
-          savedBody = await request.json()
-
-          return HttpResponse.json([])
-        },
-      ))
+      server.events.on('request:start', captureSavedBody)
       await mountSection()
       await selectUsers([toOption(aliceWithPicture)])
       getAuthorizationSelects()[0]!.vm.$emit('update:modelValue', [{ value: EAuthorization.EDIT, label: 'Éditeur' }])
       await flushPromises()
       await getSaveButton().trigger('click')
+      await vi.waitFor(() => expect(savedBody).toBeDefined())
       await flushPromises()
+    })
+
+    afterEach(() => {
+      server.events.removeListener('request:start', captureSavedBody)
     })
 
     BddTest().then('it should render the save button with its label', () => {
@@ -334,15 +334,14 @@ BddTest().given('an ActivityRightsSection component', () => {
     })
 
     BddTest().then('it should call addSuccessMessage', () => {
-      expect(mockAddSuccessMessage).toHaveBeenCalledWith('Droits enregistrés')
+      expect(mockAddSuccessMessage).toHaveBeenCalledWith('Autorisations enregistrées')
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
   })
 
   BddTest().when('the save request fails', () => {
     beforeEach(async () => {
-      server.use(defineActivityAuthorizationsErrorHandler)
-      await mountSection()
+      await mountSection({ activityId: 'INVALID_ID' })
       await selectUsers([toOption(aliceWithPicture)])
       await getSaveButton().trigger('click')
       await flushPromises()
@@ -350,7 +349,7 @@ BddTest().given('an ActivityRightsSection component', () => {
 
     BddTest().then('it should call addErrorMessage with the correct title', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
-        expect.objectContaining({ title: 'Impossible d\'enregistrer les droits' }),
+        expect.objectContaining({ title: 'Impossible d\'enregistrer les autorisations' }),
       )
     })
 

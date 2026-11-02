@@ -4071,7 +4071,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/EDeclaredActivityStatus"
+                "$ref": "#/components/schemas/EActivityAssessmentStatus"
               }
             }
           },
@@ -5632,19 +5632,14 @@
             }
           },
           {
-            "name": "cofolioStaff",
+            "name": "cofolioUniverses",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "cofolioStudent",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EUniverse"
+              }
             }
           },
           {
@@ -6942,11 +6937,22 @@
           "profilePictureId": {
             "type": "string",
             "format": "uuid"
+          },
+          "universes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STUDENT",
+                "STAFF"
+              ]
+            }
           }
         },
         "required": [
           "eppn",
-          "hasConnected"
+          "hasConnected",
+          "universes"
         ]
       },
       "CreateTraceDTO": {
@@ -10937,11 +10943,11 @@
             "type": "string",
             "format": "uuid"
           },
-          "staff": {
-            "type": "boolean"
-          },
-          "student": {
-            "type": "boolean"
+          "universes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EUniverse"
+            }
           },
           "profilePictureId": {
             "type": "string",
@@ -10975,8 +10981,7 @@
           "id",
           "institutions",
           "lastName",
-          "staff",
-          "student"
+          "universes"
         ]
       },
       "PagedResponseExternalUserAffiliationOverviewDTO": {

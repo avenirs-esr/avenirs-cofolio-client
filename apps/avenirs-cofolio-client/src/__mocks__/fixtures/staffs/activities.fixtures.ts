@@ -23,6 +23,9 @@ export const ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
 export const ACTIVITY_WITH_FILE_AND_LINK_ID
   = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
+export const ACTIVITY_WITH_AUTHORIZATIONS_ID
+  = '5b8d2e41-7c3a-4f69-a1d0-9e6c4b2f8a33'
+
 export const mockedStaff1: StaffInfoDTO = {
   id: 'user-1',
   firstName: 'Jean',

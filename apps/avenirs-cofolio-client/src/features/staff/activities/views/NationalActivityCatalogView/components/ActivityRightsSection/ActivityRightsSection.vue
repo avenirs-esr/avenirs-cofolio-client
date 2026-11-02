@@ -42,7 +42,9 @@ const { data, error, isFetching } = useGetAffiliations(params, {
 
 type ManageableUser = ExternalUserAffiliationOverviewDTO & { userId: string }
 
-const manageableUsers = computed(() => (data.value?.data ?? []) as ManageableUser[])
+const manageableUsers = computed(() =>
+  (data.value?.data ?? []).filter((user): user is ManageableUser => !!user.userId),
+)
 
 const options = computed<AvAutocompleteOption[]>(() =>
   manageableUsers.value.map(user => ({
@@ -65,7 +67,20 @@ const selectedItems = computed(() =>
 
 const rightsByUser = reactive(new Map<string, EActivityRight[]>())
 
-const { mutate: defineAuthorizations, isPending: isSaving } = useDefineActivityAuthorizations()
+const { mutate: defineAuthorizations, isPending: isSaving } = useDefineActivityAuthorizations({
+  mutation: {
+    onSuccess: async () => {
+      addSuccessMessage(t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveSuccess'))
+      await invalidateGetActivityAuthorizations(queryClient, status, activityId)
+    },
+    onError: (error) => {
+      addErrorMessage({
+        title: t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveError'),
+        description: getErrorMessage(error),
+      })
+    },
+  },
+})
 
 function save () {
   defineAuthorizations({
@@ -76,17 +91,6 @@ function save () {
         staffId: user.id,
         rights: rightsByUser.get(user.id) ?? [],
       })),
-    },
-  }, {
-    onSuccess: async () => {
-      addSuccessMessage(t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveSuccess'))
-      await invalidateGetActivityAuthorizations(queryClient, status, activityId)
-    },
-    onError: (error) => {
-      addErrorMessage({
-        title: t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveError'),
-        description: getErrorMessage(error),
-      })
     },
   })
 }
@@ -99,9 +103,7 @@ function removeUser (id: string) {
 const { data: activityAuthorizations } = useGetActivityAuthorizations(() => status, () => activityId)
 
 watch(manageableUsers, (users) => {
-  for (const user of users) {
-    knownUsers.set(user.userId, { ...user, id: user.userId })
-  }
+  users.forEach(user => knownUsers.set(user.userId, { ...user, id: user.userId }))
 }, { immediate: true })
 
 whenever(activityAuthorizations, (authorizations) => {
@@ -110,9 +112,7 @@ whenever(activityAuthorizations, (authorizations) => {
     label: toFullName(staff.firstName, staff.lastName),
   }))
 
-  for (const { staff, rights } of authorizations) {
-    rightsByUser.set(staff.id, rights)
-  }
+  authorizations.forEach(({ staff, rights }) => rightsByUser.set(staff.id, rights))
 }, { immediate: true, once: true })
 </script>
 
@@ -158,7 +158,7 @@ whenever(activityAuthorizations, (authorizations) => {
           </span>
 
           <ul
-            class="av-col av-gap-sm av-list-reset av-p-0"
+            class="av-col av-gap-sm av-list-reset"
             :class="{ 'activity-rights-section__list--scrollable': !isMobile }"
           >
             <li
@@ -192,7 +192,7 @@ whenever(activityAuthorizations, (authorizations) => {
 
 <style lang="scss" scoped>
 .activity-rights-section__list--scrollable {
-  max-height: calc(4 * 4rem + 5rem);
+  max-height: calc(5 * 6rem);
   overflow-y: auto;
 }
 
@@ -200,7 +200,7 @@ whenever(activityAuthorizations, (authorizations) => {
   flex-shrink: 0;
 }
 
-:deep(.activity-rights-section__dropdown) {
-  position: static !important;
+:deep(.activity-rights-section__dropdown .av-list-item--selected:not(:hover, :focus-visible) .caption-light) {
+  color: var(--color-primary-text-flat);
 }
 </style>
