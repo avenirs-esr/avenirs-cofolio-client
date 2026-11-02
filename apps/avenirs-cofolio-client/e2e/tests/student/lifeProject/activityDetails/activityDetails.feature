@@ -91,7 +91,7 @@ Feature: Student Project Activity Page
 
     @high @activity-details @finish-activity
     Scenario: Student with submitted activity has disabled finish button
-      And the student clicks a library activity card with "SUBMITTED" status
+      And the student clicks a library activity card with "SUBMITTED_FOR_FEEDBACK" status
       And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -145,7 +145,7 @@ Feature: Student Project Activity Page
 
     @high @activity-details @feedback-request
     Scenario: Student with submitted activity has enabled update feedback button and updatable feedback hint
-      And the student clicks a library activity card with "SUBMITTED" status
+      And the student clicks a library activity card with "SUBMITTED_FOR_FEEDBACK" status
       And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible

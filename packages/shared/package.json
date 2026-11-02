@@ -1,9 +1,78 @@
 {
   "name": "@avenirs-esr/shared",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./api/specs/*": "./api/specs/*"
+    ".": "./src/index.ts",
+    "./api/specs/*": "./api/specs/*",
+    "./test-utils/a11y": "./test-utils/a11y/index.ts",
+    "./test-utils/msw": "./test-utils/msw/index.ts",
+    "./test-utils/unit": "./test-utils/unit/index.ts"
   },
-  "type": "module"
+  "scripts": {
+    "generate:api": "orval",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "prepare": "pnpm run generate:api",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run --pool.threads.maxThreads=6",
+    "test:coverage": "vitest run --pool.threads.maxThreads=6 --coverage",
+    "type-check": "vue-tsc --build --force"
+  },
+  "peerDependencies": {
+    "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@playwright/test": "catalog:",
+    "@tanstack/vue-query": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "pinia": "catalog:",
+    "vue": "catalog:",
+    "vue-i18n": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@avenirs-esr/avenirs-dsav": {
+      "optional": true
+    },
+    "@playwright/test": {
+      "optional": true
+    },
+    "@tanstack/vue-query": {
+      "optional": true
+    },
+    "@vue/test-utils": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
+    "vue-i18n": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@playwright/test": "catalog:",
+    "@tanstack/vue-query": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "eslint": "catalog:",
+    "jsdom": "catalog:",
+    "msw": "catalog:",
+    "orval": "catalog:",
+    "pinia": "catalog:",
+    "sass-embedded": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-component-type-helpers": "catalog:",
+    "vue-i18n": "catalog:",
+    "vue-tsc": "catalog:"
+  }
 }

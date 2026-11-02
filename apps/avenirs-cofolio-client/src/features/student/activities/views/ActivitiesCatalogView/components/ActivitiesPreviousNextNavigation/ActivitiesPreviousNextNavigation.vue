@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
-import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 

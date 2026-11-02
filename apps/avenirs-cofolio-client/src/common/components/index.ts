@@ -1,7 +1,6 @@
 export { default as Rating, type RatingProps } from './base/Rating/Rating.vue'
 export { default as ProfileCard, type ProfileCardProps } from './cards/ProfileCard/ProfileCard.vue'
 export { default as CreationUpdateDateDetails, type CreationUpdateDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
-export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './feedback/Loader/Loader.vue'
 export { default as QuerySuspense, type QuerySuspenseProps } from './feedback/QuerySuspense/QuerySuspense.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as FormCancelConfirmButtons, type FormCancelConfirmButtonsProps } from './interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
@@ -15,5 +14,4 @@ export { default as Drawer, type DrawerProps } from './overlay/drawers/Drawer/Dr
 export { default as ConfirmationModal, type ConfirmationModalProps } from './overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 export { default as AssociationBadge, type AssociationBadgeProps } from '@/common/components/badges/AssociationBadge/AssociationBadge.vue'
 export { default as EnabledDisabledStatusBadge } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
-export { default as EmptyState, type EmptyStateProps } from '@/common/components/feedback/EmptyState/EmptyState.vue'
 export { default as SortSelect, type SortSelectProps } from '@/common/components/interaction/selects/SortSelect/SortSelect.vue'

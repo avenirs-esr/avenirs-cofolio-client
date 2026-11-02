@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { UseExportKitFormData } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
 import { AvCheckbox, AvCheckboxesGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'

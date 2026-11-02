@@ -11,7 +11,8 @@
       "overlays": {
         "StudentNotificationsPopover": {
           "contexts": {
-            "activityModified": "An activity you are enrolled in has been modified"
+            "activityModified": "An activity you are enrolled in has been modified",
+            "assessmentSent": "An assessment has been sent for one of your activities"
           }
         },
         "UpdateProfileDrawer": {

@@ -17,7 +17,7 @@ const label = computed(() =>
 
 const icon = computed(() => {
   switch (assessmentStatus) {
-    case EDeclaredActivityStatus.SUBMITTED:
+    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
     case EDeclaredActivityStatus.CONSULTED:
       return MDI_ICONS.BELL_NOTIFICATION
 
@@ -32,7 +32,7 @@ const color = computed(() => {
     case EDeclaredActivityStatus.CONSULTED:
       return 'var(--light-foreground-error)'
 
-    case EDeclaredActivityStatus.SUBMITTED:
+    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
       return 'var(--light-foreground-success)'
 
     case EDeclaredActivityStatus.COMPLETED:
@@ -46,7 +46,7 @@ const backgroundColor = computed(() => {
     case EDeclaredActivityStatus.CONSULTED:
       return 'var(--light-background-error)'
 
-    case EDeclaredActivityStatus.SUBMITTED:
+    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
       return 'var(--light-background-success)'
 
     case EDeclaredActivityStatus.COMPLETED:

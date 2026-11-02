@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { useI18n } from 'vue-i18n'
 import { useDownloadFeedbackAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'

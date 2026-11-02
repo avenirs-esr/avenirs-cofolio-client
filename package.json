@@ -33,12 +33,13 @@
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
-    "husky": "^9.1.7",
-    "lint-staged": "^17.6.0"
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:"
   },
   "lint-staged": {
+    "apps/avenirs-cofolio-backoffice-client/**": "pnpm --dir apps/avenirs-cofolio-backoffice-client exec eslint --fix",
     "apps/avenirs-cofolio-client/**": "pnpm --dir apps/avenirs-cofolio-client exec eslint --fix"
   }
 }

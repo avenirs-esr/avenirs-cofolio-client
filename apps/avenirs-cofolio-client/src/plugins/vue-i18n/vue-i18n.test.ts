@@ -1,5 +1,6 @@
 import type { App } from 'vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAvailableLocales } from '@avenirs-esr/shared'
 import { expect, vi } from 'vitest'
 import {
   createVueI18nPlugin,
@@ -8,7 +9,6 @@ import {
   parseLocaleModules,
   registerFeatureLocales
 } from '@/plugins/vue-i18n/vue-i18n'
-import { AvAvailableLocales } from '@/types/i18n.types'
 
 BddTest().given('a locale modules parser', () => {
   BddTest().when('default export is present', () => {

@@ -107,7 +107,7 @@ BddTest().given('an activity card', () => {
         props: {
           activity: {
             ...baseActivity,
-            status: EDeclaredActivityStatus.SUBMITTED
+            status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK
           }
         },
         global: { stubs }
@@ -116,7 +116,7 @@ BddTest().given('an activity card', () => {
 
     BddTest().then('it should render submitted badge', () => {
       const submittedBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
-      expect(submittedBadge.props('status')).toBe(EDeclaredActivityStatus.SUBMITTED)
+      expect(submittedBadge.props('status')).toBe(EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK)
     })
   })
 

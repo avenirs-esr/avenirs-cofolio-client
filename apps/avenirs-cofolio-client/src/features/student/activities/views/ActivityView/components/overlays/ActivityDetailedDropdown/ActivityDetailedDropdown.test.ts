@@ -116,7 +116,7 @@ BddTest().given('an activity dropdown', () => {
 
     BddTest().when('the declared activity is submitted', () => {
       beforeEach(() => {
-        mountWith({ status: EDeclaredActivityStatus.SUBMITTED })
+        mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK })
       })
       BddTest().then('it should disable associate action when activity is submitted', () => {
         expect(getAssociate().exists()).toBe(true)

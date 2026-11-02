@@ -1,10 +1,19 @@
 import process from 'node:process'
+import { A11Y_TEST_TIMEOUT } from '@avenirs-esr/shared/test-utils/a11y'
 import { defineConfig, devices } from '@playwright/test'
 
-export const GLOBAL_TIMEOUT = 60 * 1000
 export default defineConfig({
   testDir: './',
-  tsconfig: './tsconfig.a11y.json',
+  tsconfig: './tsconfig.json',
+  timeout: A11Y_TEST_TIMEOUT,
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
   use: {
     baseURL: 'http://localhost:4173/cofolio/',
     storageState: {
@@ -19,21 +28,8 @@ export default defineConfig({
     },
     headless: !!process.env.CI,
   },
-  timeout: GLOBAL_TIMEOUT,
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      }
-    },
-  ],
-
   workers: process.env.CI ? 1 : undefined,
-
   outputDir: '.output',
-
   /* Run your local dev server before starting the tests */
   webServer: {
     /**

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ActivityDraftCreationFormData } from '@/features/staff/activities/types/forms.types'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useForm } from '@tanstack/vue-form'

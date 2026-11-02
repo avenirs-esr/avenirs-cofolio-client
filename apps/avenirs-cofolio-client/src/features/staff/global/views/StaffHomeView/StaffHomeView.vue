@@ -28,8 +28,8 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
           v-if="!isLoading"
           :first-name="data.firstname"
           :last-name="data.lastname"
-          :profile-picture-url="data.profilePicture.url"
-          :cover-picture-url="data.coverPicture.url"
+          :profile-picture="data.profilePicture"
+          :cover-picture="data.coverPicture"
         >
           <div
             class="av-pt-sm"

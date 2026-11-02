@@ -1,10 +1,7 @@
-import type { FetchOptions, ResponseInterceptorContext } from '@/api/fetch'
-import type { BaseApiException } from '@/common/exceptions'
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
-import { HttpStatusCode } from '@/common/utils'
+import type { BaseApiException, FetchOptions, ResponseInterceptorContext } from '@avenirs-esr/shared'
+import { AvIsoLocaleMap, createCustomFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
 import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
 import { i18n } from '@/plugins/vue-i18n'
-import { AvIsoLocaleMap } from '@/types'
 
 const interceptorManager = new FetchInterceptorManager()
 

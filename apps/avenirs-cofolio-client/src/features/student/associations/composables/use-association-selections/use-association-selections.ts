@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'

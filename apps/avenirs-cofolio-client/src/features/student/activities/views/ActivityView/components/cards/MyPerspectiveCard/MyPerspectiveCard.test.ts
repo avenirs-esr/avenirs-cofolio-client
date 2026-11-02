@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { MyPerspectiveCardProps } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { findAvButtonByTestId, getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { findAvButtonByTestId, getAvButtonByTestId } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -397,7 +398,7 @@ BddTest().given('a my perspective card', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
       perspective: '<p>This is my perspective</p>',
-      activityStatus: EDeclaredActivityStatus.SUBMITTED,
+      activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
     }
 
     beforeEach(() => {

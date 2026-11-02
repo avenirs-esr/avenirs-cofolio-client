@@ -1,11 +1,19 @@
 import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
-import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
-import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
+import { flushPromises } from '@vue/test-utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
+
+const mockObjectUrl = 'blob:http://localhost/picture'
+const OriginalURL = URL
+
+class MockURL extends OriginalURL {
+  static createObjectURL = vi.fn(() => mockObjectUrl)
+  static revokeObjectURL = vi.fn()
+}
 
 BddTest().given('a profile card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProfileCard>>
@@ -17,18 +25,27 @@ BddTest().given('a profile card', () => {
   const props = {
     firstName: 'Jeanne',
     lastName: 'Moulin',
-    profilePictureUrl: profile_picture_placeholder,
-    coverPictureUrl: profile_banner_placeholder,
+    profilePicture: { ...mockedProfileOverview.profilePicture, id: 'TEST_ID' },
+    coverPicture: { ...mockedProfileOverview.coverPicture, id: 'TEST_ID' },
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
+  beforeEach(() => {
+    vi.stubGlobal('URL', MockURL)
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(ProfileCard, {
+      wrapper = mountComponent(ProfileCard, {
         props,
         global: { stubs }
       })
+      await flushPromises()
     })
 
     BddTest().then('it should render the profile card', () => {
@@ -56,7 +73,7 @@ BddTest().given('a profile card', () => {
       })
 
       BddTest().then('it should have correct src', () => {
-        expect(bannerImage.attributes('src')).toBe(props.coverPictureUrl)
+        expect(bannerImage.attributes('src')).toBe(mockObjectUrl)
       })
 
       BddTest().then('it should have correct alt text', () => {
@@ -76,7 +93,7 @@ BddTest().given('a profile card', () => {
       })
 
       BddTest().then('it should have correct src', () => {
-        expect(profilePicture.attributes('src')).toBe(props.profilePictureUrl)
+        expect(profilePicture.attributes('src')).toBe(mockObjectUrl)
       })
 
       BddTest().then('it should have correct alt text', () => {
@@ -102,15 +119,16 @@ BddTest().given('a profile card', () => {
   })
 
   BddTest().when('the component receives default slot content', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(ProfileCard, {
+      wrapper = mountComponent(ProfileCard, {
         props,
         slots: {
           default: '<div class="custom-content">Custom Content</div>'
         },
         global: { stubs }
       })
+      await flushPromises()
     })
 
     BddTest().then('it should render the slot', () => {
@@ -121,12 +139,13 @@ BddTest().given('a profile card', () => {
   })
 
   BddTest().when('the component is mounted without slot', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(ProfileCard, {
+      wrapper = mountComponent(ProfileCard, {
         props,
         global: { stubs }
       })
+      await flushPromises()
     })
 
     BddTest().then('it should not render slot section', () => {
@@ -137,9 +156,9 @@ BddTest().given('a profile card', () => {
   })
 
   BddTest().when('the component receives lowercase names', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(ProfileCard, {
+      wrapper = mountComponent(ProfileCard, {
         props: {
           ...props,
           firstName: 'jean',
@@ -147,6 +166,7 @@ BddTest().given('a profile card', () => {
         },
         global: { stubs }
       })
+      await flushPromises()
     })
 
     BddTest().then('it should capitalize the names', () => {

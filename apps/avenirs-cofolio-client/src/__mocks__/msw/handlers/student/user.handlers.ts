@@ -1,5 +1,6 @@
 import type { PathParams } from 'msw'
 import type { QuickLinksDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { mockedStudentQuickLinks } from '@/__mocks__/fixtures/student/user.fixtures'
 import { quickLinksState } from '@/__mocks__/msw/common/quickLinks.state'
@@ -8,8 +9,6 @@ import {
   getGetQuickLinksUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 
 export const getStudentQuickLinksErrorHandler = http.get(`*${getGetQuickLinksUrl(EUserCategory.STUDENT)}`, () => {
   return HttpResponse.json(

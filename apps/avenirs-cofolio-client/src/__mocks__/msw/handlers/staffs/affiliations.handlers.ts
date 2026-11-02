@@ -1,9 +1,8 @@
 import type { EUserCategory, PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { createMockedGetAffiliationsResponse } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
 import { getGetAffiliationsUrl } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants/error-codes'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 export const getAffiliationsErrorHandler = http.get(`*${getGetAffiliationsUrl()}`, async () => {
   return HttpResponse.json(

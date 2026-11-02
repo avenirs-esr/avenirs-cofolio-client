@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import type { ActivityDraftUpdateRequest, FileDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { BaseApiException } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
@@ -29,13 +30,13 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { BaseApiException } from '@/common/exceptions'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import { toActivityAssessmentRequest } from '@/features/staff/activities/utils/activity-assessment'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -58,6 +59,8 @@ const {
   validateFeedbackAllowedIterations,
   validateStartDate,
   validateEndDate,
+  validateAssessmentGrade,
+  validateAssessmentOptions,
 } = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
 const { getErrorMessage } = useApiErrors()
@@ -105,6 +108,9 @@ const defaultValues: EditActivityFormData = reactive({
   files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
   isNational: computed(() => content.value?.national ?? false),
+  assessmentComment: computed(() => content.value?.assessment?.comment ?? false),
+  assessmentGrade: computed(() => content.value?.assessment?.grade),
+  assessmentValidation: computed(() => content.value?.assessment?.validation ?? false),
   targetInstitutionIds: computed(() => content.value?.targetInstitutionIds ?? []),
   targetGroupIds: computed(() => content.value?.targetGroupIds ?? []),
 })
@@ -116,6 +122,8 @@ const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
 const isExecutionPeriodEnabled = ref(false)
+const isAssessmentEnabled = ref(false)
+const isAssessmentGradeEnabled = ref(false)
 
 const {
   queueAutoSave,
@@ -136,6 +144,8 @@ const form = useForm({
           feedbackAllowedIterations: validateFeedbackAllowedIterations(value.feedbackAllowedIterations),
           startDate: isExecutionPeriodEnabled.value ? validateStartDate(value.startDate) : undefined,
           endDate: isExecutionPeriodEnabled.value ? validateEndDate({ startDate: value.startDate, endDate: value.endDate }) : undefined,
+          assessmentGrade: isAssessmentEnabled.value ? validateAssessmentGrade(value.assessmentGrade, isAssessmentGradeEnabled.value) : undefined,
+          assessmentValidation: isAssessmentEnabled.value ? validateAssessmentOptions(value, isAssessmentGradeEnabled.value) : undefined,
         }
       }
     }
@@ -161,6 +171,7 @@ const form = useForm({
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
       national: value.isNational,
+      assessment: toActivityAssessmentRequest(value),
       targetInstitutionIds: value.targetInstitutionIds,
       targetGroupIds: value.targetGroupIds,
     })
@@ -203,11 +214,11 @@ async function saveBanner (action: EditActivityFormDataBannerAction) {
 
 async function saveResourceFiles (newFiles: File[], removedFiles: FileDTO[]) {
   await Promise.all([
-    newFiles.forEach(file => uploadResourceFileMutation({
+    ...newFiles.map(file => uploadResourceFileMutation({
       activityDraftId: id,
       data: { file }
     })),
-    removedFiles.forEach(file => deleteResourceFileMutation({
+    ...removedFiles.map(file => deleteResourceFileMutation({
       activityDraftId: id,
       fileId: file.id
     }))
@@ -232,7 +243,7 @@ async function save (data?: ActivityDraftUpdateRequest) {
   }
 
   const newFiles = files.filter(localFile => !defaultValues.files.some(remoteFile => !isDifferentFile(localFile, remoteFile))) as File[]
-  const removedFiles = defaultValues.files.filter(remoteFile => !defaultValues.files.some(localFile => !isDifferentFile(remoteFile, localFile))) as FileDTO[]
+  const removedFiles = defaultValues.files.filter(remoteFile => !files.some(localFile => !isDifferentFile(remoteFile, localFile))) as FileDTO[]
 
   if (newFiles.length > 0 || removedFiles.length > 0) {
     promises.push(saveResourceFiles(newFiles, removedFiles))
@@ -256,6 +267,7 @@ async function save (data?: ActivityDraftUpdateRequest) {
 
     form.reset({
       ...form.state.values,
+      files: remoteFiles.value,
       bannerAction: EditActivityFormDataBannerAction.NONE,
     })
   }
@@ -292,7 +304,15 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnabled, save, queueAutoSave })
+provideEditNationalActivityViewContext({
+  form,
+  isUpdating,
+  isExecutionPeriodEnabled,
+  isAssessmentEnabled,
+  isAssessmentGradeEnabled,
+  save,
+  queueAutoSave
+})
 </script>
 
 <template>

@@ -1,29 +1,33 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import type { FileDTO } from '@/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { toFullName } from '@/common/utils/user/user'
 
 export interface ProfileCardProps {
   firstName: string
   lastName: string
-  profilePictureUrl: string
-  coverPictureUrl: string
+  profilePicture: FileDTO
+  coverPicture: FileDTO
   bio?: string
 }
 
 const {
   firstName,
   lastName,
-  profilePictureUrl,
-  coverPictureUrl,
+  profilePicture,
+  coverPicture,
   bio
 } = defineProps<ProfileCardProps>()
 
 defineSlots<{
   default?: Slot
 }>()
+const { url: profilePictureUrl } = useStorageImage(() => profilePicture.fileName ? profilePicture.id : undefined, 'profile')
+const { url: coverPictureUrl } = useStorageImage(() => coverPicture.fileName ? coverPicture.id : undefined, 'cover')
 
 const { t } = useI18n()
 

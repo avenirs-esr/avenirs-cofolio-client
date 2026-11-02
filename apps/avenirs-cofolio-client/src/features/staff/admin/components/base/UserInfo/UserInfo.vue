@@ -1,25 +1,26 @@
 <script lang="ts" setup>
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useGetResourceByFileId } from '@/api/avenir-esr'
 import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
+import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
+import { ROUTES } from '@/common/constants'
 import { toFullName } from '@/common/utils/user/user'
 
 export interface UserInfoProps {
   user: UserInfoType
+  withNav?: boolean
 }
 
-const { user } = defineProps<UserInfoProps>()
+const { user, withNav = false } = defineProps<UserInfoProps>()
 
 const { t } = useI18n()
+const route = useRoute()
+const { isStaffAdminGroupsRoute } = useIdentifyRoute()
 
 const fullName = computed(() => toFullName(user.firstName, user.lastName))
-const { data: profilePictureResource } = useGetResourceByFileId(user.profilePictureId ?? '', {
-  query: { enabled: !!user.profilePictureId }
-})
-const avatarUrl = ref<string | null>(null)
+const { url: avatarUrl } = useStorageImage(() => user.profilePictureId)
 
 const profilePictureRatio = `${PROFILE_PICTURE_RATIO}`
 
@@ -28,30 +29,31 @@ const avatarSizeRem = `${AVATAR_SIZE}rem`
 
 const hasImageError = ref(false)
 
-watch(profilePictureResource, (newValue) => {
-  if (avatarUrl.value) {
-    URL.revokeObjectURL(avatarUrl.value)
-  }
+const to = computed(() => {
+  const groupId = route.params.id as string
 
-  if (newValue) {
-    avatarUrl.value = URL.createObjectURL(newValue)
-  }
-  else {
-    avatarUrl.value = null
-  }
+  return isStaffAdminGroupsRoute.value
+    ? {
+        name: ROUTES.STAFF.ADMIN.GROUP.USER.name,
+        params: { userId: user.id, groupId }
+      }
+    : {
+        name: ROUTES.STAFF.ADMIN.USER.name,
+        params: { id: user.id }
+      }
 })
 
-onBeforeUnmount(() => {
-  if (avatarUrl.value) {
-    URL.revokeObjectURL(avatarUrl.value)
-  }
-})
+const routerProps = computed(() => withNav ? { to: to.value } : {})
 </script>
 
 <template>
-  <div
-    class="av-row av-gap-sm av-align-center"
+  <component
+    :is="withNav ? 'RouterLink' : 'div'"
+    v-bind="routerProps"
+    class="user-info av-row av-gap-sm av-align-center"
+    :class="{ 'user-info--hoverable': withNav }"
     data-testid="user-info"
+    :data-user-id="user.id"
   >
     <div
       v-if="avatarUrl && !hasImageError"
@@ -75,22 +77,32 @@ onBeforeUnmount(() => {
 
     <div class="av-col">
       <span
-        class="b2-bold"
+        class="name b2-bold"
         data-testid="name"
       >
         {{ fullName }}
       </span>
       <span
+        v-if="user.email"
         class="b2-regular"
         data-testid="email"
       >
         {{ user.email }}
       </span>
     </div>
-  </div>
+  </component>
 </template>
 
 <style lang="scss" scoped>
+.user-info {
+  &--hoverable:hover {
+    .name {
+      color: var(--light-foreground-primary2);
+      text-decoration: underline;
+    }
+  }
+}
+
 .picture-container {
   width: v-bind('avatarSizeRem');
   height: v-bind('avatarSizeRem');

@@ -1,7 +1,7 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ComputedRef, Ref } from 'vue'
 import type { DeclaredActivityToAssessDTO, EActivityAssessmentStatus, PageInfoDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { keepPreviousData } from '@tanstack/vue-query'
 import {
 

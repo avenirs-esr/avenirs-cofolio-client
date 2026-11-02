@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Config } from 'driver.js'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'

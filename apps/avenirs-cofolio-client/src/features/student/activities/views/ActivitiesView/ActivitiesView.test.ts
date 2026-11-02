@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'

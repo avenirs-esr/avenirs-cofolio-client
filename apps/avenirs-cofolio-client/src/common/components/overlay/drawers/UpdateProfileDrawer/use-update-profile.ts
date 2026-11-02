@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { EUserCategory, FileDTO, ProfileUpdateRequest, UploadCoverPictureBody, UploadProfilePictureBody } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import {

@@ -5,8 +5,8 @@ import type {
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import {
   EActivityStatus,

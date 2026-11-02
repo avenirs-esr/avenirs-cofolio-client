@@ -29,9 +29,10 @@ const avBadgeProps = computed(() => {
         backgroundColor: 'var(--light-background-primary2)'
       }
 
-    case EDeclaredActivityStatus.SUBMITTED:
+    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
+    case EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK:
       return {
-        label: t('global.activities.badges.declaredStatuses.SUBMITTED'),
+        label: t(`global.activities.badges.declaredStatuses.${status}`),
         icon: MDI_ICONS.DOTS_HORIZONTAL_CIRCLE_OUTLINE,
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',

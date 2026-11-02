@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvLocale } from '@/types'
+import type { AvLocale } from '@avenirs-esr/shared'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'

@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import KitMultimediaContentTab from '@/features/student/kit/views/StudentToolsKitView/components/KitMultimediaContentTab/KitMultimediaContentTab.vue'
 import { ValorizedAssociatedTracesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedAssociatedTracesContainer/ValorizedAssociatedTracesContainer.stub'
 import { ValorizedNonAssociatedTracesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedNonAssociatedTracesContainer/ValorizedNonAssociatedTracesContainer.stub'

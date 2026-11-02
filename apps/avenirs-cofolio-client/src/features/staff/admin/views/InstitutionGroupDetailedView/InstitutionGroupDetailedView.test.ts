@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
@@ -96,9 +96,10 @@ BddTest().given('an institution group detailed view', () => {
       expect(getUsersSection().props('title')).toContain(String(mockGroup.usersCount))
     })
 
-    BddTest().then('it should render the users list with the current group id', () => {
+    BddTest().then('it should render the users list with the current group id and group users mode', () => {
       expect(getUsersList().exists()).toBe(true)
       expect(getUsersList().props('groupIds')).toEqual([mockGroup.id])
+      expect(getUsersList().props('groupUsersMode')).toBe(true)
     })
   })
 

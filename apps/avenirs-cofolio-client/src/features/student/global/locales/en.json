@@ -13,6 +13,9 @@
             "SUMMARY": "Summary",
             "THEMATIC": "Theme"
           }
+        },
+        "AssessmentSentNotificationCard": {
+          "content": "An assessment has been sent for the activity \"{activityName}\"."
         }
       },
       "errors": {

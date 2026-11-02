@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
@@ -103,8 +103,8 @@ BddTest().given('a self knowledge section component', () => {
 
       expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
       expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
-      expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
-      expect(profileCard.props('coverPictureUrl')).toBe(mockedProfileOverview.coverPicture.url)
+      expect(profileCard.props('profilePicture')).toEqual(mockedProfileOverview.profilePicture)
+      expect(profileCard.props('coverPicture')).toEqual(mockedProfileOverview.coverPicture)
       expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
     })
 

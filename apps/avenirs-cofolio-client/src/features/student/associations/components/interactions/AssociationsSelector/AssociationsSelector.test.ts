@@ -2,7 +2,7 @@ import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AssociationsSelectorProps } from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import {
   createMockedDeclaredActivityAssociation,
@@ -81,7 +81,7 @@ BddTest().given('an associations selector', () => {
       ...mockedEmptyAssociations,
       declaredActivityAssociations: [
         createMockedDeclaredActivityAssociation({ associationId: '1', status: EDeclaredActivityStatus.SUBSCRIBED }),
-        createMockedDeclaredActivityAssociation({ associationId: '2', status: EDeclaredActivityStatus.SUBMITTED }),
+        createMockedDeclaredActivityAssociation({ associationId: '2', status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK }),
         createMockedDeclaredActivityAssociation({ associationId: '3', status: EDeclaredActivityStatus.COMPLETED }),
         createMockedDeclaredActivityAssociation({ associationId: '4', status: EDeclaredActivityStatus.IN_PROGRESS })
       ]
@@ -112,7 +112,7 @@ BddTest().given('an associations selector', () => {
 
       expect(badges.map(badge => badge.props('status'))).toEqual([
         EDeclaredActivityStatus.SUBSCRIBED,
-        EDeclaredActivityStatus.SUBMITTED,
+        EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
         EDeclaredActivityStatus.COMPLETED,
         EDeclaredActivityStatus.IN_PROGRESS
       ])

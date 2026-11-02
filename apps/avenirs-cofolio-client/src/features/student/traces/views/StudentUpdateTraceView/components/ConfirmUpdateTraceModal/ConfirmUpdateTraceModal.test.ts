@@ -12,7 +12,7 @@ import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpda
 const mockedLockedDeclaredActivities: TraceDeclaredActivityDTO = {
   activityId: 'declared-activity-1',
   activityTitle: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
-  activityStatus: EDeclaredActivityStatus.SUBMITTED,
+  activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
 }
 
 BddTest().given('a ConfirmUpdateTraceModal', () => {

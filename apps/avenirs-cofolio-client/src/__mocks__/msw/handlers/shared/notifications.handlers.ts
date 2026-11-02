@@ -1,10 +1,9 @@
 import type { PathParams } from 'msw'
 import type { NotificationPreferencesRequest } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { quickLinksState } from '@/__mocks__/msw/common/quickLinks.state'
 import { EUserCategory, getUpdateNotificationPreferencesUrl } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 
 export const notificationsHandlers = [
   http.patch<PathParams, NotificationPreferencesRequest>(`*${getUpdateNotificationPreferencesUrl()}`, async ({ request }) => {

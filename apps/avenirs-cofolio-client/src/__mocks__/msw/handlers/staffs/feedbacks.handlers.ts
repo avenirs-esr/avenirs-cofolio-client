@@ -1,4 +1,5 @@
 import type { EFeedbackStatus, FeedbackDashboardDTO, FeedbackDetailsDTO, FeedbackOverviewDTO, FileDTO, PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
@@ -23,8 +24,6 @@ import {
   getUploadFeedbackAttachmentUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 export const getFeedbackDashboardHandler = http.get(`*${getGetFeedbackDashboardUrl()}`, ({ request }) => {
   const url = new URL(request.url)

@@ -1,11 +1,15 @@
 import type { PropType } from 'vue'
-import type { EAuthorizationEntityType } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@/api/avenir-esr'
 
 export const AuthorizationEntityTypeSelectStub = defineComponent({
   name: 'AuthorizationEntityTypeSelect',
   props: {
     modelValue: {
-      type: String as PropType<EAuthorizationEntityType>,
+      type: String as PropType<EAuthorizationEntityType | undefined>,
+      default: undefined,
+    },
+    user: {
+      type: Object as PropType<ExternalUserDetailDTO>,
       required: true,
     },
   },

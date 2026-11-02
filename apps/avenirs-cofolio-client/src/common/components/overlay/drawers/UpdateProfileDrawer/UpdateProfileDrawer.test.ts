@@ -9,9 +9,9 @@ import {
   AvInputStub,
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EFileType } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'

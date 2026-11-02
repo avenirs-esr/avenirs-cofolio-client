@@ -73,7 +73,10 @@ const columns = computed<AvTableColumn<UserGroupsTableRow>[]>(() => {
       radius="var(--radius-lg)"
     >
       <div class="av-col av-gap-sm">
-        <GroupName :group="group" />
+        <GroupName
+          :group="group"
+          with-nav
+        />
         <GroupTypeBadge
           v-if="!programMode"
           :type="group.type"
@@ -89,7 +92,10 @@ const columns = computed<AvTableColumn<UserGroupsTableRow>[]>(() => {
     data-testid="users-overview-list-table"
   >
     <template #cell(groupName)="{ row }">
-      <span class="b2-bold">{{ row.groupName }}</span>
+      <GroupName
+        :group="{ id: row.id, name: row.groupName }"
+        with-nav
+      />
     </template>
     <template #cell(groupeType)="{ row }">
       <GroupTypeBadge :type="row.groupeType" />

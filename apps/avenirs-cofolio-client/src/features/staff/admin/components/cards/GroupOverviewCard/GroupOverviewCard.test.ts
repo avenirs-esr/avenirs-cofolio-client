@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'

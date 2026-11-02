@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { RouteLocationRaw } from 'vue-router'
-import type { BaseApiException } from '@/common/exceptions'
 import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useAcceptCgu } from '@/api/avenir-esr'

@@ -1,20 +1,17 @@
 import type { AvRoute } from '@/common/types'
-import fs from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { AxeBuilder } from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
-import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
-import { waitMswToStart } from 'a11y/utils'
-import { createHtmlReport } from 'axe-html-reporter'
-import { ROUTES } from '@/common/constants'
+import { A11Y_TEST_TIMEOUT, waitMswToStart } from '@avenirs-esr/shared/test-utils/a11y'
+import { test } from '@playwright/test'
+import { auditAccessibility } from 'a11y/utils'
+import { ROUTES } from '@/common/constants/route-names'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const routesToCheck: Array<AvRoute> = [
-  ROUTES.STAFF.ACTIVITIES,
-  ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY,
+  ROUTES.STAFF.ACTIVITIES as AvRoute,
+  ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY as AvRoute,
 ]
 
 const pathsToTest = [
@@ -39,30 +36,15 @@ test.describe('staff routes', () => {
     test(`${path} should have no accessibility violations`, async ({ page }) => {
       await page.goto(path)
       await waitMswToStart(page)
-      await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
-
-      const rawAxeResults = await new AxeBuilder({ page })
-        .exclude('[data-user-content]')
-        .analyze()
+      await page.waitForSelector('#app', { timeout: A11Y_TEST_TIMEOUT })
 
       const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 
-      if (rawAxeResults.violations.length > 0) {
-        const reportHTML = createHtmlReport({
-          results: rawAxeResults,
-          options: {
-            projectKey: `Cofolio A11y Report - Staff Universe -  ${pageName}`,
-            doNotCreateReportFile: true,
-          },
-        })
-        const reportPath = resolve(__dirname, `reports/staff/${pageName}.html`)
-
-        fs.mkdirSync(dirname(reportPath), { recursive: true })
-
-        fs.writeFileSync(reportPath, reportHTML)
-      }
-
-      expect(rawAxeResults.violations.length, 'No accessibility violations').toBe(0)
+      await auditAccessibility({
+        page,
+        projectKey: `Cofolio A11y Report - Staff Universe -  ${pageName}`,
+        reportPath: resolve(__dirname, `reports/staff/${pageName}.html`),
+      })
     })
   })
 })

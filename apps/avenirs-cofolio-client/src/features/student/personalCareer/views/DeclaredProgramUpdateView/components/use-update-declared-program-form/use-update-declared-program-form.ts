@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredProgramDetailedDTO, DeclaredProgramRequestDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'

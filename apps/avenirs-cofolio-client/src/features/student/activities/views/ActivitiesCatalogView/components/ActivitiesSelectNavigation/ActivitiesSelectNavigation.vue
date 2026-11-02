@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvSelectModelValue, AvSelectOptionGroup } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect, getAvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
-import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
 

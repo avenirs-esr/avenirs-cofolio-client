@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
 import { KitMultimediaContentTabStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitMultimediaContentTab/KitMultimediaContentTab.stub'
 import { KitTextContentTabStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitTextContentTab/KitTextContentTab.stub'

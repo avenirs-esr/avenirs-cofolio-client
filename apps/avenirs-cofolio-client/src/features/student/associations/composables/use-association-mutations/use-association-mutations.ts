@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useAssociate, useUnassociate } from '@/api/avenir-esr'

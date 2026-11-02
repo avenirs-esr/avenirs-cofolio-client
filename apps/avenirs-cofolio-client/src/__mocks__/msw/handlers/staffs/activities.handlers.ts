@@ -13,6 +13,8 @@ import type {
   PagedResponseActivityStaffOverviewDTO,
   StaffInfoDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
@@ -31,7 +33,6 @@ import {
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   EActivityStatus,
   EErrorCode,
@@ -39,6 +40,7 @@ import {
   getCreateDraftFromActivityUrl,
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
+  getDeleteDraftFileUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
@@ -52,8 +54,6 @@ import {
   getUpdateActivityDraftUrl,
   getUploadDraftBannerUrl
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants/error-codes'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(
@@ -167,6 +167,14 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
+})
+
+const deletedDraftFileIds = new Set<string>()
+
+export const deleteDraftFileHandler = http.delete(`*${getDeleteDraftFileUrl(':activityDraftId', ':fileId')}`, ({ params }) => {
+  deletedDraftFileIds.add(params.fileId as string)
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
 })
 
 export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
@@ -292,7 +300,11 @@ export const staffsActivitiesHandlers = [
           rights: []
         }
       }
-      return HttpResponse.json<ActivityContentDTO>(response, {
+
+      return HttpResponse.json<ActivityContentDTO>({
+        ...response,
+        files: response.files?.filter(file => !deletedDraftFileIds.has(file.id)),
+      }, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -413,6 +425,7 @@ export const staffsActivitiesHandlers = [
     })
   }),
   staffCreateDraftFromActivityUrl,
+  deleteDraftFileHandler,
   http.get(`*${getGetActivitiesWithFeedbacksUrl()}`, ({ request }) => {
     const url = new URL(request.url)
 

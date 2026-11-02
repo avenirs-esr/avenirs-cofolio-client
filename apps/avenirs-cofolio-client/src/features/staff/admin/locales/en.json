@@ -35,8 +35,9 @@
       },
       "usersTable": {
         "columns": {
-          "actions": "Actions",
-          "user": "User"
+          "formations": "Programs",
+          "groups": "Groups",
+          "user": "Users"
         }
       },
       "views": {
@@ -78,7 +79,8 @@
             "selects": {
               "InstitutionGroupsMultiselect": {
                 "label": "Filter by groups",
-                "placeholder": "Select one/many group(s)"
+                "placeholder": "Select one/many group(s)",
+                "searchPlaceholder": "Search groups"
               }
             }
           },

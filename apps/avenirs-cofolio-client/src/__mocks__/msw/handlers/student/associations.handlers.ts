@@ -1,9 +1,11 @@
 import type { DefaultBodyType, HttpResponseResolver, PathParams } from 'msw'
 import type { AssociationLimitDTO, AssociationsCreationRequest, AssociationsDTO, PagedResponseAssociationSearchResultDTO } from '@/api/avenir-esr'
+import { ErrorCodes } from '@avenirs-esr/shared'
+import { getOptionalBooleanSearchParam } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import { createMockedAssociationLimits, createMockedAssociations, createMockedAssociationSearchResponse, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { anyAssociatedContextType, anyAssociationContextType, getOptionalBooleanSearchParam } from '@/__mocks__/msw/utils'
+import { anyAssociatedContextType, anyAssociationContextType } from '@/__mocks__/msw/utils'
 import {
   EAssociationContextType,
   EErrorCode,
@@ -14,7 +16,6 @@ import {
   getSearchForAssociationWithNewElementUrl,
   getUnassociateUrl
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
 
 interface AssociationPathParams extends PathParams {
   contextType: EAssociationContextType

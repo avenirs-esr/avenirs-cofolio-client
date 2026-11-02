@@ -1,6 +1,6 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'

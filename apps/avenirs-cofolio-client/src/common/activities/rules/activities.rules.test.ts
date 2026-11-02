@@ -1,4 +1,4 @@
-import type { DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
 import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
@@ -9,7 +9,9 @@ import {
   isActivityAssociationToTraceUnlimited,
   isActivityPeriodEditingDisabled,
   isActivitySubscribed,
+  isAssessmentEnabled,
   isDeclaredActivitySubmitted,
+  isDeclaredActivitySubmittedForAssessment,
   isDeclaredActivityUnsubscribed,
   isDeletableDeclaredActivityAssociation,
   isPerspectiveEditingDisabled,
@@ -85,7 +87,7 @@ BddTest().given('isDeletableDeclaredActivityAssociation', () => {
 
   BddTest().when('the declared activity is submitted', () => {
     BddTest().then('it should return false', () => {
-      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.SUBMITTED)
+      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK)
       expect(isDeletableDeclaredActivityAssociation(association)).toBe(false)
     })
   })
@@ -266,7 +268,7 @@ BddTest().given('hasPendingFeedback', () => {
   BddTest().given('isDeclaredActivitySubmitted', () => {
     BddTest().when('the declared activity is submitted', () => {
       BddTest().then('it should return true', () => {
-        expect(isDeclaredActivitySubmitted(EDeclaredActivityStatus.SUBMITTED)).toBe(true)
+        expect(isDeclaredActivitySubmitted(EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK)).toBe(true)
       })
     })
 
@@ -280,6 +282,46 @@ BddTest().given('hasPendingFeedback', () => {
       BddTest().then('it should return false', () => {
         expect(isDeclaredActivitySubmitted(undefined)).toBe(false)
       })
+    })
+  })
+})
+
+BddTest().given('isDeclaredActivitySubmittedForAssessment', () => {
+  BddTest().when('the declared activity is submitted for assessment', () => {
+    BddTest().then('it should return true', () => {
+      expect(isDeclaredActivitySubmittedForAssessment(EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity has another status', () => {
+    BddTest().then('it should return false', () => {
+      expect(isDeclaredActivitySubmittedForAssessment(EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK)).toBe(false)
+      expect(isDeclaredActivitySubmittedForAssessment(EDeclaredActivityStatus.IN_PROGRESS)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity status is undefined', () => {
+    BddTest().then('it should return false', () => {
+      expect(isDeclaredActivitySubmittedForAssessment(undefined)).toBe(false)
+    })
+  })
+})
+
+BddTest().given('isAssessmentEnabled', () => {
+  const buildActivity = (assessment?: ActivityContentDTO['assessment']) => ({ assessment }) as ActivityContentDTO
+
+  BddTest().when('the activity has no assessment', () => {
+    BddTest().then('it should return false', () => {
+      expect(isAssessmentEnabled(buildActivity(undefined))).toBe(false)
+      expect(isAssessmentEnabled(buildActivity(null as unknown as ActivityContentDTO['assessment']))).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity has an assessment object', () => {
+    BddTest().then('it should return true', () => {
+      expect(isAssessmentEnabled(buildActivity({ comment: true }))).toBe(true)
+      expect(isAssessmentEnabled(buildActivity({ grade: 0 }))).toBe(true)
+      expect(isAssessmentEnabled(buildActivity({ validation: true }))).toBe(true)
     })
   })
 })

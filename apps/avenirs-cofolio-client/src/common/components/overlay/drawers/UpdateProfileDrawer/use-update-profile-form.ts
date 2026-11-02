@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

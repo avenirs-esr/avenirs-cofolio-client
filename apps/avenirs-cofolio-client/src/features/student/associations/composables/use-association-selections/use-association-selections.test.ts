@@ -2,6 +2,7 @@ import type { AssociateRequestListener } from '@/__mocks__/msw/handlers/student/
 import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BaseApiErrorCode, BaseApiException } from '@avenirs-esr/shared'
 import { QueryClient } from '@tanstack/vue-query'
 import { http, HttpResponse } from 'msw'
 import { mountComposable } from 'tests/utils'
@@ -11,7 +12,6 @@ import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/h
 import { server } from '@/__mocks__/msw/server'
 import { anyAssociationContextType } from '@/__mocks__/msw/utils'
 import { EAssociationContextType, EErrorCode, getAssociateUrl } from '@/api/avenir-esr'
-import { BaseApiErrorCode, BaseApiException } from '@/common/exceptions'
 import { useAssociationSelections } from '@/features/student/associations/composables/use-association-selections/use-association-selections'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
 

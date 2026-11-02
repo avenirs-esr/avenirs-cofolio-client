@@ -8,6 +8,13 @@
           }
         }
       },
+      "composables": {
+        "useEditNationalActivityFormValidators": {
+          "assessment": {
+            "optionRequired": "Activez au moins une option\u00A0: commentaire, note ou validation"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -21,10 +28,6 @@
           "ActivityTitleInput": {
             "label": "Titre de l'activité"
           }
-        },
-        "ThematicSelect": {
-          "label": "Thématique",
-          "placeholder": "Choisir une thématique"
         }
       },
       "modals": {
@@ -110,9 +113,15 @@
             "inactiveStudentsLast30Days": "inscrit(e) inactif(ve) depuis plus de 30 jours | inscrit(e)s inactif(ve)s depuis plus de 30 jours",
             "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
             "seeDetails": "Voir le détail",
-            "title": "Tableau de bord",
+            "title": "Chiffres clés",
             "uniqueStudentViews": "apprenant(e) ayant consulté l'activité | apprenant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
+          },
+          "ActivityRightsSection": {
+            "fetchError": "Impossible de rechercher les utilisateurs",
+            "label": "Chercher un utilisateur",
+            "placeholder": "Rechercher par nom ou email",
+            "title": "Gestion des droits"
           },
           "buttons": {
             "resumeDraft": "Reprendre le brouillon"
@@ -147,12 +156,27 @@
           },
           "tabs": {
             "content": "Contenu",
-            "keyFigures": "Chiffres clés",
+            "dashboard": "Tableau de bord",
             "preview": "Extrait du catalogue"
           },
           "title": "Toutes les activités disponibles dans mon établissement"
         },
         "EditNationalActivityView": {
+          "ActivityAssessmentCommentFormField": {
+            "description": "Permettre l'ajout d'un commentaire personnalisé pour chaque évaluation"
+          },
+          "ActivityAssessmentFormFieldsContainer": {
+            "description": "Activez cette option pour permettre une évaluation finale des apprenants. Cette évaluation entraînera la clôture de l'activité.",
+            "title": "Évaluation de l'activité"
+          },
+          "ActivityAssessmentGradeFormField": {
+            "description": "Permettre l'attribution d'une note selon un barème défini",
+            "hint": "Note maximale pouvant être attribuée, supérieure à 0, jusqu'à {maxDecimals} décimales.",
+            "label": "Barème maximal"
+          },
+          "ActivityAssessmentValidationFormField": {
+            "description": "Permettre d'indiquer si l'activité est validée ou non"
+          },
           "ActivityBannerFormField": {
             "bannerAlt": "Bannière"
           },

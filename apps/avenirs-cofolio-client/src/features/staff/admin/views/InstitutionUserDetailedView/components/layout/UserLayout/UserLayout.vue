@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'

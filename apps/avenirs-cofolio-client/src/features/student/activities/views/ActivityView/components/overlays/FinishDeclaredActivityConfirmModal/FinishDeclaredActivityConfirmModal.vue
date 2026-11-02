@@ -5,9 +5,10 @@ import { ConfirmationModal } from '@/common/components'
 export interface FinishDeclaredActivityConfirmModalProps {
   opened: boolean
   isLoading?: boolean
+  assessmentEnabled?: boolean
 }
 
-defineProps<FinishDeclaredActivityConfirmModalProps>()
+const { assessmentEnabled = false } = defineProps<FinishDeclaredActivityConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
@@ -22,7 +23,9 @@ const { t } = useI18n()
     :opened="opened"
     data-testid="finish-declared-activity-confirm-modal"
     :title="t('student.activities.views.ActivityView.FinishDeclaredActivityConfirmModal.title')"
-    :description="t('student.activities.views.ActivityView.FinishDeclaredActivityConfirmModal.description')"
+    :description="assessmentEnabled
+      ? t('student.activities.views.ActivityView.FinishDeclaredActivityConfirmModal.assessmentDescription')
+      : t('student.activities.views.ActivityView.FinishDeclaredActivityConfirmModal.description')"
     :is-loading="isLoading"
     @close="emit('close')"
     @confirm="emit('confirm')"

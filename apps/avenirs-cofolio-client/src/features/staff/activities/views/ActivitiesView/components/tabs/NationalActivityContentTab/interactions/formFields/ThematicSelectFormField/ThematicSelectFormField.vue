@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest, EActivityThematic } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
-import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.vue'
+import ActivityThematicSelect from '@/common/activities/inputs/ActivityThematicSelect/ActivityThematicSelect.vue'
 
 interface ThematicSelectFormFieldProps {
   form: EditActivityForm
@@ -23,26 +24,27 @@ const thematicField = form.useField({
   name: 'thematic',
 })
 
-function onUpdateThematic (
-  value: { itemId: EActivityThematic } | undefined,
-) {
-  if (value?.itemId) {
-    thematicField.api.handleChange(value.itemId)
-    emit('autosave', { thematic: value.itemId })
+function onUpdateThematic (value?: EActivityThematic | EActivityThematic[]) {
+  const thematic = Array.isArray(value) ? value[0] : value
+  if (!thematic) {
+    return
   }
+
+  thematicField.api.handleChange(thematic)
+  emit('autosave', { thematic })
 }
 </script>
 
 <template>
   <FormField name="thematic">
     <template #default="{ field }">
-      <ThematicSelect
+      <ActivityThematicSelect
         v-bind="$attrs"
-        data-testid="thematic-select-form-field"
-        :model-value="{
-          itemId: field.state.value as EActivityThematic,
-        }"
+        :model-value="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
+        :prefix-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+        data-testid="thematic-select-form-field"
+        required
         @blur="field.handleBlur"
         @update:model-value="onUpdateThematic"
       />

@@ -1,5 +1,7 @@
 import type { PathParams } from 'msw'
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import { ErrorCodes } from '@avenirs-esr/shared'
+import { isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createUpdatedCoverMock,
@@ -9,7 +11,6 @@ import {
   mockedEmptyProfileOverview,
   mockedProfileOverview
 } from '@/__mocks__/fixtures/student'
-import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   EUserCategory,
   getGetProfileUrl,
@@ -18,7 +19,6 @@ import {
   getUploadProfilePictureUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
 
 export function createPutUpdateProfileHandler (payload: string) {
   return http.put(`*${getUpdateProfileUrl(':profile' as EUserCategory)}`, () => {

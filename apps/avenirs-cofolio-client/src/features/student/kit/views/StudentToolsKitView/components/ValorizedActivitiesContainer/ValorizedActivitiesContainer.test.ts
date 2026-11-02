@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { vi } from 'vitest'
 import { mockedDeclaredActivitiesOverview } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createDeclaredActivitiesViewHandler, libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'

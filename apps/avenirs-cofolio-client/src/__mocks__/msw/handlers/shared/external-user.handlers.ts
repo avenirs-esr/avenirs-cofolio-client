@@ -1,7 +1,9 @@
 import type { EAuthorizationEntityType, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedGetExternalUserAuthorizationsResponse,
+  createMockExternalUserAuthorizationTypes,
   fullUserGlobalAuthorization,
   mockExternalUser,
   mockExternalUserDetail,
@@ -11,13 +13,12 @@ import {
   studentUserGlobalAuthorization
 } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import {
+  getGetExternalUserAuthorizationTypesUrl,
   getGetExternalUserByIdUrl,
   getGetExternalUserUrl,
   getGetGlobalAuthorizationOfExternalUserUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants/error-codes'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAuthorizationOfExternalUserUrl(':id')}`, async ({ params }) => {
   const id = params.id as string | undefined
@@ -169,9 +170,35 @@ export function createGetExternalUserAuthorizationsHandler (
 
 const getExternalUserAuthorizationsHandler = createGetExternalUserAuthorizationsHandler(30)
 
+const getExternalUserAuthorizationTypesHandler = http.get(`*${getGetExternalUserAuthorizationTypesUrl(':id')}`, async ({ params }) => {
+  const id = params.id as string | undefined
+
+  if (!id) {
+    return HttpResponse.json(
+      { error: 'User ID is required', code: ErrorCodes.NOT_BLANK },
+      { status: HttpStatusCode.BAD_REQUEST },
+    )
+  }
+
+  if (id === 'INVALID_USER_ID') {
+    return HttpResponse.json(
+      { error: 'User not found', code: ErrorCodes.NOT_FOUND },
+      { status: HttpStatusCode.NOT_FOUND },
+    )
+  }
+
+  return HttpResponse.json<EAuthorizationEntityType[]>(createMockExternalUserAuthorizationTypes(id), {
+    status: HttpStatusCode.OK,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+})
+
 export const externalUserHandlers = [
   getGlobalAuthorizationOfExternalUserHandler,
   getExternalUserHander,
   getExternalUserByIdHander,
-  getExternalUserAuthorizationsHandler
+  getExternalUserAuthorizationsHandler,
+  getExternalUserAuthorizationTypesHandler
 ]

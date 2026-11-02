@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@/api/avenir-esr'
 import type { UsePaginatedUserContextualAuthorizationsParams } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-paginated-user-contextual-authorizations/use-paginated-user-contextual-authorizations'
 import { AvMessage } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EAuthorizationEntityType } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { useStaffAdminAuthorizationsStore } from '@/features/staff/admin/stores/authorizations.store'
@@ -21,13 +20,14 @@ const { t } = useI18n()
 const staffAdminAuthorizationsStore = useStaffAdminAuthorizationsStore()
 
 const userId = computed(() => user.id)
-const entityType = ref(EAuthorizationEntityType.ACTIVITY)
+const entityType = ref<EAuthorizationEntityType | undefined>(undefined)
 
 const usePaginatedUserContextualAuthorizationsParams = computed<UsePaginatedUserContextualAuthorizationsParams>(() => ({
   currentPageRef: toRef(staffAdminAuthorizationsStore, 'authorizationsCurrentPage'),
   pageSizeRef: toRef(staffAdminAuthorizationsStore, 'authorizationsPageSizeSelected'),
   entityTypeRef: entityType,
   userIdRef: userId,
+  enabledRef: computed(() => entityType.value !== undefined)
 }))
 
 const {
@@ -43,7 +43,10 @@ const {
 
 <template>
   <div class="av-col av-gap-sm">
-    <AuthorizationEntityTypeSelect v-model="entityType" />
+    <AuthorizationEntityTypeSelect
+      v-model="entityType"
+      :user="user"
+    />
 
     <QuerySuspense
       :is-loading="isFetching"

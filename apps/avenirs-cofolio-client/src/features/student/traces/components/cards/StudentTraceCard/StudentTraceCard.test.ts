@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, AvTagStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'

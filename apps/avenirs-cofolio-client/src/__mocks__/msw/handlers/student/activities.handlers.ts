@@ -1,9 +1,12 @@
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedDeclaredActivitiesViewResponse,
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
@@ -12,7 +15,6 @@ import {
   mockedFinishedDeclaredActivityDetails,
   mockedLatestActivitiesOverview
 } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
 
   EActivityStatus,
@@ -27,14 +29,13 @@ import {
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getSubmitForAssessmentUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdateDeclaredActivityUrl,
   getUpdateReflectionUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
 
 const subscribedActivities = new Set<string>()
@@ -99,6 +100,10 @@ const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivit
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
+})
+
+export const emptyLibraryActivitiesHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
+  return createEmptyPaginatedDatasetResponse<PagedResponseDeclaredActivityViewDTO>()
 })
 
 export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
@@ -176,7 +181,7 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
 
   const tempDetails = createMockedDeclaredActivityDetails(declaredActivityId)
   const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId, {
-    withFeedback: tempDetails.status === EDeclaredActivityStatus.SUBMITTED,
+    withFeedback: tempDetails.status === EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
   })
   const overrides = declaredActivityDetailsOverrides.get(declaredActivityId)
 
@@ -410,6 +415,26 @@ export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declare
   })
 })
 
+export const submitForAssessmentHandler = http.put(`*${getSubmitForAssessmentUrl(':declaredActivityId')}`, async ({ params }) => {
+  const declaredActivityId = Array.isArray(params.declaredActivityId)
+    ? params.declaredActivityId[0]
+    : params.declaredActivityId
+
+  if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  declaredActivityDetailsOverrides.set(declaredActivityId, {
+    status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT,
+    updatedAt: new Date().toISOString(),
+  })
+
+  return new HttpResponse(null, { status: HttpStatusCode.OK })
+})
+
 export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -493,18 +518,23 @@ export const activitiesHandlers = [
       return createEmptyPaginatedDatasetResponse<PagedResponseDeclaredActivityViewDTO>()
     }
 
-    const url = new URL(request.url)
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
-    const totalElements = 6
+    const { searchParams } = new URL(request.url)
 
-    const mockData = createMockedPagedResponseDeclaredActivityViewDTO(pageSize, totalElements, page)
+    const params: GetDeclaredActivitiesViewParams = {
+      page: Number(searchParams.get('page') ?? 0),
+      pageSize: Number(searchParams.get('pageSize') ?? 10),
+      keyword: searchParams.get('keyword') ?? undefined,
+      thematics: searchParams.getAll('thematics') as EActivityThematic[],
+      statuses: searchParams.getAll('statuses') as EDeclaredActivityStatus[],
+      sortField: (searchParams.get('sortField') ?? undefined) as ESortField | undefined,
+      sortOrder: (searchParams.get('sortOrder') ?? undefined) as ESortOrder | undefined,
+    }
 
-    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(createMockedDeclaredActivitiesViewResponse(params), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }),
 
@@ -537,6 +567,7 @@ export const activitiesHandlers = [
   declaredActivityDetailsHandler,
   subscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
+  submitForAssessmentHandler,
   updateActivityHandler,
   updateActivityReflectionHandler,
   askForFeedbackHandler,

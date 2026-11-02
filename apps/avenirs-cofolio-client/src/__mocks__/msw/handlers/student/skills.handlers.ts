@@ -1,6 +1,7 @@
 import type { PathParams } from 'msw'
 import type { AdditionalSkillConfigurationDTO, AddSkillProgressDTO, GetSkillProgressesParams, PagedResponseExternalSkillDTO, PagedResponseSkillProgressDTO, SkillProgressDetailsDTO, SkillProgressDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { ErrorCodes } from '@avenirs-esr/shared'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createMockedAssociatedExternalSkillIds,
@@ -22,7 +23,6 @@ import {
   getUpdateSkillProgressUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
 
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
 

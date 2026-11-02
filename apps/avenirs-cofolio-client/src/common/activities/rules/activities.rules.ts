@@ -6,7 +6,7 @@ import {
 } from '@/api/avenir-esr'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
-const NOT_DELETABLE_DECLARED_ACTIVITY_STATUSES = new Set([EDeclaredActivityStatus.SUBMITTED, EDeclaredActivityStatus.COMPLETED])
+const NOT_DELETABLE_DECLARED_ACTIVITY_STATUSES = new Set([EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK, EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT, EDeclaredActivityStatus.COMPLETED])
 
 export function shouldDisplayTraceLimit (limits: AssociationLimitState): boolean {
   return limits.isLoaded && limits.max !== ACTIVITY_TRACE_SETTING_DISABLED_VALUE
@@ -37,11 +37,15 @@ export function isActivitySubscribed (
 }
 
 export function isPerspectiveEditingDisabled (activityStatus?: EDeclaredActivityStatus): boolean {
-  return activityStatus === EDeclaredActivityStatus.COMPLETED || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
+  return activityStatus === EDeclaredActivityStatus.COMPLETED
+    || activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT
+    || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
 }
 
 export function isActivityPeriodEditingDisabled (activityStatus?: EDeclaredActivityStatus): boolean {
-  return activityStatus === EDeclaredActivityStatus.COMPLETED || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
+  return activityStatus === EDeclaredActivityStatus.COMPLETED
+    || activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT
+    || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
 }
 
 export function isDeclaredActivityUnsubscribed (activityStatus?: EDeclaredActivityStatus): boolean {
@@ -49,7 +53,15 @@ export function isDeclaredActivityUnsubscribed (activityStatus?: EDeclaredActivi
 }
 
 export function isDeclaredActivitySubmitted (activityStatus?: EDeclaredActivityStatus): boolean {
-  return activityStatus === EDeclaredActivityStatus.SUBMITTED
+  return activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK
+}
+
+export function isDeclaredActivitySubmittedForAssessment (activityStatus?: EDeclaredActivityStatus): boolean {
+  return activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT
+}
+
+export function isAssessmentEnabled (activity: ActivityContentDTO): boolean {
+  return !!activity.assessment
 }
 
 export function hasPendingFeedback (feedbacks?: FeedbackOverviewDTO[]): boolean {

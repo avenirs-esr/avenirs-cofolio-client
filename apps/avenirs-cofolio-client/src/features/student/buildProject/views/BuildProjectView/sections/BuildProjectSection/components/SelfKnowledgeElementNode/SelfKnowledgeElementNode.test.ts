@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createPutUpdateSelfKnowledgeElementHandler, postCreateSelfKnowledgeElementErrorHandler, putUpdateSelfKnowledgeElementErrorHandler, putUpdateSelfKnowledgeElementErrorNotFoundHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'

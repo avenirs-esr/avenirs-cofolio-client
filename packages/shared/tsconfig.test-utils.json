@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test-utils.tsbuildinfo",
+    "paths": {
+      "vue-component-type-helpers": ["./node_modules/vue-component-type-helpers"]
+    },
+    "types": ["node"]
+  },
+  "include": ["test-utils/**/*.ts", "src/ui/**/*.stub.ts"],
+  "exclude": ["test-utils/**/*.test.ts"]
+}

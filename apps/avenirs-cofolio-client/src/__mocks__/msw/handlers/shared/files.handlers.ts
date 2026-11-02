@@ -1,8 +1,7 @@
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { getLoremPicsumResponse, mockImageBlob } from '@/__mocks__/fixtures/shared/files.fixtures'
 import { getDownloadActivityFileUrl, getDownloadAttachmentUrl, getDownloadDraftFileUrl, getGetResourceByFileIdUrl } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants/error-codes'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 const getRessourceFileByIdHandler = http.get(`*${getGetResourceByFileIdUrl(':id')}`, async ({ params }) => {
   const id = params.id as string | undefined

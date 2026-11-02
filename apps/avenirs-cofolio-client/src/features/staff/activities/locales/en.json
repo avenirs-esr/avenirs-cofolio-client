@@ -8,6 +8,13 @@
           }
         }
       },
+      "composables": {
+        "useEditNationalActivityFormValidators": {
+          "assessment": {
+            "optionRequired": "Enable at least one option: comment, grade or validation"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -21,10 +28,6 @@
           "ActivityTitleInput": {
             "label": "Activity title"
           }
-        },
-        "ThematicSelect": {
-          "label": "Thematic",
-          "placeholder": "Choose a thematic"
         }
       },
       "modals": {
@@ -110,9 +113,15 @@
             "inactiveStudentsLast30Days": "enrolled learner inactive for more than 30 days | enrolled learners inactive for more than 30 days",
             "notPublished": "This activity is a draft. Key figures are only available from published activities.",
             "seeDetails": "See details",
-            "title": "Dashboard",
+            "title": "Key figures",
             "uniqueStudentViews": "learner who viewed the activity | learners who viewed the activity",
             "unsubscriptionsLast30Days": "unsubscription in the last 30 days | unsubscriptions in the last 30 days"
+          },
+          "ActivityRightsSection": {
+            "fetchError": "Unable to search users",
+            "label": "Search a user",
+            "placeholder": "Search by name or email",
+            "title": "Rights management"
           },
           "buttons": {
             "resumeDraft": "Resume the draft"
@@ -147,12 +156,27 @@
           },
           "tabs": {
             "content": "Content",
-            "keyFigures": "Key figures",
+            "dashboard": "Dashboard",
             "preview": "Catalog Preview"
           },
           "title": "All activities available in my institution"
         },
         "EditNationalActivityView": {
+          "ActivityAssessmentCommentFormField": {
+            "description": "Allow a personalized comment to be added to each assessment"
+          },
+          "ActivityAssessmentFormFieldsContainer": {
+            "description": "Enable this option to allow a final assessment of learners. This assessment will close the activity.",
+            "title": "Activity assessment"
+          },
+          "ActivityAssessmentGradeFormField": {
+            "description": "Allow a grade to be assigned on a defined scale",
+            "hint": "Maximum grade that can be awarded, greater than 0, up to {maxDecimals} decimal places.",
+            "label": "Maximum grade"
+          },
+          "ActivityAssessmentValidationFormField": {
+            "description": "Allow indicating whether or not the activity is validated"
+          },
           "ActivityBannerFormField": {
             "bannerAlt": "Banner"
           },

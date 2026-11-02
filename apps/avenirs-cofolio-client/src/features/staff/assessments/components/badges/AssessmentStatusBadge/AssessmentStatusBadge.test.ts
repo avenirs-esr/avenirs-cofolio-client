@@ -16,7 +16,7 @@ BddTest().given('an assessment status badge', () => {
     label: string
     icon: string
   }> = [
-    { props: { assessmentStatus: EDeclaredActivityStatus.SUBMITTED }, label: 'Nouvelle', icon: MDI_ICONS.BELL_NOTIFICATION },
+    { props: { assessmentStatus: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT }, label: 'Nouvelle', icon: MDI_ICONS.BELL_NOTIFICATION },
     { props: { assessmentStatus: EDeclaredActivityStatus.CONSULTED }, label: 'Non traitée', icon: MDI_ICONS.BELL_NOTIFICATION },
     { props: { assessmentStatus: EDeclaredActivityStatus.COMPLETED }, label: 'Envoyée', icon: MDI_ICONS.CHECK_CIRCLE },
   ]

@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
+import { getAvButtonByTestId } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'

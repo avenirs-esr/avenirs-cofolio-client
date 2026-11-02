@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'

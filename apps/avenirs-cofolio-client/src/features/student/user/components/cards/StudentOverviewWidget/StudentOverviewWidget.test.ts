@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
@@ -53,8 +53,8 @@ BddTest().given('a learner overview widget', () => {
 
       expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
       expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
-      expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
-      expect(profileCard.props('coverPictureUrl')).toBe(mockedProfileOverview.coverPicture.url)
+      expect(profileCard.props('profilePicture')).toEqual(mockedProfileOverview.profilePicture)
+      expect(profileCard.props('coverPicture')).toEqual(mockedProfileOverview.coverPicture)
       expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
     })
 

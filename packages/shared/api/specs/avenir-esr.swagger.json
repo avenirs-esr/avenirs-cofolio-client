@@ -401,6 +401,64 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/submit-for-assessment": {
+      "put": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "submitForAssessment",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/activity-progress/{declaredActivityId}/assessment": {
+      "put": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "sendAssessment",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclaredActivityAssessmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activity-progress/{activityId}/reflection": {
       "put": {
         "tags": [
@@ -3139,6 +3197,44 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "thematics",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EActivityThematic"
+              }
+            }
+          },
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EDeclaredActivityStatus"
+              }
+            }
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortField"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortOrder"
+            }
           }
         ],
         "responses": {
@@ -3905,6 +4001,57 @@
                 "schema": {
                   "type": "string",
                   "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/assessments": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getDeclaredActivitiesToAssess",
+        "parameters": [
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EActivityAssessmentStatus"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseDeclaredActivityToAssessDTO"
                 }
               }
             }
@@ -5259,7 +5406,7 @@
         "tags": [
           "external-user-contextual-authorization-query-controller"
         ],
-        "operationId": "getAvailableTypes1",
+        "operationId": "getExternalUserAuthorizationTypes",
         "parameters": [
           {
             "name": "externalUserId",
@@ -5279,11 +5426,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "string",
-                    "enum": [
-                      "ACTIVITY",
-                      "ACTIVITY_DRAFT"
-                    ]
+                    "$ref": "#/components/schemas/EAuthorizationEntityType"
                   }
                 }
               }
@@ -6212,6 +6355,12 @@
           },
           "valorized": {
             "type": "boolean"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -6269,6 +6418,12 @@
           },
           "category": {
             "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -6549,6 +6704,21 @@
           "title",
           "updatedAt"
         ]
+      },
+      "DeclaredActivityAssessmentRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validation": {
+            "type": "boolean"
+          }
+        }
       },
       "UpdateReflectionRequest": {
         "type": "object",
@@ -6937,7 +7107,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -7215,7 +7386,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -8158,6 +8330,21 @@
           }
         ]
       },
+      "AssessmentSentParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "activityTitle": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "NotificationDTO": {
         "type": "object",
         "properties": {
@@ -8173,7 +8360,8 @@
             "type": "string",
             "enum": [
               "ACTIVITY_MODIFIED",
-              "ASK_FOR_FEEDBACK"
+              "ASK_FOR_FEEDBACK",
+              "ASSESSMENT_SENT"
             ]
           },
           "elementId": {
@@ -8187,6 +8375,9 @@
               },
               {
                 "$ref": "#/components/schemas/AskForFeedbackParameters"
+              },
+              {
+                "$ref": "#/components/schemas/AssessmentSentParameters"
               }
             ]
           },
@@ -8383,7 +8574,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -8420,6 +8612,9 @@
             "items": {
               "$ref": "#/components/schemas/FeedbackOverviewDTO"
             }
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/ReceivedAssessmentDTO"
           }
         },
         "required": [
@@ -8480,6 +8675,40 @@
           "student",
           "updatedAt"
         ]
+      },
+      "ReceivedAssessmentDTO": {
+        "type": "object",
+        "properties": {
+          "grade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxGrade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validation": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "requestedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessedBy": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          }
+        }
       },
       "FeedbackStaffListItemDTO": {
         "type": "object",
@@ -8761,7 +8990,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -8810,7 +9040,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -8901,7 +9132,8 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
-              "SUBMITTED",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
               "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
@@ -9125,6 +9357,93 @@
           "title"
         ]
       },
+      "ActivityPreviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "DeclaredActivityToAssessDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "student": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/ActivityPreviewDTO"
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/ActivityAssessmentDTO"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessmentRequestedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessedBy": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "SUBMITTED_FOR_FEEDBACK",
+              "SUBMITTED_FOR_ASSESSMENT",
+              "CONSULTED",
+              "COMPLETED",
+              "UNSUBSCRIBED"
+            ]
+          }
+        },
+        "required": [
+          "activity",
+          "id",
+          "status",
+          "student",
+          "submittedAt"
+        ]
+      },
+      "PagedResponseDeclaredActivityToAssessDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityToAssessDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "PagedResponseUserEntityAuthorizationsDTO": {
         "type": "object",
         "properties": {
@@ -9264,7 +9583,8 @@
         "description": "Enum for notification type",
         "enum": [
           "ACTIVITY_MODIFIED",
-          "ASK_FOR_FEEDBACK"
+          "ASK_FOR_FEEDBACK",
+          "ASSESSMENT_SENT"
         ]
       },
       "ELanguage": {
@@ -9461,7 +9781,8 @@
         "enum": [
           "SUBSCRIBED",
           "IN_PROGRESS",
-          "SUBMITTED",
+          "SUBMITTED_FOR_FEEDBACK",
+          "SUBMITTED_FOR_ASSESSMENT",
           "CONSULTED",
           "COMPLETED",
           "UNSUBSCRIBED"
@@ -9475,6 +9796,14 @@
           "IN_PROCESS",
           "SUBMITTED",
           "SEEN"
+        ]
+      },
+      "EActivityAssessmentStatus": {
+        "type": "string",
+        "enum": [
+          "NEW",
+          "OPENED",
+          "SENT"
         ]
       },
       "EAssociationContextType": {

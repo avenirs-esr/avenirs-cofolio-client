@@ -57,6 +57,7 @@ const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
         <UsersList
           v-if="groupId"
           :group-ids="[groupId]"
+          group-users-mode
         />
       </IconTitleCardContainer>
     </div>

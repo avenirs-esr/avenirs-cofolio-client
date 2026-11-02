@@ -40,6 +40,12 @@ const avInputProps: ComputedRef<AvInputProps> = computed(() => ({
         }) }}
       </span>
     </template>
+    <template
+      v-if="$slots.suffix"
+      #suffix
+    >
+      <slot name="suffix" />
+    </template>
   </AvInput>
 </template>
 

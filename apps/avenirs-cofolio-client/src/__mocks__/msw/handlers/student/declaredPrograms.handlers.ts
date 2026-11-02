@@ -1,4 +1,5 @@
 import type { DeclaredProgramDetailedDTO, DeclaredProgramViewDTO, GetDeclaredProgramsParams, PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createMockedDeclaredProgramsPagedResponse,
@@ -16,8 +17,6 @@ import {
   getUpdateDeclaredProgramUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 
 export const createDeclaredProgramErrorHandler = http.post(
   `*${getCreateDeclaredProgramUrl()}`,

@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
@@ -227,7 +227,7 @@ BddTest().given('a national activity catalog view', () => {
 
   BddTest().when('the key figures tab is active', () => {
     beforeEach(async () => {
-      mockActiveTab(NationalActivityCatalogTabs.KEY_FIGURES)
+      mockActiveTab(NationalActivityCatalogTabs.DASHBOARD)
       wrapper = mountView()
       await waitForLoaded()
     })

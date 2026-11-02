@@ -45,4 +45,18 @@ BddTest().given('an Input component', () => {
       expect(wrapper.find('.maxlength-error').exists()).toBe(true)
     })
   })
+
+  BddTest().when('the component is mounted with a suffix slot', () => {
+    beforeEach(() => {
+      wrapper = mount(Input, {
+        props: { modelValue: 'test' },
+        slots: { suffix: '<span data-testid="input-suffix">suffix</span>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should forward the suffix slot to the input', () => {
+      expect(wrapper.find('[data-testid="input-suffix"]').exists()).toBe(true)
+    })
+  })
 })

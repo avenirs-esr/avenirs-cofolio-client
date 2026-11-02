@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { GetDeclaredActivitiesViewParams } from '@/api/avenir-esr'
+import type { DeclaredActivityFilters } from '@/features/student/activities/types/declared-activities.types'
 import { AvIconText, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -8,30 +11,43 @@ import { useModal, usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import ActivityLibraryCard from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
+import ActivityLibraryFilters from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryFilters/ActivityLibraryFilters.vue'
 import ActivityLibraryDropdown from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivityLibraryDropdown/ActivityLibraryDropdown.vue'
 import UnsubscribeActivitiesModal from '@/features/student/activities/views/ActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
 
 const { t } = useI18n()
-
+const { modalOpened, openModal, closeModal } = useModal()
 const activitiesStore = useActivitiesStore()
-
 const {
   currentPage,
   pageSizeSelected,
   onUpdateCurrentPage,
-  onUpdatePageSize
+  onUpdatePageSize,
+  resetCurrentPage,
 } = usePagination(toRef(activitiesStore, 'currentPage'), toRef(activitiesStore, 'pageSizeSelected'))
 
-const params = computed(() => ({
+const filters = ref<DeclaredActivityFilters>({})
+
+const params = computed<GetDeclaredActivitiesViewParams>(() => ({
+  ...filters.value,
   page: currentPage.value,
   pageSize: pageSizeSelected.value,
 }))
 
-const { data, isLoading, error } = useGetDeclaredActivitiesView(params)
-const { modalOpened, openModal, closeModal } = useModal()
+const { data, isLoading, error } = useGetDeclaredActivitiesView(params, {
+  query: {
+    placeholderData: keepPreviousData,
+  },
+})
 
 const libraryActivities = computed(() => data.value?.data || [])
 const pageInfo = computed(() => data.value?.page)
+const hasActiveFilters = computed(() => Boolean(filters.value.keyword || filters.value.thematics || filters.value.statuses))
+
+function onUpdateFilters (newFilters: DeclaredActivityFilters) {
+  filters.value = newFilters
+  resetCurrentPage()
+}
 </script>
 
 <template>
@@ -56,11 +72,16 @@ const pageInfo = computed(() => data.value?.page)
         data-testid="activity-library-tab-title"
       />
 
+      <ActivityLibraryFilters @update:filters="onUpdateFilters" />
+
       <QuerySuspense
         :error="error"
         :is-loading="isLoading"
         :is-empty="libraryActivities.length === 0"
-        :empty-state-message="t('student.activities.views.ActivitiesView.ActivityLibraryTab.emptyState')"
+        :empty-state-message="hasActiveFilters
+          ? t('global.information.noResults')
+          : t('student.activities.views.ActivitiesView.ActivityLibraryTab.emptyState')"
+        preserve-content
       >
         <template #error>
           <ActivityErrorMessage :error="error" />

@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
 import ValorizedSelfKnowledgeItem

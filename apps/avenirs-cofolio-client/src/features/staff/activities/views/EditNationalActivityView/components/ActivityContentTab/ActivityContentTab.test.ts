@@ -5,6 +5,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityExecutionPeriodFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
@@ -23,15 +24,16 @@ BddTest().given('an ActivityContentTab component', () => {
   let tab: VueWrapper<InstanceType<typeof ActivityContentTab>>
 
   const stubs = {
+    ActivityAssessmentFormFieldsContainer: ActivityAssessmentFormFieldsContainerStub,
     ActivityConsignFormField: ActivityConsignFormFieldStub,
     ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
     ActivityFeedbackFormField: ActivityFeedbackFormFieldStub,
     ActivityReflectionFormField: ActivityReflectionFormFieldStub,
+    ActivityResourcesListEditable: ActivityResourcesListEditableStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
-    ActivityResourcesListEditable: ActivityResourcesListEditableStub,
-    EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
+    EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
   }
 
@@ -99,6 +101,7 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.findComponent(ActivityFeedbackFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityReflectionFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityTraceFormFieldStub).exists()).toBe(true)
+      expect(tab.findComponent(ActivityAssessmentFormFieldsContainerStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the next step button', () => {

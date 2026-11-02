@@ -12,22 +12,26 @@ function mountUsePaginatedUserContextualAuthorizations ({
   pageSize = PageSizes.TWELVE,
   entityType = EAuthorizationEntityType.ACTIVITY,
   userId = mockExternalUserDetail.id,
+  enabled = true,
 }: {
   currentPage?: number
   pageSize?: PageSizes
   entityType?: EAuthorizationEntityType
   userId?: string
+  enabled?: boolean
 } = {}) {
   const currentPageRef = ref(currentPage)
   const pageSizeRef = ref(pageSize)
-  const entityTypeRef = ref(entityType)
+  const entityTypeRef = ref<EAuthorizationEntityType | undefined>(entityType)
   const userIdRef = ref(userId)
+  const enabledRef = computed(() => enabled)
 
   const { result } = mountComposable(() => usePaginatedUserContextualAuthorizations({
     currentPageRef,
     pageSizeRef,
     entityTypeRef,
     userIdRef,
+    enabledRef,
   }), { useTanstack: true })
 
   return {
@@ -58,6 +62,19 @@ BddTest().given('a usePaginatedUserContextualAuthorizations composable', () => {
         expect(result.authorizations.value.length).toBeGreaterThan(0)
         expect(result.pageInfo.value).toBeDefined()
       })
+    })
+  })
+
+  BddTest().when('the query is disabled', () => {
+    let result: ReturnType<typeof mountUsePaginatedUserContextualAuthorizations>
+
+    beforeEach(() => {
+      result = mountUsePaginatedUserContextualAuthorizations({ enabled: false })
+    })
+
+    BddTest().then('it should expose empty authorizations and no page info', () => {
+      expect(result.authorizations.value).toEqual([])
+      expect(result.pageInfo.value).toBeUndefined()
     })
   })
 

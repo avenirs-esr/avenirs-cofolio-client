@@ -52,10 +52,28 @@ export function mockedActivityModifiedNotificationMultipleSections (): Notificat
   )
 }
 
+export const ASSESSMENT_SENT_NOTIFICATION_ACTIVITY_TITLE = 'Activité "Portfolio" : Valoriser ses expériences'
+
+export const ASSESSMENT_SENT_NOTIFICATION_ACTIVITY_ID = '4c8e2a17-3d5b-4f96-8b2e-1a7d9c6f3e52'
+
+export function mockedAssessmentSentNotification (): NotificationDTO {
+  return {
+    id: 'notification-assessment-sent',
+    createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
+    type: NotificationDTOType.ASSESSMENT_SENT,
+    elementId: ASSESSMENT_SENT_NOTIFICATION_ACTIVITY_ID,
+    seen: false,
+    parameters: {
+      activityTitle: ASSESSMENT_SENT_NOTIFICATION_ACTIVITY_TITLE,
+    },
+  }
+}
+
 export function createStudentMockedNotifications (totalElements: number): NotificationDTO[] {
   const notifications: NotificationDTO[] = [
     mockedActivityModifiedNotificationSingleSection(),
     mockedActivityModifiedNotificationMultipleSections(),
+    mockedAssessmentSentNotification(),
   ]
 
   for (let i = notifications.length + 1; i <= totalElements; i++) {

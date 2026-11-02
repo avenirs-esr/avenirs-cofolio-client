@@ -1,5 +1,5 @@
 import type { AvLanguageSelectorElement } from '@avenirs-esr/avenirs-dsav'
-import type { AvLocale } from '@/types'
+import type { AvLocale } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { getBrowserLocale } from '@/plugins/vue-i18n'
 

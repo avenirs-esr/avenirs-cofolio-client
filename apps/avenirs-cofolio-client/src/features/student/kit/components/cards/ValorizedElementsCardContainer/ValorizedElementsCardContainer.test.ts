@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ValorizedElementsCardContainerProps } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BaseApiException } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
-import { BaseApiException } from '@/common/exceptions'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 
 BddTest().given('a valorized elements card container', () => {

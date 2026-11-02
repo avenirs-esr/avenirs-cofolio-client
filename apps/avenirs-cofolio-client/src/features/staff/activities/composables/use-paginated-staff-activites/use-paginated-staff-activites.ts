@@ -1,8 +1,8 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { UseQueryOptions, UseQueryReturnType } from '@tanstack/vue-query'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import type { ActivityStaffOverviewDTO, PagedResponseActivityStaffOverviewDTO, PageInfoDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { usePagination } from '@/common/composables'
 

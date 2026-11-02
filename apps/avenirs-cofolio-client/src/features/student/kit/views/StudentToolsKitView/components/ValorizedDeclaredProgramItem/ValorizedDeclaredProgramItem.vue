@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types'
 import { useI18n } from 'vue-i18n'
 import { formatDateToYearLocalized } from '@/common/utils'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'

@@ -16,6 +16,14 @@ export interface EditNationalActivityViewContext {
    */
   isExecutionPeriodEnabled: Ref<boolean>
   /**
+   * Indicates whether the assessment is enabled, even if no option is selected yet.
+   */
+  isAssessmentEnabled: Ref<boolean>
+  /**
+   * Indicates whether the grade option of the assessment is enabled, even if the scale is not filled in yet.
+   */
+  isAssessmentGradeEnabled: Ref<boolean>
+  /**
    * Updates the activity without submitting the form (supports partial updates).
    * A full update requires calling form.handleSubmit().
    */

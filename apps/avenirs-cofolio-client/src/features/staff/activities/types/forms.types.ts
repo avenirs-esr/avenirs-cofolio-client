@@ -30,9 +30,14 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   files: (File | FileDTO)[]
   links: string[]
   isNational: boolean
+  assessmentComment: boolean
+  assessmentGrade?: number
+  assessmentValidation: boolean
   targetInstitutionIds: string[]
   targetGroupIds: string[]
 }
+
+export type EditActivityAssessmentFormData = Pick<EditActivityFormData, 'assessmentComment' | 'assessmentGrade' | 'assessmentValidation'>
 
 export interface AddActivityResourceFileFormData {
   resourceType: ActivityResourceType.FILE

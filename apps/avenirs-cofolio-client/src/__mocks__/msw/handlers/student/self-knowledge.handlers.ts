@@ -1,4 +1,5 @@
 import type { GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedPagedResponseSelfKnowledgeElementViewDTO,
@@ -21,7 +22,6 @@ import {
   getUpdateSelfKnowledgeElementUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
 
 const CATEGORY_URL_PARAM = ':selfKnowledgeCategory' as ESelfKnowledgeCategory
 

@@ -14,7 +14,8 @@ BddTest().given('a declared activity status badge', () => {
   const scenario: Array<{ props: DeclaredActivityStatusBadgeProps, label: string, icon: string, color: string, backgroundColor: string }> = [
     { props: { status: EDeclaredActivityStatus.COMPLETED }, label: 'Terminée', icon: MDI_ICONS.CHECK_CIRCLE_OUTLINE, color: 'var(--text1)', backgroundColor: 'var(--light-background-neutral)' },
     { props: { status: EDeclaredActivityStatus.IN_PROGRESS }, label: 'En cours', icon: MDI_ICONS.HOURGLASS, color: 'var(--dark-background-primary1)', backgroundColor: 'var(--light-background-primary2)' },
-    { props: { status: EDeclaredActivityStatus.SUBMITTED }, label: 'Soumis', icon: MDI_ICONS.DOTS_HORIZONTAL_CIRCLE_OUTLINE, color: 'var(--light-foreground-primary1)', backgroundColor: 'var(--light-background-critical)' },
+    { props: { status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT }, label: 'Soumis pour évaluation', icon: MDI_ICONS.DOTS_HORIZONTAL_CIRCLE_OUTLINE, color: 'var(--light-foreground-primary1)', backgroundColor: 'var(--light-background-critical)' },
+    { props: { status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK }, label: 'Soumis pour feedback', icon: MDI_ICONS.DOTS_HORIZONTAL_CIRCLE_OUTLINE, color: 'var(--light-foreground-primary1)', backgroundColor: 'var(--light-background-critical)' },
     { props: { status: EDeclaredActivityStatus.SUBSCRIBED }, label: 'Inscrit(e)', icon: PH_ICONS.NOTE_PENCIL, color: 'var(--card)', backgroundColor: 'var(--dark-background-primary3)' },
     { props: { status: EDeclaredActivityStatus.UNSUBSCRIBED }, label: 'Désinscrit(e)', icon: MDI_ICONS.EXIT_TO_APP, color: 'var(--card)', backgroundColor: 'var(--dark-background-neutral)' },
   ]

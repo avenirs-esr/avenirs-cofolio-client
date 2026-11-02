@@ -1,6 +1,6 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { Ref } from 'vue'
 import type { EUserCategory, NotificationDTO, PageInfoDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { toValue } from 'vue'
