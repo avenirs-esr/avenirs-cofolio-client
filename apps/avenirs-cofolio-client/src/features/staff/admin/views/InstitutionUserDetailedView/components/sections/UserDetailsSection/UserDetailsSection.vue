@@ -2,9 +2,9 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetGlobalAuthorizationOfExternalUser } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { ICONS } from '@/common/constants'
 import UserDetailsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserDetailsTable/UserDetailsTable.vue'
 

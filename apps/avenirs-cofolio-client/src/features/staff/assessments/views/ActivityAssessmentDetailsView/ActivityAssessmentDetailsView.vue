@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetAssessmentDetails } from '@/api/avenir-esr'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'

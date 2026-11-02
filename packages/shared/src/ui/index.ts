@@ -1,3 +1,6 @@
+export { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
+export { default as QuerySuspense } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
+export type { QuerySuspenseProps } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 export { EmptyStateStub } from '#shared/ui/components/feedback/EmptyState/EmptyState.stub'
 export { default as EmptyState } from '#shared/ui/components/feedback/EmptyState/EmptyState.vue'
 export type { EmptyStateProps } from '#shared/ui/components/feedback/EmptyState/EmptyState.vue'

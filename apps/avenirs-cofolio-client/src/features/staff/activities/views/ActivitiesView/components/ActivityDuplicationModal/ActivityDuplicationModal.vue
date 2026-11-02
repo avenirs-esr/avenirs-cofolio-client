@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ActivityDuplicationFormData } from '@/features/staff/activities/types/forms.types'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus, useDuplicateActivity } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useNavigation } from '@/common/composables'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { useToasterStore } from '@/store'
 

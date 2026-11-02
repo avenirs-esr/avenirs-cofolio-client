@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue'
+
 export const QuerySuspenseStub = defineComponent({
   name: 'QuerySuspense',
   template: `
@@ -36,6 +38,10 @@ export const QuerySuspenseStub = defineComponent({
     },
     isLoading: {
       type: Boolean,
+    },
+    preserveContent: {
+      type: Boolean,
+      default: false,
     },
   }
 })

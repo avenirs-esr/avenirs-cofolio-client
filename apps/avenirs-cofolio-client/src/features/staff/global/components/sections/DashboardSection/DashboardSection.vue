@@ -2,8 +2,8 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { Slot } from 'vue'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 
 export interface DashboardSectionProps {
   title: string

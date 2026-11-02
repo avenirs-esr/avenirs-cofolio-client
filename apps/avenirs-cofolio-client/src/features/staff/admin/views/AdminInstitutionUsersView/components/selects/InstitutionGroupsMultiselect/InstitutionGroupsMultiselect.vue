@@ -2,9 +2,9 @@
 import type { AvSelectModelValue, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import type { GetGroupsParams } from '@/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetGroups } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 
 const selectedGroups = defineModel<string[]>({ default: () => [] })
 

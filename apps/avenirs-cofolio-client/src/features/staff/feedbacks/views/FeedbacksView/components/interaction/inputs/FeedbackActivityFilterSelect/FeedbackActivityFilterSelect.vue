@@ -2,10 +2,10 @@
 import type { AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus } from '@/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { until, watchIgnorable } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 
 export interface FeedbackActivityFilterSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder' | 'label'> {
   defaultActivityId?: string

@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -10,7 +11,6 @@ import {
   invalidateGetSkillProgresses,
   useCreateSkillProgress
 } from '@/api/avenir-esr'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationSelections } from '@/features/student/associations'

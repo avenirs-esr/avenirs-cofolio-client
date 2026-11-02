@@ -145,6 +145,25 @@ BddTest().given('an i18n initializer', () => {
 })
 
 BddTest().given('a vue-i18n setup', () => {
+  for (const locale of AvAvailableLocales) {
+    BddTest().when(`shared messages are registered in ${locale}`, () => {
+      BddTest().then('it uses the shared query and API error translations', () => {
+        expect(i18n.global.t('global.components.QuerySuspense.defaultErrorTitle', {}, { locale })).toBe(locale === 'fr'
+          ? 'Une erreur est survenue lors du chargement des données'
+          : 'An error occurred while loading data')
+        expect(i18n.global.t('global.components.QuerySuspense.defaultEmptyStateMessage', {}, { locale })).toBe(locale === 'fr'
+          ? 'Aucune donnée à afficher'
+          : 'No data to display')
+        expect(i18n.global.t('global.error.api.BAD_REQUEST', {}, { locale })).toBe(locale === 'fr' ? 'Requête invalide' : 'Bad request')
+        expect(i18n.global.t('global.error.api.USER_NOT_FOUND', {}, { locale })).toBe(locale === 'fr' ? 'Utilisateur introuvable' : 'User not found')
+        expect(i18n.global.t('global.error.api.ACTIVITY_NOT_FOUND', {}, { locale })).toBe(locale === 'fr' ? 'Activité introuvable' : 'Activity not found')
+        expect(i18n.global.t('global.error.generic', {}, { locale })).toBe(locale === 'fr'
+          ? 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
+          : 'An error has occurred. Please try again later.')
+      })
+    })
+  }
+
   BddTest().when('initializing', () => {
     BddTest().then('it should initialize i18n with expected locales', () => {
       const messages = i18n.global.messages

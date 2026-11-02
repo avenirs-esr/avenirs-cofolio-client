@@ -1,6 +1,7 @@
-import type { BaseApiException, ErrorCode } from '@avenirs-esr/shared'
+import type { BaseApiException, ErrorCode } from '#shared/exceptions'
 import type { Ref } from 'vue'
-import { ErrorCodes } from '@avenirs-esr/shared'
+import { ErrorCodes } from '#shared/exceptions'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useApiErrors (errorRef?: Ref<BaseApiException> | Ref<null>) {

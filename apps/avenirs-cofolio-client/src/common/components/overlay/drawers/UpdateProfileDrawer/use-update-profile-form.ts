@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory } from '@/api/avenir-esr'
@@ -10,7 +11,6 @@ import {
   useUpdateProfileCover,
   useUpdateProfilePhoto
 } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useToasterStore } from '@/store'
 

@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
 import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -11,7 +12,6 @@ import {
   EDeclaredActivityStatus
 
 } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 
 const mockAddSuccessMessage = vi.fn()
