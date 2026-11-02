@@ -126,8 +126,8 @@
             "fetchError": "Impossible de rechercher les utilisateurs",
             "label": "Chercher un utilisateur",
             "placeholder": "Rechercher par nom ou email",
-            "saveError": "Impossible d'enregistrer les droits",
-            "saveSuccess": "Droits enregistrés",
+            "saveError": "Impossible d'enregistrer les autorisations",
+            "saveSuccess": "Autorisations enregistrées",
             "title": "Gestion des droits"
           },
           "buttons": {

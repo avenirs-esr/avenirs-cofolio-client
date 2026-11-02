@@ -9,7 +9,7 @@ import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EGroupType } from '@/api/avenir-esr'
+import { EGroupType, EUniverse } from '@/api/avenir-esr'
 import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'
@@ -24,8 +24,7 @@ const mockUsers: ExternalUserAffiliationOverviewDTO[] = [{
   email: 'alice.dupont@example.com',
   profilePictureId: undefined,
   hasConnected: true,
-  staff: true,
-  student: false,
+  universes: [EUniverse.STAFF],
   categories: [],
   groups: [
     {
