@@ -1,12 +1,13 @@
-import type { GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { ErrorCodes } from '@avenirs-esr/shared'
+import type { FileDTO, GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedPagedResponseSelfKnowledgeElementViewDTO,
   mandatorySelfKnowledgeCategories,
   mockedSelfKnowledgeCategories,
   mockedSelfKnowledgeCategoriesAvailable,
-  mockedSelfKnowledgeElementDetails
+  mockedSelfKnowledgeElementDetails,
+  mockedUploadAttachment
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
   ESelfKnowledgeCategory,
@@ -18,8 +19,8 @@ import {
   getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
   getRemoveSelfKnowledgeCategoriesUrl,
-
-  getUpdateSelfKnowledgeElementUrl
+  getUpdateSelfKnowledgeElementUrl,
+  getUploadSelfKnowledgeAttachmentUrl
 
 } from '@/api/avenir-esr'
 
@@ -83,6 +84,26 @@ export function createSelfKnowledgeElementsHandler (
     })
   })
 }
+
+export const uploadSelfKnowledgeAttachmentHandler = http.post(
+  `*${getUploadSelfKnowledgeAttachmentUrl(':selfKnowledgeElementId')}`,
+  ({ params }) => {
+    if (params.selfKnowledgeElementId === 'INVALID_ID') {
+      return HttpResponse.json(
+        { message: 'Élément Me connaître introuvable' },
+        {
+          status: HttpStatusCode.NOT_FOUND,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    return HttpResponse.json<FileDTO>(mockedUploadAttachment, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+)
 
 export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(CATEGORY_URL_PARAM)}`, () => {
   return HttpResponse.json(

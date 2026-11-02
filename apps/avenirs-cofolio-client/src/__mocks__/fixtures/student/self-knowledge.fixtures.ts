@@ -1,5 +1,5 @@
-import type { PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { FileDTO, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { EFileType, ESelfKnowledgeCategory } from '@/api/avenir-esr'
 
 export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   {
@@ -16,11 +16,21 @@ export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   }
 ]
 
+export const mockedUploadAttachment: FileDTO = {
+  id: 'element-file-1',
+  fileName: 'compte-rendu.pdf',
+  fileType: EFileType.PDF,
+  fileSize: 1024,
+  url: 'https://example.com/compte-rendu.pdf',
+  uploadedAt: '2026-01-01T10:00:00Z',
+}
+
 export const mockedSelfKnowledgeElementDetails: SelfKnowledgeElementDetailsDTO = {
   id: 'element-123',
   title: 'Créativité',
   description: 'Je suis capable de trouver des solutions originales et innovantes aux problèmes',
   rating: 4,
+  files: [mockedUploadAttachment],
   createdAt: '2023-10-10T10:00:00Z',
   updatedAt: '2023-10-15T12:00:00Z'
 }

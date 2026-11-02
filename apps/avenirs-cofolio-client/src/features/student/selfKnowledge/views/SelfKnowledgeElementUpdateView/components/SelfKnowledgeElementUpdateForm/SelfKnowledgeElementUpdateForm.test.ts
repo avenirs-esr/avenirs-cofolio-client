@@ -8,6 +8,7 @@ import { KitValorizationToggleFormFieldStub } from '@/features/student/global/co
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
+import { SelfKnowledgeFileUploadFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/SelfKnowledgeFileUploadFormField/SelfKnowledgeFileUploadFormField.stub'
 import SelfKnowledgeElementUpdateForm
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 
@@ -72,6 +73,7 @@ BddTest().given('a self knowledge element update form component', () => {
     ConfirmationModal: ConfirmationModalStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
     KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
+    SelfKnowledgeFileUploadFormField: SelfKnowledgeFileUploadFormFieldStub
   }
 
   const getAvCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -81,6 +83,7 @@ BddTest().given('a self knowledge element update form component', () => {
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
   const getCreationUpdateDateDetails = () => wrapper.findComponent(CreationUpdateDateDetailsStub)
   const getKitValorizationToggleFormField = () => wrapper.findComponent(KitValorizationToggleFormFieldStub)
+  const getSelfKnowledgeFileUploadFormField = () => wrapper.findComponent(SelfKnowledgeFileUploadFormFieldStub)
 
   const getForm = () => wrapper.find('form')
   const getLeftColumn = () => wrapper.find('.self-knowledge-element-update-form__left-column')
@@ -116,6 +119,16 @@ BddTest().given('a self knowledge element update form component', () => {
       expect(getCategoryElementDescriptionTextareaFormField().exists()).toBe(true)
       expect(getCategoryElementRatingRadioButtonSetFormField().exists()).toBe(true)
       expect(getKitValorizationToggleFormField().exists()).toBe(true)
+    })
+
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('it should render the file upload form field', () => {
+        expect(getSelfKnowledgeFileUploadFormField().exists()).toBe(true)
+      })
+
+      BddTest().then('it should pass the form to the file upload form field', () => {
+        expect(getSelfKnowledgeFileUploadFormField().props('form')).toBeDefined()
+      })
     })
 
     BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {

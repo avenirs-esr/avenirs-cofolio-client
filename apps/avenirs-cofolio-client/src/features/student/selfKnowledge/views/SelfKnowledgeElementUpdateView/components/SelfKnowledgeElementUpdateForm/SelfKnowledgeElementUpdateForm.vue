@@ -10,6 +10,7 @@ import CategoryElementRatingRadioButtonSetFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
 import CategoryElementTitleInputFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
+import SelfKnowledgeFileUploadFormField from '@/features/student/selfKnowledge/components/interactions/formFields/SelfKnowledgeFileUploadFormField/SelfKnowledgeFileUploadFormField.vue'
 import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
@@ -73,6 +74,8 @@ function confirmCancel () {
 
       <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md av-justify-between">
         <CategoryElementDescriptionTextareaFormField :form="form" />
+
+        <SelfKnowledgeFileUploadFormField :form="form" />
 
         <div class="self-knowledge-element-update-form__dates av-row av-justify-end">
           <CreationUpdateDateDetails

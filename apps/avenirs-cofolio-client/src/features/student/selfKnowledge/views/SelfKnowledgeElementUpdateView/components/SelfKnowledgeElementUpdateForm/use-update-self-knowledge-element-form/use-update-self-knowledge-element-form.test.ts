@@ -1,11 +1,13 @@
 import type { Mock } from 'vitest'
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { FileDTO, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { mockedUploadAttachment } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { putUpdateSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { SelfKnowledgeElementType } from '@/features/student/selfKnowledge/types/forms.types'
 import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
@@ -14,11 +16,14 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateSelfKnowledgeElementForm>
   let mockOnElementUpdated: Mock<() => void>
 
+  const remoteAttachment: FileDTO = mockedUploadAttachment
+
   const mockElement: SelfKnowledgeElementDetailsDTO = {
     id: 'element-123',
     title: 'My Strength',
     description: 'This is a detailed description',
     rating: 3,
+    files: [remoteAttachment],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   } as SelfKnowledgeElementDetailsDTO
@@ -28,6 +33,8 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
     description: 'Updated description',
     valorized: false,
     rating: 4,
+    selfKnowledgeElementType: SelfKnowledgeElementType.FILE,
+    file: [remoteAttachment],
     ...overrides
   })
 
@@ -36,7 +43,24 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
     description: '',
     rating: null,
     valorized: false,
+    selfKnowledgeElementType: SelfKnowledgeElementType.FILE,
+    file: [],
   })
+
+  const attachmentRequests: { method: string, path: string }[] = []
+
+  const recordAttachmentRequest = ({ request }: { request: Request }) => {
+    const path = new URL(request.url).pathname.replace(/^\/apim/, '')
+    if (path.includes('/self-knowledge/') && path.includes('/attachments')) {
+      attachmentRequests.push({ method: request.method, path })
+    }
+  }
+
+  const isAttachmentPost = (r: { method: string, path: string }) =>
+    r.method === 'POST' && /\/me\/self-knowledge\/[^/]+\/attachments$/.test(r.path)
+
+  const isAttachmentDelete = (attachmentId: string) => (r: { method: string, path: string }) =>
+    r.method === 'DELETE' && r.path.endsWith(`/attachments/${attachmentId}`)
 
   const getOnSubmitValidator = () => {
     const validator = composableResult.form.options.validators?.onSubmit
@@ -54,9 +78,15 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
     composableResult.form.setFieldValue('title', data.title)
     composableResult.form.setFieldValue('description', data.description)
     composableResult.form.setFieldValue('rating', data.rating)
+    composableResult.form.setFieldValue('file', data.file ?? [])
   }
 
+  beforeAll(() => {
+    server.events.on('request:start', recordAttachmentRequest)
+  })
+
   beforeEach(() => {
+    attachmentRequests.length = 0
     mockOnElementUpdated = vi.fn()
 
     const result = mountComposable(
@@ -73,6 +103,11 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
 
   afterEach(() => {
     vi.clearAllMocks()
+    server.resetHandlers()
+  })
+
+  afterAll(() => {
+    server.events.removeListener('request:start', recordAttachmentRequest)
   })
 
   BddTest().when('the composable is initialized', () => {
@@ -96,6 +131,11 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
       expect(state.value.title).toBe(mockElement.title)
       expect(state.value.description).toBe(mockElement.description)
       expect(state.value.rating).toBe(mockElement.rating)
+    })
+
+    BddTest().then('it should initialize the file field with existing attachments', () => {
+      const state = composableResult.form.useStore(state => state.values)
+      expect(state.value.file).toEqual([remoteAttachment])
     })
   })
 
@@ -191,11 +231,46 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
 
   BddTest().when('form is submitted with valid data', () => {
     BddTest().then('it should call onElementUpdated callback on success', async () => {
-      const validData = createValidFormData()
-      setFormValues(validData)
+      setFormValues(createValidFormData())
 
       await composableResult.form.handleSubmit()
 
+      await vi.waitFor(() => {
+        expect(mockOnElementUpdated).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should not touch attachments when files are unchanged', async () => {
+      setFormValues(createValidFormData({ file: [remoteAttachment] }))
+      await composableResult.form.handleSubmit()
+
+      await vi.waitFor(() => {
+        expect(mockOnElementUpdated).toHaveBeenCalledTimes(1)
+      })
+      expect(attachmentRequests).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('form is submitted with attachment changes', () => {
+    BddTest().then('it should upload newly added files', async () => {
+      const newFile = new File(['test content'], 'document.pdf', { type: 'application/pdf' })
+      setFormValues(createValidFormData({ file: [remoteAttachment, newFile] }))
+      await composableResult.form.handleSubmit()
+      await vi.waitFor(() => {
+        expect(attachmentRequests.some(isAttachmentPost)).toBe(true)
+      })
+      await vi.waitFor(() => {
+        expect(mockOnElementUpdated).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should delete attachments removed by the user', async () => {
+      setFormValues(createValidFormData({ file: [] }))
+      await composableResult.form.handleSubmit()
+
+      await vi.waitFor(() => {
+        expect(attachmentRequests.some(isAttachmentDelete(remoteAttachment.id))).toBe(true)
+      })
       await vi.waitFor(() => {
         expect(mockOnElementUpdated).toHaveBeenCalledTimes(1)
       })

@@ -9,6 +9,7 @@ import { ConfirmationModalStub } from '@/common/components/overlay/modals/Confir
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
+import { SelfKnowledgeFileUploadFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/SelfKnowledgeFileUploadFormField/SelfKnowledgeFileUploadFormField.stub'
 import AddSelfKnowledgeCategoryElementDrawer from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 
@@ -60,7 +61,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     CategoryElementTitleInputFormField: CategoryElementTitleInputFormFieldStub,
     CategoryElementDescriptionTextareaFormField: CategoryElementDescriptionTextareaFormFieldStub,
-    CategoryElementRatingRadioButtonSetFormField: CategoryElementRatingRadioButtonSetFormFieldStub
+    CategoryElementRatingRadioButtonSetFormField: CategoryElementRatingRadioButtonSetFormFieldStub,
+    SelfKnowledgeFileUploadFormField: SelfKnowledgeFileUploadFormFieldStub
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -70,6 +72,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
   const getDescriptionField = () => wrapper.findComponent(CategoryElementDescriptionTextareaFormFieldStub)
   const getRatingField = () => wrapper.findComponent(CategoryElementRatingRadioButtonSetFormFieldStub)
   const getAccordions = () => wrapper.findAllComponents(AvAccordionStub)
+  const getSelfKnowledgeFileUploadFormField = () => wrapper.findComponent(SelfKnowledgeFileUploadFormFieldStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -105,7 +108,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       const accordions = getAccordions()
 
       expect(accordionsGroup.exists()).toBe(true)
-      expect(accordions).toHaveLength(2)
+      expect(accordions).toHaveLength(3)
     })
 
     BddTest().then('it should render the form fields in first accordion', () => {
@@ -133,6 +136,14 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     BddTest().then('it should render form element', () => {
       const form = wrapper.find('form')
       expect(form.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the file upload form field', () => {
+      expect(getSelfKnowledgeFileUploadFormField().exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the form to the file upload form field', () => {
+      expect(getSelfKnowledgeFileUploadFormField().props('form')).toBeDefined()
     })
   })
 
