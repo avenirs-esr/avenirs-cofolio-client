@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { getGroupsEmptyHandler, getGroupsErrorHandler } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import InstitutionGroupsMultiselect from '@/features/staff/admin/views/AdminInstitutionUsersView/components/selects/InstitutionGroupsMultiselect/InstitutionGroupsMultiselect.vue'
 
 BddTest().given('an institution groups multiselect', () => {

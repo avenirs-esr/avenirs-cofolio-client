@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
-import { MainContent } from '@avenirs-esr/shared'
+import { MainContent, QuerySuspense } from '@avenirs-esr/shared'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import MainNavigation from '@/components/navigation/MainNavigation/MainNavigation.vue'
 import SkipLinks from '@/components/navigation/SkipLinks/SkipLinks.vue'
-import QuerySuspense from '@/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/constants'
 

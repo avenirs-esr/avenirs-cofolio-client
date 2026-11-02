@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvLocale } from '@avenirs-esr/shared'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
 import { useGetLatestCgu } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { formatDateLocalized } from '@/common/utils'
 import CguAcceptanceBar from '@/common/views/CguView/components/CguAcceptanceBar/CguAcceptanceBar.vue'

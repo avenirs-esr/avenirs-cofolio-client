@@ -1,9 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvSharedMessages } from '#shared/i18n/index'
+import { BaseApiException, EmptyStateStub, ErrorMessageStub, LoaderStub } from '#shared/index'
+import { mountComponent } from '#shared/test-utils/unit/index'
+import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiException, EmptyStateStub, ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared'
-import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import { createI18n } from 'vue-i18n'
 
 const stubs = {
   EmptyState: EmptyStateStub,
@@ -15,6 +17,49 @@ const defaultProps = {
   errorTitle: 'Erreur de chargement',
   emptyStateMessage: 'Aucune association',
   isEmpty: false,
+}
+
+for (const locale of ['fr', 'en']) {
+  BddTest().given(`shared QuerySuspense translations in ${locale}`, () => {
+    let wrapper: VueWrapper<InstanceType<typeof QuerySuspense>>
+    const messages = {
+      defaultEmptyStateMessage: locale === 'fr' ? 'Aucune donnée à afficher' : 'No data to display',
+      defaultErrorTitle: locale === 'fr'
+        ? 'Une erreur est survenue lors du chargement des données'
+        : 'An error occurred while loading data',
+    }
+    const localeI18n = createI18n({
+      legacy: false,
+      locale,
+      messages: structuredClone(AvSharedMessages),
+    })
+
+    BddTest().when('an error is displayed without a custom title', () => {
+      beforeEach(() => {
+        wrapper = mountComponent(QuerySuspense, {
+          props: { error: new BaseApiException('Failure'), errorDescription: 'Description' },
+          global: { plugins: [localeI18n], stubs },
+        })
+      })
+
+      BddTest().then('it uses the shared error title', () => {
+        expect(wrapper.findComponent(ErrorMessageStub).props('title')).toBe(messages.defaultErrorTitle)
+      })
+    })
+
+    BddTest().when('an empty result is displayed without a custom message', () => {
+      beforeEach(() => {
+        wrapper = mountComponent(QuerySuspense, {
+          props: { isEmpty: true },
+          global: { plugins: [localeI18n], stubs },
+        })
+      })
+
+      BddTest().then('it uses the shared empty message', () => {
+        expect(wrapper.findComponent(EmptyStateStub).props('title')).toBe(messages.defaultEmptyStateMessage)
+      })
+    })
+  })
 }
 
 BddTest().given('a QuerySuspense component', () => {
@@ -73,6 +118,10 @@ BddTest().given('a QuerySuspense component', () => {
 
     BddTest().then('it should render the main div', () => {
       expect(getMainDiv().exists()).toBe(true)
+    })
+
+    BddTest().then('it should keep the content visible while loading', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(true)
     })
   })
 

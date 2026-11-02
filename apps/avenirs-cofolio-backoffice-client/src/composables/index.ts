@@ -1,4 +1,3 @@
-export * from './use-api-errors/use-api-errors'
 export * from './use-breadcrumb/use-breadcrumb'
 export * from './use-invalidate-query/use-invalidate-query'
 export * from './use-language-switcher/use-language-switcher'

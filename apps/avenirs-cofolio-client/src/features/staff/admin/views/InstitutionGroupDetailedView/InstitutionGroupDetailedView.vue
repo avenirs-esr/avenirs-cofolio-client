@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetGroupById, useGetSubGroupsOfGroup } from '@/api/avenir-esr'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
 import UsersList from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.vue'

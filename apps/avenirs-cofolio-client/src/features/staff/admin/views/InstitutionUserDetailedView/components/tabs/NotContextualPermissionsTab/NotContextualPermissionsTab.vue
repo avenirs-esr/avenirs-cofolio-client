@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetGlobalAuthorizationOfExternalUser } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import UserPermissionsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserPermissionsTable/UserPermissionsTable.vue'
 
 export interface UserPermissionsSectionProps {

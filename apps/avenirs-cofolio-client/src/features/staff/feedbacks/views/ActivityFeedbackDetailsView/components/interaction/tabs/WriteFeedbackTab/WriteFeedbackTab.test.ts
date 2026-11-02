@@ -42,11 +42,15 @@ vi.mock('@/store', async () => {
   }
 })
 
-vi.mock('@/common/composables/use-api-errors/use-api-errors', () => ({
-  useApiErrors: vi.fn(() => ({
-    getErrorMessage: vi.fn(() => API_ERROR_DESCRIPTION)
-  }))
-}))
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+  return {
+    ...actual,
+    useApiErrors: vi.fn(() => ({
+      getErrorMessage: vi.fn(() => API_ERROR_DESCRIPTION)
+    }))
+  }
+})
 
 const stubs = {
   AvBadge: AvBadgeStub,

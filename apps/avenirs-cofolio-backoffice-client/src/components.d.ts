@@ -10,7 +10,6 @@ declare module 'vue' {
     EmptyState: typeof import('@avenirs-esr/shared')['EmptyState']
     MainNavigation: typeof import('./components/navigation/MainNavigation/MainNavigation.vue')['default']
     PageTitle: typeof import('./components/PageTitle/PageTitle.vue')['default']
-    QuerySuspense: typeof import('./components/QuerySuspense/QuerySuspense.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SkipLinks: typeof import('./components/navigation/SkipLinks/SkipLinks.vue')['default']

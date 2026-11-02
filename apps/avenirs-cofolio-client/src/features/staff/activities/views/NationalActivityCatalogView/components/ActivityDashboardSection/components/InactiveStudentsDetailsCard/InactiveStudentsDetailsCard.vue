@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { AvLocale } from '@avenirs-esr/shared'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetActivityInactiveStudents } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { formatDateLocalized } from '@/common/utils'
 
 export interface InactiveStudentsDetailsCardProps {

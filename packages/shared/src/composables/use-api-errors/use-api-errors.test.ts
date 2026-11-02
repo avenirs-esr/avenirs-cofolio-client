@@ -1,19 +1,66 @@
-import type { BaseApiException } from '@avenirs-esr/shared'
+// @vitest-environment jsdom
+
+import type { BaseApiException } from '#shared/exceptions'
 import type { Ref } from 'vue'
+import { useApiErrors } from '#shared/composables/use-api-errors/use-api-errors'
+import { BaseApiErrorCode } from '#shared/exceptions'
+import { AvSharedMessages } from '#shared/i18n/index'
+import { createMountComposable } from '#shared/test-utils/unit/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiErrorCode } from '@avenirs-esr/shared'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { afterEach, beforeEach, expect } from 'vitest'
+import { ref } from 'vue'
+import { createI18n } from 'vue-i18n'
+
+const mountComposable = createMountComposable({
+  i18n: createI18n({
+    legacy: false,
+    locale: 'fr',
+    messages: structuredClone(AvSharedMessages),
+  }),
+})
 
 BddTest().given('a useApiErrors composable', () => {
   let errorRef: Ref<BaseApiException | null>
   let result: ReturnType<typeof useApiErrors>
+  let unmount: () => void
 
   beforeEach(() => {
     errorRef = ref(null)
-    const { result: res } = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: true })
-    result = res
+    const mounted = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: true })
+    result = mounted.result
+    unmount = mounted.unmount
+  })
+
+  afterEach(() => unmount())
+
+  BddTest().when('no error reference is provided', () => {
+    beforeEach(() => {
+      unmount()
+      const mounted = mountComposable(() => useApiErrors(), { useI18n: true })
+      result = mounted.result
+      unmount = mounted.unmount
+    })
+
+    BddTest().then('it reports no error', () => {
+      expect(result.isNotFound.value).toBe(false)
+      expect(result.originalErrorCode.value).toBeUndefined()
+      expect(result.isMatchingErrorCode(BaseApiErrorCode.NOT_FOUND)).toBe(false)
+    })
+  })
+
+  BddTest().when('the HTTP status is 404 with a different error code', () => {
+    beforeEach(() => {
+      errorRef.value = {
+        message: 'Not Found',
+        name: 'Error',
+        status: 404,
+        code: BaseApiErrorCode.UNKNOWN,
+      }
+    })
+
+    BddTest().then('it still identifies a not found error', () => {
+      expect(result.isNotFound.value).toBe(true)
+    })
   })
 
   BddTest().when('error is null', () => {
