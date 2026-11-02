@@ -138,7 +138,7 @@
               },
               "UserDetailsTable": {
                 "columns": {
-                  "institution": "Affiliated institution",
+                  "institutions": "Affiliated institution(s)",
                   "universes": "Accessible universe(s)",
                   "user": "User"
                 }

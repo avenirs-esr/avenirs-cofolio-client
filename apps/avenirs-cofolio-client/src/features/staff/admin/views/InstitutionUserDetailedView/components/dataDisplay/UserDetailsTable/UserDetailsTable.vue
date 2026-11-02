@@ -11,7 +11,7 @@ import UniversesList from '@/features/staff/admin/views/InstitutionUserDetailedV
 interface UserDetailsTableRow {
   id: string
   user: UserInfoType
-  institution: string
+  institutions: string
   universes: EUniverse[]
 }
 
@@ -25,15 +25,17 @@ const { user, universes } = defineProps<UserDetailsTableProps>()
 const { t } = useI18n()
 const { isBelowLg } = useAvBreakpoints()
 
+const institutionNames = computed(() => user.institutions.map(institution => institution.name).join(', '))
+
 const rows = computed<UserDetailsTableRow[]>(() => [{
   id: user.id,
   user,
-  institution: user.institution.name,
+  institutions: institutionNames.value,
   universes
 }])
 
 const columns = computed<AvTableColumn<UserDetailsTableRow>[]>(() => {
-  return (['user', 'institution', 'universes'] as const).map(key => ({
+  return (['user', 'institutions', 'universes'] as const).map(key => ({
     key,
     label: t(`staff.admin.views.InstitutionUserDetailedView.components.dataDisplay.UserDetailsTable.columns.${key}`)
   }))
@@ -50,8 +52,8 @@ const columns = computed<AvTableColumn<UserDetailsTableRow>[]>(() => {
       <div class="av-col av-gap-sm">
         <UserInfo :user="user" />
         <div class="av-col">
-          <span class="b2-bold">{{ t('global.colon', { before: t('staff.admin.views.InstitutionUserDetailedView.components.dataDisplay.UserDetailsTable.columns.institution') }) }}</span>
-          <span class="b2-regular">{{ user.institution.name }}</span>
+          <span class="b2-bold">{{ t('global.colon', { before: t('staff.admin.views.InstitutionUserDetailedView.components.dataDisplay.UserDetailsTable.columns.institutions') }) }}</span>
+          <span class="b2-regular">{{ institutionNames }}</span>
         </div>
         <div class="av-col">
           <span class="b2-bold">{{ t('global.colon', { before: t('staff.admin.views.InstitutionUserDetailedView.components.dataDisplay.UserDetailsTable.columns.universes') }) }}</span>

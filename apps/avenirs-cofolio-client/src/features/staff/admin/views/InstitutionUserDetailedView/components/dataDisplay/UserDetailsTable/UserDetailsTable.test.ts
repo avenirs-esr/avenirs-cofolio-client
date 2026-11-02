@@ -27,6 +27,7 @@ BddTest().given('a user details table', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserDetailsTable>>
 
   const user = mockExternalUserDetail
+  const institutionNames = user.institutions.map(institution => institution.name).join(', ')
 
   const universes: EUniverse[] = [EUniverse.STAFF, EUniverse.STUDENT]
 
@@ -78,7 +79,7 @@ BddTest().given('a user details table', () => {
         {
           id: user.id,
           user,
-          institution: user.institution.name,
+          institutions: institutionNames,
           universes,
         },
       ])
@@ -88,13 +89,13 @@ BddTest().given('a user details table', () => {
       const columns = getTable().props('columns') as AvTableColumn<{
         id: string
         user: ExternalUserDetailDTO
-        institution: string
+        institutions: string
         universes: EUniverse[]
       }>[]
 
       expect(columns.map(column => column.key)).toEqual([
         'user',
-        'institution',
+        'institutions',
         'universes',
       ])
       expect(columns.every(column => Boolean(column.label))).toBe(true)
@@ -131,8 +132,8 @@ BddTest().given('a user details table', () => {
       expect(getUserInfos()[0].props('user')).toEqual(user)
     })
 
-    BddTest().then('it should render the institution name in the card', () => {
-      expect(getCards()[0].text()).toContain(user.institution.name)
+    BddTest().then('it should render the institution names in the card', () => {
+      expect(getCards()[0].text()).toContain(institutionNames)
     })
 
     BddTest().then('it should render the universes in the card', () => {
