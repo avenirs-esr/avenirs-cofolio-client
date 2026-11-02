@@ -26,10 +26,12 @@ export const mockExternalUserDetail: ExternalUserDetailDTO = {
   lastName: mockExternalUser.lastName!,
   email: mockExternalUser.email!,
   profilePictureId: undefined,
-  institution: {
-    id: 'institution-id',
-    name: 'Institution Name'
-  },
+  institutions: [
+    {
+      id: 'institution-id',
+      name: 'Institution Name'
+    }
+  ],
   groups: [
     { id: 'program-1', name: 'Programme', type: EGroupType.PROGRAM },
     { id: 'option-1', name: 'Option de formation', type: EGroupType.PROGRAM_OPTION },

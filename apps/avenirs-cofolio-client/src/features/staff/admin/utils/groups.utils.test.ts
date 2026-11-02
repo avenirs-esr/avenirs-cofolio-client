@@ -26,10 +26,12 @@ const user: ExternalUserDetailDTO = {
   firstName: 'Alice',
   lastName: 'Dupont',
   email: 'alice.dupont@example.com',
-  institution: {
-    id: 'institution-1',
-    name: 'Institution',
-  },
+  institutions: [
+    {
+      id: 'institution-1',
+      name: 'Institution',
+    }
+  ],
   groups: [programGroup, programOptionGroup, studentGroup],
 }
 

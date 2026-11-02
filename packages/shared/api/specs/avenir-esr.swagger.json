@@ -5410,6 +5410,18 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "institutionIds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
           }
         ],
         "responses": {
@@ -10851,8 +10863,11 @@
             "type": "string",
             "format": "uuid"
           },
-          "institution": {
-            "$ref": "#/components/schemas/InstitutionReferenceDTO"
+          "institutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionReferenceDTO"
+            }
           },
           "groups": {
             "type": "array",
@@ -10866,7 +10881,7 @@
           "firstName",
           "groups",
           "id",
-          "institution",
+          "institutions",
           "lastName"
         ]
       },

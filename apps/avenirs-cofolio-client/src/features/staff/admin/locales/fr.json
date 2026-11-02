@@ -138,7 +138,7 @@
               },
               "UserDetailsTable": {
                 "columns": {
-                  "institution": "Établissement de rattachement",
+                  "institutions": "Établissement(s) de rattachement",
                   "universes": "Univers accessible(s)",
                   "user": "Utilisateur(rice)"
                 }
