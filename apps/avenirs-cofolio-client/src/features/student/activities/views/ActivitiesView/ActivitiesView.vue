@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'

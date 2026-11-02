@@ -1,5 +1,9 @@
 {
   "global": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "expandButtonLabel": "View breadcrumb"
+    },
     "components": {
       "QuerySuspense": {
         "defaultEmptyStateMessage": "No data to display",

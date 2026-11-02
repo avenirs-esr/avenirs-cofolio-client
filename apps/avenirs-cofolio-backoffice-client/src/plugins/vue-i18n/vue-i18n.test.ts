@@ -148,6 +148,8 @@ BddTest().given('a vue-i18n setup', () => {
   for (const locale of AvAvailableLocales) {
     BddTest().when(`shared messages are registered in ${locale}`, () => {
       BddTest().then('it uses the shared query and API error translations', () => {
+        expect(i18n.global.t('global.breadcrumb.ariaLabel', {}, { locale })).toBe(locale === 'fr' ? 'Fil d\'Ariane' : 'Breadcrumb')
+        expect(i18n.global.t('global.breadcrumb.expandButtonLabel', {}, { locale })).toBe(locale === 'fr' ? 'Voir le fil d\'Ariane' : 'View breadcrumb')
         expect(i18n.global.t('global.components.QuerySuspense.defaultErrorTitle', {}, { locale })).toBe(locale === 'fr'
           ? 'Une erreur est survenue lors du chargement des données'
           : 'An error occurred while loading data')

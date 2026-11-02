@@ -156,10 +156,6 @@
       }
     },
     "beginning": "Beginning",
-    "breadcrumb": {
-      "ariaLabel": "Breadcrumb",
-      "expandButtonLabel": "View breadcrumb"
-    },
     "buttons": {
       "access": "Access",
       "add": "Add",

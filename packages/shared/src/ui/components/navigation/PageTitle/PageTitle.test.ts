@@ -1,21 +1,22 @@
+import type { PageTitleProps } from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
-import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
+import { mountWithRouter } from '#shared/test-utils/unit/index'
+import PageTitle from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'
+import { InformationTooltipStub } from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
 import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { InformationTooltipStub } from '@avenirs-esr/shared'
-import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
-import { beforeEach, expect, vi } from 'vitest'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { computed, ref } from 'vue'
 
 const breadcrumbLinks = ref<AvBreadcrumbProps['links']>([])
 
-vi.mock('@/common/composables', () => ({
-  useBreadcrumb: (trailingLinks: () => AvBreadcrumbProps['links']) => ({
+vi.mock('#shared/composables/use-breadcrumb/use-breadcrumb', () => ({
+  useBreadcrumb: vi.fn((trailingLinks: () => AvBreadcrumbProps['links']) => ({
     breadcrumbLinks: computed(() => [
       ...breadcrumbLinks.value,
       ...trailingLinks()
     ])
-  })
+  }))
 }))
 
 BddTest().given('a page title', () => {
@@ -38,7 +39,10 @@ BddTest().given('a page title', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
+    breadcrumbLinks.value = []
   })
+
+  afterEach(() => wrapper.unmount())
 
   BddTest().when('the component is mounted with provided props', () => {
     beforeEach(async () => {

@@ -1,5 +1,6 @@
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export const PageTitleStub = defineComponent({
   name: 'PageTitle',
