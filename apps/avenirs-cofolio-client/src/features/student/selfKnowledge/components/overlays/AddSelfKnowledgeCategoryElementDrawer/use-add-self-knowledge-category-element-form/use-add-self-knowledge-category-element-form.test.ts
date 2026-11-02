@@ -1,30 +1,56 @@
 import type { Mock } from 'vitest'
-import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
+import type { FileDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeCategoryElementFormData, SelfKnowledgFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { mockedUploadAttachment } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
+import { SelfKnowledgeElementType } from '@/features/student/selfKnowledge/types/forms.types'
 
 BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   let composableResult: ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>
   let mockOnElementCreated: Mock<() => void>
+  let setQueryDataSpy: ReturnType<typeof vi.spyOn>
   const mockCategoryId = ESelfKnowledgeCategory.STRENGTHS
+  const remoteAttachment: FileDTO = mockedUploadAttachment
 
-  const createValidFormData = (rating: number | null = 3): SelfKnowledgeCategoryElementFormData => ({
+  const attachmentRequests: { method: string, path: string }[] = []
+
+  const recordAttachmentRequest = ({ request }: { request: Request }) => {
+    const path = new URL(request.url).pathname.replace(/^\/apim/, '')
+    if (path.includes('/self-knowledge/') && path.includes('/attachments')) {
+      attachmentRequests.push({ method: request.method, path })
+    }
+  }
+
+  const isAttachmentPost = (r: { method: string, path: string }) =>
+    r.method === 'POST' && /\/me\/self-knowledge\/[^/]+\/attachments$/.test(r.path)
+
+  const isAttachmentDelete = (attachmentId: string) => (r: { method: string, path: string }) =>
+    r.method === 'DELETE' && r.path.endsWith(`/attachments/${attachmentId}`)
+
+  const createValidFormData = (rating: number | null = 3, files: (File | FileDTO)[] = []): SelfKnowledgFormData => ({
     title: 'My Strength',
     description: 'This is a detailed description',
     rating,
-    valorized: false
+    valorized: false,
+    selfKnowledgeElementType: SelfKnowledgeElementType.FILE,
+    file: files
   })
 
-  const createInvalidFormData = (): SelfKnowledgeCategoryElementFormData => ({
+  const createInvalidFormData = (): SelfKnowledgFormData => ({
     title: '',
     description: '',
     rating: null,
-    valorized: false
+    valorized: false,
+    selfKnowledgeElementType: SelfKnowledgeElementType.FILE,
+    file: []
   })
 
   const getOnSubmitValidator = () => {
@@ -37,21 +63,34 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
     composableResult.form.setFieldValue('title', data.title)
     composableResult.form.setFieldValue('description', data.description)
     composableResult.form.setFieldValue('rating', data.rating)
+    composableResult.form.setFieldValue('valorized', data.valorized)
+    composableResult.form.setFieldValue('file', data.file ?? [])
   }
 
-  beforeEach(() => {
-    mockOnElementCreated = vi.fn()
+  beforeAll(() => {
+    server.events.on('request:start', recordAttachmentRequest)
+  })
 
-    const result = mountComposable(() => useAddSelfKnowledgeCategoryElementForm(mockCategoryId, mockOnElementCreated), {
-      useI18n: true,
-      useTanstack: true,
-      usePinia: true
-    })
+  beforeEach(() => {
+    attachmentRequests.length = 0
+    mockOnElementCreated = vi.fn()
+    setQueryDataSpy = vi.spyOn(QueryClient.prototype, 'setQueryData')
+
+    const result = mountComposable(
+      () => useAddSelfKnowledgeCategoryElementForm(mockCategoryId, mockOnElementCreated),
+      { useI18n: true, useTanstack: true, usePinia: true }
+    )
     composableResult = result.result
   })
 
   afterEach(() => {
     vi.clearAllMocks()
+    setQueryDataSpy.mockRestore()
+    server.resetHandlers()
+  })
+
+  afterAll(() => {
+    server.events.removeListener('request:start', recordAttachmentRequest)
   })
 
   BddTest().when('the composable is initialized', () => {
@@ -139,14 +178,85 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
       expect(validationResult?.fields?.title).toBeUndefined()
       expect(validationResult?.fields?.description).toBeUndefined()
     })
+
+    BddTest().then('it should accept valid data without files', () => {
+      const validationResult = getOnSubmitValidator()({ value: createValidFormData(3, []) })
+      expect(validationResult?.fields?.title).toBeUndefined()
+    })
+
+    BddTest().then('it should accept valid data with existing files', () => {
+      const validationResult = getOnSubmitValidator()({ value: createValidFormData(3, [mockedUploadAttachment]) })
+      expect(validationResult?.fields?.title).toBeUndefined()
+    })
+
+    BddTest().then('it should accept valid data with new files', () => {
+      const file = new File(['test'], 'document.pdf', { type: 'application/pdf' })
+      const validationResult = getOnSubmitValidator()({ value: createValidFormData(3, [file]) })
+      expect(validationResult?.fields?.title).toBeUndefined()
+    })
   })
 
   BddTest().when('form is submitted with valid data', () => {
-    BddTest().then('it should call onElementCreated callback on success', async () => {
+    BddTest().then('it should call onElementCreated once on success', async () => {
       setFormValues(createValidFormData(3))
-
       await composableResult.form.handleSubmit()
+      await flushPromises()
 
+      await vi.waitFor(() => {
+        expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should submit successfully without files', async () => {
+      setFormValues(createValidFormData(3, []))
+      await composableResult.form.handleSubmit()
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
+      })
+      expect(attachmentRequests).toHaveLength(0)
+    })
+
+    BddTest().then('it should upload a new file', async () => {
+      const file = new File(['test content'], 'document.pdf', { type: 'application/pdf' })
+      setFormValues(createValidFormData(3, [file]))
+      await composableResult.form.handleSubmit()
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(attachmentRequests.some(isAttachmentPost)).toBe(true)
+      })
+      await vi.waitFor(() => {
+        expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should upload multiple new files', async () => {
+      const files = [
+        new File(['content 1'], 'document-1.pdf', { type: 'application/pdf' }),
+        new File(['content 2'], 'document-2.pdf', { type: 'application/pdf' })
+      ]
+      setFormValues(createValidFormData(3, files))
+      await composableResult.form.handleSubmit()
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(attachmentRequests.filter(isAttachmentPost)).toHaveLength(2)
+      })
+      await vi.waitFor(() => {
+        expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should delete existing files', async () => {
+      setFormValues(createValidFormData(3, [remoteAttachment]))
+      await composableResult.form.handleSubmit()
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(attachmentRequests.some(isAttachmentDelete(remoteAttachment.id))).toBe(true)
+      })
       await vi.waitFor(() => {
         expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
       })

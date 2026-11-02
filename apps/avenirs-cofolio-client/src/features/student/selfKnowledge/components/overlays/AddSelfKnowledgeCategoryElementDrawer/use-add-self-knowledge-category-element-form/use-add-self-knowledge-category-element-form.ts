@@ -1,16 +1,17 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { MaybeRef } from '@vueuse/core'
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, FileDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import { useApiErrors } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useDeleteSelfKnowledgeAttachment, useUploadSelfKnowledgeAttachment } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
+import { SelfKnowledgeElementType } from '@/features/student/selfKnowledge/types/forms.types'
 import { useToasterStore } from '@/store'
 
 export function useAddSelfKnowledgeCategoryElementForm (
@@ -43,21 +44,92 @@ export function useAddSelfKnowledgeCategoryElementForm (
         valorized: formData.valorized
       }
     }, {
-      onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient))
+      onSuccess: async (result) => {
+        const selfKnowledgeElementId = result.id
+
+        if (!selfKnowledgeElementId) {
+          addErrorMessage({ title: t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.errors.createElement'), description: t('global.errors.generic') })
+          return
+        }
+
+        await finalizeSelfKnowledgeElementCreation(
+          selfKnowledgeElementId,
+          formData
+        )
+
+        await withTaskLoading(() =>
+          invalidateGetSelfKnowledgeElements(queryClient)
+        )
+
         onElementCreated?.()
       },
       onError: onCreateElementError
     })
   }
 
+  function onUploadAttachmentError (error: BaseApiException) {
+    addErrorMessage({
+      title: t('global.error.fileUpload'),
+      description: getErrorMessage(error)
+    })
+  }
+
+  function onDeleteAttachmentError (error: BaseApiException) {
+    addErrorMessage({
+      title: t('global.error.fileUpload'),
+      description: getErrorMessage(error)
+    })
+  }
+
+  const { mutateAsync: uploadFile, isPending: isPendingUploadFile } = useUploadSelfKnowledgeAttachment({
+    mutation: {
+      onError: onUploadAttachmentError
+    }
+  })
+
+  const { mutateAsync: deleteFile, isPending: isDeletingFile } = useDeleteSelfKnowledgeAttachment({
+    mutation: {
+      onError: onDeleteAttachmentError
+    }
+  })
+
   const defaultValues: SelfKnowledgeCategoryElementFormData = {
     title: '',
     description: '',
     rating: null,
-    valorized: false
+    valorized: false,
+    selfKnowledgeElementType: SelfKnowledgeElementType.FILE,
+    file: []
   }
 
+  async function finalizeSelfKnowledgeElementCreation (selfKnowledgeElementId: string, selfKnowledgeElementData: SelfKnowledgeCategoryElementFormData) {
+    const files = selfKnowledgeElementData.file ?? []
+
+    const filesToUpload = files.filter(
+      (file): file is File => file instanceof File
+    )
+
+    const filesToDelete = files.filter(
+      (file): file is FileDTO => !(file instanceof File)
+    )
+    try {
+      await Promise.all([
+        ...filesToUpload.map(file =>
+          uploadFile({
+            selfKnowledgeElementId,
+            data: { file }
+          })
+        ),
+        ...filesToDelete.map(fileDto =>
+          deleteFile({
+            selfKnowledgeElementId,
+            attachmentId: fileDto.id
+          })
+        )
+      ])
+    }
+    catch {}
+  }
   const form = useForm({
     defaultValues,
     validators: {
@@ -89,7 +161,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
   })
 
   const isSubmitting = computed(() => {
-    return isPending.value || isLoading.value
+    return isPending.value || isLoading.value || isPendingUploadFile.value || isDeletingFile.value
   })
 
   const hasElementDetailsErrors = hasFieldErrors(form, ['title', 'description'])

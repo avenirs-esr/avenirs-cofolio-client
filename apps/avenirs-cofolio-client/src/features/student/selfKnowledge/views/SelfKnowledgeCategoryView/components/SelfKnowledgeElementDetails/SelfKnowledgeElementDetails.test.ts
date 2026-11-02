@@ -4,7 +4,7 @@ import type { SelfKnowledgeElementDetailsProps } from '@/features/student/selfKn
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { mockedSelfKnowledgeElementDetails, mockedUploadAttachment } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { RatingStub } from '@/common/components/base/Rating/Rating.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
@@ -19,6 +19,17 @@ const defaultProps: SelfKnowledgeElementDetailsProps = {
   element: mockedSelfKnowledgeElementDetails,
 }
 
+const AvFilePillStub = {
+  name: 'AvFillePill',
+  props: ['name', 'size', 'type', 'deletable', 'downloadable', 'showDetails'],
+  template: '<div data-testid="av-file-pill-stub">{{ name }}</div>'
+}
+
+const mockElement: SelfKnowledgeElementDetailsDTO = {
+  ...mockedSelfKnowledgeElementDetails,
+  files: [mockedUploadAttachment]
+}
+
 BddTest().given('a SelfKnowledgeElementDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementDetails>>
 
@@ -27,7 +38,8 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     CategoryElementDescriptionTextarea: CategoryElementDescriptionTextareaStub,
     Rating: RatingStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
-    ValorizedBadge: ValorizedBadgeStub
+    ValorizedBadge: ValorizedBadgeStub,
+    AvFilePill: AvFilePillStub
   }
 
   const mountWith = (props: Partial<SelfKnowledgeElementDetailsProps> = {}) => {
@@ -50,7 +62,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
   const getRightColumn = () => wrapper.find('.self-knowledge-element-details__right-column')
   const getRatingLabels = () => wrapper.findAll('.b2-light')
   const getRoot = () => wrapper.find('.self-knowledge-element-details')
-
+  const getFilePills = () => wrapper.findAllComponents(AvFilePillStub)
   BddTest().when('the component is mounted with element data', () => {
     beforeEach(() => {
       mountWith()
@@ -106,6 +118,25 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       const badge = getValorizedBadge()
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(false)
+    })
+  })
+
+  BddTest().when('the element has attachments', () => {
+    BddTest().then('it should render one file pill per attachment', () => {
+      expect(getFilePills()).toHaveLength(mockElement.files?.length ?? 0)
+    })
+
+    BddTest().then('it should pass the file name to each pill', () => {
+      getFilePills().forEach((pill, index) => {
+        expect(pill.props('name')).toBe(mockElement.files?.[index]?.fileName)
+      })
+    })
+
+    BddTest().then('it should render pills as non-deletable and non-downloadable', () => {
+      getFilePills().forEach((pill) => {
+        expect(pill.props('deletable')).toBe(false)
+        expect(pill.props('downloadable')).toBe(false)
+      })
     })
   })
 

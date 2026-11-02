@@ -80,6 +80,10 @@
             "definition": "Add my element",
             "rating": "Specify my element"
           },
+          "attachments": {
+            "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+            "title": "Attach one or more documents"
+          },
           "confirmationModal": {
             "title": "Are you sure you want to exit without saving your element?"
           },
@@ -137,6 +141,10 @@
       },
       "views": {
         "SelfKnowledgeCategoryView": {
+          "attachments": {
+            "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+            "title": "Attach one or more documents"
+          },
           "breadcrumb": {
             "current": {
               "title": "Details of my {type}"
@@ -149,6 +157,7 @@
             }
           },
           "selfKnowledgeElementDetails": {
+            "attachmentsLabel": "Attachments",
             "notRated": "Not rated",
             "ratingLabel": "Level of importance"
           },

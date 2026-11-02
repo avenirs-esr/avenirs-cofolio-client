@@ -79,6 +79,10 @@
             "definition": "Ajouter mon élément",
             "rating": "Préciser mon élément"
           },
+          "attachments": {
+            "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+            "title": "Joindre un/des document(s)"
+          },
           "confirmationModal": {
             "title": "Souhaitez-vous abandonner l'ajout de votre élément\u00A0?"
           },
@@ -136,6 +140,10 @@
       },
       "views": {
         "SelfKnowledgeCategoryView": {
+          "attachments": {
+            "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+            "title": "Joindre un/des document(s)"
+          },
           "breadcrumb": {
             "current": {
               "title": "Détail de mes {type}"
@@ -148,6 +156,7 @@
             }
           },
           "selfKnowledgeElementDetails": {
+            "attachmentsLabel": "Pièces jointes",
             "notRated": "Non évalué",
             "ratingLabel": "Degré d'importance"
           },
