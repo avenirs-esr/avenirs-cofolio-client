@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredProgramOrganizationBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.vue'
 import DeclaredProgramResultBadge
@@ -16,7 +17,7 @@ const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDT
 
 const { isStudentToolsKitRoute } = useIdentifyRoute()
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
   color: 'var(--icon)',
   right: '0.75rem',

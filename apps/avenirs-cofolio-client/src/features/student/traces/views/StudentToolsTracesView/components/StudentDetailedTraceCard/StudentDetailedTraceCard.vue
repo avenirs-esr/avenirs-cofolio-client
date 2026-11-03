@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
 import { getDaysUntil, parseDate } from '@/common/utils'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
@@ -21,7 +22,7 @@ const getDaysUntilDeletion = computed(() => !isAssociated && willBeDeletedAt
 
 const { t } = useI18n()
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
   color: 'var(--icon)',
   bottom: 'var(--spacing-xl-neg)',

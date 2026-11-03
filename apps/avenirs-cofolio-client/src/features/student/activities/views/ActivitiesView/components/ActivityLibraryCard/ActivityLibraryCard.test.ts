@@ -1,20 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { FloatingIconCardStub } from '@avenirs-esr/shared'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
-import {
-  ActivityThematicBadgeStub
-} from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ROUTES } from '@/common/constants'
-import {
-  ActivityPeriodBadgeStub
-} from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
+import { ActivityPeriodBadgeStub } from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
 import ActivityLibraryCard from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 
 const mockIsMobile = ref(false)
 

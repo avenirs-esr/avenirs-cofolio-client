@@ -1,8 +1,8 @@
 import type { StudentDetailedSkillCardProps } from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { FloatingIconCardStub } from '@avenirs-esr/shared'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { expect } from 'vitest'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
 const props: StudentDetailedSkillCardProps = {

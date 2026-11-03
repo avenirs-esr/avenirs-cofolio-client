@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { IconOptions } from '@avenirs-esr/shared'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 
 export interface SelfKnowledgeElementCompactCardProps {
   title: string
@@ -10,7 +11,7 @@ export interface SelfKnowledgeElementCompactCardProps {
 
 const { iconName } = defineProps<SelfKnowledgeElementCompactCardProps>()
 
-const iconOptions = computed(() => ({
+const iconOptions = computed<IconOptions>(() => ({
   name: iconName,
   color: 'var(--card)',
   bottom: '-1.25rem',
