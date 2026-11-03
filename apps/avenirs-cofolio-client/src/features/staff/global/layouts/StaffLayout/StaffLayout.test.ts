@@ -28,14 +28,21 @@ vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', 
   })
 }))
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useLanguageSwitcher: () => ({
       languageSelector: [],
       selectLanguage: selectLanguageMock
     }),
+  }
+})
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
     useBaseApiExceptionToast: vi.fn()
   }
 })

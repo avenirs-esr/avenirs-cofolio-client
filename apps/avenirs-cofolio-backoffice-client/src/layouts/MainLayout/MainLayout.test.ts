@@ -22,14 +22,21 @@ vi.mock('@/api/avenir-esr', async (importOriginal) => {
   }
 })
 
-vi.mock('@/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useLanguageSwitcher: () => ({
       languageSelector: ref([]),
       selectLanguage: selectLanguageMock
     }),
+  }
+})
+
+vi.mock('@/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/composables')>()
+  return {
+    ...actual,
     useBaseApiExceptionToast: vi.fn()
   }
 })

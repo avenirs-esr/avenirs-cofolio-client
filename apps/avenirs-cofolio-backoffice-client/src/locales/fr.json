@@ -7,9 +7,6 @@
     "emptyState": {
       "defaultTitle": "Aucun élément à afficher"
     },
-    "header": {
-      "languageSwitcher": "Changer de langue"
-    },
     "MainNavigation": {
       "home": "Accueil",
       "termsOfService": "Conditions d'utilisation"
