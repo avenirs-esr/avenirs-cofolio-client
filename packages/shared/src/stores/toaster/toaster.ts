@@ -1,5 +1,6 @@
 import type { Message } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
+import { reactive } from 'vue'
 
 const DEFAULT_TIMEOUT = 5000
 
