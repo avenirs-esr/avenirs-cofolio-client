@@ -1,9 +1,9 @@
-import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityToAssessDTO, PagedResponseDeclaredActivityToAssessDTO } from '@/api/avenir-esr'
 import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
+import { EActivityAssessmentStatus, EActivityAssessmentType, EDeclaredActivityStatus } from '@/api/avenir-esr'
 
 export const mockedAssessmentDetailsWithAssociations: DeclaredActivityAssessmentDetailsDTO = {
   declaredActivityId: 'assessment-with-associations',
@@ -81,4 +81,89 @@ export const mockedAssessmentDetailsSent: DeclaredActivityAssessmentDetailsDTO =
     assessedAt: '2024-01-20T09:30:00Z',
   },
   status: EActivityAssessmentStatus.SENT,
+}
+
+export const mockedDeclaredActivityToAssess1: DeclaredActivityToAssessDTO = {
+  id: 'activity-to-assess-1',
+  student: {
+    id: 'student-1',
+    firstName: 'Alice',
+    lastName: 'Dupont',
+    email: 'alice.dupont@test.fr',
+  },
+  activity: {
+    id: 'activity-1',
+    title: 'Activité 1',
+  },
+  submittedAt: '2024-01-15T12:00:00Z',
+  assessmentTypes: [EActivityAssessmentType.COMMENT, EActivityAssessmentType.VALIDATION],
+  declaredActivityStatus: EDeclaredActivityStatus.COMPLETED,
+  assessmentStatus: EActivityAssessmentStatus.NEW,
+}
+
+export const mockedDeclaredActivityToAssess2: DeclaredActivityToAssessDTO = {
+  id: 'activity-to-assess-2',
+  student: {
+    id: 'student-2',
+    firstName: 'Bob',
+    lastName: 'Martin',
+    email: 'bob.martin@test.fr',
+  },
+  activity: {
+    id: 'activity-2',
+    title: 'Activité 2',
+  },
+  submittedAt: '2024-01-16T12:00:00Z',
+  assessmentTypes: [EActivityAssessmentType.GRADE],
+  declaredActivityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT,
+  assessmentStatus: EActivityAssessmentStatus.OPENED,
+}
+
+export const mockedDeclaredActivityToAssess3: DeclaredActivityToAssessDTO = {
+  id: 'activity-to-assess-3',
+  student: {
+    id: 'student-3',
+    firstName: 'Charlie',
+    lastName: 'Durand',
+    email: 'charlie.durand@test.fr',
+  },
+  activity: {
+    id: 'activity-3',
+    title: 'Activité 3',
+  },
+  submittedAt: '2024-01-17T12:00:00Z',
+  assessmentTypes: [],
+  declaredActivityStatus: EDeclaredActivityStatus.COMPLETED,
+  assessmentStatus: EActivityAssessmentStatus.SENT,
+}
+
+export const allMockedDeclaredActivitiesToAssess: DeclaredActivityToAssessDTO[] = [
+  mockedDeclaredActivityToAssess1,
+  mockedDeclaredActivityToAssess2,
+  mockedDeclaredActivityToAssess3,
+]
+
+export function createMockedPagedResponseDeclaredActivitiesToAssessDTO (
+  pageSize: number = 12,
+  page: number = 0,
+  statuses?: EActivityAssessmentStatus[]
+): PagedResponseDeclaredActivityToAssessDTO {
+  let filtered = allMockedDeclaredActivitiesToAssess
+  if (statuses && statuses.length > 0) {
+    filtered = filtered.filter(item => statuses.includes(item.assessmentStatus))
+  }
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedData = filtered.slice(start, end)
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
+
+  return {
+    data: paginatedData,
+    page: {
+      pageSize,
+      totalElements: filtered.length,
+      totalPages,
+      page,
+    },
+  }
 }

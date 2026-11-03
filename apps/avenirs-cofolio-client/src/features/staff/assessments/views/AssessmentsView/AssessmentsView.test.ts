@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { PageTitleStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AssessmentsView from '@/features/staff/assessments/views/AssessmentsView/AssessmentsView.vue'
 import { AssessmentsListStub } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.stub'
 

@@ -51,15 +51,19 @@ const { isBelowLg } = useAvBreakpoints()
     <template #cell(activityTitle)="{ row }">
       <AssessmentActivityTitle :activity-title="row.activityTitle" />
     </template>
-    <template #cell(type)="{ row }">
-      <span class=" b1-regular">
-        <AssessmentTypeBadge :activity-type="row.type" />
-      </span>
+    <template #cell(types)="{ row }">
+      <div class="av-col av-gap-xxs">
+        <AssessmentTypeBadge
+          v-for="assessmentType in row.types"
+          :key="assessmentType"
+          :assessment-type="assessmentType"
+        />
+      </div>
     </template>
     <template #cell(submitDate)="{ row }">
       <span
         v-if="row.submitDate"
-        class=" b1-regular"
+        class="b1-regular"
       >
         {{ formatLastModified(row.submitDate) }}
       </span>
