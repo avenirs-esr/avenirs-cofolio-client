@@ -1,11 +1,28 @@
 import type { AvLocale } from '#shared/index'
-import { AvAvailableLocales, AvIsoLocaleMap, AvSharedMessages } from '#shared/index'
+import { AvAvailableLocales, AvIsoLocaleMap, AvSharedMessages, getBrowserLocale } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, expect, vi } from 'vitest'
 
 afterEach(() => {
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+})
+
+BddTest().given('a browser locale getter', () => {
+  for (const [language, expected] of [
+    ['en-US', 'en'],
+    ['en', 'en'],
+    ['fr-FR', 'fr'],
+    ['fr', 'fr'],
+    ['ja-JP', 'fr'],
+  ] as const) {
+    BddTest().when(`the browser language is ${language}`, () => {
+      BddTest().then(`it should return ${expected}`, () => {
+        vi.stubGlobal('navigator', { language })
+        expect(getBrowserLocale()).toBe(expected)
+      })
+    })
+  }
 })
 
 BddTest().given('the shared runtime constants', () => {

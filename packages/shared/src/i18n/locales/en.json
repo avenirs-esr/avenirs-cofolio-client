@@ -102,6 +102,9 @@
       },
       "generic": "An error has occurred. Please try again later."
     },
+    "header": {
+      "languageSwitcher": "Change language"
+    },
     "overlay": {
       "InformationTooltip": {
         "triggerAriaLabel": "Informations"

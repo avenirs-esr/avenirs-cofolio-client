@@ -293,7 +293,6 @@
       "saveDisabledTooltip": "Veuillez modifier un champ avant de pouvoir enregistrer"
     },
     "header": {
-      "languageSwitcher": "Changer de langue",
       "switchUniverse": {
         "label": "Changer d'univers",
         "disabledTooltip": "Vous êtes actuellement dans cet univers"

@@ -7,9 +7,6 @@
     "emptyState": {
       "defaultTitle": "No items to display"
     },
-    "header": {
-      "languageSwitcher": "Change language"
-    },
     "MainNavigation": {
       "home": "Home",
       "termsOfService": "Terms of Service"

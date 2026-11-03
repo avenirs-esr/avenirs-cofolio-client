@@ -4,7 +4,6 @@ import { AvAvailableLocales } from '@avenirs-esr/shared'
 import { expect, vi } from 'vitest'
 import {
   createVueI18nPlugin,
-  getBrowserLocale,
   i18n,
   parseLocaleModules,
   registerFeatureLocales
@@ -38,34 +37,6 @@ BddTest().given('a locale modules parser', () => {
   })
 })
 
-BddTest().given('a browser locale getter', () => {
-  const originalNavigator = navigator
-
-  afterEach(() => {
-    Object.defineProperty(globalThis, 'navigator', { value: originalNavigator, configurable: true })
-  })
-
-  BddTest().when('the browser locale is available', () => {
-    BddTest().then('it should return the browser locale if it is available', () => {
-      Object.defineProperty(globalThis, 'navigator', {
-        value: { language: 'en-US' },
-        configurable: true
-      })
-      expect(getBrowserLocale()).toBe('en')
-    })
-  })
-
-  BddTest().when('the browser locale is not available', () => {
-    BddTest().then('it should fallback to "fr" if the browser locale is not available', () => {
-      Object.defineProperty(globalThis, 'navigator', {
-        value: { language: 'ja-JP' },
-        configurable: true
-      })
-      expect(getBrowserLocale()).toBe('fr')
-    })
-  })
-})
-
 BddTest().given('a feature locales register', () => {
   BddTest().when('registering', () => {
     BddTest().then('it should register feature locales without throwing', async () => {
@@ -84,6 +55,7 @@ BddTest().given('a vue-i18n setup', () => {
   for (const locale of AvAvailableLocales) {
     BddTest().when(`shared messages and application overrides are merged in ${locale}`, () => {
       BddTest().then('it preserves query and API error translations', () => {
+        expect(i18n.global.t('global.header.languageSwitcher', {}, { locale })).toBe(locale === 'fr' ? 'Changer de langue' : 'Change language')
         expect(i18n.global.t('global.breadcrumb.ariaLabel', {}, { locale })).toBe(locale === 'fr' ? 'Fil d\'Ariane' : 'Breadcrumb')
         expect(i18n.global.t('global.breadcrumb.expandButtonLabel', {}, { locale })).toBe(locale === 'fr' ? 'Voir le fil d\'Ariane' : 'View breadcrumb')
         expect(i18n.global.t('global.components.QuerySuspense.defaultErrorTitle', {}, { locale })).toBe(locale === 'fr'
