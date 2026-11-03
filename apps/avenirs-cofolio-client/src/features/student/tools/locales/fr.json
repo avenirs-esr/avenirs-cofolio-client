@@ -1,0 +1,18 @@
+{
+  "student": {
+    "tools": {
+      "views": {
+        "ToolsView": {
+          "components": {
+            "cards": {
+              "ToolCard": {
+                "button": "Accéder à l'outil",
+                "imgAlt": "Image décorative de l'outil"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
