@@ -11,6 +11,7 @@ import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedB
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
+import AssessmentInfoCard from '@/features/student/activities/views/ActivityView/components/cards/AssessmentInfoCard/AssessmentInfoCard.vue'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import ReceivedAssessmentSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.vue'
@@ -106,6 +107,8 @@ const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
         :icon="ICONS.TRACES"
         :title="t('student.activities.views.ActivityView.ActivityDetails.modalities.traceAssociationTitle')"
       />
+
+      <AssessmentInfoCard :assessment="activity.assessment" />
     </div>
 
     <ReceivedAssessmentSection

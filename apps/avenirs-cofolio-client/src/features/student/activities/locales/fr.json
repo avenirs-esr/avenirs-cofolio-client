@@ -125,6 +125,13 @@
           "ActivityDetailedSideNavigation": {
             "myReflection": "Ma réflexion"
           },
+          "AssessmentInfoCard": {
+            "comment": "Appréciation qualitative",
+            "disabled": "Évaluation désactivée",
+            "grade": "Note sur {maxGrade}",
+            "title": "Évaluation de l'activité",
+            "validation": "Validation"
+          },
           "AssociationLimitCard": {
             "count": "Limité à {count} trace | Limité à {count} traces",
             "disabled": "Association de traces désactivée",
