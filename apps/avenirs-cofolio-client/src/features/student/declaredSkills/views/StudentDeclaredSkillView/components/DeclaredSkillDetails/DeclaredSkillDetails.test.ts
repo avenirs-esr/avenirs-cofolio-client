@@ -2,15 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { vi } from 'vitest'
 import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import {
-
-  ESkillReferentialType
-} from '@/api/avenir-esr'
+import { ESkillReferentialType } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { DeclaredSkillRefCardStub } from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.stub'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'

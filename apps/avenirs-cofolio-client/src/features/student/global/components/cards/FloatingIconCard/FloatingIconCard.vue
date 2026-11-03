@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 import { AvIcon, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import Card from '@/common/components/cards/Card/Card.vue'
+import { Card } from '@avenirs-esr/shared'
 
 export interface IconOptions {
   name: string

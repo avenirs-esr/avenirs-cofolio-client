@@ -2,10 +2,10 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { TraceAssociationLimitCardProps } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { WarningBadgeStub } from '@/common/components/badges/WarningBadge/WarningBadge.stub'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 
 BddTest().given('a TraceAssociationLimitCard component', () => {

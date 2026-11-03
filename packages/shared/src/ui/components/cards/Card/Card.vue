@@ -2,7 +2,7 @@
 import type { AvCardProps } from '@avenirs-esr/avenirs-dsav'
 import type { ComputedRef, Slot } from 'vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
-import { useAttrs } from 'vue'
+import { computed, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface CardProps extends Omit<AvCardProps, 'collapseLabel' | 'expandLabel'> { }
@@ -22,8 +22,8 @@ const attrs = useAttrs()
 const avCardProps: ComputedRef<AvCardProps> = computed(() => ({
   ...attrs,
   ...props,
-  collapseLabel: t('global.buttons.collapse'),
-  expandLabel: t('global.buttons.expand')
+  collapseLabel: t('global.components.cards.Card.collapse'),
+  expandLabel: t('global.components.cards.Card.expand')
 }))
 </script>
 

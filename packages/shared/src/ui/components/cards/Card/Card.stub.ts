@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue'
+
 export const CardStub = defineComponent({
   name: 'Card',
   props: {

@@ -1,6 +1,12 @@
 {
   "global": {
     "components": {
+      "cards": {
+        "Card": {
+          "collapse": "Collapse",
+          "expand": "Expand"
+        }
+      },
       "QuerySuspense": {
         "defaultEmptyStateMessage": "No data to display",
         "defaultErrorTitle": "An error occurred while loading data"

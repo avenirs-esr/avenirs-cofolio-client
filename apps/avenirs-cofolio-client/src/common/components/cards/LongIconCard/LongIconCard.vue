@@ -3,7 +3,7 @@ import type { AvIconProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { AvIcon, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import Card from '@/common/components/cards/Card/Card.vue'
+import { Card } from '@avenirs-esr/shared'
 
 export interface LongIconCardProps {
   title: string

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { ACTIVITY_BANNER_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { ICONS } from '@/common/constants'
 

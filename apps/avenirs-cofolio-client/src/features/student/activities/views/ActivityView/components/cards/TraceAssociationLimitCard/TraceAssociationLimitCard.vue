@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AvBadge, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import {
   isActivityAssociationToTraceDisabled,
@@ -7,7 +8,6 @@ import {
   isActivityAssociationToTraceUnlimited,
 } from '@/common/activities/rules/activities.rules'
 import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
-import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface TraceAssociationLimitCardProps {
   traceAllowedAssociations: number

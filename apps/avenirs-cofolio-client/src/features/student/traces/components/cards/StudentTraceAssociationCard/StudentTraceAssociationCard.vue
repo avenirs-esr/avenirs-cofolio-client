@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import Card from '@/common/components/cards/Card/Card.vue'
+import { Card } from '@avenirs-esr/shared'
 
 export interface StudentTraceAssociationCardProps {
   title: string

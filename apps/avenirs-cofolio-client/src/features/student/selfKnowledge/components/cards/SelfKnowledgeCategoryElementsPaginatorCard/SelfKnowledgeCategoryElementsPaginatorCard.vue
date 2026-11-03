@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { GetSelfKnowledgeElementsParams, SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
+import { Card, QuerySuspense } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
