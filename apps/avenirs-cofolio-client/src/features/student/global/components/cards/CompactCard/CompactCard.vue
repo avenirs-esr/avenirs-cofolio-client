@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { IdTitle } from '@/types'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 
 export interface CompactCardProps {
   element: IdTitle
@@ -23,7 +24,7 @@ const {
   iconBottom = '-2rem',
 } = defineProps<CompactCardProps>()
 
-const iconOptions = computed(() => ({
+const iconOptions = computed<IconOptions>(() => ({
   name: icon,
   color: iconColor,
   bottom: iconBottom,

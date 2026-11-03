@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import { RouterLink } from 'vue-router'
-import { FloatingIconCard } from '@/features/student/global'
 
 export interface AssociationCardProps extends AvInteractiveProps {
   title: string

@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
-import { FloatingIconCard } from '@/features/student/global'
 
 interface DeclaredActivityCardProps {
   activity: DeclaredActivityViewDTO
@@ -17,7 +18,7 @@ const { activity } = defineProps<DeclaredActivityCardProps>()
 
 const { isMobile } = useAvBreakpoints()
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: ICONS.ACTIVITY,
   color: 'var(--icon)',
   borderColor: 'var(--other-border-skill-card)'

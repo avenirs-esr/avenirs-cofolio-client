@@ -1,8 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
+import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { beforeEach, expect, vi } from 'vitest'
+import { ref } from 'vue'
 
 const mockIsTruncated = ref(false)
 

@@ -1,5 +1,6 @@
+import type { IconOptions } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import type { PropType } from 'vue'
-import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { defineComponent } from 'vue'
 
 export const FloatingIconCardStub = defineComponent({
   name: 'FloatingIconCard',
