@@ -1,6 +1,8 @@
 export * from '#shared/api'
 export * from '#shared/composables'
+export * from '#shared/constants'
 export * from '#shared/i18n/index'
+export * from '#shared/types'
 export * from '#shared/ui'
 export * from '#shared/utils/type-guards'
 export type * from '#shared/vue-router.d.ts'

@@ -1,8 +1,8 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { ERole } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import { useUserRoleConfig } from '@/features/staff/admin/composables/use-user-role-config/use-user-role-config'
 
 BddTest().given('a useUserRoleConfig composable', () => {

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
 import { shouldDisplayTraceLimit } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { ICONS } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import { MyPerspectiveSectionTab } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.types'

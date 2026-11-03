@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import StudentProjectMindMapSection
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapSection/StudentProjectMindMapSection.vue'
 import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'

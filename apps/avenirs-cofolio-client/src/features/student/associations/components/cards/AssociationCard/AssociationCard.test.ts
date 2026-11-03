@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociationCardProps } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub } from '@avenirs-esr/shared'
+import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
-import { ICONS } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
 BddTest().given('an association card', () => {

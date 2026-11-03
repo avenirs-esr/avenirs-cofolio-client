@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails, } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
@@ -8,7 +9,7 @@ import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/Upda
 import { useModal, useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 

@@ -1,12 +1,11 @@
 import type { AssociationCompactCardProps } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub } from '@avenirs-esr/shared'
+import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
-import { ICONS } from '@/common/constants'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 
 const stubs = {

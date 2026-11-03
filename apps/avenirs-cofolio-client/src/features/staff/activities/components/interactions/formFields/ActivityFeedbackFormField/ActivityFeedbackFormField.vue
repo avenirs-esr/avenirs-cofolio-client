@@ -3,13 +3,18 @@ import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { AvMessage } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { ICONS } from '@/common/constants'
-import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import {
+  ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
+  ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
+  ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
+  ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN
+} from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 
 interface ActivityFeedbackFormFieldProps extends AvInteractiveProps {

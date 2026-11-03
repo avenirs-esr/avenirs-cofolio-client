@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { EActivityThematic } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
-import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 

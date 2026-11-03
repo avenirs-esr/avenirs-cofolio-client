@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Loader } from '@avenirs-esr/shared'
+import { ICONS, Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
@@ -8,7 +8,6 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { ICONS } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredExperienceForm

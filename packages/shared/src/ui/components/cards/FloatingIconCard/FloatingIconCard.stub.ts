@@ -1,4 +1,4 @@
-import type { IconOptions } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import type { IconOptions } from '#shared/types'
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 

@@ -1,10 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociatedTraceCardProps } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import AssociatedTraceCard from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import { AssociationCardStub } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.stub'
 

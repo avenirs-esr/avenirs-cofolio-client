@@ -1,10 +1,10 @@
 import type { AssociationElementsDropdownProps } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import AssociationElementsDropdown from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { ASSOCIATION_DROPDOWN_ITEM_NAMES } from '@/features/student/associations/constants/associations.constants'
 

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import { AvIcon, AvIconText, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { Card } from '@avenirs-esr/shared'
+import { Card, ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { useDateUtils } from '@/common/composables'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 export interface ActivityCardProps {
   activity: ActivityTableRow
