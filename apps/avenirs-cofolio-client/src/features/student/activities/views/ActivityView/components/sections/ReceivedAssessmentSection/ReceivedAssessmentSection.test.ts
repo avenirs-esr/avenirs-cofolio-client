@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
@@ -34,6 +35,9 @@ const stubs = {
 
 BddTest().given('a ReceivedAssessmentSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ReceivedAssessmentSection>>
+
+  const getGradeBadge = () => wrapper.findComponent('[data-testid="received-assessment-card-grade"]') as VueWrapper<InstanceType<typeof AvBadgeStub>>
+  const getValidationBadge = () => wrapper.findComponent('[data-testid="received-assessment-card-validation"]') as VueWrapper<InstanceType<typeof AvBadgeStub>>
 
   BddTest().when('the activity has not been submitted for assessment', () => {
     beforeEach(() => {
@@ -119,7 +123,11 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
     })
 
     BddTest().then('it should render the grade over the grading scale', () => {
-      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('16\u00A0/\u00A020')
+      expect(getGradeBadge().props('label')).toBe('16\u00A0/\u00A020')
+    })
+
+    BddTest().then('it should not render the validation', () => {
+      expect(getValidationBadge().exists()).toBe(false)
     })
 
     BddTest().then('it should render the comment', () => {
@@ -136,19 +144,77 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
     })
 
     BddTest().then('it should still render the grade', () => {
-      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('0\u00A0/\u00A020')
+      expect(getGradeBadge().props('label')).toBe('0\u00A0/\u00A020')
     })
   })
 
-  BddTest().when('the assessment has been sent without grade nor comment', () => {
+  BddTest().when('the assessment has been sent as validated', () => {
     beforeEach(() => {
       wrapper = mountComponent(ReceivedAssessmentSection, {
-        props: { assessment: { ...sentAssessment, grade: undefined, maxGrade: undefined, comment: undefined, validation: true } },
+        props: { assessment: { ...sentAssessment, grade: undefined, maxGrade: undefined, validation: true } },
         global: { stubs },
       })
     })
 
+    BddTest().then('it should render the validated badge in success colors', () => {
+      const badge = getValidationBadge()
+
+      expect(badge.props('label')).toBe('Validée')
+      expect(badge.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE_OUTLINE)
+      expect(badge.props('color')).toBe('var(--light-foreground-success)')
+      expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
+    })
+
     BddTest().then('it should not render the grade', () => {
+      expect(getGradeBadge().exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the comment', () => {
+      expect(wrapper.find('[data-testid="received-assessment-card-comment"]').text()).toBe(sentAssessment.comment)
+    })
+  })
+
+  BddTest().when('the assessment has been sent as not validated', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ReceivedAssessmentSection, {
+        props: { assessment: { ...sentAssessment, grade: undefined, maxGrade: undefined, validation: false } },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the not validated badge in error colors', () => {
+      const badge = getValidationBadge()
+
+      expect(badge.props('label')).toBe('Non validée')
+      expect(badge.props('icon')).toBe(MDI_ICONS.CLOSE_CIRCLE_OUTLINE)
+      expect(badge.props('color')).toBe('var(--light-foreground-error)')
+      expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
+    })
+  })
+
+  BddTest().when('the assessment has been sent with both a grade and a validation', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ReceivedAssessmentSection, {
+        props: { assessment: { ...sentAssessment, validation: true } },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render both the grade and the validation', () => {
+      expect(getGradeBadge().props('label')).toBe('16\u00A0/\u00A020')
+      expect(getValidationBadge().props('label')).toBe('Validée')
+    })
+  })
+
+  BddTest().when('the assessment has been sent without grade, validation nor comment', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ReceivedAssessmentSection, {
+        props: { assessment: { ...sentAssessment, grade: undefined, maxGrade: undefined, comment: undefined } },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render any badge', () => {
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 

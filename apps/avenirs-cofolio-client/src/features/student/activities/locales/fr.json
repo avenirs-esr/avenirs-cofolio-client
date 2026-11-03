@@ -199,9 +199,11 @@
           "ReceivedAssessmentSection": {
             "grade": "{grade}\u00A0/\u00A0{maxGrade}",
             "notSubmitted": "Votre activité n'a pas encore été soumise pour évaluation.",
+            "notValidated": "Non validée",
             "pending": "Votre activité a été soumise pour évaluation le {date}. Elle est en attente d'évaluation.",
             "receivedAt": "Appréciation reçue le {date}",
-            "title": "Mon appréciation"
+            "title": "Mon appréciation",
+            "validated": "Validée"
           },
           "ReceivedFeedbacksSection": {
             "empty": "Vous n'avez reçu aucun feedback pour le moment",
