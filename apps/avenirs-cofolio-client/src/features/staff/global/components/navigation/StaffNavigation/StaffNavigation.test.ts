@@ -13,6 +13,7 @@ const ACTIVITIES_HEADER = 'BIBLIOTHÈQUE DES ACTIVITÉS'
 const ADMIN_GROUPS = 'Groupes'
 const ADMIN_HEADER = 'ADMINISTRATION'
 const ADMIN_SKILLS = 'Compétences'
+const ADMIN_TOOLS = 'Outils'
 const ADMIN_USERS = 'Utilisateurs'
 const HOME = 'ACCUEIL'
 const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
@@ -40,6 +41,12 @@ const ADMIN_LINK_CASES = [
     text: ADMIN_SKILLS,
     routeName: 'staff-admin-skills',
     icon: ICONS.SKILLS,
+  },
+  {
+    requiredRoles: ROUTE_ROLES.STAFF.ADMIN_TOOLS,
+    text: ADMIN_TOOLS,
+    routeName: 'staff-admin-tools',
+    icon: ICONS.TOOLS,
   },
 ]
 

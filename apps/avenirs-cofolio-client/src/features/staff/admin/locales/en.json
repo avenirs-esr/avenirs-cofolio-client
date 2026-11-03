@@ -86,6 +86,9 @@
           },
           "title": "Institution users"
         },
+        "AdminToolsView": {
+          "title": "Tools for learners"
+        },
         "InstitutionGroupDetailedView": {
           "components": {
             "cards": {
