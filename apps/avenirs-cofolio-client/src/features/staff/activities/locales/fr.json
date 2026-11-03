@@ -155,6 +155,9 @@
           },
           "NationalActivitySettingDetails": {
             "badges": {
+              "assessmentComment": "Appréciation qualitative",
+              "assessmentGrade": "Note sur {maxGrade}",
+              "assessmentValidation": "Validation",
               "feedbackIterations": "{count} itération | {count} itérations",
               "traceAssociations": "1 trace | {count} traces",
               "unlimitedIterations": "Itérations illimitées",
