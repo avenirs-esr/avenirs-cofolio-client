@@ -1,3 +1,6 @@
+export { CardStub } from '#shared/ui/components/cards/Card/Card.stub'
+export { default as Card } from '#shared/ui/components/cards/Card/Card.vue'
+export type { CardProps } from '#shared/ui/components/cards/Card/Card.vue'
 export { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
 export { default as QuerySuspense } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 export type { QuerySuspenseProps } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'

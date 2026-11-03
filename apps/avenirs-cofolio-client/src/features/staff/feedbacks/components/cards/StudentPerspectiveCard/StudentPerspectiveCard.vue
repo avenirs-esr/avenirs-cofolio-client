@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
 
 export interface StudentPerspectiveCardProps {

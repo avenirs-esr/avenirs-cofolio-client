@@ -2,8 +2,8 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { ContextualAuthorizationDTO, EAuthorization, EAuthorizationEntityType } from '@/api/avenir-esr'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import AuthorizationTypeBadge from '@/features/staff/admin/views/InstitutionUserDetailedView/components/badges/AuthorizationTypeBadge/AuthorizationTypeBadge.vue'
 import AuthorizationEntityName from '@/features/staff/admin/views/InstitutionUserDetailedView/components/base/UniversesList/AuthorizationEntityName/AuthorizationEntityName.vue'
 

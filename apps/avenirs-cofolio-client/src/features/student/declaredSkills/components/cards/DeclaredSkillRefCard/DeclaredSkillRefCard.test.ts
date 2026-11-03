@@ -2,10 +2,10 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { SkillPathSegmentDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { ESkillKind, ESkillReferentialType } from '@/api/avenir-esr'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 
 const AvIconTextStub = {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'

@@ -2,8 +2,8 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { EAuthorizationEntityType, ERole } from '@/api/avenir-esr'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import UserRoleBadge from '@/features/staff/admin/components/badges/UserRoleBadge/UserRoleBadge.vue'
 
 interface UserPermissionsTableRow {

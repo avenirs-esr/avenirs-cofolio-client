@@ -2,9 +2,9 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { AvButton, CUIDA_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import Card from '@/common/components/cards/Card/Card.vue'
 import AssociatedElementTypeBadge from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.vue'
 import FeedbackTraceActions from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
 

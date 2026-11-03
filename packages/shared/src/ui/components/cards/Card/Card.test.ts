@@ -1,7 +1,7 @@
+import Card from '#shared/ui/components/cards/Card/Card.vue'
 import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { expect } from 'vitest'
-import Card from '@/common/components/cards/Card/Card.vue'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a Card component', () => {
   let wrapper: ReturnType<typeof mount<typeof Card>>

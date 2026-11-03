@@ -3,8 +3,7 @@ import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { Slot } from 'vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
-import Card from '@/common/components/cards/Card/Card.vue'
+import { Card, QuerySuspense } from '@avenirs-esr/shared'
 
 export interface ValorizedElementsCardContainerProps {
   title: string

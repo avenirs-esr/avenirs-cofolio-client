@@ -1,10 +1,10 @@
 import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 
 const mockObjectUrl = 'blob:http://localhost/picture'
