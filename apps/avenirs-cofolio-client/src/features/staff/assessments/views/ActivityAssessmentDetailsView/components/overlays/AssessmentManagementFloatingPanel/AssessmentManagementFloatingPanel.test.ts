@@ -5,6 +5,7 @@ import type { WriteAssessmentFormData } from '@/features/staff/assessments/types
 import type { AssessmentManagementFloatingPanelProps } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/overlays/AssessmentManagementFloatingPanel/AssessmentManagementFloatingPanel.vue'
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -15,7 +16,6 @@ import {
   mockedAssessmentDetailsWithoutAssociations
 } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
 import { FloatingPanelStub } from '@/common/components/overlay/FloatingPanel/FloatingPanel.stub'
-import { ICONS } from '@/common/constants'
 import { ASSESSMENT_DRAFT_STORAGE_KEY_PREFIX } from '@/features/staff/assessments/config'
 import { AssessmentCommentFormFieldStub } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/interaction/formFields/AssessmentCommentFormField/AssessmentCommentFormField.stub'
 import { AssessmentGradeFormFieldStub } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/interaction/formFields/AssessmentGradeFormField/AssessmentGradeFormField.stub'

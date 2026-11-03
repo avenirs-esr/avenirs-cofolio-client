@@ -2,8 +2,9 @@
 import type { AvBadgeProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
 export interface AssociatedSkillCardProps extends AvInteractiveProps {

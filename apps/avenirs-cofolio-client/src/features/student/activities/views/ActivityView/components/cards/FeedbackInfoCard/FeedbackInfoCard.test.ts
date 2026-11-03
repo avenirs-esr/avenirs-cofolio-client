@@ -2,12 +2,11 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { FeedbackInfoCardProps } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CardStub } from '@avenirs-esr/shared'
+import { CardStub, ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { WarningBadgeStub } from '@/common/components/badges/WarningBadge/WarningBadge.stub'
-import { ICONS } from '@/common/constants'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 
 BddTest().given('a FeedbackInfoCard component', () => {

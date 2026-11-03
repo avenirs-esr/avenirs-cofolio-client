@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import AssociationBadge from '@/common/components/badges/AssociationBadge/AssociationBadge.vue'
-import { ICONS } from '@/common/constants'
 import { AssociationBadgeType } from '@/common/types'
 
 BddTest().given('an association badge component', () => {

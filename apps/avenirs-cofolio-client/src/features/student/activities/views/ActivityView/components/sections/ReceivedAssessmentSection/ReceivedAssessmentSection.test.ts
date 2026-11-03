@@ -2,10 +2,9 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CardStub } from '@avenirs-esr/shared'
+import { CardStub, ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { ICONS } from '@/common/constants'
 import ReceivedAssessmentSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.vue'
 
 const requestedAssessment: ReceivedAssessmentDTO = {

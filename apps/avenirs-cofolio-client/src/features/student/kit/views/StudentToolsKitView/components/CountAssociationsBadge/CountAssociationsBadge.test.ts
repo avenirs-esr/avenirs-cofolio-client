@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import CountAssociationsBadge from '@/features/student/kit/views/StudentToolsKitView/components/CountAssociationsBadge/CountAssociationsBadge.vue'
 
 const stubs = { AvIconText: AvIconTextStub }

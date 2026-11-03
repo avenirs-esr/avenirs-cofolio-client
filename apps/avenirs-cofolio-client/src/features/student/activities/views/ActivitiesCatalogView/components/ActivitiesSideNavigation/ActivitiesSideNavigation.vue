@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { AvSideNavigationMenuItem, AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Loader } from '@avenirs-esr/shared'
+import { ICONS, Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useNavigation } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 
 export interface ActivitiesSideNavigationProps {

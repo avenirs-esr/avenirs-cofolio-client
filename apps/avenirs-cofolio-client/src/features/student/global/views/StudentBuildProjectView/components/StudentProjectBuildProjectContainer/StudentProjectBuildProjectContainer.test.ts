@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { SectionNavigationLayoutStub } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'
-import { ICONS } from '@/common/constants/icons'
 import StudentProjectBuildProjectContainer
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.vue'
 import { StudentProjectMindMapSectionStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapSection/StudentProjectMindMapSection.stub'

@@ -1,6 +1,6 @@
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { ERole } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 
 /**
  * Determines the global type of a user role.

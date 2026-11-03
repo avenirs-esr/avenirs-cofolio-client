@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { ICONS } from '@/common/constants'
 import { AssociationBadgeType } from '@/common/types'
 
 export interface AssociationBadgeProps {

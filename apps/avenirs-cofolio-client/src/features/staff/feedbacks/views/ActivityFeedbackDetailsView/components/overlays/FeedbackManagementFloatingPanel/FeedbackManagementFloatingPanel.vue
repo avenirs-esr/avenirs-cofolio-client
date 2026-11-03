@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import { AvTab, AvTabs, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EFeedbackStatus, useGetFeedbackHistory } from '@/api/avenir-esr'
 import FloatingPanel from '@/common/components/overlay/FloatingPanel/FloatingPanel.vue'
-import { ICONS } from '@/common/constants'
 import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
 import { FeedbackManagementFloatingPanelTabs } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.types'

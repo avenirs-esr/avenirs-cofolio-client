@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { AvSelectModelValue, AvSelectOption, AvSelectSelectedOption, AvSideNavigationItem } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect, getAvSelectSelectedOption, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 const emit = defineEmits<{
   selectedItem: [itemLabel: string]

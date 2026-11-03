@@ -1,16 +1,9 @@
 <script lang="ts" setup>
+import type { IconOptions } from '#shared/types'
 import type { Slot } from 'vue'
+import Card from '#shared/ui/components/cards/Card/Card.vue'
 import { AvIcon, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { Card } from '@avenirs-esr/shared'
 import { computed, ref } from 'vue'
-
-export interface IconOptions {
-  name: string
-  color?: string
-  bottom?: string
-  right?: string
-  borderColor?: string
-}
 
 export interface FloatingIconCardProps {
   title: string

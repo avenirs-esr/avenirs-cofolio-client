@@ -5,6 +5,7 @@ import type {
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -16,7 +17,6 @@ import {
 import {
   SectionNavigationLayoutStub,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'
-import { ICONS } from '@/common/constants'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import {
   ActivityDetailsStub,

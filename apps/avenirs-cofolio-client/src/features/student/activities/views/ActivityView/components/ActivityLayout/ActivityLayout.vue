@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import ActivityDetails
   from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
 import MyPerspectiveSection

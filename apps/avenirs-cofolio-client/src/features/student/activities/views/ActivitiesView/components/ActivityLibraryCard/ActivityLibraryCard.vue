@@ -2,12 +2,12 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import { FloatingIconCard, ICONS } from '@avenirs-esr/shared'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
 
 interface DeclaredActivityCardProps {

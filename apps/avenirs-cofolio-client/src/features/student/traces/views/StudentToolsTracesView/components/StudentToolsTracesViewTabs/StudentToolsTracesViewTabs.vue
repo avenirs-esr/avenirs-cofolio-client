@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { ICONS } from '@/common/constants'
 import StudentToolsTracesViewAssociatedTab
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import StudentToolsTracesViewUnassociatedTab
