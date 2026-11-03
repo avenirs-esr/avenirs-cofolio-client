@@ -21,7 +21,7 @@ const {
   onUpdatePageSize
 } = usePagination(toRef(activitiesStore, 'currentPage'), toRef(PageSizes.TWELVE))
 
-const selectedThematic = ref<EActivityThematic | undefined>(undefined)
+const selectedThematic = ref<EActivityThematic | undefined>(EActivityThematic.SELF_KNOWLEDGE)
 
 function onSelectThematic (thematic: AvTagPickerOption) {
   if (selectedThematic.value !== thematic.value) {
