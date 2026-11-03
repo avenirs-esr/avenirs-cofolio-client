@@ -14,6 +14,7 @@ import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleC
 import { ActivityResourcesListStub } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import { ICONS } from '@/common/constants'
 import ActivityDetails from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
+import { AssessmentInfoCardStub } from '@/features/student/activities/views/ActivityView/components/cards/AssessmentInfoCard/AssessmentInfoCard.stub'
 import { FeedbackInfoCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
 import { TraceAssociationLimitCardStub } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
 import { ReceivedAssessmentSectionStub } from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.stub'
@@ -38,6 +39,7 @@ BddTest().given('a project activity details component', () => {
     IconTitleCardContainer: IconTitleCardContainerStub,
     TraceAssociationLimitCard: TraceAssociationLimitCardStub,
     ActivityResourcesList: ActivityResourcesListStub,
+    AssessmentInfoCard: AssessmentInfoCardStub,
     ValorizedBadge: ValorizedBadgeStub,
     ReceivedAssessmentSection: ReceivedAssessmentSectionStub,
   }
@@ -97,6 +99,12 @@ BddTest().given('a project activity details component', () => {
       expect(traceAssociationLimitCard.props('traceAllowedAssociations')).toBe(mockedDeclaredActivityDetails.activity.traceAllowedAssociations)
       expect(traceAssociationLimitCard.props('icon')).toBe(ICONS.TRACES)
       expect(traceAssociationLimitCard.props('title')).toBe('Association de traces')
+    })
+
+    BddTest().then('it should render the assessment info card without assessment', () => {
+      const assessmentInfoCard = wrapper.findComponent(AssessmentInfoCardStub)
+      expect(assessmentInfoCard.exists()).toBe(true)
+      expect(assessmentInfoCard.props('assessment')).toBeUndefined()
     })
 
     BddTest().then('it should not render ReceivedAssessmentSection', () => {
@@ -242,6 +250,10 @@ BddTest().given('a project activity details component', () => {
         props,
         global: { stubs },
       })
+    })
+
+    BddTest().then('it should render the assessment info card with the activity assessment settings', () => {
+      expect(wrapper.findComponent(AssessmentInfoCardStub).props('assessment')).toEqual({ grade: 20 })
     })
 
     BddTest().then('it should render ReceivedAssessmentSection with the received assessment', () => {
