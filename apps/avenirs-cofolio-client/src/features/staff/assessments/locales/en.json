@@ -2,6 +2,11 @@
   "staff": {
     "assessments": {
       "badges": {
+        "activityType": {
+          "COMMENT": "Appreciation",
+          "GRADE": "Grade",
+          "VALIDATION": "Validation"
+        },
         "assessmentStatus": {
           "NEW": "New",
           "OPENED": "Unprocessed",
@@ -66,7 +71,7 @@
                   "learner": "Learner",
                   "status": "Status",
                   "submitDate": "Submit Date",
-                  "type": "Type"
+                  "types": "Types"
                 },
                 "noResults": "No assessments"
               }

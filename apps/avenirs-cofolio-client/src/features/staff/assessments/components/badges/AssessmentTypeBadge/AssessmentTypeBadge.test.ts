@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityTypeBadgeProps } from '@/features/staff/assessments/components/badges/AssessmentTypeBadge/AssessmentTypeBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
+import { EActivityAssessmentType } from '@/api/avenir-esr'
 import AssessmentTypeBadge from '@/features/staff/assessments/components/badges/AssessmentTypeBadge/AssessmentTypeBadge.vue'
 
 BddTest().given('an assessment type badge', () => {
@@ -13,11 +14,13 @@ BddTest().given('an assessment type badge', () => {
     props: ActivityTypeBadgeProps
     label: string
   }> = [
-    { props: { activityType: 'default' }, label: 'Appréciation de l\'activité' },
+    { props: { assessmentType: EActivityAssessmentType.COMMENT }, label: 'Appréciation' },
+    { props: { assessmentType: EActivityAssessmentType.VALIDATION }, label: 'Vérification' },
+    { props: { assessmentType: EActivityAssessmentType.GRADE }, label: 'Notée' }
   ]
 
   scenario.forEach(({ props, label }) => {
-    BddTest().when(`the badge is rendered with activity type ${props.activityType}`, () => {
+    BddTest().when(`the badge is rendered with activity type ${props.assessmentType}`, () => {
       beforeEach(() => {
         wrapper = mount(AssessmentTypeBadge, {
           props,
@@ -34,7 +37,7 @@ BddTest().given('an assessment type badge', () => {
       })
 
       BddTest().then('it should render with the correct data-type attribute', () => {
-        expect(wrapper.find('[data-testid="activity-type-badge"]').attributes('data-type')).toBe(props.activityType)
+        expect(wrapper.find('[data-testid="activity-type-badge"]').attributes('data-type')).toBe(props.assessmentType)
       })
     })
   })

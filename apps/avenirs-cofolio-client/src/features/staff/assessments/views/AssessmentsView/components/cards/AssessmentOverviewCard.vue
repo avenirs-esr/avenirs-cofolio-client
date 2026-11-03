@@ -2,8 +2,8 @@
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
@@ -37,13 +37,17 @@ const { t } = useI18n()
       :data-assessment-id="assessment.id"
     >
       <div class="av-col av-gap-sm">
-        <UserInfo
-          :user="assessment.learner"
-        />
+        <UserInfo :user="assessment.learner" />
 
         <AssessmentActivityTitle :activity-title="assessment.activityTitle" />
 
-        <AssessmentTypeBadge :activity-type="assessment.type" />
+        <div class="av-col av-gap-xxs">
+          <AssessmentTypeBadge
+            v-for="assessmentType in assessment.types"
+            :key="assessmentType"
+            :assessment-type="assessmentType"
+          />
+        </div>
 
         <span
           class="b2-regular"

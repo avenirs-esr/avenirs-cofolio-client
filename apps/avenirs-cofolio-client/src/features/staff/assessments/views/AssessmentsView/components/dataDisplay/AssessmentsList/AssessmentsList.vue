@@ -5,13 +5,10 @@ import type { UsePaginatedStaffAssessmentsParams } from '@/features/staff/assess
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
-import {
-  usePaginatedStaffAssessments
-
-} from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
+import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { useStaffAssessmentsStore } from '@/features/staff/assessments/stores/assessments.store'
 import AssessmentOverviewList from '@/features/staff/assessments/views/AssessmentsView/components/base/AssessmentOverviewList.vue'
 import AssessmentStatusMultiselect from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.vue'
@@ -40,14 +37,14 @@ const {
 const ASSESSMENT_WIDTH_MAP: Record<string, string | undefined> = {
   learner: '25%',
   activityTitle: '25%',
-  type: '20%',
+  types: '20%',
   submitDate: '13%',
   status: '12%',
   actions: '5%'
 }
 
 const columns = computed<AvTableColumn<AssessmentTableRow>[]>(() => {
-  return (['learner', 'activityTitle', 'type', 'submitDate', 'status', 'actions'] as const).map(key => ({
+  return (['learner', 'activityTitle', 'types', 'submitDate', 'status', 'actions'] as const).map(key => ({
     key,
     label: t(`staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.${key}`),
     width: ASSESSMENT_WIDTH_MAP[key]
@@ -59,7 +56,7 @@ const rows = computed<AssessmentTableRow[]>(() => {
     id: assessment.id,
     learner: assessment.student,
     activityTitle: assessment.activity.title,
-    type: 'default',
+    types: assessment.assessmentTypes,
     submitDate: assessment.submittedAt,
     status: assessment.assessmentStatus,
     actions: assessment.id.toString()

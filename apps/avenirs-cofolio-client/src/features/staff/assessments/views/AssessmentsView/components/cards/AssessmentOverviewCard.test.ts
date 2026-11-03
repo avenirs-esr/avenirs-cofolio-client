@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssessmentTableRow } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { EActivityAssessmentStatus, EActivityAssessmentType } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import { AssessmentStatusBadgeStub } from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.stub'
@@ -20,7 +20,7 @@ const mockAssessment: AssessmentTableRow = {
     email: 'alice.dupont@example.com',
   },
   activityTitle: 'Activité "Portfolio" : Valoriser ses expériences',
-  type: 'default',
+  types: [EActivityAssessmentType.GRADE],
   submitDate: '2024-01-15T12:00:00Z',
   status: EActivityAssessmentStatus.NEW,
   actions: 'declared-activity-1',
@@ -82,7 +82,7 @@ BddTest().given('an assessment overview card', () => {
     })
 
     BddTest().then('it should render the activity type badge', () => {
-      expect(getTypeBadge().props('activityType')).toBe(mockAssessment.type)
+      expect(getTypeBadge().props('assessmentType')).toBe(mockAssessment.types[0])
     })
 
     BddTest().then('it should render the submit date formatted', () => {

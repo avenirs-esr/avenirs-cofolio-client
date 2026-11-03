@@ -2,6 +2,11 @@
   "staff": {
     "assessments": {
       "badges": {
+        "activityType": {
+          "COMMENT": "Appréciation",
+          "GRADE": "Notée",
+          "VALIDATION": "Vérification"
+        },
         "assessmentStatus": {
           "NEW": "Nouvelle",
           "OPENED": "Non traitée",
@@ -17,7 +22,6 @@
             "title": "Récapitulatif des éléments associés ({count})"
           },
           "AssessmentManagementFloatingPanel": {
-            "alreadySentTooltip": "Cette appréciation a déjà été envoyée",
             "draft": {
               "notSaved": "Brouillon non enregistré\u00A0: le stockage du navigateur est indisponible",
               "saved": "Brouillon enregistré sur ce navigateur"
@@ -67,7 +71,7 @@
                   "learner": "Apprenant",
                   "status": "Statut",
                   "submitDate": "Date de dépôt",
-                  "type": "Type"
+                  "types": "Types"
                 },
                 "noResults": "Aucune évaluation"
               }
