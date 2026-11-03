@@ -1,6 +1,10 @@
+// @vitest-environment jsdom
+
 import type { Message } from '@avenirs-esr/avenirs-dsav'
+import { useToasterStore } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useToasterStore } from '@/store/toaster/toaster'
+import { createPinia, setActivePinia } from 'pinia'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a useToasterStore composable', () => {
   let toaster: ReturnType<typeof useToasterStore>
@@ -24,6 +28,35 @@ BddTest().given('a useToasterStore composable', () => {
     toaster.messages.length = 0
     toaster.messages.push({ ...message })
     toaster.timeouts[message.id!] = window.setTimeout(() => {}, 1000)
+  })
+
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+  })
+
+  BddTest().when('using the active Pinia instance', () => {
+    BddTest().then('it should reuse the store within the same instance', () => {
+      expect(useToasterStore()).toBe(toaster)
+      expect(useToasterStore().messages).toBe(toaster.messages)
+    })
+  })
+
+  BddTest().when('using a different Pinia instance', () => {
+    let otherToaster: ReturnType<typeof useToasterStore>
+
+    beforeEach(() => {
+      otherToaster = useToasterStore(createPinia())
+      otherToaster.addInfoMessage('Other app')
+    })
+
+    BddTest().then('it should keep messages and timeouts isolated', () => {
+      expect(otherToaster).not.toBe(toaster)
+      expect(otherToaster.messages.map(message => message.description)).toEqual(['Other app'])
+      expect(toaster.messages.map(message => message.description)).toEqual(['test'])
+      expect(otherToaster.timeouts).not.toBe(toaster.timeouts)
+    })
   })
 
   BddTest().when('calling removeMessage', () => {
@@ -76,7 +109,7 @@ BddTest().given('a useToasterStore composable', () => {
     BddTest().then('it should add message with default props', () => {
       toaster.removeMessage('test-id')
       toaster.addMessage({ description: 'default', type: 'info' })
-      const msg = toaster.messages[0]
+      const msg = toaster.messages[0]!
       expect(msg.titleTag).toBe('h3')
       expect(msg.type).toBe('info')
       expect(msg.closeable).toBe(true)
