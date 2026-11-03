@@ -60,7 +60,7 @@ export function isDeclaredActivitySubmittedForAssessment (activityStatus?: EDecl
   return activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT
 }
 
-export function isAssessmentEnabled (activity: ActivityContentDTO): boolean {
+export function isAssessmentEnabled (activity: Pick<ActivityContentDTO, 'assessment'>): boolean {
   return !!activity.assessment
 }
 

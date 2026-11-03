@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -7,8 +8,6 @@ import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityStatus } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import {
   DeleteDraftActivityConfirmationModalStub
@@ -16,6 +15,8 @@ import {
 import {
   ActivityDashboardSectionStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.stub'
+import { ActivityRightsSectionStub }
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.stub'
 import {
   NationalActivityCatalogPreviewTabStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
@@ -70,6 +71,7 @@ BddTest().given('a national activity catalog view', () => {
     NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
     NationalActivityContentTab: NationalActivityContentTabStub,
     ActivityDashboardSection: ActivityDashboardSectionStub,
+    ActivityRightsSection: ActivityRightsSectionStub,
     AvButton: AvButtonStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
     AvTabs: AvTabsStub,
@@ -236,6 +238,12 @@ BddTest().given('a national activity catalog view', () => {
       const dashboardSection = wrapper.findComponent(ActivityDashboardSectionStub)
       expect(dashboardSection.props('activityId')).toBe(mockedActivityContent.id)
       expect(dashboardSection.props('status')).toBe(EActivityStatus.DRAFT)
+    })
+
+    BddTest().then('it should render ActivityRightsSection with the loaded activity id and status', () => {
+      const rightsSection = wrapper.findComponent(ActivityRightsSectionStub)
+      expect(rightsSection.props('activityId')).toBe(mockedActivityContent.id)
+      expect(rightsSection.props('status')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should not render the other tabs content', () => {

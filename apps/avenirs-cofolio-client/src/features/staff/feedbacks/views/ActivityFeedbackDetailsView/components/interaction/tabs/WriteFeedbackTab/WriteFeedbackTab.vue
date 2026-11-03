@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import { AvBadge, AvButton, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EFeedbackStatus, EUserCategory, invalidateGetFeedbackDetails, useSubmitFeedback } from '@/api/avenir-esr'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
 import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'

@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 
 BddTest().given('an activity catalog preview card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityCatalogPreviewCard>>

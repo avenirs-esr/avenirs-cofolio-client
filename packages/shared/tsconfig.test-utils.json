@@ -8,5 +8,5 @@
     "types": ["node"]
   },
   "include": ["test-utils/**/*.ts", "src/ui/**/*.stub.ts"],
-  "exclude": ["test-utils/**/*.test.ts"]
+  "exclude": ["test-utils/**/*.test.ts", "test-utils/mount-composable.ts"]
 }

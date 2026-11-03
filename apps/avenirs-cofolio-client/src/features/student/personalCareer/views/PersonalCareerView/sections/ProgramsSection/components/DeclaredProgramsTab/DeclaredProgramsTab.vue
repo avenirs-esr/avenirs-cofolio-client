@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import { AddDeclaredProgramDrawer } from '@/features/student/personalCareer'

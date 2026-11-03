@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
-import { ErrorCodes, ErrorMessage } from '@avenirs-esr/shared'
+import { ErrorCodes, ErrorMessage, useApiErrors } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 
 export interface ActivityErrorMessageProps {
   error: BaseApiException | null

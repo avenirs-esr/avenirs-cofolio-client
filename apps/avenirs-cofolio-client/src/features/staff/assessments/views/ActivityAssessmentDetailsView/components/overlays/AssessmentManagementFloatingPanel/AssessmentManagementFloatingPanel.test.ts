@@ -51,10 +51,13 @@ vi.mock('@/store', async () => {
 const PANEL_TITLE = 'Appréciation de l\'activité'
 const SEND_LABEL = 'Envoyer'
 const INCOMPLETE_TOOLTIP = 'Tous les champs de l\'appréciation doivent être renseignés avant de pouvoir l\'envoyer'
-const ALREADY_SENT_TOOLTIP = 'Cette appréciation a déjà été envoyée'
+const UPDATE_LABEL = 'Modifier'
+const CANCEL_LABEL = 'Annuler'
+const NO_UPDATE_IN_PROGRESS_TOOLTIP = 'Aucune modification en cours à annuler'
 const DRAFT_SAVED_LABEL = 'Brouillon enregistré sur ce navigateur'
 const DRAFT_NOT_SAVED_LABEL = 'Brouillon non enregistré\u00A0: le stockage du navigateur est indisponible'
 const SEND_SUCCESS_MESSAGE = 'L\'appréciation a été envoyée avec succès'
+const UPDATE_SUCCESS_MESSAGE = 'L\'appréciation a été modifiée avec succès'
 const ACTIVITY_TITLE = 'Test Activity'
 
 const gradedAssessment = mockedAssessmentDetailsWithAssociations
@@ -98,7 +101,10 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
   const getGradeField = () => wrapper.findComponent(AssessmentGradeFormFieldStub)
   const getValidationField = () => wrapper.findComponent(AssessmentValidationFormFieldStub)
   const getCommentField = () => wrapper.findComponent(AssessmentCommentFormFieldStub)
-  const getSendButton = () => wrapper.findComponent(AvButtonStub)
+  const getButton = (testId: string) => wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === testId)
+  const getSendButton = () => getButton('send-assessment-button')!
+  const getUpdateButton = () => getButton('update-assessment-button')
+  const getCancelButton = () => getButton('cancel-assessment-update-button')
   const getDraftBadge = () => wrapper.find('[data-testid="assessment-draft-badge"]')
   const getSentMessage = () => wrapper.findComponent(AvMessageStub)
 
@@ -149,6 +155,11 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
     BddTest().then('it should not render the draft badge nor the sent message', () => {
       expect(getDraftBadge().exists()).toBe(false)
       expect(getSentMessage().exists()).toBe(false)
+    })
+
+    BddTest().then('it should neither propose to modify nor to cancel a modification', () => {
+      expect(getUpdateButton()).toBeUndefined()
+      expect(getCancelButton()).toBeUndefined()
     })
   })
 
@@ -249,9 +260,81 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
       expect(getCommentField().props('readonly')).toBe(true)
     })
 
-    BddTest().then('it should disable the send button', () => {
-      expect(getSendButton().props('disabled')).toBe(true)
-      expect(getSendButton().props('disabledTooltip')).toBe(ALREADY_SENT_TOOLTIP)
+    BddTest().then('it should propose to modify it instead of sending it', () => {
+      expect(getUpdateButton()?.props('label')).toBe(UPDATE_LABEL)
+      expect(getUpdateButton()?.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
+      expect(getButton('send-assessment-button')).toBeUndefined()
+    })
+
+    BddTest().then('it should disable the cancel button while no modification is in progress', () => {
+      expect(getCancelButton()?.props('label')).toBe(CANCEL_LABEL)
+      expect(getCancelButton()?.props('disabled')).toBe(true)
+      expect(getCancelButton()?.props('disabledTooltip')).toBe(NO_UPDATE_IN_PROGRESS_TOOLTIP)
+    })
+
+    BddTest().and('the update button is clicked', () => {
+      beforeEach(async () => {
+        await getUpdateButton()?.vm.$emit('click')
+        await flushPromises()
+      })
+
+      BddTest().then('it should make the fields editable again', () => {
+        expect(getGradeField().props('readonly')).toBe(false)
+        expect(getCommentField().props('readonly')).toBe(false)
+      })
+
+      BddTest().then('it should still show when the assessment was sent', () => {
+        expect(getSentMessage().props('message')).toContain('Appréciation envoyée le')
+      })
+
+      BddTest().then('it should propose to cancel or to send the modified assessment', () => {
+        expect(getUpdateButton()).toBeUndefined()
+        expect(getCancelButton()?.props('disabled')).toBe(false)
+        expect(getCancelButton()?.props('isLoading')).toBe(false)
+        expect(getSendButton().props('label')).toBe(SEND_LABEL)
+        expect(getSendButton().props('disabled')).toBe(false)
+      })
+
+      BddTest().and('the modification is cancelled', () => {
+        beforeEach(async () => {
+          getGradeField().props('form').setFieldValue('grade', 4)
+          await getCancelButton()?.vm.$emit('click')
+          await flushPromises()
+        })
+
+        BddTest().then('it should render the fields as readonly with the sent values', () => {
+          expect(getGradeField().props('readonly')).toBe(true)
+          expect(getGradeField().props('form').state.values.grade).toBe(mockedAssessmentDetailsSent.assessment?.grade)
+        })
+
+        BddTest().then('it should propose to modify it again', () => {
+          expect(getUpdateButton()?.exists()).toBe(true)
+          expect(getButton('send-assessment-button')).toBeUndefined()
+          expect(getCancelButton()?.props('disabled')).toBe(true)
+        })
+      })
+
+      BddTest().and('the modified assessment is sent', () => {
+        beforeEach(async () => {
+          getGradeField().props('form').setFieldValue('grade', 12)
+          await flushPromises()
+          await getSendButton().vm.$emit('click')
+          await flushPromises()
+        })
+
+        BddTest().then('it should show that the assessment has been modified', () => {
+          expect(addSuccessMessageMock).toHaveBeenCalledWith(UPDATE_SUCCESS_MESSAGE)
+        })
+
+        BddTest().then('it should toggle the panel', () => {
+          expect(getPanel().attributes('data-collapsed')).toBe('false')
+        })
+
+        BddTest().then('it should render the fields as readonly again', () => {
+          expect(getGradeField().props('readonly')).toBe(true)
+          expect(getUpdateButton()?.exists()).toBe(true)
+        })
+      })
     })
   })
 

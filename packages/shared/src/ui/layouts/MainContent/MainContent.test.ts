@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import MainContent from '#shared/ui/layouts/MainContent/MainContent.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import MainContent from './MainContent.vue'
 
 BddTest().given('a MainContent component', () => {
   let wrapper: VueWrapper<InstanceType<typeof MainContent>>

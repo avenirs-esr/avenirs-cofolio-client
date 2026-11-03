@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetStaffActivityWorkingSpace, useUnpublishActivity } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useToasterStore } from '@/store'
 
 interface UnpublishActivityConfirmationModalProps {

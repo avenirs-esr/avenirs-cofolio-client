@@ -2,9 +2,9 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { AvButton, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useDownloadAttachment } from '@/api/avenir-esr'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useToasterStore } from '@/store'
 

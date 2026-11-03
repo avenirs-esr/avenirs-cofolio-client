@@ -118,9 +118,16 @@
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
           },
           "ActivityRightsSection": {
+            "authorizations": {
+              "label": "Autorisations",
+              "placeholder": "Choisir des autorisations",
+              "selected": "{count} autorisation sélectionnée | {count} autorisations sélectionnées"
+            },
             "fetchError": "Impossible de rechercher les utilisateurs",
             "label": "Chercher un utilisateur",
             "placeholder": "Rechercher par nom ou email",
+            "saveError": "Impossible d'enregistrer les autorisations",
+            "saveSuccess": "Autorisations enregistrées",
             "title": "Gestion des droits"
           },
           "buttons": {
@@ -148,6 +155,9 @@
           },
           "NationalActivitySettingDetails": {
             "badges": {
+              "assessmentComment": "Appréciation qualitative",
+              "assessmentGrade": "Note sur {maxGrade}",
+              "assessmentValidation": "Validation",
               "feedbackIterations": "{count} itération | {count} itérations",
               "traceAssociations": "1 trace | {count} traces",
               "unlimitedIterations": "Itérations illimitées",

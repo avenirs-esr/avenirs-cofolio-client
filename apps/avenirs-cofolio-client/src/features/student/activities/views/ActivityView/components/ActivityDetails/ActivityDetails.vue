@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
+import { isAssessmentEnabled } from '@/common/activities/rules/activities.rules'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
-import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
+import AssessmentInfoCard from '@/features/student/activities/views/ActivityView/components/cards/AssessmentInfoCard/AssessmentInfoCard.vue'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
+import ReceivedAssessmentSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.vue'
 
 export interface ActivityDetailsProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
@@ -25,6 +28,8 @@ const periodStartDate = computed(() => isActivityPeriodDefined.value ? activity.
 const periodEndDate = computed(() => isActivityPeriodDefined.value ? activity.value.endDate : declaredActivityDetails.endDate)
 
 const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (activity.value.links?.length ?? 0))
+
+const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
 </script>
 
 <template>
@@ -102,7 +107,14 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
         :icon="ICONS.TRACES"
         :title="t('student.activities.views.ActivityView.ActivityDetails.modalities.traceAssociationTitle')"
       />
+
+      <AssessmentInfoCard :assessment="activity.assessment" />
     </div>
+
+    <ReceivedAssessmentSection
+      v-if="hasAssessment"
+      :assessment="declaredActivityDetails.assessment"
+    />
   </div>
 </template>
 

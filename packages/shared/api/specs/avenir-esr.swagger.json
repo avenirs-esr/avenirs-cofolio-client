@@ -1153,6 +1153,55 @@
         }
       }
     },
+    "/me/self-knowledge/{selfKnowledgeElementId}/attachments": {
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "uploadSelfKnowledgeAttachment",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/self-knowledge/{selfKnowledgeCategory}/elements": {
       "post": {
         "tags": [
@@ -4178,6 +4227,39 @@
         }
       }
     },
+    "/me/self-knowledge/{selfKnowledgeElementId}/attachments/{attachmentId}": {
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "deleteSelfKnowledgeAttachment",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
@@ -5328,6 +5410,18 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "institutionIds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
           }
         ],
         "responses": {
@@ -5546,6 +5640,17 @@
               "items": {
                 "type": "string",
                 "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "cofolioUniverses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EUniverse"
               }
             }
           },
@@ -6844,11 +6949,22 @@
           "profilePictureId": {
             "type": "string",
             "format": "uuid"
+          },
+          "universes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STUDENT",
+                "STAFF"
+              ]
+            }
           }
         },
         "required": [
           "eppn",
-          "hasConnected"
+          "hasConnected",
+          "universes"
         ]
       },
       "CreateTraceDTO": {
@@ -8269,6 +8385,18 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileDTO"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -8330,6 +8458,45 @@
           }
         ]
       },
+      "AssessmentModifiedParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "activityTitle": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "AssessmentRequestNotificationParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "studentFirstName": {
+                "type": "string"
+              },
+              "studentLastName": {
+                "type": "string"
+              },
+              "activityId": {
+                "type": "string"
+              },
+              "activityTitle": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "AssessmentSentParameters": {
         "allOf": [
           {
@@ -8361,7 +8528,9 @@
             "enum": [
               "ACTIVITY_MODIFIED",
               "ASK_FOR_FEEDBACK",
-              "ASSESSMENT_SENT"
+              "ASSESSMENT_REQUEST",
+              "ASSESSMENT_SENT",
+              "ASSESSMENT_MODIFIED"
             ]
           },
           "elementId": {
@@ -8375,6 +8544,12 @@
               },
               {
                 "$ref": "#/components/schemas/AskForFeedbackParameters"
+              },
+              {
+                "$ref": "#/components/schemas/AssessmentModifiedParameters"
+              },
+              {
+                "$ref": "#/components/schemas/AssessmentRequestNotificationParameters"
               },
               {
                 "$ref": "#/components/schemas/AssessmentSentParameters"
@@ -9590,7 +9765,9 @@
         "enum": [
           "ACTIVITY_MODIFIED",
           "ASK_FOR_FEEDBACK",
-          "ASSESSMENT_SENT"
+          "ASSESSMENT_REQUEST",
+          "ASSESSMENT_SENT",
+          "ASSESSMENT_MODIFIED"
         ]
       },
       "ELanguage": {
@@ -10688,12 +10865,19 @@
           "email": {
             "type": "string"
           },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "profilePictureId": {
             "type": "string",
             "format": "uuid"
           },
-          "institution": {
-            "$ref": "#/components/schemas/InstitutionReferenceDTO"
+          "institutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionReferenceDTO"
+            }
           },
           "groups": {
             "type": "array",
@@ -10707,7 +10891,7 @@
           "firstName",
           "groups",
           "id",
-          "institution",
+          "institutions",
           "lastName"
         ]
       },
@@ -10780,6 +10964,16 @@
           "hasConnected": {
             "type": "boolean"
           },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "universes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EUniverse"
+            }
+          },
           "profilePictureId": {
             "type": "string",
             "format": "uuid"
@@ -10811,7 +11005,8 @@
           "hasConnected",
           "id",
           "institutions",
-          "lastName"
+          "lastName",
+          "universes"
         ]
       },
       "PagedResponseExternalUserAffiliationOverviewDTO": {

@@ -5,12 +5,11 @@ import type {
   UsePaginatedAffiliationsResult,
 } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiException } from '@avenirs-esr/shared'
+import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EGroupType } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import { EGroupType, EUniverse } from '@/api/avenir-esr'
 import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'
@@ -25,6 +24,7 @@ const mockUsers: ExternalUserAffiliationOverviewDTO[] = [{
   email: 'alice.dupont@example.com',
   profilePictureId: undefined,
   hasConnected: true,
+  universes: [EUniverse.STAFF],
   categories: [],
   groups: [
     {

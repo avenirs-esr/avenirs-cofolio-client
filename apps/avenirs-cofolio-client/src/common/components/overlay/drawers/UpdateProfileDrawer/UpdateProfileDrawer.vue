@@ -7,6 +7,7 @@ import {
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -16,7 +17,6 @@ import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'

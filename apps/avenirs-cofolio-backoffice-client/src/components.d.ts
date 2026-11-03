@@ -8,10 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     EmptyState: typeof import('@avenirs-esr/shared')['EmptyState']
-    InformationTooltip: typeof import('./components/overlay/tooltips/InformationTooltip/InformationTooltip.vue')['default']
     MainNavigation: typeof import('./components/navigation/MainNavigation/MainNavigation.vue')['default']
-    PageTitle: typeof import('./components/PageTitle/PageTitle.vue')['default']
-    QuerySuspense: typeof import('./components/QuerySuspense/QuerySuspense.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SkipLinks: typeof import('./components/navigation/SkipLinks/SkipLinks.vue')['default']

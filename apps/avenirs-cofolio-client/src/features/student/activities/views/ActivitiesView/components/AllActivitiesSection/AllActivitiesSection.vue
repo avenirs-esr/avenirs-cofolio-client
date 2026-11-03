@@ -2,11 +2,10 @@
 import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
 import type { GetActivitiesViewParams } from '@/api/avenir-esr'
 import { AvIconText, AvTagPicker, MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { Loader } from '@avenirs-esr/shared'
+import { Loader, QuerySuspense } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivitiesView } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
@@ -22,7 +21,7 @@ const {
   onUpdatePageSize
 } = usePagination(toRef(activitiesStore, 'currentPage'), toRef(PageSizes.TWELVE))
 
-const selectedThematic = ref<EActivityThematic | undefined>(undefined)
+const selectedThematic = ref<EActivityThematic | undefined>(EActivityThematic.SELF_KNOWLEDGE)
 
 function onSelectThematic (thematic: AvTagPickerOption) {
   if (selectedThematic.value !== thematic.value) {

@@ -125,6 +125,13 @@
           "ActivityDetailedSideNavigation": {
             "myReflection": "My reflection"
           },
+          "AssessmentInfoCard": {
+            "comment": "Qualitative assessment",
+            "disabled": "Assessment disabled",
+            "grade": "Graded out of {maxGrade}",
+            "title": "Activity assessment",
+            "validation": "Validation"
+          },
           "AssociationLimitCard": {
             "count": "Limited to {count} trace | Limited to {count} traces",
             "disabled": "Trace association disabled",
@@ -195,6 +202,15 @@
               "traceAssociationTitle": "Traces association"
             },
             "recommendedCompletionContexts": "Recommended completion context(s)"
+          },
+          "ReceivedAssessmentSection": {
+            "grade": "{grade}\u00A0/\u00A0{maxGrade}",
+            "notSubmitted": "Your activity has not been submitted for assessment yet.",
+            "notValidated": "Not validated",
+            "pending": "Your activity was submitted for assessment on {date}. It is awaiting assessment.",
+            "receivedAt": "Assessment received on {date}",
+            "title": "My assessment",
+            "validated": "Validated"
           },
           "ReceivedFeedbacksSection": {
             "empty": "You have not received any feedback yet",

@@ -125,6 +125,13 @@
           "ActivityDetailedSideNavigation": {
             "myReflection": "Ma réflexion"
           },
+          "AssessmentInfoCard": {
+            "comment": "Appréciation qualitative",
+            "disabled": "Évaluation désactivée",
+            "grade": "Note sur {maxGrade}",
+            "title": "Évaluation de l'activité",
+            "validation": "Validation"
+          },
           "AssociationLimitCard": {
             "count": "Limité à {count} trace | Limité à {count} traces",
             "disabled": "Association de traces désactivée",
@@ -195,6 +202,15 @@
               "traceAssociationTitle": "Association de traces"
             },
             "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
+          },
+          "ReceivedAssessmentSection": {
+            "grade": "{grade}\u00A0/\u00A0{maxGrade}",
+            "notSubmitted": "Votre activité n'a pas encore été soumise pour évaluation.",
+            "notValidated": "Non validée",
+            "pending": "Votre activité a été soumise pour évaluation le {date}. Elle est en attente d'évaluation.",
+            "receivedAt": "Appréciation reçue le {date}",
+            "title": "Mon appréciation",
+            "validated": "Validée"
           },
           "ReceivedFeedbacksSection": {
             "empty": "Vous n'avez reçu aucun feedback pour le moment",

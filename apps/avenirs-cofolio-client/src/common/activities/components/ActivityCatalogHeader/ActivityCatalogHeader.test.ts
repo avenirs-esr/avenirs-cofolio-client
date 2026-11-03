@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -7,7 +8,6 @@ import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 
 BddTest().given('an activity catalog banner', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityCatalogHeader>>

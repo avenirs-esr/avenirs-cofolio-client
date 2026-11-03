@@ -1,0 +1,316 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvSharedMessages } from '#shared/i18n/index'
+import { BaseApiException, EmptyStateStub, ErrorMessageStub, LoaderStub } from '#shared/index'
+import { mountComponent } from '#shared/test-utils/unit/index'
+import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { beforeEach, expect } from 'vitest'
+import { createI18n } from 'vue-i18n'
+
+const stubs = {
+  EmptyState: EmptyStateStub,
+  ErrorMessage: ErrorMessageStub,
+  Loader: LoaderStub,
+}
+
+const defaultProps = {
+  errorTitle: 'Erreur de chargement',
+  emptyStateMessage: 'Aucune association',
+  isEmpty: false,
+}
+
+for (const locale of ['fr', 'en']) {
+  BddTest().given(`shared QuerySuspense translations in ${locale}`, () => {
+    let wrapper: VueWrapper<InstanceType<typeof QuerySuspense>>
+    const messages = {
+      defaultEmptyStateMessage: locale === 'fr' ? 'Aucune donnée à afficher' : 'No data to display',
+      defaultErrorTitle: locale === 'fr'
+        ? 'Une erreur est survenue lors du chargement des données'
+        : 'An error occurred while loading data',
+    }
+    const localeI18n = createI18n({
+      legacy: false,
+      locale,
+      messages: structuredClone(AvSharedMessages),
+    })
+
+    BddTest().when('an error is displayed without a custom title', () => {
+      beforeEach(() => {
+        wrapper = mountComponent(QuerySuspense, {
+          props: { error: new BaseApiException('Failure'), errorDescription: 'Description' },
+          global: { plugins: [localeI18n], stubs },
+        })
+      })
+
+      BddTest().then('it uses the shared error title', () => {
+        expect(wrapper.findComponent(ErrorMessageStub).props('title')).toBe(messages.defaultErrorTitle)
+      })
+    })
+
+    BddTest().when('an empty result is displayed without a custom message', () => {
+      beforeEach(() => {
+        wrapper = mountComponent(QuerySuspense, {
+          props: { isEmpty: true },
+          global: { plugins: [localeI18n], stubs },
+        })
+      })
+
+      BddTest().then('it uses the shared empty message', () => {
+        expect(wrapper.findComponent(EmptyStateStub).props('title')).toBe(messages.defaultEmptyStateMessage)
+      })
+    })
+  })
+}
+
+BddTest().given('a QuerySuspense component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof QuerySuspense>>
+
+  const getMainDiv = () => wrapper.find('[data-testid="main-div"]')
+  const getFloatingLoader = () => wrapper.find('[data-testid="floating-loader"]')
+  const getMainLoader = () => wrapper.find('[data-testid="loader-stub"]')
+
+  BddTest().when('there is no error and content is not empty', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, isEmpty: false },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render ErrorMessage', () => {
+      expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render EmptyState', () => {
+      expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the main div', () => {
+      expect(getMainDiv().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the main loader', () => {
+      expect(getMainLoader()?.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('preserveContent and isLoading are true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, preserveContent: true, isLoading: true },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the main div', () => {
+      expect(getMainDiv().exists()).toBe(true)
+    })
+
+    BddTest().then('it should keep the content visible while loading', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('isEmpty is true and there is no error', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, isEmpty: true },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render EmptyState with the correct title', () => {
+      const emptyState = wrapper.findComponent(EmptyStateStub)
+      expect(emptyState.exists()).toBe(true)
+      expect(emptyState.props('title')).toBe('Aucune association')
+    })
+
+    BddTest().then('it should not render the slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render ErrorMessage', () => {
+      expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('isEmpty is true and a custom empty slot is provided', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, isEmpty: true },
+        slots: { empty: '<div data-testid="custom-empty">État vide personnalisé</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the custom empty slot', () => {
+      expect(wrapper.find('[data-testid="custom-empty"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render EmptyState', () => {
+      expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('there is an error', () => {
+    const error = new BaseApiException('Une erreur est survenue')
+
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, error, isEmpty: false },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage with the correct title and description', () => {
+      const errorMessage = wrapper.findComponent(ErrorMessageStub)
+      expect(errorMessage.exists()).toBe(true)
+      expect(errorMessage.props('title')).toBe('Erreur de chargement')
+      expect(errorMessage.props('description')).toBeDefined()
+    })
+
+    BddTest().then('it should not render EmptyState', () => {
+      expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('there is an error and a custom error slot is provided', () => {
+    const error = new BaseApiException('Une erreur est survenue')
+
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, error, isEmpty: false },
+        slots: { error: '<div data-testid="custom-error">Erreur personnalisée</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the custom error slot', () => {
+      expect(wrapper.find('[data-testid="custom-error"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render ErrorMessage', () => {
+      expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('there is an error and isEmpty is true', () => {
+    const error = new BaseApiException('Une erreur est survenue')
+
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, error, isEmpty: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage and not EmptyState', () => {
+      expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(true)
+      expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('isLoading is true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, isLoading: true },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the main Loader', () => {
+      expect(getMainLoader()?.exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render ErrorMessage', () => {
+      expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render EmptyState', () => {
+      expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('isLoading is false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, isLoading: false },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the main Loader', () => {
+      expect(getMainLoader()?.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('no errorTitle is provided', () => {
+    const error = new BaseApiException('Une erreur est survenue')
+
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { isEmpty: false, error },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage with the default i18n title', () => {
+      const errorMessage = wrapper.findComponent(ErrorMessageStub)
+      expect(errorMessage.exists()).toBe(true)
+      expect(errorMessage.props('title')).toBe('Une erreur est survenue lors du chargement des données')
+    })
+  })
+
+  BddTest().when('no emptyStateMessage is provided', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { isEmpty: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render EmptyState with the default i18n message', () => {
+      const emptyState = wrapper.findComponent(EmptyStateStub)
+      expect(emptyState.exists()).toBe(true)
+      expect(emptyState.props('title')).toBe('Aucune donnée à afficher')
+    })
+  })
+})

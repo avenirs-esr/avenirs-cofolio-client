@@ -18,10 +18,12 @@ import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@ave
 import { http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
+  ACTIVITY_WITH_AUTHORIZATIONS_ID,
   ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
   getMockedActivityDashboard,
+  mockedActivityAuthorizations,
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
@@ -38,11 +40,13 @@ import {
   EErrorCode,
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
+  getDefineActivityAuthorizationsUrl,
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
   getDeleteDraftFileUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
+  getGetActivityAuthorizationsUrl,
   getGetActivityContentUrl,
   getGetActivityDashboardUrl,
   getGetActivityInactiveStudentsUrl,
@@ -469,5 +473,34 @@ export const staffsActivitiesHandlers = [
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },
     })
+  }),
+
+  http.get(`*${getGetActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`, ({ params }) => {
+    if (params.activityId === 'INVALID_ID') {
+      return HttpResponse.json(
+        { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+        { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const authorizations = params.activityId === ACTIVITY_WITH_AUTHORIZATIONS_ID ? mockedActivityAuthorizations : []
+
+    return HttpResponse.json(authorizations, { status: HttpStatusCode.OK, headers: { 'Content-Type': 'application/json' } })
+  }),
+
+  http.put(`*${getDefineActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`, async ({ params, request }) => {
+    if (params.activityId === 'INVALID_ID') {
+      return HttpResponse.json(
+        { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+        { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const { authorizations } = await request.json() as { authorizations: { staffId: string, rights: string[] }[] }
+
+    return HttpResponse.json(
+      authorizations.map(({ staffId, rights }) => ({ staff: { id: staffId, firstName: '', lastName: '' }, rights })),
+      { status: HttpStatusCode.OK, headers: { 'Content-Type': 'application/json' } }
+    )
   })
 ]

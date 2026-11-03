@@ -1,10 +1,10 @@
+import type { PageTitleProps } from '@avenirs-esr/shared'
 import type { VueWrapper } from '@vue/test-utils'
-import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { PageTitleStub } from '@avenirs-esr/shared'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 
 const mockIsTruncated = ref(false)
 

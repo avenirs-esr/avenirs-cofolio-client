@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetSelfKnowledgeCategories, useRemoveSelfKnowledgeCategories } from '@/api/avenir-esr'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

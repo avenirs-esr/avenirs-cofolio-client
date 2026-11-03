@@ -55,6 +55,7 @@ const iconOptions = computed(() => ({
 .floating-icon-card {
   min-width: 13.4375rem !important;
   max-width: 13.4375rem !important;
+  overflow: hidden;
 }
 
 :deep() {

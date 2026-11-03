@@ -4,8 +4,8 @@ import type {
   SkillPathSegmentDTO
 } from '@/api/avenir-esr'
 import { AvBadge, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface DeclaredSkillRefCardProps {
   type: ESkillReferentialType

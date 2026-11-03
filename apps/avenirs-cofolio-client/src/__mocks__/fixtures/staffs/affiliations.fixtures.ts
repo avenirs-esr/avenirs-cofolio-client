@@ -7,6 +7,7 @@ import type {
 } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { generateGroupOverviewDTOs } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { EUniverse } from '@/api/avenir-esr'
 
 function getExternalUserAffiliationOverviewDTO (index: number): ExternalUserAffiliationOverviewDTO {
   const firstName = `FirstName${index}`
@@ -20,10 +21,12 @@ function getExternalUserAffiliationOverviewDTO (index: number): ExternalUserAffi
 
   return {
     id: `user${index}`,
+    userId: hasConnected ? `app-user${index}` : undefined,
     firstName,
     lastName,
     email,
     hasConnected,
+    universes: [EUniverse.STAFF],
     profilePictureId,
     categories,
     institutions,

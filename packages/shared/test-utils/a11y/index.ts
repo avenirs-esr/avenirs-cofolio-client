@@ -1,3 +1,3 @@
-export { createA11yAudit } from './audit'
-export * from './config'
-export { waitMswToStart } from './wait-msw-to-start'
+export { createA11yAudit } from '#shared/test-utils/a11y/audit'
+export * from '#shared/test-utils/a11y/config'
+export { waitMswToStart } from '#shared/test-utils/a11y/wait-msw-to-start'

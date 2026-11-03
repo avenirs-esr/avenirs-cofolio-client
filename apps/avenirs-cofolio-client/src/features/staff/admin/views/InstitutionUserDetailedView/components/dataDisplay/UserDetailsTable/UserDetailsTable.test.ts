@@ -2,12 +2,12 @@ import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import { EUniverse } from '@/api/avenir-esr'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import { UniversesListStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/base/UniversesList/UniversesList.stub'
 import UserDetailsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserDetailsTable/UserDetailsTable.vue'
@@ -27,6 +27,7 @@ BddTest().given('a user details table', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserDetailsTable>>
 
   const user = mockExternalUserDetail
+  const institutionNames = user.institutions.map(institution => institution.name).join(', ')
 
   const universes: EUniverse[] = [EUniverse.STAFF, EUniverse.STUDENT]
 
@@ -78,7 +79,7 @@ BddTest().given('a user details table', () => {
         {
           id: user.id,
           user,
-          institution: user.institution.name,
+          institutions: institutionNames,
           universes,
         },
       ])
@@ -88,13 +89,13 @@ BddTest().given('a user details table', () => {
       const columns = getTable().props('columns') as AvTableColumn<{
         id: string
         user: ExternalUserDetailDTO
-        institution: string
+        institutions: string
         universes: EUniverse[]
       }>[]
 
       expect(columns.map(column => column.key)).toEqual([
         'user',
-        'institution',
+        'institutions',
         'universes',
       ])
       expect(columns.every(column => Boolean(column.label))).toBe(true)
@@ -131,8 +132,8 @@ BddTest().given('a user details table', () => {
       expect(getUserInfos()[0].props('user')).toEqual(user)
     })
 
-    BddTest().then('it should render the institution name in the card', () => {
-      expect(getCards()[0].text()).toContain(user.institution.name)
+    BddTest().then('it should render the institution names in the card', () => {
+      expect(getCards()[0].text()).toContain(institutionNames)
     })
 
     BddTest().then('it should render the universes in the card', () => {

@@ -2,12 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityFeedbacksPreviewDTO } from '@/api/avenir-esr'
 import type { FeedbackActivityFilterSelectProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { isNumber } from 'lodash-es'
 import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import { EFeedbackStatus } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import FeedbackActivityFilterSelect from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
 
 BddTest().given('a feedback activity filter select', () => {

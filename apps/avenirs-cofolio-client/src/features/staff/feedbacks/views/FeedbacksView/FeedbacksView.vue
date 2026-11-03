@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { ActivityFeedbacksPreviewDTO } from '@/api/avenir-esr'
+import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetStaffFeedbacks } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useQueryParam } from '@/common/composables'
 import { useFeedbackStatusPicker } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/composables/use-feedback-status-picker/use-feedback-status-picker'
 import FeedbackStatusPicker from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'

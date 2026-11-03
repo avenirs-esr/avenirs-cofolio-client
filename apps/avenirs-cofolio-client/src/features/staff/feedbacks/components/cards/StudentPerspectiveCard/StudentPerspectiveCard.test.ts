@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { StudentPerspectiveCardProps } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 
 BddTest().given('a student perspective card', () => {

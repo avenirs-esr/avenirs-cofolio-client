@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import UsersList from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.vue'
 import InstitutionGroupsMultiselect from '@/features/staff/admin/views/AdminInstitutionUsersView/components/selects/InstitutionGroupsMultiselect/InstitutionGroupsMultiselect.vue'
 

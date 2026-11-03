@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { AvInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
-import Card from '@/common/components/cards/Card/Card.vue'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillReflectionInput

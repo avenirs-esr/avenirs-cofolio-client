@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { PageTitleStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { PageTitleStub } from '@/components/PageTitle/PageTitle.stub'
 import TermsOfServiceView from '@/features/terms-of-service/views/TermsOfServiceView/TermsOfServiceView.vue'
 
 BddTest().given('a terms of service view', () => {

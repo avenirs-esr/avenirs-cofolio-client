@@ -1,10 +1,10 @@
-import type { FetchConfig, ResponseInterceptorContext } from '../types'
+import type { FetchConfig, ResponseInterceptorContext } from '#shared/api/fetch/types'
+import { FetchInterceptorManager } from '#shared/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import {
   BaseApiException,
   createBasApiExceptionFromResponseBody,
   createBaseApiExceptionFromUnknownError,
-} from '../../../exceptions'
-import { FetchInterceptorManager } from '../fetch-interceptor-manager/fetch-interceptor-manager'
+} from '#shared/exceptions'
 
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {

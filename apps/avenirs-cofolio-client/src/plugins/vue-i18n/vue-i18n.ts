@@ -1,6 +1,6 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { App } from 'vue'
-import { AvAvailableLocales } from '@avenirs-esr/shared'
+import { AvAvailableLocales, AvSharedMessages } from '@avenirs-esr/shared'
 import { createI18n } from 'vue-i18n'
 
 export function parseLocaleModules (modules: Record<string, any>) {
@@ -49,9 +49,17 @@ const fallbackLocale: AvLocale = 'en'
 const i18n = createI18n({
   locale,
   fallbackLocale,
-  messages,
+  messages: {
+    en: {},
+    fr: {},
+  },
   legacy: false,
 })
+
+for (const lang of AvAvailableLocales) {
+  i18n.global.mergeLocaleMessage(lang, structuredClone(AvSharedMessages[lang]))
+  i18n.global.mergeLocaleMessage(lang, messages[lang] ?? {})
+}
 
 /**
  * Dynamically register feature-based locales from global and all subfolders

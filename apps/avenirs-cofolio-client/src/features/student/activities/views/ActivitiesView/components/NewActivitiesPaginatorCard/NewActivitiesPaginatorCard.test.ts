@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { latestActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ActivityCardStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import NewActivitiesPaginatorCard from '@/features/student/activities/views/ActivitiesView/components/NewActivitiesPaginatorCard/NewActivitiesPaginatorCard.vue'
 

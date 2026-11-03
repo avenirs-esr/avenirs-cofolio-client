@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { IconTitleCardContainerProps } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 
 BddTest().given('a form field card container', () => {

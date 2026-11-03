@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { Card, QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, EUserCategory, useGetFeedbackDetails } from '@/api/avenir-esr'
-import { QuerySuspense } from '@/common/components'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import AssociatedElementDetailsDrawer

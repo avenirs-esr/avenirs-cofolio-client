@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@avenirs-esr/shared'
+import { useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import {
@@ -11,7 +12,6 @@ import {
   useDeleteActivity,
 } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 
