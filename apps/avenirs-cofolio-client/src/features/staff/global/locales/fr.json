@@ -25,6 +25,7 @@
             "items": {
               "groups": "Groupes",
               "skills": "Compétences",
+              "tools": "Outils",
               "users": "Utilisateurs"
             }
           },
