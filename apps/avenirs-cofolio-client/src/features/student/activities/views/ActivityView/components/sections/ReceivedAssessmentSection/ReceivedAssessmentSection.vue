@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import { AvBadge, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -41,6 +42,23 @@ const hasGrade = computed(() => assessment?.grade !== undefined && assessment?.g
 
 const gradeLabel = computed(() =>
   t('student.activities.views.ActivityView.ReceivedAssessmentSection.grade', { grade: assessment?.grade, maxGrade: assessment?.maxGrade })
+)
+
+const hasValidation = computed(() => typeof assessment?.validation === 'boolean')
+
+const validationBadgeProps = computed<AvBadgeProps>(() => assessment?.validation
+  ? {
+      label: t('student.activities.views.ActivityView.ReceivedAssessmentSection.validated'),
+      icon: MDI_ICONS.CHECK_CIRCLE_OUTLINE,
+      color: 'var(--light-foreground-success)',
+      backgroundColor: 'var(--light-background-success)',
+    }
+  : {
+      label: t('student.activities.views.ActivityView.ReceivedAssessmentSection.notValidated'),
+      icon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
+      color: 'var(--light-foreground-error)',
+      backgroundColor: 'var(--light-background-error)',
+    }
 )
 </script>
 
@@ -85,14 +103,26 @@ const gradeLabel = computed(() =>
             {{ assessorLabel }}
           </span>
 
-          <AvBadge
-            v-if="hasGrade"
-            :label="gradeLabel"
-            :icon="MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER"
-            color="var(--dark-foreground)"
-            background-color="var(--dark-background-primary1)"
-            data-testid="received-assessment-card-grade"
-          />
+          <div
+            v-if="hasGrade || hasValidation"
+            class="av-row av-align-center av-wrap av-gap-xs"
+          >
+            <AvBadge
+              v-if="hasGrade"
+              :label="gradeLabel"
+              :icon="MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER"
+              color="var(--dark-foreground)"
+              background-color="var(--dark-background-primary1)"
+              data-testid="received-assessment-card-grade"
+            />
+
+            <AvBadge
+              v-if="hasValidation"
+              v-bind="validationBadgeProps"
+              border-color="transparent"
+              data-testid="received-assessment-card-validation"
+            />
+          </div>
 
           <span
             v-if="assessment?.comment"
