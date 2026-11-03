@@ -40,6 +40,9 @@ BddTest().given('a national activity setting details component', () => {
   const findCardIn = (testid: string) =>
     wrapper.find(`[data-testid="${testid}"]`).findComponent(IconTitleCardContainerStub)
 
+  const findAssessmentBadge = (testid: string) =>
+    wrapper.findAllComponents(AvBadgeStub).find(badge => badge.attributes('data-testid') === testid)
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -75,6 +78,13 @@ BddTest().given('a national activity setting details component', () => {
       expect(card.exists()).toBe(true)
       expect(card.props('title')).toBe('Demande de feedback')
       expect(card.props('titleIcon')).toBe(ICONS.FEEDBACK)
+    })
+
+    BddTest().then('it should render the assessment card with proper title and icon', () => {
+      const card = findCardIn('national-activity-setting-details-assessment')
+      expect(card.exists()).toBe(true)
+      expect(card.props('title')).toBe('Évaluation de l\'activité')
+      expect(card.props('titleIcon')).toBe(MDI_ICONS.TEXT_BOX_CHECK_OUTLINE)
     })
   })
 
@@ -215,6 +225,73 @@ BddTest().given('a national activity setting details component', () => {
       expect(iterationsBadge.props('label')).toBe('Itérations illimitées')
       expect(iterationsBadge.props('color')).toBe('var(--light-foreground-neutral)')
       expect(iterationsBadge.props('backgroundColor')).toBe('var(--light-background-neutral)')
+    })
+  })
+
+  BddTest().when('the assessment is disabled', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, assessment: undefined })
+    })
+
+    BddTest().then('it should display a disabled enabled status badge for assessment', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-assessment')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(false)
+    })
+
+    BddTest().then('it should not display any assessment option badge', () => {
+      const badges = wrapper.find('[data-testid="national-activity-setting-details-assessment"]').findAllComponents(AvBadgeStub)
+      expect(badges).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('the assessment is enabled with a comment and a grade', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, assessment: { comment: true, grade: 20 } })
+    })
+
+    BddTest().then('it should display an enabled status badge for assessment', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-assessment')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(true)
+    })
+
+    BddTest().then('it should display the qualitative assessment badge', () => {
+      const badge = findAssessmentBadge('assessment-comment-badge')
+      expect(badge?.exists()).toBe(true)
+      expect(badge?.props('label')).toBe('Appréciation qualitative')
+      expect(badge?.props('icon')).toBe(MDI_ICONS.POST_IT_NOTES_OUTLINE)
+      expect(badge?.props('color')).toBe('var(--light-foreground-neutral)')
+      expect(badge?.props('backgroundColor')).toBe('var(--light-background-neutral)')
+    })
+
+    BddTest().then('it should display the grade badge with its scale', () => {
+      const badge = findAssessmentBadge('assessment-grade-badge')
+      expect(badge?.exists()).toBe(true)
+      expect(badge?.props('label')).toBe('Note sur 20')
+      expect(badge?.props('icon')).toBe(MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER)
+    })
+
+    BddTest().then('it should not display the validation badge', () => {
+      expect(findAssessmentBadge('assessment-validation-badge')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the assessment is enabled with a validation only', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, assessment: { validation: true } })
+    })
+
+    BddTest().then('it should display the validation badge', () => {
+      const badge = findAssessmentBadge('assessment-validation-badge')
+      expect(badge?.exists()).toBe(true)
+      expect(badge?.props('label')).toBe('Validation')
+      expect(badge?.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE_OUTLINE)
+    })
+
+    BddTest().then('it should not display the qualitative assessment nor the grade badges', () => {
+      expect(findAssessmentBadge('assessment-comment-badge')).toBeUndefined()
+      expect(findAssessmentBadge('assessment-grade-badge')).toBeUndefined()
     })
   })
 })
