@@ -5,13 +5,10 @@ import type { UsePaginatedStaffAssessmentsParams } from '@/features/staff/assess
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
+import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
-import {
-  usePaginatedStaffAssessments
-
-} from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
+import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { useStaffAssessmentsStore } from '@/features/staff/assessments/stores/assessments.store'
 import AssessmentOverviewList from '@/features/staff/assessments/views/AssessmentsView/components/base/AssessmentOverviewList.vue'
 import AssessmentStatusMultiselect from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.vue'

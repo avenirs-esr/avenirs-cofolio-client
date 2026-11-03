@@ -36,7 +36,7 @@ BddTest().given('an assessment status multiselect', () => {
         },
         {
           value: EActivityAssessmentStatus.OPENED,
-          label: 'Ouverte',
+          label: 'Non traitée',
         },
         {
           value: EActivityAssessmentStatus.SENT,

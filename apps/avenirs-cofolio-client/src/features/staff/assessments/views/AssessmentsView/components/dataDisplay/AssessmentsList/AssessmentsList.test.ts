@@ -3,12 +3,11 @@ import type { DeclaredActivityToAssessDTO } from '@/api/avenir-esr'
 import type { UsePaginatedStaffAssessmentsResult } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiException } from '@avenirs-esr/shared'
+import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EActivityAssessmentStatus, EDeclaredActivityStatus } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { AssessmentOverviewListStub } from '@/features/staff/assessments/views/AssessmentsView/components/base/AssessmentOverviewList.stub'
@@ -16,6 +15,11 @@ import AssessmentsList from '@/features/staff/assessments/views/AssessmentsView/
 import {
   AssessmentStatusMultiselectStub
 } from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.stub'
+
+const mockStore = vi.hoisted(() => ({
+  assessmentsCurrentPage: 0,
+  assessmentsPageSizeSelected: undefined as unknown as PageSizes,
+}))
 
 const mockError = new BaseApiException('error')
 
@@ -61,11 +65,6 @@ const mockPageInfo = {
   totalPages: 1,
 }
 
-const mockStore = reactive({
-  assessmentsCurrentPage: 0,
-  assessmentsPageSizeSelected: PageSizes.TWELVE,
-})
-
 const defaultPaginatedResult = {
   assessments: computed(() => mockAssessments),
   pageInfo: computed(() => mockPageInfo),
@@ -76,12 +75,12 @@ const defaultPaginatedResult = {
   onUpdatePageSize: vi.fn(),
 } as unknown as UsePaginatedStaffAssessmentsResult
 
-vi.mock('@/features/staff/assessments/composables/use-paginated-staff-assessments', () => ({
-  usePaginatedStaffAssessments: vi.fn(),
+vi.mock('@/features/staff/assessments/stores/assessments.store', () => ({
+  useStaffAssessmentsStore: vi.fn(() => mockStore),
 }))
 
-vi.mock('@/features/staff/assessments/stores/assessments.store', () => ({
-  useStaffAssessmentsStore: () => mockStore,
+vi.mock('@/features/staff/assessments/composables/use-paginated-staff-assessments', () => ({
+  usePaginatedStaffAssessments: vi.fn(),
 }))
 
 const mockUsePaginatedStaffAssessments = vi.mocked(usePaginatedStaffAssessments)

@@ -17,7 +17,7 @@ const ADMIN_USERS = 'Utilisateurs'
 const HOME = 'ACCUEIL'
 const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
 const STUDENT_ASSESSMENTS = 'Toutes mes évaluations'
-const STUDENT_TRACKING = 'SUIVI DES APPRENANTS'
+const STUDENT_TRACKING = 'SUIVI DES APPRENANT(E)S'
 
 const ADMIN_MENU_ID = 'nav-admin-menu'
 

@@ -2,8 +2,8 @@
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
+import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
