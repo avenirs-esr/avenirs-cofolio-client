@@ -15,8 +15,10 @@ export interface FloatingIconCardProps {
   customTitleHeight?: string
   headerRows?: 1 | 2 | 3
   height?: string
+  width?: string
   titleTypographyClasses?: string
   radius?: string
+  hoverable?: boolean
 }
 
 const {
@@ -28,7 +30,9 @@ const {
   headerRows = 3,
   height = '16.875rem',
   titleColor = 'var(--card2)',
-  radius = 'var(--radius-2xl)'
+  radius = 'var(--radius-2xl)',
+  hoverable = true,
+  width
 } = defineProps<FloatingIconCardProps>()
 
 defineSlots<{
@@ -52,10 +56,16 @@ const titleHeightPeerRows = {
   3: '6.5625rem'
 }
 const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[headerRows])
+
+const minWidth = computed(() => width ?? '17.25rem')
+const maxWidth = computed(() => width ?? 'unset')
 </script>
 
 <template>
-  <div class="floating-icon-card av-row">
+  <div
+    class="floating-icon-card av-row"
+    :class="{ 'floating-icon-card--hoverable': hoverable }"
+  >
     <Card
       :border-color="borderColor"
       :title-background="color"
@@ -113,13 +123,16 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
   width: 100%;
 }
 
-.av-card:hover {
-  border: 1px solid v-bind('selectedBorderColorOnHover') !important;
-  box-shadow: 0 0 0 2px v-bind('selectedBorderColorOnHover');
+.floating-icon-card--hoverable {
+  .av-card:hover {
+    border: 1px solid v-bind('selectedBorderColorOnHover') !important;
+    box-shadow: 0 0 0 2px v-bind('selectedBorderColorOnHover');
+  }
 }
 
 .floating-icon-card {
-  min-width: 17.25rem;
+  min-width: v-bind('minWidth');
+  max-width: v-bind('maxWidth');
   border-radius: v-bind('radius');
 
   &__title-container {

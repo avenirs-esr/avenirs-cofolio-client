@@ -22,7 +22,9 @@ export const FloatingIconCardStub = defineComponent({
     customTitleHeight: { type: String, required: false },
     headerRows: { type: Number as PropType<1 | 2 | 3>, required: false },
     height: { type: String, required: false },
+    width: { type: String, required: false },
     titleTypographyClasses: { type: String, required: false },
-    radius: { type: String, required: false }
+    radius: { type: String, required: false },
+    hoverable: { type: Boolean, required: false }
   }
 })
