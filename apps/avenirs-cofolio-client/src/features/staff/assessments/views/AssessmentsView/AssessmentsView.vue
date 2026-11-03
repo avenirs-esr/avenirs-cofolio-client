@@ -9,7 +9,5 @@ const { t } = useI18n()
 <template>
   <PageTitle :title="t('staff.assessments.views.AssessmentsView.title')" />
 
-  <div class="av-col av-gap-sm">
-    <AssessmentsList />
-  </div>
+  <AssessmentsList />
 </template>

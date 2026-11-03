@@ -2,10 +2,13 @@
   "staff": {
     "assessments": {
       "badges": {
+        "activityType": {
+          "default": "Activity appreciation"
+        },
         "assessmentStatus": {
-          "COMPLETED": "Sent",
-          "CONSULTED": "Unprocessed",
-          "SUBMITTED_FOR_ASSESSMENT": "New"
+          "NEW": "New",
+          "OPENED": "Unprocessed",
+          "SENT": "Sent"
         }
       },
       "views": {
@@ -51,39 +54,38 @@
           "title": "Assessment details"
         },
         "AssessmentsView": {
-          "title": "My assessments",
           "components": {
-            "selects": {
-              "AssessmentStatusMultiselect": {
-                "label": "Filter by statuses",
-                "placeholder": "Select one/many status(es)",
-                "multiLabels": {
-                  "NEW": "New",
-                  "OPENED": "Opened",
-                  "SENT": "Sent"
-                }
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Access assessment"
               }
             },
             "dataDisplay": {
               "AssessmentsList": {
                 "columns": {
-                  "learner": "Learner",
+                  "actions": "Access",
                   "activityTitle": "Activity",
-                  "type": "Type",
-                  "submitDate": "Submit Date",
+                  "learner": "Learner",
                   "status": "Status",
-                  "activityId": "Access"
+                  "submitDate": "Submit Date",
+                  "type": "Type"
                 },
-                "ActivityAppreciation": "Activity Appreciation",
                 "noResults": "No assessments"
               }
             },
-            "base": {
-              "AssessmentOverviewList": {
-                "buttonLabel": "Access assessment"
+            "selects": {
+              "AssessmentStatusMultiselect": {
+                "label": "Filter by statuses",
+                "multiLabels": {
+                  "NEW": "New",
+                  "OPENED": "Unprocessed",
+                  "SENT": "Sent"
+                },
+                "placeholder": "Select one/many status(es)"
               }
             }
-          }
+          },
+          "title": "My assessments"
         }
       }
     }

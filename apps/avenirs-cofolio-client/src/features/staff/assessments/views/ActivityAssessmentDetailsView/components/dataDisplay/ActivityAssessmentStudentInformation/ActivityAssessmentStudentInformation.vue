@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EDeclaredActivityStatus, UserInfoDTO } from '@/api/avenir-esr'
+import type { EActivityAssessmentStatus, UserInfoDTO } from '@/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { useDateUtils } from '@/common/composables'
 import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'
@@ -7,7 +7,7 @@ import AssessmentStatusBadge from '@/features/staff/assessments/components/badge
 export interface ActivityAssessmentStudentInformationProps {
   student: UserInfoDTO
   submittedAt: string
-  status: EDeclaredActivityStatus
+  status: EActivityAssessmentStatus
 }
 
 const { student, submittedAt, status } = defineProps<ActivityAssessmentStudentInformationProps>()

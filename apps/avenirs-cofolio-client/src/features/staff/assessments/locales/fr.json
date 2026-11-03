@@ -2,10 +2,13 @@
   "staff": {
     "assessments": {
       "badges": {
+        "activityType": {
+          "default": "Appréciation de l'activité"
+        },
         "assessmentStatus": {
-          "COMPLETED": "Envoyée",
-          "CONSULTED": "Non traitée",
-          "SUBMITTED_FOR_ASSESSMENT": "Nouvelle"
+          "NEW": "Nouvelle",
+          "OPENED": "Non traitée",
+          "SENT": "Envoyée"
         }
       },
       "views": {
@@ -51,39 +54,38 @@
           "title": "Détail de l'évaluation"
         },
         "AssessmentsView": {
-          "title": "Toutes mes évaluations",
           "components": {
-            "selects": {
-              "AssessmentStatusMultiselect": {
-                "label": "Filtrer par statut",
-                "placeholder": "Sélectionnez un/des statut(s)",
-                "multiLabels": {
-                  "NEW": "Nouvelle",
-                  "OPENED": "Ouverte",
-                  "SENT": "Envoyée"
-                }
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Accéder à l'évaluation"
               }
             },
             "dataDisplay": {
               "AssessmentsList": {
                 "columns": {
-                  "learner": "Apprenant",
+                  "actions": "Accéder",
                   "activityTitle": "Activité",
-                  "type": "Type",
-                  "submitDate": "Date de soumission",
+                  "learner": "Apprenant",
                   "status": "Statut",
-                  "activityId": "Accéder"
+                  "submitDate": "Date de dépôt",
+                  "type": "Type"
                 },
-                "ActivityAppreciation": "Appréciation de l'activité",
                 "noResults": "Aucune évaluation"
               }
             },
-            "base": {
-              "AssessmentOverviewList": {
-                "buttonLabel": "Accéder à l'évaluation"
+            "selects": {
+              "AssessmentStatusMultiselect": {
+                "label": "Filtrer par statut",
+                "multiLabels": {
+                  "NEW": "Nouvelle",
+                  "OPENED": "Non traitée",
+                  "SENT": "Envoyée"
+                },
+                "placeholder": "Sélectionnez un/des statut(s)"
               }
             }
-          }
+          },
+          "title": "Toutes mes évaluations"
         }
       }
     }

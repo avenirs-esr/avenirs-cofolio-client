@@ -1,12 +1,14 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ComputedRef, Ref } from 'vue'
-import type { DeclaredActivityToAssessDTO, EActivityAssessmentStatus, PageInfoDTO } from '@/api/avenir-esr'
-import { keepPreviousData } from '@tanstack/vue-query'
-import {
-
-  useGetDeclaredActivitiesToAssess
+import type {
+  DeclaredActivityToAssessDTO,
+  EActivityAssessmentStatus,
+  GetDeclaredActivitiesToAssessParams,
+  PageInfoDTO
 } from '@/api/avenir-esr'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useGetDeclaredActivitiesToAssess } from '@/api/avenir-esr'
 import { usePagination } from '@/common/composables'
 
 export interface UsePaginatedStaffAssessmentsParams {
@@ -32,7 +34,7 @@ export function usePaginatedStaffAssessments ({
 }: UsePaginatedStaffAssessmentsParams): UsePaginatedStaffAssessmentsResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
-  const params = computed(() => ({
+  const params: ComputedRef<GetDeclaredActivitiesToAssessParams> = computed(() => ({
     statuses: statusesRef.value,
     page: currentPage.value,
     pageSize: pageSizeSelected.value,

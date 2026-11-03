@@ -8986,15 +8986,11 @@
           },
           "status": {
             "type": "string",
-            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "$ref": "#/components/schemas/EActivityAssessmentStatus",
             "enum": [
-              "SUBSCRIBED",
-              "IN_PROGRESS",
-              "SUBMITTED_FOR_FEEDBACK",
-              "SUBMITTED_FOR_ASSESSMENT",
-              "CONSULTED",
-              "COMPLETED",
-              "UNSUBSCRIBED"
+              "NEW",
+              "OPENED",
+              "SENT"
             ]
           }
         },
@@ -9404,7 +9400,7 @@
           "assessedBy": {
             "$ref": "#/components/schemas/UserInfoDTO"
           },
-          "status": {
+          "declaredActivityStatus": {
             "type": "string",
             "$ref": "#/components/schemas/EDeclaredActivityStatus",
             "enum": [
@@ -9416,12 +9412,22 @@
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
+          },
+          "assessmentStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityAssessmentStatus",
+            "enum": [
+              "NEW",
+              "OPENED",
+              "SENT"
+            ]
           }
         },
         "required": [
           "activity",
+          "assessmentStatus",
+          "declaredActivityStatus",
           "id",
-          "status",
           "student",
           "submittedAt"
         ]

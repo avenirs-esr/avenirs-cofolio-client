@@ -13,11 +13,10 @@ import {
 
 } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { useStaffAssessmentsStore } from '@/features/staff/assessments/stores/assessments.store'
-import { getAssessmentStatusLabel } from '@/features/staff/assessments/utils/assessments.utils'
 import AssessmentOverviewList from '@/features/staff/assessments/views/AssessmentsView/components/base/AssessmentOverviewList.vue'
 import AssessmentStatusMultiselect from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.vue'
 
-const { t, te } = useI18n()
+const { t } = useI18n()
 const staffAssessmentsStore = useStaffAssessmentsStore()
 
 const selectedStatuses = ref<EActivityAssessmentStatus[]>([])
@@ -40,15 +39,15 @@ const {
 
 const ASSESSMENT_WIDTH_MAP: Record<string, string | undefined> = {
   learner: '25%',
-  activityTitle: '30%',
+  activityTitle: '25%',
   type: '20%',
-  submitDate: '10%',
-  status: '10%',
-  activityId: '5%'
+  submitDate: '13%',
+  status: '12%',
+  actions: '5%'
 }
 
 const columns = computed<AvTableColumn<AssessmentTableRow>[]>(() => {
-  return (['learner', 'activityTitle', 'type', 'submitDate', 'status', 'activityId'] as const).map(key => ({
+  return (['learner', 'activityTitle', 'type', 'submitDate', 'status', 'actions'] as const).map(key => ({
     key,
     label: t(`staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.${key}`),
     width: ASSESSMENT_WIDTH_MAP[key]
@@ -60,10 +59,10 @@ const rows = computed<AssessmentTableRow[]>(() => {
     id: assessment.id,
     learner: assessment.student,
     activityTitle: assessment.activity.title,
-    type: t(`staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.ActivityAppreciation`),
+    type: 'default',
     submitDate: assessment.submittedAt,
-    status: getAssessmentStatusLabel(assessment.status, t, te),
-    activityId: assessment.id.toString()
+    status: assessment.assessmentStatus,
+    actions: assessment.id.toString()
   }))
 })
 
@@ -73,27 +72,28 @@ watch(selectedStatuses, () => {
 </script>
 
 <template>
-  <div class="av-row av-wrap av-align-center av-gap-md">
+  <div class="av-col av-gap-md">
     <AssessmentStatusMultiselect v-model="selectedStatuses" />
-  </div>
-  <QuerySuspense
-    :is-loading="isFetching"
-    :error="error"
-    :is-empty="rows.length === 0"
-    :empty-state-message="t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.noResults')"
-    preserve-content
-  >
-    <Pagination
-      v-if="pageInfo"
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+
+    <QuerySuspense
+      :is-loading="isFetching"
+      :error="error"
+      :is-empty="rows.length === 0"
+      :empty-state-message="t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.noResults')"
+      preserve-content
     >
-      <AssessmentOverviewList
-        :rows
-        :columns
-      />
-    </Pagination>
-  </QuerySuspense>
+      <Pagination
+        v-if="pageInfo"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
+      >
+        <AssessmentOverviewList
+          :rows
+          :columns
+        />
+      </Pagination>
+    </QuerySuspense>
+  </div>
 </template>

@@ -2,28 +2,20 @@
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
-import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
+import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'
+import AssessmentTypeBadge from '@/features/staff/assessments/components/badges/AssessmentTypeBadge/AssessmentTypeBadge.vue'
+import AssessmentActivityTitle from '@/features/staff/assessments/views/AssessmentsView/components/AssessmentActivityTitle/AssessmentActivityTitle.vue'
 
 interface AssessmentOverviewCardProps {
   assessment: AssessmentTableRow
 }
 
 const { assessment } = defineProps<AssessmentOverviewCardProps>()
-
-const activityTitleRef = ref<HTMLElement | null>(null)
-const typeRef = ref<HTMLElement | null>(null)
-const submitDateRef = ref<HTMLElement | null>(null)
-const statusRef = ref<HTMLElement | null>(null)
-
-const { isTruncated: isActivityTitleRefTruncated } = useTextTruncation(activityTitleRef)
-const { isTruncated: isTypeRefTruncated } = useTextTruncation(typeRef)
-const { isTruncated: isSubmitDateRefTruncated } = useTextTruncation(submitDateRef)
-const { isTruncated: isStatusRefTruncated } = useTextTruncation(statusRef)
 
 const { formatLastModified } = useDateUtils()
 const { t } = useI18n()
@@ -33,7 +25,7 @@ const { t } = useI18n()
   <RouterLink
     :to="{
       name: ROUTES.STAFF.ACTIVITY_ASSESSMENT.name,
-      params: { declaredActivityId: assessment.activityId },
+      params: { declaredActivityId: assessment.actions },
     }"
   >
     <Card
@@ -49,60 +41,19 @@ const { t } = useI18n()
           :user="assessment.learner"
         />
 
-        <AvTooltip
-          :content="assessment.activityTitle"
-          :disabled="!isActivityTitleRefTruncated"
-        >
-          <span
-            ref="activityTitleRef"
-            class="b1-regular av-text-text1 av-max-lines"
-            data-testid="activityTitle"
-          >
-            {{ assessment.activityTitle }}
-          </span>
-        </AvTooltip>
+        <AssessmentActivityTitle :activity-title="assessment.activityTitle" />
 
-        <AvTooltip
-          :content="assessment.type"
-          :disabled="!isTypeRefTruncated"
-        >
-          <span
-            ref="typeRef"
-            class="b2-regular av-max-lines"
-            data-testid="type"
-          >
-            {{ t('global.colon', { before: t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.type') }) }}
-            {{ assessment.type }}
-          </span>
-        </AvTooltip>
+        <AssessmentTypeBadge :activity-type="assessment.type" />
 
-        <AvTooltip
-          :content="assessment.submitDate ? formatLastModified(assessment.submitDate) : ''"
-          :disabled="!isSubmitDateRefTruncated"
+        <span
+          class="b2-regular"
+          data-testid="submitDate"
         >
-          <span
-            ref="submitDateRef"
-            class="b2-regular av-max-lines"
-            data-testid="submitDate"
-          >
-            {{ t('global.colon', { before: t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.submitDate') }) }}
-            {{ assessment.submitDate ? formatLastModified(assessment.submitDate) : '' }}
-          </span>
-        </AvTooltip>
+          {{ t('global.colon', { before: t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.submitDate') }) }}
+          {{ assessment.submitDate ? formatLastModified(assessment.submitDate) : '' }}
+        </span>
 
-        <AvTooltip
-          :content="assessment.status"
-          :disabled="!isStatusRefTruncated"
-        >
-          <span
-            ref="statusRef"
-            class="b2-regular av-max-lines"
-            data-testid="status"
-          >
-            {{ t('global.colon', { before: t('staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.status') }) }}
-            {{ assessment.status }}
-          </span>
-        </AvTooltip>
+        <AssessmentStatusBadge :assessment-status="assessment.status" />
       </div>
     </Card>
   </RouterLink>

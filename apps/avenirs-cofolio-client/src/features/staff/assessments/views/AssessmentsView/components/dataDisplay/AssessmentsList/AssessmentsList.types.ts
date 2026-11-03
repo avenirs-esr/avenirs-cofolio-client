@@ -1,4 +1,4 @@
-import type { UserInfoDTO } from '@/api/avenir-esr'
+import type { EActivityAssessmentStatus, UserInfoDTO } from '@/api/avenir-esr'
 
 export interface AssessmentTableRow {
   id: string
@@ -6,6 +6,6 @@ export interface AssessmentTableRow {
   activityTitle: string
   type: string
   submitDate: string
-  status: string
-  activityId: string
+  status: EActivityAssessmentStatus
+  actions: string
 }

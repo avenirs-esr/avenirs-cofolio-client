@@ -29,9 +29,9 @@
             }
           },
           "home": "Home",
+          "studentAssessments": "My assessments",
           "studentFeedbacks": "All my feedback requests",
-          "studentTracking": "Learner tracking",
-          "studentAssessments": "My assessments"
+          "studentTracking": "Learner tracking"
         }
       },
       "views": {
