@@ -45,7 +45,7 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center">
+    <div class="av-col av-row--lg av-gap-sm av-justify-between--lg av-align-center--lg">
       <AvIconText
         icon-color="var(--text2)"
         typography-class="n4"
