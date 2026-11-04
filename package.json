@@ -30,7 +30,9 @@
     "test:a11y:run": "pnpm --parallel --filter './apps/*' run test:a11y:run",
     "test:a11y:cleanup": "pnpm --parallel --filter './apps/*' run test:a11y:cleanup",
     "commitlint": "commitlint --edit",
-    "lint-staged": "lint-staged"
+    "generate:api": "pnpm --parallel run generate:api",
+    "lint-staged": "lint-staged",
+    "upgrade-dsav": "pnpm --recursive update @avenirs-esr/avenirs-dsav --latest"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
