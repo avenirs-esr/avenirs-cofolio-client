@@ -2,7 +2,7 @@
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
-import { AvBadge, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, AvCard, AvIconText, AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { formatDateLocalized } from '@/common/utils'
@@ -106,14 +106,22 @@ const validationBadgeProps = computed<AvBadgeProps>(() => assessment?.validation
             v-if="hasGrade || hasValidation"
             class="av-row av-align-center av-wrap av-gap-xs"
           >
-            <AvBadge
+            <div
               v-if="hasGrade"
-              :label="gradeLabel"
-              :icon="MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER"
-              color="var(--dark-foreground)"
-              background-color="var(--dark-background-primary1)"
-              data-testid="received-assessment-card-grade"
-            />
+              class="av-col av-gap-sm"
+            >
+              <AvMessage
+                :message="t('student.activities.views.ActivityView.ReceivedAssessmentSection.gradeMessage')"
+                type="info"
+              />
+              <AvBadge
+                :label="gradeLabel"
+                :icon="MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER"
+                color="var(--dark-foreground)"
+                background-color="var(--dark-background-primary1)"
+                data-testid="received-assessment-card-grade"
+              />
+            </div>
 
             <AvBadge
               v-if="hasValidation"
