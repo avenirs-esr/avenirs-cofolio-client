@@ -1,3 +1,6 @@
+export { findAvButtonByTestId, getAvButtonByTestId } from '#shared/test-utils/unit/av-button'
+export type { CreateFormFieldTestWrapperOptions } from '#shared/test-utils/unit/create-form-field-test-wrapper'
+export { createFormFieldTestWrapper } from '#shared/test-utils/unit/create-form-field-test-wrapper'
 export type { MountComponentOptions } from '#shared/test-utils/unit/mount-component'
 export { mountComponent } from '#shared/test-utils/unit/mount-component'
 export type { MountComposableDependencies, MountComposableOptions } from '#shared/test-utils/unit/mount-composable'

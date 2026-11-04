@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import DeclaredExperienceActivitySectorFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'

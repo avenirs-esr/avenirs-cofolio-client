@@ -642,6 +642,9 @@ importers:
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.61.1
+      '@tanstack/vue-form':
+        specifier: 'catalog:'
+        version: 1.15.0(vue@3.5.44(typescript@6.0.3))
       '@tanstack/vue-query':
         specifier: 'catalog:'
         version: 5.75.5(vue@3.5.44(typescript@6.0.3))
