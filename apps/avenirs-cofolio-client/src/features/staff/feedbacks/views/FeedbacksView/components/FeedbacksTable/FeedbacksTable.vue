@@ -44,7 +44,7 @@ const {
 } = usePaginatedStaffFeedbacks(usePaginatedStaffFeedbacksParams)
 
 const { t } = useI18n()
-const { isMobile } = useAvBreakpoints()
+const { isBelowXl } = useAvBreakpoints()
 
 const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
@@ -134,7 +134,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
           </span>
 
           <div
-            v-if="isMobile"
+            v-if="isBelowXl"
             class="av-col av-gap-sm"
           >
             <RouterLink

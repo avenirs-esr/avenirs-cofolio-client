@@ -106,9 +106,9 @@
               "activity": "Activity",
               "iterations": "Number of iterations",
               "lastSaved": "Last saved",
-              "receivedAt": "Request received date",
+              "receivedAt": "Received date",
               "status": "Request status",
-              "student": "First name Last name"
+              "student": "Learner"
             },
             "title": {
               "default": "All my feedback requests",

@@ -32,14 +32,14 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-const mockIsMobile = ref(false)
+const mockisBelowXl = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
 
   return {
     ...actual,
-    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+    useAvBreakpoints: () => ({ isBelowXl: mockisBelowXl }),
   }
 })
 
@@ -81,13 +81,13 @@ BddTest().given('a FeedbacksTable component', () => {
     QuerySuspense: QuerySuspenseStub
   }
 
-  const mountDefault = async ({ props = {}, isMobile = false, paginatedResult = defaultPaginatedResult }: {
+  const mountDefault = async ({ props = {}, isBelowXl = false, paginatedResult = defaultPaginatedResult }: {
     props?: Record<string, unknown>
-    isMobile?: boolean
+    isBelowXl?: boolean
     paginatedResult?: typeof defaultPaginatedResult
   } = {}) => {
     vi.clearAllMocks()
-    mockIsMobile.value = isMobile
+    mockisBelowXl.value = isBelowXl
     mockUsePaginatedStaffFeedbacks.mockReturnValue(paginatedResult)
 
     wrapper = mountComponent(FeedbacksTable, {
@@ -152,7 +152,7 @@ BddTest().given('a FeedbacksTable component', () => {
 
   BddTest().when('the component is mounted in mobile view', () => {
     beforeEach(async () => {
-      await mountDefault({ isMobile: true })
+      await mountDefault({ isBelowXl: true })
     })
 
     BddTest().then('it should render one FeedbackCard per row', () => {
