@@ -433,6 +433,28 @@ BddTest().given('a my perspective card', () => {
     })
   })
 
+  BddTest().when('the component is mounted with an activity submitted for assessment', () => {
+    const props: MyPerspectiveCardProps = {
+      activityId: 'activity-1',
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(MyPerspectiveCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the edit button as disabled', () => {
+      const editButton = getEditButton()
+      expect(editButton.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why perspective editing is disabled', () => {
+      expect(getEditButton().props('disabledTooltip')).toBe('Vous ne pouvez plus modifier votre prise de recul, car l\'activité a été soumise pour évaluation.')
+    })
+  })
+
   BddTest().when('the component is mounted with a completed activity', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',

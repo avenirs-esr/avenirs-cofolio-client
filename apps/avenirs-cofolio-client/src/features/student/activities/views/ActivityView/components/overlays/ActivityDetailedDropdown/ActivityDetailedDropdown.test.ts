@@ -114,11 +114,27 @@ BddTest().given('an activity dropdown', () => {
       expect(associateAction?.disabledTooltip).toBeTruthy()
     })
 
-    BddTest().when('the declared activity is submitted', () => {
+    BddTest().when('the declared activity is completed', () => {
       beforeEach(() => {
-        mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK })
+        mountWith({ status: EDeclaredActivityStatus.COMPLETED })
       })
-      BddTest().then('it should disable associate action when activity is submitted', () => {
+      BddTest().then('it should disable associate action when activity is completed', () => {
+        expect(getAssociate().exists()).toBe(true)
+        expect(getAssociate().attributes('disabled')).toBe('')
+
+        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
+          .find(({ type }) => type === Action.ASSOCIATE)
+
+        expect(associateAction?.disabled).toBe(true)
+        expect(associateAction?.disabledTooltip).toBeTruthy()
+      })
+    })
+
+    BddTest().when('the declared activity is submitted form assessment', () => {
+      beforeEach(() => {
+        mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT })
+      })
+      BddTest().then('it should disable associate action when activity is submitted form assessment', () => {
         expect(getAssociate().exists()).toBe(true)
         expect(getAssociate().attributes('disabled')).toBe('')
 

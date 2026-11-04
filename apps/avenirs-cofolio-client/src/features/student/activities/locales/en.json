@@ -115,6 +115,7 @@
         "ActivityView": {
           "ActivityDetailedDropdown": {
             "associateAction": {
+              "completedDisabledTooltip": "You can no longer edit the associations because you have completed the activity.",
               "submittedDisabledTooltip": "You can no longer edit the associations because you have unsubscribed from the activity",
               "unsubscribedDisabledTooltip": "You can no longer modify the associations because you have submitted your activity"
             },
@@ -174,6 +175,7 @@
               "success": "Your perspective has been automatically saved."
             },
             "editCompletedDisabledTooltip": "You can no longer edit your reflection because the activity is completed",
+            "editSubmittedDisabledTooltip": "You can no longer edit your reflection because the activity has been submitted for evaluation.",
             "editUnsubscribedDisabledTooltip": "You can no longer edit your reflection because you have unsubscribed from the activity",
             "perspective": "My perspective",
             "save": {
