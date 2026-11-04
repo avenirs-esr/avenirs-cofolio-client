@@ -205,6 +205,7 @@
           },
           "ReceivedAssessmentSection": {
             "grade": "{grade}\u00A0/\u00A0{maxGrade}",
+            "gradeMessage": "Grade given is for indicative purposes only. It does not constitute an official grade transmitted to your academic office.",
             "notSubmitted": "Your activity has not been submitted for assessment yet.",
             "notValidated": "Not validated",
             "pending": "Your activity was submitted for assessment on {date}. It is awaiting assessment.",
