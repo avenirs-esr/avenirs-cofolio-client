@@ -2,6 +2,9 @@
   "staff": {
     "global": {
       "cards": {
+        "ActivityAssessmentNotificationCard": {
+          "content": "You have received a new assessment request from {studentName} on the {activityName} activity."
+        },
         "ActivityFeedbackNotificationCard": {
           "content": "You have received a new feedback request from {studentName} on the {activityName} activity."
         }
