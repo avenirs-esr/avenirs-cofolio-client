@@ -3,10 +3,11 @@ import type { NotificationDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { mockedAssessmentSentNotification, mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
+import { mockedAssessmentModifiedNotification, mockedAssessmentSentNotification, mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
 import { EUserCategory } from '@/api/avenir-esr'
 import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
 import { ActivityModifiedNotificationCardStub } from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.stub'
+import { AssessmentModifiedNotificationCardStub } from '@/features/student/global/components/cards/AssessmentModifiedNotificationCard/AssessmentModifiedNotificationCard.stub'
 import { AssessmentSentNotificationCardStub } from '@/features/student/global/components/cards/AssessmentSentNotificationCard/AssessmentSentNotificationCard.stub'
 import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
 
@@ -16,6 +17,7 @@ BddTest().given('a StudentNotificationsPopover', () => {
   const stubs = {
     NotificationsPopover: NotificationsPopoverStub,
     ActivityModifiedNotificationCard: ActivityModifiedNotificationCardStub,
+    AssessmentModifiedNotificationCard: AssessmentModifiedNotificationCardStub,
     AssessmentSentNotificationCard: AssessmentSentNotificationCardStub
   }
 
@@ -30,6 +32,7 @@ BddTest().given('a StudentNotificationsPopover', () => {
   const getContextsHeader = () => wrapper.find('[data-testid="student-notifications-popover-contexts-header"]')
   const getContexts = () => wrapper.find('[data-testid="student-notifications-popover-contexts"]')
   const getActivityModifiedNotificationCards = () => wrapper.findAllComponents(ActivityModifiedNotificationCardStub)
+  const getAssessmentModifiedNotificationCards = () => wrapper.findAllComponents(AssessmentModifiedNotificationCardStub)
   const getAssessmentSentNotificationCards = () => wrapper.findAllComponents(AssessmentSentNotificationCardStub)
 
   BddTest().when('the component is rendered', () => {
@@ -52,9 +55,10 @@ BddTest().given('a StudentNotificationsPopover', () => {
     BddTest().then('it should render all context items', () => {
       const contexts = getContexts()
       expect(contexts.exists()).toBe(true)
-      expect(contexts.element.children.length).toBe(2)
+      expect(contexts.element.children.length).toBe(3)
       expect(contexts.element.children[0].textContent).toBe('Une activité à laquelle vous êtes inscrit(e) a été modifiée')
       expect(contexts.element.children[1].textContent).toBe('Une appréciation a été envoyée pour l\'une de vos activités')
+      expect(contexts.element.children[2].textContent).toBe('Une appréciation a été modifiée pour l\'une de vos activités')
     })
   })
 
@@ -69,6 +73,10 @@ BddTest().given('a StudentNotificationsPopover', () => {
 
     BddTest().then('it should not render AssessmentSentNotificationCard', () => {
       expect(getAssessmentSentNotificationCards().length).toBe(0)
+    })
+
+    BddTest().then('it should not render AssessmentModifiedNotificationCard', () => {
+      expect(getAssessmentModifiedNotificationCards().length).toBe(0)
     })
   })
 
@@ -85,6 +93,30 @@ BddTest().given('a StudentNotificationsPopover', () => {
 
     BddTest().then('it should not render ActivityModifiedNotificationCard', () => {
       expect(getActivityModifiedNotificationCards().length).toBe(0)
+    })
+
+    BddTest().then('it should not render AssessmentModifiedNotificationCard', () => {
+      expect(getAssessmentModifiedNotificationCards().length).toBe(0)
+    })
+  })
+
+  BddTest().when('notification is ASSESSMENT_MODIFIED', () => {
+    const notification = mockedAssessmentModifiedNotification()
+
+    beforeEach(() => mountDefault(notification))
+
+    BddTest().then('it should render AssessmentModifiedNotificationCard with correct props', () => {
+      const assessmentModifiedNotificationCards = getAssessmentModifiedNotificationCards()
+      expect(assessmentModifiedNotificationCards.length).toBe(1)
+      expect(assessmentModifiedNotificationCards[0].props('notification')).toEqual(notification)
+    })
+
+    BddTest().then('it should not render ActivityModifiedNotificationCard', () => {
+      expect(getActivityModifiedNotificationCards().length).toBe(0)
+    })
+
+    BddTest().then('it should not render AssessmentSentNotificationCard', () => {
+      expect(getAssessmentSentNotificationCards().length).toBe(0)
     })
   })
 })

@@ -14,6 +14,9 @@
             "THEMATIC": "Theme"
           }
         },
+        "AssessmentModifiedNotificationCard": {
+          "content": "An assessment has been modified for the activity \"{activityName}\"."
+        },
         "AssessmentSentNotificationCard": {
           "content": "An assessment has been sent for the activity \"{activityName}\"."
         }

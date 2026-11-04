@@ -12,6 +12,7 @@
         "StudentNotificationsPopover": {
           "contexts": {
             "activityModified": "An activity you are enrolled in has been modified",
+            "assessmentModified": "An assessment has been modified for one of your activities",
             "assessmentSent": "An assessment has been sent for one of your activities"
           }
         },
