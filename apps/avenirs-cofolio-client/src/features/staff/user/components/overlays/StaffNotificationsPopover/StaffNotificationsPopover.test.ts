@@ -1,9 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { NotificationDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { mockedStaffNotification } from '@/__mocks__/fixtures/staffs/notifications.fixtures'
+import { mockedAskForFeedbackNotification, mockedAssessmentRequestNotification, mockedStaffNotification } from '@/__mocks__/fixtures/staffs/notifications.fixtures'
 import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
+import { ActivityAssessmentNotificationCardStub } from '@/features/staff/global/components/cards/ActivityAssessmentNotificationCard/ActivityAssessmentNotificationCard.stub'
 import { ActivityFeedbackNotificationCardStub } from '@/features/staff/global/components/cards/ActivityFeedbackNotificationCard/ActivityFeedbackNotificationCard.stub'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
 
@@ -12,27 +14,23 @@ BddTest().given('a StaffNotificationsPopover', () => {
 
   const stubs = {
     NotificationsPopover: NotificationsPopoverStub,
-    ActivityFeedbackNotificationCard: ActivityFeedbackNotificationCardStub
+    ActivityFeedbackNotificationCard: ActivityFeedbackNotificationCardStub,
+    ActivityAssessmentNotificationCard: ActivityAssessmentNotificationCardStub
   }
 
-  const mountDefault = () => {
+  const mountDefault = (notification?: NotificationDTO) => {
     wrapper = mountComponent(StaffNotificationsPopover, {
-      props: {
-        notificationsEnabled: true,
-        unseenNotifications: 10
-      },
-      attrs: {
-        notifications: [mockedStaffNotification]
-      },
+      attrs: { notifications: notification ? [notification] : undefined },
       global: { stubs }
     })
   }
 
   const getPopover = () => wrapper.findComponent(NotificationsPopoverStub)
-  const getCards = () => wrapper.findAllComponents(ActivityFeedbackNotificationCardStub)
+  const getActivityFeedbackNotificationCards = () => wrapper.findAllComponents(ActivityFeedbackNotificationCardStub)
+  const getActivityAssessmentNotificationCards = () => wrapper.findAllComponents(ActivityAssessmentNotificationCardStub)
 
   BddTest().when('the component is mounted', () => {
-    beforeEach(() => mountDefault())
+    beforeEach(() => mountDefault(mockedStaffNotification))
 
     BddTest().then('it should render NotificationsPopover with correct props', () => {
       expect(getPopover().exists()).toBe(true)
@@ -40,18 +38,7 @@ BddTest().given('a StaffNotificationsPopover', () => {
   })
 
   BddTest().when('the component is mounted without notifications', () => {
-    beforeEach(() => {
-      wrapper = mountComponent(StaffNotificationsPopover, {
-        props: {
-          notificationsEnabled: true,
-          unseenNotifications: 0
-        },
-        attrs: {
-          notifications: []
-        },
-        global: { stubs }
-      })
-    })
+    beforeEach(() => mountDefault())
 
     BddTest().then('it should render NotificationsPopover with correct props', () => {
       expect(getPopover().exists()).toBe(true)
@@ -64,11 +51,34 @@ BddTest().given('a StaffNotificationsPopover', () => {
   })
 
   BddTest().when('notification is ASK_FOR_FEEDBACK', () => {
-    beforeEach(() => mountDefault())
+    const notification = mockedAskForFeedbackNotification()
+
+    beforeEach(() => mountDefault(notification))
 
     BddTest().then('it should render ActivityFeedbackNotificationCard with correct props', () => {
-      const cards = getCards()
+      const cards = getActivityFeedbackNotificationCards()
       expect(cards.length).toBe(1)
+    })
+
+    BddTest().then('it should not render ActivityAssessmentNotificationCard', () => {
+      const cards = getActivityAssessmentNotificationCards()
+      expect(cards.length).toBe(0)
+    })
+  })
+
+  BddTest().when('notification is ASSESSMENT_REQUEST', () => {
+    const notification = mockedAssessmentRequestNotification()
+
+    beforeEach(() => mountDefault(notification))
+
+    BddTest().then('it should render ActivityAssessmentNotificationCard with correct props', () => {
+      const cards = getActivityAssessmentNotificationCards()
+      expect(cards.length).toBe(1)
+    })
+
+    BddTest().then('it should not render ActivityFeedbackNotificationCard', () => {
+      const cards = getActivityFeedbackNotificationCards()
+      expect(cards.length).toBe(0)
     })
   })
 })

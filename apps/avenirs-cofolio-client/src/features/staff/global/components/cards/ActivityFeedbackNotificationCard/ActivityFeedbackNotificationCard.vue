@@ -3,6 +3,7 @@ import type { AskForFeedbackParameters, NotificationDTO } from '@/api/avenir-esr
 import { I18nT } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
+import { toFullName } from '@/common/utils/user/user'
 
 const { notification } = defineProps<{ notification: NotificationDTO }>()
 
@@ -37,7 +38,7 @@ const to = computed(() => notification.elementId !== undefined
         tag="span"
       >
         <template #studentName>
-          <span class="av-text-bold">{{ parameters?.studentLastName }} {{ parameters?.studentFirstName }}</span>
+          <span class="av-text-bold">{{ toFullName(parameters?.studentFirstName, parameters?.studentLastName) }}</span>
         </template>
 
         <template #activityName>

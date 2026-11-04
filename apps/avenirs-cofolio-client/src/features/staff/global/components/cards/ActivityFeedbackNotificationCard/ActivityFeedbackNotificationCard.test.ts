@@ -6,6 +6,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { mockedStaffNotification } from '@/__mocks__/fixtures/staffs/notifications.fixtures'
 import { ROUTES } from '@/common/constants'
 import { NotificationCardStub } from '@/common/notifications/components/NotificationCard/NotificationCard.stub'
+import { toFullName } from '@/common/utils/user/user'
 import ActivityFeedbackNotificationCard from '@/features/staff/global/components/cards/ActivityFeedbackNotificationCard/ActivityFeedbackNotificationCard.vue'
 
 const onRedirectMock = vi.fn()
@@ -68,7 +69,7 @@ BddTest().given('an ActivityFeedbackNotificationCard', () => {
       const { studentFirstName, studentLastName, activityTitle } = mockedNotification.parameters!
 
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`Vous avez reçus une nouvelle demande de feedback de ${studentLastName} ${studentFirstName} sur l'activité ${activityTitle}.`)
+      expect(content.text()).toBe(`Vous avez reçu une nouvelle demande de feedback de ${toFullName(String(studentFirstName), String(studentLastName))} sur l'activité ${activityTitle}.`)
     })
   })
 
@@ -105,7 +106,7 @@ BddTest().given('an ActivityFeedbackNotificationCard', () => {
     BddTest().then('it should render the sentence with empty placeholders', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe('Vous avez reçus une nouvelle demande de feedback de   sur l\'activité .')
+      expect(content.text()).toBe('Vous avez reçu une nouvelle demande de feedback de  sur l\'activité .')
     })
   })
 })

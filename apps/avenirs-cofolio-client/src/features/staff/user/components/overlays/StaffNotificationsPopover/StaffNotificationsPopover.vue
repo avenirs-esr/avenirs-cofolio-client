@@ -3,12 +3,14 @@ import type { Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, NotificationDTOType } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
+import ActivityAssessmentNotificationCard from '@/features/staff/global/components/cards/ActivityAssessmentNotificationCard/ActivityAssessmentNotificationCard.vue'
 import ActivityFeedbackNotificationCard from '@/features/staff/global/components/cards/ActivityFeedbackNotificationCard/ActivityFeedbackNotificationCard.vue'
 
 const { t } = useI18n()
 
 const notificationComponents: Partial<Record<NotificationDTOType, Component>> = {
   [NotificationDTOType.ASK_FOR_FEEDBACK]: ActivityFeedbackNotificationCard,
+  [NotificationDTOType.ASSESSMENT_REQUEST]: ActivityAssessmentNotificationCard,
 }
 </script>
 
