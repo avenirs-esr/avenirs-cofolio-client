@@ -11,7 +11,7 @@ declare module 'vue' {
     MainNavigation: typeof import('./components/navigation/MainNavigation/MainNavigation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SkipLinks: typeof import('./components/navigation/SkipLinks/SkipLinks.vue')['default']
+    SkipLinks: typeof import('@avenirs-esr/shared')['SkipLinks']
     StaffNavigation: typeof import('./components/navigation/MainNavigation/StaffNavigation.vue')['default']
   }
 }
