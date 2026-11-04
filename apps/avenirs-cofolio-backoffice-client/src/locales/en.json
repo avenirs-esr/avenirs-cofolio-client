@@ -12,6 +12,7 @@
     },
     "MainNavigation": {
       "home": "Home",
+      "nationalTools": "National Tools",
       "termsOfService": "Terms of Service"
     },
     "navigation": {

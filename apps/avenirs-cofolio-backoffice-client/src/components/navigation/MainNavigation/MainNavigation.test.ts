@@ -47,8 +47,16 @@ BddTest().given('a main navigation', () => {
       })
     })
 
-    BddTest().then('it should include terms of service navigation item with correct properties', () => {
+    BddTest().then('it should include national tools navigation item with correct properties', () => {
       expect(getNavItems()[1]).toMatchObject({
+        text: 'OUTILS NATIONAUX',
+        to: ROUTES.NATIONAL_TOOLS,
+        icon: MDI_ICONS.TOOLS,
+      })
+    })
+
+    BddTest().then('it should include terms of service navigation item with correct properties', () => {
+      expect(getNavItems()[2]).toMatchObject({
         text: 'CONDITIONS D\'UTILISATION',
         to: ROUTES.TERMS_OF_SERVICE,
         icon: MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE,
