@@ -10,6 +10,11 @@ export const META_BREADCRUMBS = {
   HOME: { textKey: 'global.MainNavigation.home', to: ROUTES.HOME },
 
   /**
+   * Breadcrumb metadata for the national tools module.
+   */
+  NATIONAL_TOOLS: { textKey: 'global.MainNavigation.nationalTools', to: ROUTES.NATIONAL_TOOLS },
+
+  /**
    * Breadcrumb metadata for the terms of service module.
    */
   TERMS_OF_SERVICE: { textKey: 'global.MainNavigation.termsOfService', to: ROUTES.TERMS_OF_SERVICE },
@@ -24,6 +29,13 @@ export const BASE_BREADCRUMBS = {
    */
   HOME: {
     BASE: [META_BREADCRUMBS.HOME],
+  },
+
+  /**
+   * Breadcrumb paths for the national tools module.
+   */
+  NATIONAL_TOOLS: {
+    BASE: [META_BREADCRUMBS.HOME, META_BREADCRUMBS.NATIONAL_TOOLS],
   },
 
   /**

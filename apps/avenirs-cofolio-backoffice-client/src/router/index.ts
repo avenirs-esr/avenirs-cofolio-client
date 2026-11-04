@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTES } from '@/constants'
+import { nationalToolsRoutes } from '@/features/national-tools/routes'
 import { termsOfServiceRoutes } from '@/features/terms-of-service/routes'
 import { getPageTitle, scrollBehavior } from '@/router/router.utils'
 
 const routes = [
   ...termsOfServiceRoutes,
+  ...nationalToolsRoutes,
   {
     ...ROUTES.HOME,
     component: { render: () => null },
