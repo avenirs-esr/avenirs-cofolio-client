@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue'
+
 export const SkipLinksStub = defineComponent({
   name: 'SkipLinksStub',
   template: `

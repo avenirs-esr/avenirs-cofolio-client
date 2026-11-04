@@ -351,12 +351,7 @@
       }
     },
     "navigation": {
-      "accessTo": "Access to",
-      "SkipLinks": {
-        "ariaLabel": "Quick access",
-        "footer": "Go to footer",
-        "main": "Go to main content"
-      }
+      "accessTo": "Access to"
     },
     "notifications": {
       "NotificationsPopover": {

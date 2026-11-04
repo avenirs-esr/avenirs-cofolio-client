@@ -105,6 +105,13 @@
     "header": {
       "languageSwitcher": "Changer de langue"
     },
+    "navigation": {
+      "SkipLinks": {
+        "ariaLabel": "Accès rapide",
+        "footer": "Aller au pied de page",
+        "main": "Aller au contenu principal"
+      }
+    },
     "overlay": {
       "InformationTooltip": {
         "triggerAriaLabel": "Informations"

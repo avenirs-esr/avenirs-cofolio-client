@@ -19,6 +19,8 @@ export type { LoaderColor, LoaderProps, LoaderSize } from '#shared/ui/components
 export { PageTitleStub } from '#shared/ui/components/navigation/PageTitle/PageTitle.stub'
 export { default as PageTitle } from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'
 export type { PageTitleProps } from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'
+export { SkipLinksStub } from '#shared/ui/components/navigation/SkipLinks/SkipLinks.stub'
+export { default as SkipLinks } from '#shared/ui/components/navigation/SkipLinks/SkipLinks.vue'
 export { InformationTooltipStub } from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
 export { default as InformationTooltip } from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 export type { InformationTooltipProps } from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'

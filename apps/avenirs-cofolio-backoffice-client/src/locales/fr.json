@@ -12,13 +12,6 @@
       "nationalTools": "Outils nationaux",
       "termsOfService": "Conditions d'utilisation"
     },
-    "navigation": {
-      "SkipLinks": {
-        "ariaLabel": "Accès rapide",
-        "footer": "Aller au pied de page",
-        "main": "Aller au contenu principal"
-      }
-    },
     "text": "Texte",
     "views": {
       "NotFoundView": {

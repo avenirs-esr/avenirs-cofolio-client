@@ -12,13 +12,6 @@
       "nationalTools": "National Tools",
       "termsOfService": "Terms of Service"
     },
-    "navigation": {
-      "SkipLinks": {
-        "ariaLabel": "Skip links",
-        "footer": "Go to footer",
-        "main": "Go to main content"
-      }
-    },
     "text": "Text",
     "views": {
       "NotFoundView": {
