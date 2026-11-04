@@ -52,6 +52,10 @@ export function isDeclaredActivityUnsubscribed (activityStatus?: EDeclaredActivi
   return activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
 }
 
+export function isDeclaredActivityCompleted (activityStatus?: EDeclaredActivityStatus): boolean {
+  return activityStatus === EDeclaredActivityStatus.COMPLETED
+}
+
 export function isDeclaredActivitySubmitted (activityStatus?: EDeclaredActivityStatus): boolean {
   return activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK
 }
