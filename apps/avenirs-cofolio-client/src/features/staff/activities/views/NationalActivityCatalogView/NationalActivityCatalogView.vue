@@ -35,6 +35,16 @@ const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
 const canEdit = computed(() => activity.value?.rights.includes(EActivityRight.EDIT) ?? false)
 
+const canManageAuthorizations = computed(() => activity.value?.rights.includes(EActivityRight.MANAGE_AUTHORIZATIONS) ?? false)
+
+const hasPendingRightsChanges = ref(false)
+
+const tabsDisabledTooltip = computed(() =>
+  hasPendingRightsChanges.value
+    ? t('staff.activities.views.NationalActivityCatalogView.tabs.disabledTooltip')
+    : undefined,
+)
+
 const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft') : t('global.buttons.update'))
 
 const editDeleteTooltip = computed(() =>
@@ -108,6 +118,8 @@ function updateActivity (id: string) {
       <AvTab
         :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
+        :disabled="hasPendingRightsChanges"
+        :disabled-tooltip="tabsDisabledTooltip"
         data-testid="national-activity-catalog-content-tab-item"
       >
         <NationalActivityContentTab
@@ -118,6 +130,8 @@ function updateActivity (id: string) {
       <AvTab
         :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
+        :disabled="hasPendingRightsChanges"
+        :disabled-tooltip="tabsDisabledTooltip"
         data-testid="national-activity-catalog-preview-tab-item"
       >
         <NationalActivityCatalogPreviewTab
@@ -138,6 +152,8 @@ function updateActivity (id: string) {
           <ActivityRightsSection
             :activity-id="activity.id"
             :status="status"
+            :can-edit="canManageAuthorizations"
+            @dirty-change="hasPendingRightsChanges = $event"
           />
         </div>
       </AvTab>

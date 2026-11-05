@@ -65,10 +65,10 @@ BddTest().given('an ActivityPublicationTab component', () => {
   function mountTab (
     FormWrapper: FormWrapperComponent,
     activity = mockedActivityDetail,
-    targetProps: { persistedTargetIds?: string[], lockPersistedTargets?: boolean } = {},
+    targetProps: { persistedTargetIds?: string[], lockPersistedTargets?: boolean, hasPublishRight?: boolean } = {},
   ) {
     wrapper = mountComponent(FormWrapper, {
-      slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, ...targetProps }) },
+      slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, hasPublishRight: true, ...targetProps }) },
       global: { stubs },
     })
 
@@ -159,6 +159,21 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should enable the publish button', () => {
       expect(getPublishButton().props('disabled')).toBe(false)
+    })
+
+    BddTest().then('it should not display the required fields warning', () => {
+      expect(tab.findComponent(AvMessageStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the user does not have the publish right', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityDetail, { hasPublishRight: false })
+    })
+
+    BddTest().then('it should disable the publish button with an explanatory tooltip', () => {
+      expect(getPublishButton().props('disabled')).toBe(true)
+      expect(getPublishButton().props('disabledTooltip')).toBe('Vous devez disposer du droit de publication sur l\'activité pour la publier')
     })
 
     BddTest().then('it should not display the required fields warning', () => {

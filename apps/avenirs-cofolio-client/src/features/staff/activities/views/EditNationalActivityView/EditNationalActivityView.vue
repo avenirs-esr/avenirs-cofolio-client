@@ -5,9 +5,8 @@ import type { EditActivityFormData } from '@/features/staff/activities/types/for
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, PageTitle, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
 import {
-
+  EActivityRight,
   EActivityStatus,
-
   invalidateGetActivityContent,
   invalidateGetActivityPresentation,
   useAddDraftFile,
@@ -86,6 +85,8 @@ const trailingLinks = computed(() => [
   { text: content.value?.title ?? '' },
   { text: title.value }
 ])
+
+const hasPublishRight = computed(() => content.value?.rights.includes(EActivityRight.PUBLISH) ?? false)
 
 const remoteFiles = computed(() => content.value?.files ?? [])
 const persistedTargetIds = computed(() => [...(content.value?.targetInstitutionIds ?? []), ...(content.value?.targetGroupIds ?? [])])
@@ -358,6 +359,7 @@ provideEditNationalActivityViewContext({
                 :activity="presentation!"
                 :persisted-target-ids="persistedTargetIds"
                 :lock-persisted-targets="content?.hasEnrolledStudent"
+                :has-publish-right="hasPublishRight"
                 @published="onPublished"
               />
             </AvTab>

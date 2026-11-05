@@ -23,9 +23,10 @@ interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO
   persistedTargetIds?: string[]
   lockPersistedTargets?: boolean
+  hasPublishRight?: boolean
 }
 
-const { activity, persistedTargetIds = [], lockPersistedTargets = false } = defineProps<ActivityPublicationTabProps>()
+const { activity, persistedTargetIds = [], lockPersistedTargets = false, hasPublishRight = false } = defineProps<ActivityPublicationTabProps>()
 
 const emit = defineEmits<{
   (e: 'published'): void
@@ -60,6 +61,10 @@ const canPublish = computed(() => {
 const publishBlockedMessage = computed(() => t(values.value.isNational
   ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
   : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError'))
+
+const publishDisabledTooltip = computed(() => hasPublishRight
+  ? publishBlockedMessage.value
+  : t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRightOnlyTooltip'))
 
 async function publishActivityDraft () {
   mutatePublishActivityDraft({ activityDraftId: activity.id }, {
@@ -166,13 +171,13 @@ async function publishActivityDraft () {
           :icon="RI_ICONS.SEND_PLANE_LINE"
           :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
           :is-loading="isFormDirty || isUpdating || isPending || isLoading"
-          :disabled="!canPublish"
-          :disabled-tooltip="publishBlockedMessage"
+          :disabled="!hasPublishRight || !canPublish"
+          :disabled-tooltip="publishDisabledTooltip"
           @click="openModal"
         />
       </div>
       <div
-        v-if="!canPublish"
+        v-if="hasPublishRight && !canPublish"
         class="av-row av-justify-end"
       >
         <AvMessage

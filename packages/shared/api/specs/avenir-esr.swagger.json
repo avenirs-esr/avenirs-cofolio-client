@@ -3700,6 +3700,71 @@
         }
       }
     },
+    "/me/activities/{activityStatus}/{activityId}/authorizations/candidates": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "searchActivityAuthorizationCandidates",
+        "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityStatus"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseStaffCandidateDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/{activityId}/files/{fileId}/download": {
       "get": {
         "tags": [
@@ -5949,6 +6014,62 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/StudentScopeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/access/staff/search": {
+      "get": {
+        "tags": [
+          "access-controller"
+        ],
+        "operationId": "searchStaff",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseStaffSearchItemResponse"
                 }
               }
             }
@@ -9419,6 +9540,48 @@
           "title"
         ]
       },
+      "PagedResponseStaffCandidateDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffCandidateDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "StaffCandidateDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "id",
+          "lastName"
+        ]
+      },
       "ActivityDashboardDTO": {
         "type": "object",
         "properties": {
@@ -11206,6 +11369,43 @@
             }
           }
         }
+      },
+      "PagedResponseStaffSearchItemResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffSearchItemResponse"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "StaffSearchItemResponse": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "eppn",
+          "firstName",
+          "lastName"
+        ]
       },
       "ScopeNodeResponse": {
         "type": "object",
