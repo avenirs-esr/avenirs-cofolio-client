@@ -84,6 +84,7 @@ async function registerFeatureLocales (feature: string) {
 
 async function initializeI18n () {
   await registerFeatureLocales('terms-of-service')
+  await registerFeatureLocales('national-tools')
 }
 
 function createVueI18nPlugin () {
