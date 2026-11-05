@@ -1,7 +1,6 @@
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import { getAvButtonByTestId } from 'tests/utils'
+import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { EFeedbackStatus, EGroupType } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants/route-names'

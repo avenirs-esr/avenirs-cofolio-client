@@ -2,10 +2,9 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
+import { ICONS, QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EGroupType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import { getUserGroupsByType } from '@/features/staff/admin/utils/groups.utils'
 import UserGroupsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserGroupsTable/UserGroupsTable.vue'
 

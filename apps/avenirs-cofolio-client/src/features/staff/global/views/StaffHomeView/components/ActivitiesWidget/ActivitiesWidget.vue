@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus, useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import ActivityLongIconCard from '@/features/staff/global/views/StaffHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
 
 const { isDraft = false } = defineProps<{ isDraft?: boolean }>()

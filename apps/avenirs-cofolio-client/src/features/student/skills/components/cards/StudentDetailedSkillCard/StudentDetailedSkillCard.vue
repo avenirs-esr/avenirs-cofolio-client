@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import type { IconOptions } from '@avenirs-esr/shared'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 
 export interface StudentDetailedSkillCardProps {
   id: string
@@ -12,7 +13,7 @@ export interface StudentDetailedSkillCardProps {
 
 const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSkillCardProps>()
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: icon,
   color,
   bottom: 'calc(-1 * var(--spacing-lg))',

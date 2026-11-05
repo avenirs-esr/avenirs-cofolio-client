@@ -29,6 +29,7 @@ export const META_BREADCRUMBS = {
       DEFAULT: { textKey: 'staff.global.navigation.tabs.admin.header' },
       GROUPS: { textKey: 'staff.global.navigation.tabs.admin.items.groups', to: ROUTES.STAFF.ADMIN.GROUPS },
       SKILLS: { textKey: 'staff.global.navigation.tabs.admin.items.skills', to: ROUTES.STAFF.ADMIN.SKILLS },
+      TOOLS: { textKey: 'staff.global.navigation.tabs.admin.items.tools', to: ROUTES.STAFF.ADMIN.TOOLS },
       USERS: { textKey: 'staff.global.navigation.tabs.admin.items.users', to: ROUTES.STAFF.ADMIN.USERS },
     },
 
@@ -173,6 +174,7 @@ export const BASE_BREADCRUMBS = {
     ADMIN: {
       GROUPS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.GROUPS],
       SKILLS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.SKILLS],
+      TOOLS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.TOOLS],
       USERS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.USERS],
     },
 

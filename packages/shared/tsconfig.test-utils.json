@@ -7,6 +7,6 @@
     },
     "types": ["node"]
   },
-  "include": ["test-utils/**/*.ts", "src/ui/**/*.stub.ts"],
+  "include": ["test-utils/**/*.ts", "src/ui/**/*.stub.ts", "src/types/**/*.ts"],
   "exclude": ["test-utils/**/*.test.ts", "test-utils/mount-composable.ts"]
 }

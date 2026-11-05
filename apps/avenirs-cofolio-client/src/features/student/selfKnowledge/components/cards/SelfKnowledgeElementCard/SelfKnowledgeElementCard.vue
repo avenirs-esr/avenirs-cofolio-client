@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import { Rating } from '@/common/components'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { FloatingIconCard } from '@/features/student/global'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 
 export interface SelfKnowledgeElementCardProps {

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import { AvIconText, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
-import { FloatingIconCard } from '@/features/student/global'
 
 export interface StudentTraceCardProps {
   trace: TraceOverviewDTO
@@ -18,7 +19,7 @@ const category = computed(() => t('student.traces.cards.StudentTraceCard.lifePro
 
 const typeInfo = computed(() => t(`student.traces.cards.StudentTraceCard.tagLabel.${authorType}`))
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
   color: 'var(--text1)',
   bottom: 'var(--spacing-xl-neg)',

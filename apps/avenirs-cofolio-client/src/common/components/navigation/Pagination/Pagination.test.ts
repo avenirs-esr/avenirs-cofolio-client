@@ -115,9 +115,9 @@ BddTest().given('a pagination', () => {
         expect(bottomPagination!.props('truncLimit')).toBe(1)
       })
 
-      BddTest().then('it should not render AvPageSizePicker', () => {
+      BddTest().then('it should render AvPageSizePicker', () => {
         createWrapper()
-        expect(getAvPageSizePicker().exists()).toBe(false)
+        expect(getAvPageSizePicker().exists()).toBe(true)
       })
     })
   })

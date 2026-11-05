@@ -34,6 +34,7 @@
   "peerDependencies": {
     "@avenirs-esr/avenirs-dsav": "catalog:",
     "@playwright/test": "catalog:",
+    "@tanstack/vue-form": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@vue/test-utils": "catalog:",
     "pinia": "catalog:",
@@ -46,6 +47,9 @@
       "optional": true
     },
     "@playwright/test": {
+      "optional": true
+    },
+    "@tanstack/vue-form": {
       "optional": true
     },
     "@tanstack/vue-query": {
@@ -71,6 +75,7 @@
     "@antfu/eslint-config": "catalog:",
     "@avenirs-esr/avenirs-dsav": "catalog:",
     "@playwright/test": "catalog:",
+    "@tanstack/vue-form": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",

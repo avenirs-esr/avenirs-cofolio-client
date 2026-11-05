@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import { AvFilePill } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
@@ -47,6 +48,18 @@ const { t } = useI18n()
           :model-value="element.description"
           disabled
         />
+
+        <AvFilePill
+          v-for="file in element.files"
+          :key="file.id"
+          :name="file.fileName"
+          :size="file.fileSize"
+          :type="file.fileType"
+          :deletable="false"
+          :downloadable="false"
+          show-details
+        />
+
         <div class="self-knowledge-element-details__dates av-row av-justify-end">
           <CreationUpdateDateDetails
             :updated-at="element.updatedAt"

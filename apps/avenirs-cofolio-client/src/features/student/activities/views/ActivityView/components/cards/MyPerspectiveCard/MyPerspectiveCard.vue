@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EFeedbackStatus } from '@/api/avenir-esr'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Card, useApiErrors } from '@avenirs-esr/shared'
+import { Card, ICONS, useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
@@ -12,7 +12,7 @@ import { isPerspectiveEditingDisabled } from '@/common/activities/rules/activiti
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
+import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
 import { useToasterStore } from '@/store'
 

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
+import { ICONS } from '@avenirs-esr/shared'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
 

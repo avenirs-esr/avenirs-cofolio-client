@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { PageTitle, QuerySuspense } from '@avenirs-esr/shared'
+import { ICONS, PageTitle, QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import {
   EUserCategory,
@@ -9,7 +9,6 @@ import {
 } from '@/api/avenir-esr'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import { useModal } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import FeedbackManagementFloatingPanel
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.vue'

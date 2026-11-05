@@ -102,6 +102,16 @@
       },
       "generic": "An error has occurred. Please try again later."
     },
+    "header": {
+      "languageSwitcher": "Change language"
+    },
+    "navigation": {
+      "SkipLinks": {
+        "ariaLabel": "Quick access",
+        "footer": "Go to footer",
+        "main": "Go to main content"
+      }
+    },
     "overlay": {
       "InformationTooltip": {
         "triggerAriaLabel": "Informations"

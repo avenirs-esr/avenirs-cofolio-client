@@ -62,6 +62,14 @@ export const staffAdminUsersRoute: AvRoute = {
   },
 }
 
+export const staffAdminToolsRoute: AvRoute = {
+  ...ROUTES.STAFF.ADMIN.TOOLS,
+  component: () => import('@/features/staff/admin/views/AdminToolsView/AdminToolsView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.ADMIN.TOOLS],
+  },
+}
+
 export const staffAdminGroupsRoutes: AvRoute[] = withRequiredRoles(
   ROUTE_ROLES.STAFF.ADMIN_GROUPS,
   staffAdminGroupRoute,
@@ -74,6 +82,10 @@ export const staffAdminSkillsRoutes: AvRoute[] = withRequiredRoles(
   staffAdminSkillsRoute,
 )
 
+export const staffAdminToolsRoutes: AvRoute[] = [
+  staffAdminToolsRoute,
+]
+
 export const staffAdminUsersRoutes: AvRoute[] = withRequiredRoles(
   ROUTE_ROLES.STAFF.ADMIN_USERS,
   staffAdminUserRoute,
@@ -83,5 +95,6 @@ export const staffAdminUsersRoutes: AvRoute[] = withRequiredRoles(
 export const staffAdminRoutes: AvRoute[] = [
   ...staffAdminGroupsRoutes,
   ...staffAdminSkillsRoutes,
-  ...staffAdminUsersRoutes
+  ...staffAdminUsersRoutes,
+  ...staffAdminToolsRoutes,
 ]

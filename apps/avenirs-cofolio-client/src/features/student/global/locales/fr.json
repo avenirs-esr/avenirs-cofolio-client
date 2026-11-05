@@ -14,6 +14,9 @@
             "THEMATIC": "Thématique"
           }
         },
+        "AssessmentModifiedNotificationCard": {
+          "content": "Une appréciation a été modifiée pour l'activité \"{activityName}\"."
+        },
         "AssessmentSentNotificationCard": {
           "content": "Une appréciation a été envoyée pour l'activité \"{activityName}\"."
         }

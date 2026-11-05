@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { getAvButtonByTestId } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
-import { getAvButtonByTestId } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { ROUTES } from '@/common/constants'

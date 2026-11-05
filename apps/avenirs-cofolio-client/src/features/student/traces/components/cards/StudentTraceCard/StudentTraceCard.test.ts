@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, AvTagStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { FloatingIconCardStub } from '@avenirs-esr/shared'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
 
 BddTest().given('a student trace card', () => {

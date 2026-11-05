@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import UserDetailsSection from '@/features/staff/admin/views/InstitutionUserDetailedView/components/sections/UserDetailsSection/UserDetailsSection.vue'
 import UserGroupsSection from '@/features/staff/admin/views/InstitutionUserDetailedView/components/sections/UserGroupsSection/UserGroupsSection.vue'
 import UserPermissionsSection from '@/features/staff/admin/views/InstitutionUserDetailedView/components/sections/UserPermissionsSection/UserPermissionsSection.vue'

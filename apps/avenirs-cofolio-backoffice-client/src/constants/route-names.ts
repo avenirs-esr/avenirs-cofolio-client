@@ -8,6 +8,11 @@ export const ROUTES = {
   HOME: { name: 'home', path: '/' },
 
   /**
+   * Route names and paths for the national tools module.
+   */
+  NATIONAL_TOOLS: { name: 'national-tools', path: '/national-tools' },
+
+  /**
    * Route names and paths for the terms of service module.
    */
   TERMS_OF_SERVICE: { name: 'terms-of-service', path: '/terms-of-service' },

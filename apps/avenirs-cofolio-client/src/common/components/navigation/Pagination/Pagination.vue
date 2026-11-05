@@ -56,7 +56,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
       }"
     >
       <AvPageSizePicker
-        v-if="!isMobile && totalPages > 0 && !withoutPageSizePicker"
+        v-if="totalPages > 0 && !withoutPageSizePicker"
         data-testid="page-size-picker"
         :label="t('global.pageSizePicker.label')"
         :page-size-selected="pageSizeSelected"

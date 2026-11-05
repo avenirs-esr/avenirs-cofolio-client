@@ -293,7 +293,6 @@
       "saveDisabledTooltip": "Edit a field before saving"
     },
     "header": {
-      "languageSwitcher": "Change language",
       "switchUniverse": {
         "label": "Switch universe",
         "disabledTooltip": "You are currently in this universe"
@@ -352,12 +351,7 @@
       }
     },
     "navigation": {
-      "accessTo": "Access to",
-      "SkipLinks": {
-        "ariaLabel": "Quick access",
-        "footer": "Go to footer",
-        "main": "Go to main content"
-      }
+      "accessTo": "Access to"
     },
     "notifications": {
       "NotificationsPopover": {

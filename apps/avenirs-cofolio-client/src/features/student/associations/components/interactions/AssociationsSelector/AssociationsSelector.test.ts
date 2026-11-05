@@ -2,6 +2,7 @@ import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AssociationsSelectorProps } from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import {
@@ -13,7 +14,6 @@ import {
 } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { ICONS } from '@/common/constants'
 import AssociationsSelector from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { DeclaredExperienceTypeBadgeStub }

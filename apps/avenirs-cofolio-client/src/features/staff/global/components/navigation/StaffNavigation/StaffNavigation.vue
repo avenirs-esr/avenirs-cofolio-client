@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { NavigationMenuLinkProps, NavigationMenuProps } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { ROUTE_ROLES } from '@/common/constants/route-roles'
 import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
-import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
+import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminToolsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingAssessmentsRoutes } from '@/features/staff/assessments/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
@@ -73,6 +74,15 @@ const adminMenu = computed(() => {
       text: t('staff.global.navigation.tabs.admin.items.skills'),
       icon: ICONS.SKILLS,
       highlight: isRouteActive({ route, routes: [staffAdminSkillsRoute] }),
+    })
+  }
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN_TOOLS)) {
+    links.push({
+      to: ROUTES.STAFF.ADMIN.TOOLS,
+      text: t('staff.global.navigation.tabs.admin.items.tools'),
+      icon: ICONS.TOOLS,
+      highlight: isRouteActive({ route, routes: [staffAdminToolsRoute] }),
     })
   }
 

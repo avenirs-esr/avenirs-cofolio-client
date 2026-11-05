@@ -1,21 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityOverviewDTO } from '@/api/avenir-esr'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import {
-
-  EActivityThematic,
-  EDeclaredActivityStatus
-} from '@/api/avenir-esr'
+import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { ICONS } from '@/common/constants'
 import { ActivityNewBadgeStub } from '@/features/student/activities/components/badges/ActivityNewBadge/ActivityNewBadge.stub'
 import { ActivityPeriodBadgeStub } from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
 import ActivityCard from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 
 BddTest().given('an activity card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityCard>>

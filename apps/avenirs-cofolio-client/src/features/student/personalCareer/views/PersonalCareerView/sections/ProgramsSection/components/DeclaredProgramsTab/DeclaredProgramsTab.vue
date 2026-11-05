@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
+import { ICONS, QuerySuspense } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import { AddDeclaredProgramDrawer } from '@/features/student/personalCareer'
 import DeclaredProgramCard from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
@@ -46,7 +45,7 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center">
+    <div class="av-col av-row--lg av-gap-sm av-justify-between--lg av-align-center--lg">
       <AvIconText
         icon-color="var(--text2)"
         typography-class="n4"

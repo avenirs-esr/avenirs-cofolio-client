@@ -293,7 +293,6 @@
       "saveDisabledTooltip": "Veuillez modifier un champ avant de pouvoir enregistrer"
     },
     "header": {
-      "languageSwitcher": "Changer de langue",
       "switchUniverse": {
         "label": "Changer d'univers",
         "disabledTooltip": "Vous êtes actuellement dans cet univers"
@@ -352,12 +351,7 @@
       }
     },
     "navigation": {
-      "accessTo": "Accéder à",
-      "SkipLinks": {
-        "ariaLabel": "Accès rapide",
-        "footer": "Aller au pied de page",
-        "main": "Aller au contenu principal"
-      }
+      "accessTo": "Accéder à"
     },
     "notifications": {
       "NotificationsPopover": {

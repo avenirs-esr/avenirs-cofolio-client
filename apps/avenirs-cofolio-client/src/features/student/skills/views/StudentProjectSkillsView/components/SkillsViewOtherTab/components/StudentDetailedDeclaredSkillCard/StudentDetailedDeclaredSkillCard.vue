@@ -2,10 +2,11 @@
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
 import type { ExternalSkillDTO, SkillProgressDTO } from '@/api/avenir-esr'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { DeclaredSkillMacroSkillBadge } from '@/features/student/declaredSkills'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 

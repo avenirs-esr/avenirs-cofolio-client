@@ -85,6 +85,8 @@ The `@avenirs-esr/shared/test-utils/unit` entry point exports `mountComponent`, 
 
 The existing application test utilities re-export the component and router helpers. Each application configures its composable mounting facade with its own i18n instance; Cofolio additionally supplies its persisted Pinia factory, while Backoffice uses a plain Pinia. Optional plugins and their default settings are unchanged.
 
+Import `createFormFieldTestWrapper`, its `CreateFormFieldTestWrapperOptions` type, `findAvButtonByTestId` and `getAvButtonByTestId` directly from `@avenirs-esr/shared/test-utils/unit`. The form wrapper creates a TanStack Form with one field and runs its optional validator factory inside component setup. The button helpers match `AvButtonStub` components by their inherited `data-testid`; `findAvButtonByTestId` returns `undefined` when absent, while `getAvButtonByTestId` throws.
+
 The unit entry point also exports the setup helpers:
 
 - `setupWarningHandler` installs the strict warning handler explicitly from each local setup.
@@ -94,7 +96,7 @@ The `a11y` entry point exports `A11Y_TEST_TIMEOUT`, `waitMswToStart` and `create
 
 Browser MSW handlers use the `msw` entry point for request and pagination helpers without loading Playwright or unit-test tooling.
 
-Vue, Vue Test Utils, Pinia, TanStack Query and Playwright are optional peers and explicit development dependencies of shared. Runtime consumers do not acquire mandatory test-tool dependencies. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine. Shared component stubs are co-located under `src/ui` and exported from `@avenirs-esr/shared`; application-specific stubs remain local.
+Vue, Vue Test Utils, Pinia, TanStack Form, TanStack Query and Playwright are optional peers and explicit development dependencies of shared. Runtime consumers do not acquire mandatory test-tool dependencies. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine. Shared component stubs are co-located under `src/ui` and exported from `@avenirs-esr/shared`; application-specific stubs remain local.
 
 Each utility's `.test.ts` file is co-located with its implementation under `src/` or `test-utils/`. The library TypeScript projects exclude tests; the dedicated test project includes them. The shared Vitest configuration defines a Node `runtime` project and a JSDOM `test-utils` project. No JavaScript library build is required.
 

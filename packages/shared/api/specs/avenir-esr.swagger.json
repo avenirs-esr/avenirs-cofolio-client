@@ -261,6 +261,55 @@
         }
       }
     },
+    "/me/self-knowledge/{selfKnowledgeElementId}/attachments": {
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "uploadSelfKnowledgeAttachment",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/programs/{declaredProgramId}": {
       "get": {
         "tags": [
@@ -1153,55 +1202,7 @@
         }
       }
     },
-    "/me/self-knowledge/{selfKnowledgeElementId}/attachments": {
-      "post": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "uploadSelfKnowledgeAttachment",
-        "parameters": [
-          {
-            "name": "selfKnowledgeElementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "file"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+   
     "/me/self-knowledge/{selfKnowledgeCategory}/elements": {
       "post": {
         "tags": [
@@ -8397,7 +8398,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "files": {
+            "files": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/FileDTO"
@@ -8408,8 +8409,8 @@
             "items": {
               "type": "string"
             }
-          }
-        },
+        }
+      },
         "required": [
           "createdAt",
           "description",

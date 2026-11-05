@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { isAssessmentEnabled } from '@/common/activities/rules/activities.rules'
 import { EnabledDisabledStatusBadge } from '@/common/components'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,

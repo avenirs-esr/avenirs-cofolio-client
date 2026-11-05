@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CardStub } from '@avenirs-esr/shared'
+import { AvBadgeStub, AvCardStub, AvIconTextStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CardStub, ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { ICONS } from '@/common/constants'
 import ReceivedAssessmentSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.vue'
 
 const requestedAssessment: ReceivedAssessmentDTO = {
@@ -31,12 +30,14 @@ const stubs = {
   AvCard: AvCardStub,
   AvIconText: AvIconTextStub,
   AvBadge: AvBadgeStub,
+  AvMessage: AvMessageStub,
 }
 
 BddTest().given('a ReceivedAssessmentSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ReceivedAssessmentSection>>
 
   const getGradeBadge = () => wrapper.findComponent('[data-testid="received-assessment-card-grade"]') as VueWrapper<InstanceType<typeof AvBadgeStub>>
+  const getGradeMessage = () => wrapper.findComponent(AvMessageStub)
   const getValidationBadge = () => wrapper.findComponent('[data-testid="received-assessment-card-validation"]') as VueWrapper<InstanceType<typeof AvBadgeStub>>
 
   BddTest().when('the activity has not been submitted for assessment', () => {
@@ -122,7 +123,10 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
       expect(wrapper.find('[data-testid="received-assessment-card-assessor"]').text()).toBe('Marc Perceval')
     })
 
-    BddTest().then('it should render the grade over the grading scale', () => {
+    BddTest().then('it should render the grade over the grading scale with message and badge', () => {
+      expect(getGradeMessage().exists()).toBe(true)
+      expect(getGradeMessage().props('message')).toBe('Note donnée à titre indicatif. Elle ne constitue pas une note officielle transmise à votre service de scolarité.')
+      expect(getGradeBadge().exists()).toBe(true)
       expect(getGradeBadge().props('label')).toBe('16\u00A0/\u00A020')
     })
 
@@ -143,7 +147,10 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
       })
     })
 
-    BddTest().then('it should still render the grade', () => {
+    BddTest().then('it should still render the grade message and badge', () => {
+      expect(getGradeMessage().exists()).toBe(true)
+      expect(getGradeMessage().props('message')).toBe('Note donnée à titre indicatif. Elle ne constitue pas une note officielle transmise à votre service de scolarité.')
+      expect(getGradeBadge().exists()).toBe(true)
       expect(getGradeBadge().props('label')).toBe('0\u00A0/\u00A020')
     })
   })
@@ -165,7 +172,8 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
       expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
     })
 
-    BddTest().then('it should not render the grade', () => {
+    BddTest().then('it should not render the grade message and badge', () => {
+      expect(getGradeMessage().exists()).toBe(false)
       expect(getGradeBadge().exists()).toBe(false)
     })
 
@@ -200,8 +208,12 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
       })
     })
 
-    BddTest().then('it should render both the grade and the validation', () => {
+    BddTest().then('it should render both the grade (message and badge) and the validation', () => {
+      expect(getGradeMessage().exists()).toBe(true)
+      expect(getGradeMessage().props('message')).toBe('Note donnée à titre indicatif. Elle ne constitue pas une note officielle transmise à votre service de scolarité.')
+      expect(getGradeBadge().exists()).toBe(true)
       expect(getGradeBadge().props('label')).toBe('16\u00A0/\u00A020')
+      expect(getValidationBadge().exists()).toBe(true)
       expect(getValidationBadge().props('label')).toBe('Validée')
     })
   })

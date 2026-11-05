@@ -2,8 +2,11 @@
   "staff": {
     "global": {
       "cards": {
+        "ActivityAssessmentNotificationCard": {
+          "content": "Vous avez reçu une nouvelle demande d'évaluation de {studentName} sur l'activité {activityName}."
+        },
         "ActivityFeedbackNotificationCard": {
-          "content": "Vous avez reçus une nouvelle demande de feedback de {studentName} sur l'activité {activityName}."
+          "content": "Vous avez reçu une nouvelle demande de feedback de {studentName} sur l'activité {activityName}."
         }
       },
       "layout": {
@@ -25,6 +28,7 @@
             "items": {
               "groups": "Groupes",
               "skills": "Compétences",
+              "tools": "Outils",
               "users": "Utilisateurs"
             }
           },

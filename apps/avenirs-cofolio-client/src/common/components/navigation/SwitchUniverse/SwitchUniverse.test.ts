@@ -1,7 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
-import { getAvButtonByTestId } from 'tests/utils'
+import { getAvButtonByTestId, mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { EUserCategory } from '@/api/avenir-esr'
 import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'

@@ -8,6 +8,7 @@ import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes
 import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
 import CategoryElementTitleInputFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
+import SelfKnowledgeFileUploadFormField from '@/features/student/selfKnowledge/components/interactions/formFields/SelfKnowledgeFileUploadFormField/SelfKnowledgeFileUploadFormField.vue'
 import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
@@ -116,6 +117,12 @@ const drawerTitle = computed(() => {
               <div class="av-col av-gap-md av-p-sm">
                 <CategoryElementRatingRadioButtonSetFormField :form="form" />
               </div>
+            </AvAccordion>
+            <AvAccordion
+              :icon="MDI_ICONS.ATTACH_FILE"
+              :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.attachments.title')"
+            >
+              <SelfKnowledgeFileUploadFormField :form="form" />
             </AvAccordion>
           </AvAccordionsGroup>
         </form>

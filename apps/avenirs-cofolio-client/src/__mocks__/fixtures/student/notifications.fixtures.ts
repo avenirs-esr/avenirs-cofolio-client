@@ -69,11 +69,29 @@ export function mockedAssessmentSentNotification (): NotificationDTO {
   }
 }
 
+export const ASSESSMENT_MODIFIED_NOTIFICATION_ACTIVITY_TITLE = 'Activité "Me connaître" : Identifier ses motivations profondes'
+
+export const ASSESSMENT_MODIFIED_NOTIFICATION_ACTIVITY_ID = '9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33'
+
+export function mockedAssessmentModifiedNotification (): NotificationDTO {
+  return {
+    id: 'notification-assessment-modified',
+    createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
+    type: NotificationDTOType.ASSESSMENT_MODIFIED,
+    elementId: ASSESSMENT_MODIFIED_NOTIFICATION_ACTIVITY_ID,
+    seen: false,
+    parameters: {
+      activityTitle: ASSESSMENT_MODIFIED_NOTIFICATION_ACTIVITY_TITLE,
+    },
+  }
+}
+
 export function createStudentMockedNotifications (totalElements: number): NotificationDTO[] {
   const notifications: NotificationDTO[] = [
     mockedActivityModifiedNotificationSingleSection(),
     mockedActivityModifiedNotificationMultipleSections(),
     mockedAssessmentSentNotification(),
+    mockedAssessmentModifiedNotification(),
   ]
 
   for (let i = notifications.length + 1; i <= totalElements; i++) {

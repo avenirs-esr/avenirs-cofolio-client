@@ -3,13 +3,12 @@ import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { EExperienceType } from '@/api/avenir-esr'
 import type { SortValue } from '@/common/types'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
+import { ICONS, QuerySuspense } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { ESortField, ESortOrder, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { Pagination, SortSelect } from '@/common/components'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
-import { ICONS } from '@/common/constants'
 import { formatSortValue, parseSortValue } from '@/common/utils/http/http-params'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import AddDeclaredExperienceDrawer
@@ -65,7 +64,7 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center">
+    <div class="av-col av-row--lg av-gap-sm av-justify-between--lg av-align-center--lg">
       <AvIconText
         icon-color="var(--text2)"
         typography-class="n4"

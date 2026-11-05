@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@avenirs-esr/shared'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredExperienceOrganizationBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
 import DeclaredExperienceTypeBadge
@@ -15,7 +16,7 @@ defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
 
 const { isStudentToolsKitRoute } = useIdentifyRoute()
 
-const iconOptions = {
+const iconOptions: IconOptions = {
   name: MDI_ICONS.HUB_OUTLINE,
   color: 'var(--icon)',
   right: '0.4rem',

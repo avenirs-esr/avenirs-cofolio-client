@@ -6,12 +6,12 @@ import type {
   UpdateDeclaredSkillForm
 } from '@/features/student/declaredSkills/types/forms.types'
 import { AvListItem, AvTooltip } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGetSkillIds, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
-import { ICONS } from '@/common/constants'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'

@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, NotificationDTOType } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import ActivityModifiedNotificationCard from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.vue'
+import AssessmentModifiedNotificationCard from '@/features/student/global/components/cards/AssessmentModifiedNotificationCard/AssessmentModifiedNotificationCard.vue'
 import AssessmentSentNotificationCard from '@/features/student/global/components/cards/AssessmentSentNotificationCard/AssessmentSentNotificationCard.vue'
 
 const { t } = useI18n()
+
+const notificationComponents: Partial<Record<NotificationDTOType, Component>> = {
+  [NotificationDTOType.ACTIVITY_MODIFIED]: ActivityModifiedNotificationCard,
+  [NotificationDTOType.ASSESSMENT_MODIFIED]: AssessmentModifiedNotificationCard,
+  [NotificationDTOType.ASSESSMENT_SENT]: AssessmentSentNotificationCard
+}
 </script>
 
 <template>
@@ -23,18 +31,14 @@ const { t } = useI18n()
       >
         <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.activityModified') }}</span></li>
         <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.assessmentSent') }}</span></li>
+        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.assessmentModified') }}</span></li>
       </ul>
     </template>
 
     <template #default="{ notification, onRedirect, onSeen }">
-      <ActivityModifiedNotificationCard
-        v-if="notification.type === NotificationDTOType.ACTIVITY_MODIFIED"
-        :notification="notification"
-        @redirect="onRedirect"
-        @seen="onSeen"
-      />
-      <AssessmentSentNotificationCard
-        v-else-if="notification.type === NotificationDTOType.ASSESSMENT_SENT"
+      <component
+        :is="notificationComponents[notification.type]"
+        v-if="notificationComponents[notification.type]"
         :notification="notification"
         @redirect="onRedirect"
         @seen="onSeen"

@@ -1,6 +1,6 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { App } from 'vue'
-import { AvAvailableLocales, AvSharedMessages } from '@avenirs-esr/shared'
+import { AvAvailableLocales, AvSharedMessages, getBrowserLocale } from '@avenirs-esr/shared'
 import { createI18n } from 'vue-i18n'
 
 export function parseLocaleModules (modules: Record<string, any>) {
@@ -16,11 +16,6 @@ export function parseLocaleModules (modules: Record<string, any>) {
   }
 
   return result
-}
-
-export function getBrowserLocale (): AvLocale {
-  const browserLocale = navigator.language.split('-')?.[0] as AvLocale
-  return AvAvailableLocales.includes(browserLocale) ? browserLocale : 'fr'
 }
 
 function getPersistedLocale (): AvLocale | undefined {
@@ -89,6 +84,7 @@ async function registerFeatureLocales (feature: string) {
 
 async function initializeI18n () {
   await registerFeatureLocales('terms-of-service')
+  await registerFeatureLocales('national-tools')
 }
 
 function createVueI18nPlugin () {
