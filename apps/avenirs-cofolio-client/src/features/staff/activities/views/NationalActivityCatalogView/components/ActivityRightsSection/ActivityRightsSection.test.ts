@@ -1,22 +1,23 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
-import type { PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
+import type { PagedResponseStaffCandidateDTO, StaffCandidateDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvIconStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { ErrorCodes, HttpStatusCode, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { ACTIVITY_WITH_AUTHORIZATIONS_ID, mockedActivityAuthorizations } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { generateExternalUserAffiliationOverviewDTOs } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
-import { getAffiliationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityRight, EActivityStatus, EAuthorization, getGetAffiliationsUrl } from '@/api/avenir-esr'
+import { EActivityRight, EActivityStatus, EAuthorization } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import ActivityRightsSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.vue'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
+import { AuthorizationTypeBadgeStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/badges/AuthorizationTypeBadge/AuthorizationTypeBadge.stub'
 import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
 
 const mockIsMobile = ref(false)
@@ -50,39 +51,48 @@ BddTest().given('an ActivityRightsSection component', () => {
     mockIsMobile.value = false
   })
 
-  const users = generateExternalUserAffiliationOverviewDTOs(3).map((user, index) => ({
-    ...user,
-    firstName: ['ALICE', 'BOB', 'CHARLIE'][index]!,
-    lastName: ['DUPONT', 'MARTIN', 'DURAND'][index]!,
-    userId: `app-user-${index}`,
-  }))
-  const [aliceWithPicture, bobWithoutPicture] = users as [typeof users[number], typeof users[number]]
+  const users: StaffCandidateDTO[] = [
+    { id: 'app-user-0', firstName: 'Alice', lastName: 'Dupont', email: 'alice.dupont@test.fr' },
+    { id: 'app-user-1', firstName: 'Bob', lastName: 'Martin', email: 'bob.martin@test.fr' },
+    { id: 'app-user-2', firstName: 'Charlie', lastName: 'Durand', email: 'charlie.durand@test.fr' },
+  ]
+  const [alice, bob] = users as [typeof users[number], typeof users[number]]
 
   const stubs = {
     AvButton: AvButtonStub,
     AvIcon: AvIconStub,
     AvSelect: AvSelectStub,
+    AuthorizationTypeBadge: AuthorizationTypeBadgeStub,
+    ConfirmationModal: ConfirmationModalStub,
     DeleteOverlay: DeleteOverlayStub,
+    FormCancelConfirmButtons: FormCancelConfirmButtonsStub,
     Autocomplete: AutocompleteStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     QuerySuspense: QuerySuspenseStub,
     UserInfo: UserInfoStub,
   }
 
-  const getAffiliationsSuccessHandler = http.get(`*${getGetAffiliationsUrl()}`, ({ request }) => {
+  const defaultProps = { activityId: 'activity-1', status: EActivityStatus.PUBLISHED, canEdit: true }
+
+  const candidatesUrl = '*/me/activities/:activityStatus/:activityId/authorizations/candidates'
+
+  const getCandidatesSuccessHandler = http.get(candidatesUrl, ({ request }) => {
     requestedSearchParams.push(new URL(request.url).searchParams)
 
-    return HttpResponse.json<PagedResponseExternalUserAffiliationOverviewDTO>({
+    return HttpResponse.json<PagedResponseStaffCandidateDTO>({
       data: users,
       page: { pageSize: users.length, totalElements: users.length, totalPages: 1, page: 0 },
     })
   })
 
-  const defaultProps = { activityId: 'activity-1', status: EActivityStatus.PUBLISHED }
+  const getCandidatesErrorHandler = http.get(candidatesUrl, () => HttpResponse.json(
+    { message: 'Erreur interne du serveur', code: ErrorCodes.UNEXPECTED_ERROR },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR },
+  ))
 
   const toOption = (user: typeof users[number]): AvAutocompleteOption => ({
-    value: user.userId,
-    label: `${user.firstName[0]}${user.firstName.slice(1).toLowerCase()} ${user.lastName[0]}${user.lastName.slice(1).toLowerCase()}`,
+    value: user.id,
+    label: `${user.firstName} ${user.lastName}`,
     description: user.email,
   })
 
@@ -93,12 +103,21 @@ BddTest().given('an ActivityRightsSection component', () => {
   const getSelectedUsersContainer = () => wrapper.find('[data-testid="activity-rights-selected-users"]')
   const getSelectedUserInfos = () => wrapper.findAllComponents(UserInfoStub)
   const getRemoveButtons = () => wrapper.findAll('[data-testid="delete-overlay-stub"] > button')
-  const getSaveButton = () => wrapper.findComponent(AvButtonStub)
+  const getEditButton = () => wrapper.find('[data-testid="activity-rights-edit-button"]')
+  const getFormButtons = () => wrapper.findComponent(FormCancelConfirmButtonsStub)
+  const getReadOnlyRows = () => wrapper.findAll('[data-testid="activity-rights-readonly-row"]')
   const getAuthorizationSelects = () => wrapper.findAllComponents(AvSelectStub)
   const getSelectedAuthorizationIcons = () => wrapper.findAllComponents(AvIconStub)
 
-  const mountSection = async (props: Partial<typeof defaultProps> = {}) => {
+  const mountReadOnlySection = async (props: Partial<typeof defaultProps> = {}) => {
     wrapper = mountComponent(ActivityRightsSection, { props: { ...defaultProps, ...props }, global: { stubs } })
+    await flushPromises()
+    await vi.waitFor(() => expect(getQuerySuspense().props('isLoading')).toBe(false))
+  }
+
+  const mountSection = async (props: Partial<typeof defaultProps> = {}) => {
+    await mountReadOnlySection(props)
+    await getEditButton().trigger('click')
     await flushPromises()
     await vi.waitFor(() => expect(getAutocomplete().props('options')).toHaveLength(users.length))
   }
@@ -111,7 +130,89 @@ BddTest().given('an ActivityRightsSection component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     requestedSearchParams = []
-    server.use(getAffiliationsSuccessHandler)
+    server.use(getCandidatesSuccessHandler)
+  })
+
+  BddTest().when('mounted in read-only mode', () => {
+    BddTest().then('it should list the users having rights with their authorization badges and no form', async () => {
+      await mountReadOnlySection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      expect(getReadOnlyRows()).toHaveLength(mockedActivityAuthorizations.length)
+      expect(wrapper.findAllComponents(UserInfoStub)[0]!.props('user')).toMatchObject({ id: mockedActivityAuthorizations[0]!.staff.id })
+      expect(wrapper.findAllComponents(AuthorizationTypeBadgeStub)).toHaveLength(mockedActivityAuthorizations[0]!.rights.length)
+      expect(getAutocomplete().exists()).toBe(false)
+      expect(getFormButtons().exists()).toBe(false)
+    })
+
+    BddTest().then('it should display the empty state when nobody has rights', async () => {
+      await mountReadOnlySection()
+      expect(getQuerySuspense().props('isEmpty')).toBe(true)
+      expect(getQuerySuspense().props('emptyStateMessage')).toBe('Aucune personne n\'a de droits sur cette activité.')
+    })
+
+    BddTest().then('it should display the edit button when canEdit is true', async () => {
+      await mountReadOnlySection()
+      expect(getEditButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should disable the edit button when canEdit is false', async () => {
+      await mountReadOnlySection({ canEdit: false })
+      expect(getEditButton().exists()).toBe(true)
+      expect(getEditButton().attributes('disabled')).toBeDefined()
+    })
+
+    BddTest().then('it should not fetch affiliations until the edit mode is opened', async () => {
+      await mountReadOnlySection()
+      expect(requestedSearchParams).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('the edit mode is opened without any change', () => {
+    BddTest().then('it should disable the save', async () => {
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      expect(getFormButtons().props('isFormValid')).toBe(false)
+    })
+  })
+
+  BddTest().when('a user is added in the edit mode', () => {
+    BddTest().then('it should enable the save and report the pending changes', async () => {
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      await selectUsers([...getAutocomplete().props('modelValue') as AvAutocompleteOption[], toOption(alice)])
+      expect(getFormButtons().props('isFormValid')).toBe(true)
+      expect(wrapper.emitted('dirtyChange')?.at(-1)).toEqual([true])
+    })
+
+    BddTest().then('it should ask for confirmation before cancelling and keep editing when refused', async () => {
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      await selectUsers([...getAutocomplete().props('modelValue') as AvAutocompleteOption[], toOption(alice)])
+      getFormButtons().vm.$emit('cancel')
+      await flushPromises()
+      const modal = wrapper.findComponent(ConfirmationModalStub)
+      expect(modal.props('opened')).toBe(true)
+      modal.vm.$emit('close')
+      await flushPromises()
+      expect(getAutocomplete().exists()).toBe(true)
+    })
+
+    BddTest().then('it should leave the edit mode when the cancellation is confirmed', async () => {
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      await selectUsers([...getAutocomplete().props('modelValue') as AvAutocompleteOption[], toOption(alice)])
+      getFormButtons().vm.$emit('cancel')
+      await flushPromises()
+      wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+      await flushPromises()
+      expect(getAutocomplete().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the edit button is clicked then cancelled', () => {
+    BddTest().then('it should come back to the read-only mode and discard the changes', async () => {
+      await mountSection({ activityId: ACTIVITY_WITH_AUTHORIZATIONS_ID })
+      getFormButtons().vm.$emit('cancel')
+      await flushPromises()
+      expect(getAutocomplete().exists()).toBe(false)
+      expect(getReadOnlyRows()).toHaveLength(mockedActivityAuthorizations.length)
+      expect(getEditButton().exists()).toBe(true)
+    })
   })
 
   BddTest().when('mounted', () => {
@@ -144,12 +245,11 @@ BddTest().given('an ActivityRightsSection component', () => {
       })
     })
 
-    BddTest().then('it should request cofolio staff affiliations without keyword', () => {
-      expect(requestedSearchParams[0]?.getAll('cofolioUniverses')).toEqual(['STAFF'])
+    BddTest().then('it should request the authorization candidates without keyword', () => {
       expect(requestedSearchParams[0]?.has('keyword')).toBe(false)
     })
 
-    BddTest().then('it should map the affiliations to autocomplete options', () => {
+    BddTest().then('it should map the candidates to autocomplete options', () => {
       expect(getAutocomplete().props('options')).toEqual(users.map(toOption))
     })
 
@@ -166,18 +266,17 @@ BddTest().given('an ActivityRightsSection component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should request the affiliations with the debounced keyword', async () => {
+    BddTest().then('it should request the candidates with the debounced keyword', async () => {
       await vi.waitFor(() => {
         expect(requestedSearchParams.at(-1)?.get('keyword')).toBe('ali')
       })
-      expect(requestedSearchParams.at(-1)?.getAll('cofolioUniverses')).toEqual(['STAFF'])
     })
   })
 
   BddTest().when('users are selected', () => {
     beforeEach(async () => {
       await mountSection()
-      await selectUsers([toOption(aliceWithPicture), toOption(bobWithoutPicture)])
+      await selectUsers([toOption(alice), toOption(bob)])
     })
 
     BddTest().then('it should render the selected users section with the selection count', () => {
@@ -187,16 +286,9 @@ BddTest().given('an ActivityRightsSection component', () => {
 
     BddTest().then('it should render one UserInfo per selected user', () => {
       expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([
-        aliceWithPicture.userId,
-        bobWithoutPicture.userId,
+        alice.id,
+        bob.id,
       ])
-    })
-
-    BddTest().then('it should pass the profile picture id of the known users to UserInfo', () => {
-      const [aliceInfo, bobInfo] = getSelectedUserInfos()
-
-      expect(aliceInfo!.props('user').profilePictureId).toBe(aliceWithPicture.profilePictureId)
-      expect(bobInfo!.props('user').profilePictureId).toBeUndefined()
     })
 
     BddTest().then('it should render a remove button and an authorizations select for each selected user', () => {
@@ -210,7 +302,7 @@ BddTest().given('an ActivityRightsSection component', () => {
       })
 
       BddTest().then('it should remove only this user from the selection', () => {
-        expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([bobWithoutPicture.userId])
+        expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([bob.id])
       })
     })
 
@@ -230,7 +322,7 @@ BddTest().given('an ActivityRightsSection component', () => {
     beforeEach(async () => {
       mockIsMobile.value = true
       await mountSection()
-      await selectUsers([toOption(aliceWithPicture)])
+      await selectUsers([toOption(alice)])
     })
 
     BddTest().then('it should not cap the list height', () => {
@@ -241,7 +333,7 @@ BddTest().given('an ActivityRightsSection component', () => {
   BddTest().when('users are selected on a desktop viewport', () => {
     beforeEach(async () => {
       await mountSection()
-      await selectUsers([toOption(aliceWithPicture)])
+      await selectUsers([toOption(alice)])
     })
 
     BddTest().then('it should render a scrollable list', () => {
@@ -276,7 +368,7 @@ BddTest().given('an ActivityRightsSection component', () => {
   BddTest().when('authorizations are selected for a user', () => {
     beforeEach(async () => {
       await mountSection()
-      await selectUsers([toOption(aliceWithPicture)])
+      await selectUsers([toOption(alice)])
     })
 
     BddTest().then('it should not display any icon while nothing is selected', () => {
@@ -313,10 +405,11 @@ BddTest().given('an ActivityRightsSection component', () => {
       savedBody = undefined
       server.events.on('request:start', captureSavedBody)
       await mountSection()
-      await selectUsers([toOption(aliceWithPicture)])
+      await selectUsers([toOption(alice)])
       getAuthorizationSelects()[0]!.vm.$emit('update:modelValue', [{ value: EAuthorization.EDIT, label: 'Éditeur' }])
       await flushPromises()
-      await getSaveButton().trigger('click')
+      getFormButtons().vm.$emit('submit')
+      await flushPromises()
       await vi.waitFor(() => expect(savedBody).toBeDefined())
       await flushPromises()
     })
@@ -325,12 +418,13 @@ BddTest().given('an ActivityRightsSection component', () => {
       server.events.removeListener('request:start', captureSavedBody)
     })
 
-    BddTest().then('it should render the save button with its label', () => {
-      expect(getSaveButton().props('label')).toBe('Enregistrer')
+    BddTest().then('it should go back to the read-only mode', () => {
+      expect(getFormButtons().exists()).toBe(false)
+      expect(getAutocomplete().exists()).toBe(false)
     })
 
     BddTest().then('it should send the staff rights to the API', () => {
-      expect(savedBody).toEqual({ authorizations: [{ staffId: aliceWithPicture.userId, rights: [EActivityRight.EDIT] }] })
+      expect(savedBody).toEqual({ authorizations: [{ staffId: alice.id, rights: [EActivityRight.EDIT] }] })
     })
 
     BddTest().then('it should call addSuccessMessage', () => {
@@ -342,8 +436,9 @@ BddTest().given('an ActivityRightsSection component', () => {
   BddTest().when('the save request fails', () => {
     beforeEach(async () => {
       await mountSection({ activityId: 'INVALID_ID' })
-      await selectUsers([toOption(aliceWithPicture)])
-      await getSaveButton().trigger('click')
+      await selectUsers([toOption(alice)])
+      getFormButtons().vm.$emit('submit')
+      await flushPromises()
       await flushPromises()
     })
 
@@ -358,11 +453,10 @@ BddTest().given('an ActivityRightsSection component', () => {
     })
   })
 
-  BddTest().when('a selected user is not part of the fetched affiliations anymore', () => {
+  BddTest().when('a selected user is not part of the fetched candidates anymore', () => {
     const unknownOption: AvAutocompleteOption = {
       value: 'unknown-user',
       label: 'Jane Van Doe',
-      description: 'jane.doe@example.com',
     }
 
     beforeEach(async () => {
@@ -375,15 +469,18 @@ BddTest().given('an ActivityRightsSection component', () => {
         id: 'unknown-user',
         firstName: 'Jane',
         lastName: 'Van Doe',
-        email: 'jane.doe@example.com',
+        email: '',
       })
     })
   })
 
-  BddTest().when('the affiliations request fails', () => {
+  BddTest().when('the candidates request fails', () => {
     beforeEach(async () => {
-      server.use(getAffiliationsErrorHandler)
+      server.use(getCandidatesErrorHandler)
       wrapper = mountComponent(ActivityRightsSection, { props: defaultProps, global: { stubs } })
+      await flushPromises()
+      await vi.waitFor(() => expect(getQuerySuspense().props('isLoading')).toBe(false))
+      await getEditButton().trigger('click')
       await flushPromises()
       await vi.waitFor(() => expect(getQuerySuspense().props('error')).toBeTruthy())
     })

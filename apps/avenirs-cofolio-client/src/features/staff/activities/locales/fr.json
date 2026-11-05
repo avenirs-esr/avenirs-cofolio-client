@@ -123,9 +123,16 @@
               "placeholder": "Choisir des autorisations",
               "selected": "{count} autorisation sélectionnée | {count} autorisations sélectionnées"
             },
+            "confirmationModal": {
+              "description": "Vous avez des modifications de droits non enregistrées. Si vous quittez, elles seront perdues."
+            },
+            "editDisabledTooltip": "Vous n'avez pas les droits pour modifier les autorisations de cette activité",
+            "emptyState": "Aucune personne n'a de droits sur cette activité.",
+            "fetchAuthorizationsError": "Impossible de charger les droits de l'activité",
             "fetchError": "Impossible de rechercher les utilisateurs",
             "label": "Chercher un utilisateur",
             "placeholder": "Rechercher par nom ou email",
+            "saveDisabledTooltip": "Modifiez les droits avant d'enregistrer",
             "saveError": "Impossible d'enregistrer les autorisations",
             "saveSuccess": "Autorisations enregistrées",
             "title": "Gestion des droits"
@@ -167,6 +174,7 @@
           "tabs": {
             "content": "Contenu",
             "dashboard": "Tableau de bord",
+            "disabledTooltip": "Enregistrez ou annulez vos modifications de droits avant de changer d'onglet",
             "preview": "Extrait du catalogue"
           },
           "title": "Toutes les activités disponibles dans mon établissement"
@@ -228,6 +236,7 @@
             "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité\u00A0? ",
             "publishError": "Une erreur est survenue lors de la publication de l'activité",
             "publishLabel": "Publier",
+            "publishRightOnlyTooltip": "Vous devez disposer du droit de publication sur l'activité pour la publier",
             "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l'activité",
             "publishRequiredFieldsWithTargetsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l'activité",
             "publishSuccess": "L'activité a été publiée avec succès",
