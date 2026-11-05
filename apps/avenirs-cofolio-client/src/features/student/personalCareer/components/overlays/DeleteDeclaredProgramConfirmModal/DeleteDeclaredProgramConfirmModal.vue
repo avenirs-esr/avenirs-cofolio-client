@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useApiErrors } from '@avenirs-esr/shared'
+import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetDeclaredPrograms, useDeleteDeclaredProgram } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

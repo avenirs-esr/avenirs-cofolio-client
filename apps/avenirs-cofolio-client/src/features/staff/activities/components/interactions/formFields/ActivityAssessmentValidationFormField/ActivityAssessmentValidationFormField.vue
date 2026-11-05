@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { AnyFieldApi } from '@/common/types'
+import type { AnyFieldApi } from '@avenirs-esr/shared'
 import type { EditActivityForm, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { Toggle } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 interface ActivityAssessmentValidationFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm

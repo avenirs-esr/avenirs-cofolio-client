@@ -1,0 +1,33 @@
+<script setup lang="ts">
+import type { AvToggleProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef, Slot } from 'vue'
+import { AvToggle } from '@avenirs-esr/avenirs-dsav'
+import { computed, useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export interface ToggleProps extends AvToggleProps { }
+
+const props = defineProps<ToggleProps>()
+
+defineSlots<{
+  default?: Slot<{ active: boolean }>
+}>()
+
+const { t } = useI18n()
+const attrs = useAttrs()
+
+const avToggleProps: ComputedRef<AvToggleProps> = computed(() => ({
+  ...attrs,
+  ...props,
+  activeText: props.activeText ?? t('global.components.interactions.toggles.Toggle.activeText'),
+  inactiveText: props.inactiveText ?? t('global.components.interactions.toggles.Toggle.inactiveText'),
+}))
+</script>
+
+<template>
+  <AvToggle v-bind="avToggleProps">
+    <template #default="{ active }">
+      <slot :active="active" />
+    </template>
+  </AvToggle>
+</template>

@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeleteDeclaredExperienceConfirmModalProps } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 
 const mockAddSuccessMessage = vi.fn()

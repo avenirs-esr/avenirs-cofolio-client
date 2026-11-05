@@ -1,12 +1,12 @@
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { DatePeriodPickerStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect, vi } from 'vitest'
 import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
-import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import { FileTypeMultiselectStub } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.stub'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import { TraceType } from '@/features/student/traces/types/traces.types'
@@ -18,8 +18,8 @@ const mockCloseModal = vi.fn()
 
 export const mockIsMobile = ref(false)
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useModal: () => ({

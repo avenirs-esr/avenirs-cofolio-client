@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { UpdateHandleSelectorProps } from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ToggleStub } from '@avenirs-esr/shared'
 import { Position } from '@vue-flow/core'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import UpdateHandleSelector from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 
 const mockIsMobile = ref(false)
 

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { AnyFieldApi } from '@/common/types'
+import type { AnyFieldApi } from '@avenirs-esr/shared'
 import type { EditActivityForm, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { Input, Toggle } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { countDecimals, formatOptionalNumber, getStepFromDecimals, parseOptionalNumber, roundToDecimals } from '@/common/utils'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_ASSESSMENT_GRADE_MAX_DECIMALS } from '@/features/staff/activities/config'

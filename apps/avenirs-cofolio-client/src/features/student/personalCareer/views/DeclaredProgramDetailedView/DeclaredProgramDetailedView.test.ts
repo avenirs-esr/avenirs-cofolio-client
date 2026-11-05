@@ -68,8 +68,8 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useModal: () => ({
@@ -77,6 +77,13 @@ vi.mock('@/common/composables', async (importOriginal) => {
       openModal: mockOpenModal,
       closeModal: mockCloseModal
     }),
+  }
+})
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredProgram,
       navigateToStudentDeclaredPrograms,

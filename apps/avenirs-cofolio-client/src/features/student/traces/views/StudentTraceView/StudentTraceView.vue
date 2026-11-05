@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorMessage, ICONS, Loader, useApiErrors } from '@avenirs-esr/shared'
+import { ErrorMessage, ICONS, Loader, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useDownloadAttachment, useGetAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { downloadBlob } from '@/common/utils/download/download'
 import { AssociateModal, countElementAssociations, ElementAssociations } from '@/features/student/associations'

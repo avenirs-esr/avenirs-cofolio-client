@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { acceptCguErrorHandler } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { ROUTES } from '@/common/constants'
 import CguAcceptanceBar from '@/common/views/CguView/components/CguAcceptanceBar/CguAcceptanceBar.vue'
 

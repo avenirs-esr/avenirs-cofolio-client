@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import { ConfirmationModal, FormCancelConfirmButtons, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
-import { useModal } from '@/common/composables'
+import { CreationUpdateDateDetails } from '@/common/components'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'

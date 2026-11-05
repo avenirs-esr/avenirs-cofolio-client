@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub, useFormValidators } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,

@@ -4,11 +4,93 @@
       "ariaLabel": "Breadcrumb",
       "expandButtonLabel": "View breadcrumb"
     },
+    "composables": {
+      "useFormValidators": {
+        "endDateBeforeStartDate": "End date must be after start date",
+        "invalidLink": "Please provide a valid URL (e.g.: http://www.example.com). Don't forget to include the protocol (http:// or https://).",
+        "max": "Please enter a value less than or equal to {max}",
+        "maxLength": "Please limit your input to {maxLength} characters",
+        "min": "Please enter a value greater than or equal to {min}",
+        "requiredEndDate": "Please provide an end date.",
+        "requiredField": "This field is required."
+      }
+    },
     "components": {
       "cards": {
         "Card": {
           "collapse": "Collapse",
           "expand": "Expand"
+        }
+      },
+      "interactions": {
+        "buttons": {
+          "FormCancelConfirmButtons": {
+            "cancel": "Cancel",
+            "invalidForm": "The form is not valid",
+            "save": "Save"
+          }
+        },
+        "inputs": {
+          "DatePeriodPicker": {
+            "clear": "Clear period",
+            "ongoing": "Ongoing",
+            "period": "Period",
+            "periodPlaceholder": {
+              "fullDate": "DD/MM/YYYY - DD/MM/YYYY",
+              "monthYear": "MM/YYYY - MM/YYYY"
+            }
+          },
+          "Input": {
+            "disabledPlaceholder": "Not provided",
+            "limit": "{count} / {maxlength} characters (including spaces)"
+          },
+          "AvRichTextEditor": {
+            "addColumnBefore": "Add column before",
+            "addColumnAfter": "Add column after",
+            "addRowBefore": "Add row before",
+            "addRowAfter": "Add row after",
+            "alignCenter": "Align center (Ctrl+E)",
+            "alignJustify": "Justify (Ctrl+J)",
+            "alignLeft": "Align left (Ctrl+L)",
+            "alignRight": "Align right (Ctrl+R)",
+            "bold": "Bold (Ctrl+B)",
+            "bulletList": "Bullet list (Ctrl+Shift+8)",
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "decreaseIndent": "Decrease indent (Ctrl+[)",
+            "deleteColumn": "Delete column",
+            "deleteRow": "Delete row",
+            "deleteTable": "Delete table",
+            "editor": "Rich text editor",
+            "heading": "Heading",
+            "image": "Image (Ctrl+Shift+I)",
+            "imageName": "Image name",
+            "imageNamePlaceholder": "Enter the image name",
+            "imageUrl": "Image URL",
+            "increaseIndent": "Increase indent (Ctrl+])",
+            "insertTable": "Insert table",
+            "italic": "Italic (Ctrl+I)",
+            "link": "Link (Ctrl+K)",
+            "linkName": "Link name",
+            "linkNamePlaceholder": "Enter the link name",
+            "linkUrl": "Link URL",
+            "maxLengthCaption": "{count} / {maxlength} characters (including spaces)",
+            "orderedList": "Ordered list (Ctrl+Shift+7)",
+            "paragraph": "Paragraph",
+            "redo": "Redo (Ctrl+Y)",
+            "removeImage": "Remove image",
+            "tableSettings": "Table settings",
+            "toolbar": "Toolbar",
+            "underline": "Underline (Ctrl+U)",
+            "undo": "Undo (Ctrl+Z)",
+            "unsetLink": "Remove link"
+          }
+        },
+        "toggles": {
+          "Toggle": {
+            "activeText": "On",
+            "inactiveText": "Off"
+          }
         }
       },
       "QuerySuspense": {
@@ -106,6 +188,9 @@
       "languageSwitcher": "Change language"
     },
     "navigation": {
+      "UpdatePageTitle": {
+        "update": "Edit"
+      },
       "SkipLinks": {
         "ariaLabel": "Quick access",
         "footer": "Go to footer",
@@ -115,6 +200,14 @@
     "overlay": {
       "InformationTooltip": {
         "triggerAriaLabel": "Informations"
+      },
+      "modals": {
+        "ConfirmationModal": {
+          "cancel": "Cancel",
+          "confirm": "Confirm",
+          "description": "Any unsaved changes will be lost.",
+          "title": "Are you sure you want to exit?"
+        }
       }
     }
   }

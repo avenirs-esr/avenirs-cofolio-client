@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { NodeProps } from '@vue-flow/core'
 import { AvIcon, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { Card } from '@avenirs-esr/shared'
+import { Card, ConfirmationModal } from '@avenirs-esr/shared'
 import { Position, useVueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 import UpdateHandleSelector from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 
 export interface UpdateHandlesModalProps extends Pick<NodeProps, 'id' | 'data'> {
   opened: boolean

@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { RichTextEditorStub, useFormValidators } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import { ACTIVITY_CONSIGN_MAX_LENGTH } from '@/features/staff/activities/config'
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ConfirmationModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 
 export interface ConfirmDeleteSelfKnowledgeElementsModalProps {
   opened: boolean

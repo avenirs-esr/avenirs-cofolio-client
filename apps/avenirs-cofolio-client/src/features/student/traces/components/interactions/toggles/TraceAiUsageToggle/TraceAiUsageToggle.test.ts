@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ToggleStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
 
 BddTest().given('a trace AI usage toggle component', () => {

@@ -4,11 +4,93 @@
       "ariaLabel": "Fil d'Ariane",
       "expandButtonLabel": "Voir le fil d'Ariane"
     },
+    "composables": {
+      "useFormValidators": {
+        "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début",
+        "invalidLink": "Veuillez renseigner une URL valide (ex.\u00A0: http://www.exemple.com). N'oubliez pas d'inclure le protocole (http:// ou https://).",
+        "max": "Veuillez renseigner une valeur inférieure ou égale à {max}",
+        "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères",
+        "min": "Veuillez renseigner une valeur supérieure ou égale à {min}",
+        "requiredEndDate": "Veuillez renseigner une date de fin.",
+        "requiredField": "Ce champ est requis."
+      }
+    },
     "components": {
       "cards": {
         "Card": {
           "collapse": "Réduire",
           "expand": "Développer"
+        }
+      },
+      "interactions": {
+        "buttons": {
+          "FormCancelConfirmButtons": {
+            "cancel": "Annuler",
+            "invalidForm": "Le formulaire n'est pas valide",
+            "save": "Enregistrer"
+          }
+        },
+        "inputs": {
+          "DatePeriodPicker": {
+            "clear": "Effacer la période",
+            "ongoing": "En cours",
+            "period": "Période",
+            "periodPlaceholder": {
+              "fullDate": "JJ/MM/AAAA - JJ/MM/AAAA",
+              "monthYear": "MM/AAAA - MM/AAAA"
+            }
+          },
+          "Input": {
+            "disabledPlaceholder": "Non renseigné",
+            "limit": "{count} / {maxlength} caractères (espaces compris)"
+          },
+          "AvRichTextEditor": {
+            "addColumnBefore": "Ajouter une colonne avant",
+            "addColumnAfter": "Ajouter une colonne après",
+            "addRowBefore": "Ajouter une ligne avant",
+            "addRowAfter": "Ajouter une ligne après",
+            "alignCenter": "Aligner au centre (Ctrl+E)",
+            "alignJustify": "Justifier (Ctrl+J)",
+            "alignLeft": "Aligner à gauche (Ctrl+L)",
+            "alignRight": "Aligner à droite (Ctrl+R)",
+            "bold": "Gras (Ctrl+B)",
+            "bulletList": "Liste à puces (Ctrl+Maj+8)",
+            "cancel": "Annuler",
+            "confirm": "Confirmer",
+            "decreaseIndent": "Diminuer le retrait (Ctrl+[)",
+            "deleteColumn": "Supprimer la colonne",
+            "deleteRow": "Supprimer la ligne",
+            "deleteTable": "Supprimer le tableau",
+            "editor": "Éditeur de texte enrichi",
+            "heading": "Titre",
+            "image": "Image (Ctrl+Maj+I)",
+            "imageName": "Nom de l'image",
+            "imageNamePlaceholder": "Saisissez le nom de l'image",
+            "imageUrl": "URL de l'image",
+            "increaseIndent": "Augmenter le retrait (Ctrl+])",
+            "insertTable": "Insérer un tableau",
+            "italic": "Italique (Ctrl+I)",
+            "link": "Lien (Ctrl+K)",
+            "linkName": "Nom du lien",
+            "linkNamePlaceholder": "Saisissez le nom du lien",
+            "linkUrl": "URL du lien",
+            "maxLengthCaption": "{count} / {maxlength} caractères (espaces compris)",
+            "orderedList": "Liste numérotée (Ctrl+Maj+7)",
+            "paragraph": "Paragraphe",
+            "redo": "Rétablir (Ctrl+Y)",
+            "removeImage": "Supprimer l'image",
+            "tableSettings": "Paramètres du tableau",
+            "toolbar": "Barre d'outils",
+            "underline": "Souligné (Ctrl+U)",
+            "undo": "Annuler (Ctrl+Z)",
+            "unsetLink": "Supprimer le lien"
+          }
+        },
+        "toggles": {
+          "Toggle": {
+            "activeText": "Oui",
+            "inactiveText": "Non"
+          }
         }
       },
       "QuerySuspense": {
@@ -106,6 +188,9 @@
       "languageSwitcher": "Changer de langue"
     },
     "navigation": {
+      "UpdatePageTitle": {
+        "update": "Modifier"
+      },
       "SkipLinks": {
         "ariaLabel": "Accès rapide",
         "footer": "Aller au pied de page",
@@ -115,6 +200,14 @@
     "overlay": {
       "InformationTooltip": {
         "triggerAriaLabel": "Informations"
+      },
+      "modals": {
+        "ConfirmationModal": {
+          "cancel": "Annuler",
+          "confirm": "Confirmer",
+          "description": "Toutes les modifications non enregistrées seront perdues.",
+          "title": "Êtes-vous sûr de vouloir quitter\u00A0?"
+        }
       }
     }
   }

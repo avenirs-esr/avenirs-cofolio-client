@@ -3,6 +3,7 @@ import type { EActivityThematic } from '@/api/avenir-esr'
 import type { SortValue } from '@/common/types'
 import type { DeclaredActivityFilters } from '@/features/student/activities/types/declared-activities.types'
 import { AvButton, AvModal, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useModal } from '@avenirs-esr/shared'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 import { EDeclaredActivityStatus, ESortField, ESortOrder } from '@/api/avenir-esr'
@@ -10,7 +11,6 @@ import ActivityThematicSelect from '@/common/activities/inputs/ActivityThematicS
 import DeclaredActivityStatusSelect from '@/common/activities/inputs/DeclaredActivityStatusSelect/DeclaredActivityStatusSelect.vue'
 import { SortSelect } from '@/common/components'
 import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
-import { useModal } from '@/common/composables'
 import { formatSortValue, parseSortValue } from '@/common/utils/http/http-params'
 
 const emit = defineEmits<{

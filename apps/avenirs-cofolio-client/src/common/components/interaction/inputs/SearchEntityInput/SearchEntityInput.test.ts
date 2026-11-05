@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SearchEntityInputProps } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub.js'
 import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 
 BddTest().given('a search entity input', () => {

@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { WriteAssessmentFormData } from '@/features/staff/assessments/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import AssessmentGradeFormField from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/interaction/formFields/AssessmentGradeFormField/AssessmentGradeFormField.vue'
 
 const MAX_GRADE = 20

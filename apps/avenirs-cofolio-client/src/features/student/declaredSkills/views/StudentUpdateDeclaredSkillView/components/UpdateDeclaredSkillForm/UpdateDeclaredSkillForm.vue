@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import { FormCancelConfirmButtons } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
+import { CreationUpdateDateDetails } from '@/common/components'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'

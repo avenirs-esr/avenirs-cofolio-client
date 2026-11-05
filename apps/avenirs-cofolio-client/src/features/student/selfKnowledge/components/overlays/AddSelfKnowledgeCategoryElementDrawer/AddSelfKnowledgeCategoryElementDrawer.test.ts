@@ -1,11 +1,11 @@
 import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect, vi } from 'vitest'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
@@ -31,9 +31,9 @@ const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
 
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+    typeof import('@avenirs-esr/shared')
   >()
   return {
     ...actual,

@@ -9,8 +9,8 @@ const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()
 const mockCloseModal = vi.fn()
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useModal: () => ({

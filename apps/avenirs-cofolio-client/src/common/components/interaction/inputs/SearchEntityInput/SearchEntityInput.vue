@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Input } from '@avenirs-esr/shared'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 
 export interface SearchEntityInputProps {
   /**

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Loader } from '@avenirs-esr/shared'
+import { Loader, useModal } from '@avenirs-esr/shared'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'

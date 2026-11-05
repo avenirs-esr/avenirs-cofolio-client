@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvAccordionStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub, FormCancelConfirmButtonsStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
-import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import UpdateActivityDrawer from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import { ActivityPeriodFormFieldStub } from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
@@ -15,9 +14,9 @@ const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
 
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+    typeof import('@avenirs-esr/shared')
   >()
   return {
     ...actual,

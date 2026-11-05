@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { useApiErrors, useModal } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
-import { useModal } from '@/common/composables'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'

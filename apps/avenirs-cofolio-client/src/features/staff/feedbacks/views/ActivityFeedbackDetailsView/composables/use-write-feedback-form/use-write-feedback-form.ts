@@ -2,7 +2,7 @@ import type { BaseApiException } from '@avenirs-esr/shared'
 import type { MaybeRef } from 'vue'
 import type { FeedbackDetailsDTO, FileDTO, UpdateFeedbackRequest } from '@/api/avenir-esr'
 import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
-import { ErrorCodes, useApiErrors } from '@avenirs-esr/shared'
+import { ErrorCodes, useApiErrors, useFormValidators } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
@@ -18,7 +18,6 @@ import {
   useUpdateFeedback,
   useUploadFeedbackAttachment
 } from '@/api/avenir-esr'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { dtoToFile, isFile } from '@/common/utils/file/file'

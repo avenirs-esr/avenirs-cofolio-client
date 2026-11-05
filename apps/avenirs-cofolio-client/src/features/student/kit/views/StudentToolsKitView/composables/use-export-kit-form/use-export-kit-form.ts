@@ -1,5 +1,5 @@
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
 
 export enum ExportKitOptions {

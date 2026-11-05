@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { CreateTraceForm } from '@/features/student/traces'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import { TraceLinkInputStub } from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.stub'
 

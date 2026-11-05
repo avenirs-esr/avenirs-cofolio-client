@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub, useFormValidators } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityRecommendedCompletionContextsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.vue'
 import { ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH } from '@/features/staff/activities/config'
 

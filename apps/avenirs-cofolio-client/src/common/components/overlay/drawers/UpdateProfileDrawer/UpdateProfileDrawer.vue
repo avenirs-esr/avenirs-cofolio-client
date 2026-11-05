@@ -7,19 +7,17 @@ import {
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { ConfirmationModal, FormCancelConfirmButtons, useApiErrors, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
-import { ConfirmationModal, Drawer, FormCancelConfirmButtons, ImageUpload } from '@/common/components'
+import { Drawer, ImageUpload } from '@/common/components'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { useModal } from '@/common/composables'
 import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { useToasterStore } from '@/store'
 
 interface UpdateProfileDrawerProps {

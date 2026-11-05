@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ToggleProps } from '@/common/components'
+import type { ToggleProps } from '@avenirs-esr/shared'
+import { Toggle } from '@avenirs-esr/shared'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 interface TraceAiUsageToggleProps extends Omit<ToggleProps, 'description' | 'activeText' | 'inactiveText'> {
   description?: string

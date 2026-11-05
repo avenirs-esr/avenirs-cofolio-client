@@ -1,5 +1,5 @@
+import type { AnyFormApi } from '@avenirs-esr/shared'
 import type { FileDTO } from '@/api/avenir-esr'
-import type { AnyFormApi } from '@/common/types'
 import type { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 
 export type WriteFeedbackForm = ReturnType<typeof useWriteFeedbackForm>['form']

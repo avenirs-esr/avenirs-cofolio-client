@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
-import { DatePeriodPicker } from '@/common/components'
+import { DatePeriodPicker } from '@avenirs-esr/shared'
 
 interface DeclaredProgramPeriodFormFieldProps {
   form: AddDeclaredProgramForm

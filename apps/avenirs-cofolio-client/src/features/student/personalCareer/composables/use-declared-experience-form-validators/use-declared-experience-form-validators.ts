@@ -1,6 +1,6 @@
-import type { ValidationOptions } from '@/common/composables/use-form-validators/use-form-validators'
+import type { ValidationOptions } from '@avenirs-esr/shared'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useFormValidators } from '@avenirs-esr/shared'
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,

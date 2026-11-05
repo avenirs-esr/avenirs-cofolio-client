@@ -1,9 +1,9 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 
 const ACCEPT_TYPE_ERROR_MESSAGE = 'Le fichier ne respecte pas le format attendu.'
 const FILE_SIZE_ERROR_MESSAGE = 'La taille du fichier dépasse la limite autorisée.'
@@ -44,16 +44,23 @@ const defaultProps: ComponentProps = {
   onDeleteImage: mockOnDeleteImage,
 }
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
     useModal: () => ({
       modalOpened: mockModalOpened,
       openModal: mockOpenModal,
-      closeModal: mockCloseModal,
+      closeModal: mockCloseModal
     }),
+  }
+})
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+
+  return {
+    ...actual,
     useImageUpload: () => ({
       update: mockUpdateImage,
       clear: vi.fn(),

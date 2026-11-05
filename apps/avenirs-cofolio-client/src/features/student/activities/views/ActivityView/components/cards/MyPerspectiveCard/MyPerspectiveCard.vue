@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { EFeedbackStatus } from '@/api/avenir-esr'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Card, ICONS, useApiErrors } from '@avenirs-esr/shared'
+import { Card, ICONS, RichTextEditor, useApiErrors, useFormValidators } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
-import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
 import { isPerspectiveEditingDisabled } from '@/common/activities/rules/activities.rules'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
@@ -24,8 +22,6 @@ export interface MyPerspectiveCardProps {
 }
 
 const { activityId, perspective, activityStatus } = defineProps<MyPerspectiveCardProps>()
-
-const RichTextEditor = defineAsyncComponent(() => import('@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'))
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()

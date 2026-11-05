@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
-import { useModal } from '@/common/composables'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import DeleteTracesModal from '@/features/student/traces/views/StudentToolsTracesView/components/DeleteTracesModal/DeleteTracesModal.vue'
 

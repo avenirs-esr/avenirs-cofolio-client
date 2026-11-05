@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@avenirs-esr/shared'
 import { AvAccordion, AvAccordionsGroup, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { ConfirmationModal, ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetTraceOverview, invalidateGetTracesSummary, invalidateTracesView, useDeleteTraces, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
-import { ConfirmationModal } from '@/common/components'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

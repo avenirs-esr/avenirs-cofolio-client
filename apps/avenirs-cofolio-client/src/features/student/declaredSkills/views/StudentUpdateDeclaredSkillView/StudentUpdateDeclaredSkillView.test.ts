@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub, UpdatePageTitleStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -8,8 +9,6 @@ import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handl
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { UpdatePageTitleStub } from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
@@ -39,9 +38,9 @@ const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
 
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+    typeof import('@avenirs-esr/shared')
   >()
   return {
     ...actual,

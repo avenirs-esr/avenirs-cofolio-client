@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import { Toggle } from '@avenirs-esr/shared'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 export interface ToggleParameterCardProps extends AvInteractiveProps {
   title: string

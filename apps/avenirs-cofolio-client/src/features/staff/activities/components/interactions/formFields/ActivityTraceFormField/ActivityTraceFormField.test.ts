@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import {
   ACTIVITY_TRACE_ALLOWED_ASSOCIATIONS_MIN,
