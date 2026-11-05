@@ -20,6 +20,10 @@ export const RichTextEditorStub = defineComponent({
       type: [String, Array] as PropType<string | string[]>,
       default: undefined,
     },
+    allowedHeadersLevels: {
+      type: Array as PropType<number[]>,
+      default: undefined,
+    },
   },
   emits: ['update:modelValue', 'update:charCount'],
   template: `

@@ -1,5 +1,7 @@
 import type { DefaultBodyType, StrictRequest } from 'msw'
-import { createEmptyPaginatedDatasetResponse, getOptionalBooleanSearchParam, isEmptyDataSetRequest } from '#shared/test-utils/msw/index'
+import { ErrorCodes } from '#shared/exceptions/error-codes'
+import { HttpStatusCode } from '#shared/api/http-status'
+import { createEmptyPaginatedDatasetResponse, getOptionalBooleanSearchParam, internalServerError, isEmptyDataSetRequest, successJsonResponse } from '#shared/test-utils/msw/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -36,7 +38,7 @@ BddTest().given('the empty paginated dataset response helper', () => {
 
   BddTest().when('an empty paginated response is created', () => {
     BddTest().then('it returns a successful HTTP status', () => {
-      expect(response?.status).toBe(200)
+      expect(response?.status).toBe(HttpStatusCode.OK)
     })
 
     BddTest().then('it declares JSON content', () => {
@@ -87,4 +89,52 @@ BddTest().given('the optional boolean search parameter helper', () => {
       })
     })
   }
+})
+
+BddTest().given('the internal server error response helper', () => {
+  let response: ReturnType<typeof internalServerError>
+
+  beforeEach(() => {
+    response = internalServerError()
+  })
+
+  BddTest().when('an internal server error response is created', () => {
+    BddTest().then('it returns an internal server error HTTP status', () => {
+      expect(response.status).toBe(HttpStatusCode.INTERNAL_SERVER_ERROR)
+    })
+
+    BddTest().then('it declares JSON content', () => {
+      expect(response.headers.get('Content-Type')).toBe('application/json')
+    })
+
+    BddTest().then('it contains the server error message and code', async () => {
+      expect(await response.json()).toEqual({
+        message: 'Internal Server Error',
+        code: ErrorCodes.SERVER,
+      })
+    })
+  })
+})
+
+BddTest().given('the success JSON response helper', () => {
+  const data = { id: 'dataset-1', name: 'Dataset' }
+  let response: ReturnType<typeof successJsonResponse>
+
+  beforeEach(() => {
+    response = successJsonResponse(data)
+  })
+
+  BddTest().when('a success JSON response is created', () => {
+    BddTest().then('it returns a successful HTTP status', () => {
+      expect(response.status).toBe(HttpStatusCode.OK)
+    })
+
+    BddTest().then('it declares JSON content', () => {
+      expect(response.headers.get('Content-Type')).toBe('application/json')
+    })
+
+    BddTest().then('it contains the given data', async () => {
+      expect(await response.json()).toEqual(data)
+    })
+  })
 })
