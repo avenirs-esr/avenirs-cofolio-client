@@ -3,7 +3,9 @@
     "assessments": {
       "badges": {
         "activityType": {
-          "default": "Activity appreciation"
+          "COMMENT": "Appreciation",
+          "GRADE": "Grade",
+          "VALIDATION": "Validation"
         },
         "assessmentStatus": {
           "NEW": "New",
@@ -69,7 +71,7 @@
                   "learner": "Learner",
                   "status": "Status",
                   "submitDate": "Submit Date",
-                  "type": "Type"
+                  "types": "Types"
                 },
                 "noResults": "No assessments"
               }

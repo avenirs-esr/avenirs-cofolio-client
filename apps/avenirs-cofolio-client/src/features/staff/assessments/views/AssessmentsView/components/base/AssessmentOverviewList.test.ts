@@ -5,7 +5,7 @@ import { CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
+import { EActivityAssessmentStatus, EActivityAssessmentType } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import { AssessmentStatusBadgeStub } from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.stub'
@@ -38,7 +38,7 @@ BddTest().given('an assessment overview list', () => {
         email: 'alice.dupont@example.com',
       },
       activityTitle: 'Activité 1',
-      type: 'default',
+      types: [EActivityAssessmentType.VALIDATION],
       submitDate: '2024-01-15T12:00:00Z',
       status: EActivityAssessmentStatus.NEW,
       actions: 'declared-activity-1',
@@ -52,7 +52,7 @@ BddTest().given('an assessment overview list', () => {
         email: 'bob.martin@example.com',
       },
       activityTitle: 'Activité 2',
-      type: 'default',
+      types: [],
       submitDate: '',
       status: EActivityAssessmentStatus.SENT,
       actions: 'declared-activity-2',
@@ -62,7 +62,7 @@ BddTest().given('an assessment overview list', () => {
   const columns: AvTableColumn<AssessmentTableRow>[] = [
     { key: 'learner', label: 'Apprenant' },
     { key: 'activityTitle', label: 'Activité' },
-    { key: 'type', label: 'Type' },
+    { key: 'types', label: 'Type' },
     { key: 'submitDate', label: 'Date de dépôt' },
     { key: 'status', label: 'Statut' },
     { key: 'actions', label: 'Accéder' },
@@ -143,15 +143,17 @@ BddTest().given('an assessment overview list', () => {
     })
 
     BddTest().then('it should render type badges in type cell slot', () => {
+      const expectedTypes = rows.flatMap(row => row.types)
       const typeBadges = wrapper.findAllComponents(AssessmentTypeBadgeStub)
-      expect(typeBadges).toHaveLength(rows.length)
-      expect(typeBadges[0].props('activityType')).toBe(rows[0].type)
-      expect(typeBadges[1].props('activityType')).toBe(rows[1].type)
+
+      expect(typeBadges).toHaveLength(expectedTypes.length)
+      expect(typeBadges[0].props('assessmentType')).toBe(expectedTypes[0])
     })
 
     BddTest().then('it should render status badges in status cell slot', () => {
       const statusBadges = wrapper.findAllComponents(AssessmentStatusBadgeStub)
       expect(statusBadges).toHaveLength(rows.length)
+
       expect(statusBadges[0].props('assessmentStatus')).toBe(rows[0].status)
       expect(statusBadges[1].props('assessmentStatus')).toBe(rows[1].status)
     })

@@ -1,5 +1,4 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredActivityToAssessDTO } from '@/api/avenir-esr'
 import type { UsePaginatedStaffAssessmentsResult } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -7,14 +6,13 @@ import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityAssessmentStatus, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { mockedDeclaredActivityToAssess1, mockedDeclaredActivityToAssess2, mockedDeclaredActivityToAssess3 } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
+import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import { AssessmentOverviewListStub } from '@/features/staff/assessments/views/AssessmentsView/components/base/AssessmentOverviewList.stub'
 import AssessmentsList from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.vue'
-import {
-  AssessmentStatusMultiselectStub
-} from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.stub'
+import { AssessmentStatusMultiselectStub } from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.stub'
 
 const mockStore = vi.hoisted(() => ({
   assessmentsCurrentPage: 0,
@@ -23,40 +21,7 @@ const mockStore = vi.hoisted(() => ({
 
 const mockError = new BaseApiException('error')
 
-const mockAssessments: DeclaredActivityToAssessDTO[] = [
-  {
-    id: 'activity-to-assess-1',
-    student: {
-      id: 'student-1',
-      firstName: 'Alice',
-      lastName: 'Dupont',
-      email: 'alice.dupont@test.fr',
-    },
-    activity: {
-      id: 'activity-1',
-      title: 'Activité 1',
-    },
-    submittedAt: '2024-01-15T12:00:00Z',
-    declaredActivityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT,
-    assessmentStatus: EActivityAssessmentStatus.OPENED,
-  },
-  {
-    id: 'activity-to-assess-2',
-    student: {
-      id: 'student-2',
-      firstName: 'Bob',
-      lastName: 'Martin',
-      email: 'bob.martin@test.fr',
-    },
-    activity: {
-      id: 'activity-2',
-      title: 'Activité 2',
-    },
-    submittedAt: '2024-01-16T12:00:00Z',
-    declaredActivityStatus: EDeclaredActivityStatus.COMPLETED,
-    assessmentStatus: EActivityAssessmentStatus.SENT,
-  },
-]
+const mockAssessments = [mockedDeclaredActivityToAssess1, mockedDeclaredActivityToAssess2, mockedDeclaredActivityToAssess3]
 
 const mockPageInfo = {
   page: 0,
@@ -148,7 +113,7 @@ BddTest().given('an assessments list', () => {
           id: mockAssessments[0].id,
           learner: mockAssessments[0].student,
           activityTitle: mockAssessments[0].activity.title,
-          type: 'default',
+          types: mockAssessments[0].assessmentTypes,
           submitDate: mockAssessments[0].submittedAt,
           status: mockAssessments[0].assessmentStatus,
           actions: mockAssessments[0].id,
@@ -157,11 +122,20 @@ BddTest().given('an assessments list', () => {
           id: mockAssessments[1].id,
           learner: mockAssessments[1].student,
           activityTitle: mockAssessments[1].activity.title,
-          type: 'default',
+          types: mockAssessments[1].assessmentTypes,
           submitDate: mockAssessments[1].submittedAt,
           status: mockAssessments[1].assessmentStatus,
           actions: mockAssessments[1].id,
         },
+        {
+          id: mockAssessments[2].id,
+          learner: mockAssessments[2].student,
+          activityTitle: mockAssessments[2].activity.title,
+          types: mockAssessments[2].assessmentTypes,
+          submitDate: mockAssessments[2].submittedAt,
+          status: mockAssessments[2].assessmentStatus,
+          actions: mockAssessments[2].id,
+        }
       ])
     })
 
@@ -169,7 +143,7 @@ BddTest().given('an assessments list', () => {
       expect(getAssessmentOverviewList().props('columns')).toEqual([
         { key: 'learner', label: 'Apprenant', width: '25%' },
         { key: 'activityTitle', label: 'Activité', width: '25%' },
-        { key: 'type', label: 'Type', width: '20%' },
+        { key: 'types', label: 'Types', width: '20%' },
         { key: 'submitDate', label: 'Date de dépôt', width: '13%' },
         { key: 'status', label: 'Statut', width: '12%' },
         { key: 'actions', label: 'Accéder', width: '5%' },

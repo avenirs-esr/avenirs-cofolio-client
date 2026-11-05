@@ -8,7 +8,7 @@ import AssessmentStatusMultiselect from '@/features/staff/assessments/views/Asse
 BddTest().given('an assessment status multiselect', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssessmentStatusMultiselect>>
 
-  const mountWith = (selectedStatuses: string[] = []) => {
+  const mountWith = (selectedStatuses: EActivityAssessmentStatus[] = []) => {
     wrapper = mount(AssessmentStatusMultiselect, {
       props: {
         modelValue: selectedStatuses,
@@ -60,8 +60,8 @@ BddTest().given('an assessment status multiselect', () => {
       })
     })
 
-    BddTest().then('it should initialize the selected options to null', () => {
-      expect(getAvSelect().props('modelValue')).toBeNull()
+    BddTest().then('it should initialize the selected options to an empty array', () => {
+      expect(getAvSelect().props('modelValue')).toEqual([])
     })
 
     BddTest().and('when the user selects multiple options', () => {

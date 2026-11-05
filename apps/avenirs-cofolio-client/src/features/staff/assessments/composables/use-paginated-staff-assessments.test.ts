@@ -1,71 +1,16 @@
 import type { Ref } from 'vue'
-import type { DeclaredActivityToAssessDTO, PagedResponseDeclaredActivityToAssessDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiException } from '@avenirs-esr/shared'
-import { keepPreviousData } from '@tanstack/vue-query'
+import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { nextTick, unref } from 'vue'
 import {
-  EActivityAssessmentStatus,
-  EDeclaredActivityStatus,
-  useGetDeclaredActivitiesToAssess
-} from '@/api/avenir-esr'
+  createMockedPagedResponseDeclaredActivitiesToAssessDTO
+} from '@/__mocks__/fixtures/staffs/assessments.fixtures'
+import { getDeclaredActivitiesToAssessErrorHandler } from '@/__mocks__/msw/handlers/staffs/assessments.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
-
-const mockError = new BaseApiException('error')
-
-const mockAssessments: DeclaredActivityToAssessDTO[] = [
-  {
-    id: 'activity-to-assess-1',
-    student: {
-      id: 'student-1',
-      firstName: 'Alice',
-      lastName: 'Dupont',
-      email: 'alice.dupont@test.fr',
-    },
-    activity: {
-      id: 'activity-1',
-      title: 'Activité 1',
-    },
-    submittedAt: '2024-01-15T12:00:00Z',
-    declaredActivityStatus: EDeclaredActivityStatus.COMPLETED,
-    assessmentStatus: EActivityAssessmentStatus.NEW,
-  },
-]
-
-const mockPagedResponse: PagedResponseDeclaredActivityToAssessDTO = {
-  data: mockAssessments,
-  page: {
-    page: 0,
-    pageSize: 12,
-    totalElements: 1,
-    totalPages: 1,
-  },
-}
-
-vi.mock('@/api/avenir-esr', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
-  return {
-    ...actual,
-    useGetDeclaredActivitiesToAssess: vi.fn(),
-  }
-})
-
-const mockUseGetDeclaredActivitiesToAssess = vi.mocked(useGetDeclaredActivitiesToAssess)
-
-function setupMockQuery (overrides?: {
-  data?: Ref<PagedResponseDeclaredActivityToAssessDTO | undefined>
-  error?: Ref<BaseApiException | null>
-  isFetching?: Ref<boolean>
-}) {
-  mockUseGetDeclaredActivitiesToAssess.mockImplementation(() => ({
-    data: overrides?.data ?? ref(mockPagedResponse),
-    error: overrides?.error ?? ref(null),
-    isFetching: overrides?.isFetching ?? ref(false),
-  } as unknown as ReturnType<typeof useGetDeclaredActivitiesToAssess>))
-}
 
 function mountUsePaginatedStaffAssessments ({
   currentPage = 0,
@@ -84,7 +29,7 @@ function mountUsePaginatedStaffAssessments ({
       statusesRef,
       currentPageRef,
       pageSizeRef,
-    }), {})
+    }), { useTanstack: true })
 
   return {
     result,
@@ -97,19 +42,20 @@ function mountUsePaginatedStaffAssessments ({
 BddTest().given('a usePaginatedStaffAssessments composable', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    setupMockQuery()
   })
 
   BddTest().when('query returns valid data', () => {
     let result: ReturnType<typeof mountUsePaginatedStaffAssessments>['result']
+    const expectedPage = createMockedPagedResponseDeclaredActivitiesToAssessDTO(PageSizes.TWELVE, 0)
 
-    beforeEach(() => {
+    beforeEach(async () => {
       result = mountUsePaginatedStaffAssessments().result
+      await flushPromises()
     })
 
     BddTest().then('it should return assessments and pageInfo from data', () => {
-      expect(result.assessments.value).toEqual(mockPagedResponse.data)
-      expect(result.pageInfo.value).toEqual(mockPagedResponse.page)
+      expect(result.assessments.value).toEqual(expectedPage.data)
+      expect(result.pageInfo.value).toEqual(expectedPage.page)
     })
 
     BddTest().then('it should return isFetching as false', () => {
@@ -127,107 +73,75 @@ BddTest().given('a usePaginatedStaffAssessments composable', () => {
     })
   })
 
-  BddTest().when('useGetDeclaredActivitiesToAssess is called', () => {
-    beforeEach(() => {
-      mountUsePaginatedStaffAssessments({
-        currentPage: 0,
-        pageSize: PageSizes.FOUR,
-        statusesRef: ref([EActivityAssessmentStatus.NEW]),
-      })
-    })
-
-    BddTest().then('it should call with the correct params and query options', () => {
-      expect(mockUseGetDeclaredActivitiesToAssess).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({
-          query: expect.objectContaining({
-            placeholderData: keepPreviousData,
-          }),
-        }),
-      )
-
-      const [paramsArg] = mockUseGetDeclaredActivitiesToAssess.mock.calls[0]
-      expect(unref(paramsArg)).toEqual({
-        statuses: [EActivityAssessmentStatus.NEW],
-        page: 0,
-        pageSize: PageSizes.FOUR,
-      })
-    })
-  })
-
   BddTest().when('updating pagination handlers', () => {
     let mounted: ReturnType<typeof mountUsePaginatedStaffAssessments>
 
-    beforeEach(() => {
-      mounted = mountUsePaginatedStaffAssessments()
+    beforeEach(async () => {
+      mounted = mountUsePaginatedStaffAssessments({ pageSize: PageSizes.TWELVE })
+      await flushPromises()
     })
 
     BddTest().then('it should update current page', async () => {
-      mounted.result.onUpdateCurrentPage(2)
-      await nextTick()
+      mounted.result.onUpdateCurrentPage(1)
+      await flushPromises()
 
-      expect(mockUseGetDeclaredActivitiesToAssess).toHaveBeenCalled()
-
-      const [paramsArg] = mockUseGetDeclaredActivitiesToAssess.mock.calls[0]
-      const params = typeof paramsArg === 'function' ? paramsArg() : unref(paramsArg)
-
-      expect(params?.page).toBe(2)
+      const expectedPage = createMockedPagedResponseDeclaredActivitiesToAssessDTO(PageSizes.TWELVE, 1)
+      expect(mounted.result.pageInfo.value?.page).toBe(1)
+      expect(mounted.result.assessments.value).toEqual(expectedPage.data)
     })
 
     BddTest().then('it should update page size', async () => {
       mounted.result.onUpdatePageSize(PageSizes.FOUR)
-      await nextTick()
+      await flushPromises()
 
-      expect(mockUseGetDeclaredActivitiesToAssess).toHaveBeenCalled()
-
-      const [paramsArg] = mockUseGetDeclaredActivitiesToAssess.mock.calls[0]
-      const params = typeof paramsArg === 'function' ? paramsArg() : unref(paramsArg)
-      expect(params?.pageSize).toBe(PageSizes.FOUR)
+      const expectedPage = createMockedPagedResponseDeclaredActivitiesToAssessDTO(PageSizes.FOUR, 0)
+      expect(mounted.result.pageSizeSelected.value).toBe(PageSizes.FOUR)
+      expect(mounted.result.pageInfo.value?.pageSize).toBe(PageSizes.FOUR)
+      expect(mounted.result.assessments.value).toEqual(expectedPage.data)
     })
   })
 
   BddTest().when('statuses change', () => {
     const statusesRef = ref<EActivityAssessmentStatus[] | undefined>(undefined)
+    let mounted: ReturnType<typeof mountUsePaginatedStaffAssessments>
 
-    beforeEach(() => {
-      mountUsePaginatedStaffAssessments({ statusesRef })
+    beforeEach(async () => {
+      mounted = mountUsePaginatedStaffAssessments({ statusesRef })
+      await flushPromises()
     })
 
-    BddTest().then('it should update params with new statuses', async () => {
+    BddTest().then('it should update data with new statuses', async () => {
       statusesRef.value = [EActivityAssessmentStatus.OPENED]
-      await nextTick()
+      await flushPromises()
 
-      expect(mockUseGetDeclaredActivitiesToAssess).toHaveBeenCalled()
-
-      const [paramsArg] = mockUseGetDeclaredActivitiesToAssess.mock.calls[0]
-      const params = typeof paramsArg === 'function' ? paramsArg() : unref(paramsArg)
-
-      expect(params?.statuses).toEqual([EActivityAssessmentStatus.OPENED])
+      const expectedPage = createMockedPagedResponseDeclaredActivitiesToAssessDTO(
+        PageSizes.TWELVE,
+        0,
+        [EActivityAssessmentStatus.OPENED]
+      )
+      expect(mounted.result.assessments.value).toEqual(expectedPage.data)
     })
   })
 
-  BddTest().when('query returns isFetching as true', () => {
+  BddTest().when('query is fetching', () => {
     let result: ReturnType<typeof mountUsePaginatedStaffAssessments>['result']
 
     beforeEach(() => {
-      setupMockQuery({ isFetching: ref(true) })
       result = mountUsePaginatedStaffAssessments().result
     })
 
-    BddTest().then('it should return isFetching as true', () => {
+    BddTest().then('it should return isFetching as true before request resolves', () => {
       expect(result.isFetching.value).toBe(true)
     })
   })
 
-  BddTest().when('query returns undefined data and an error', () => {
+  BddTest().when('query returns an error', () => {
     let result: ReturnType<typeof mountUsePaginatedStaffAssessments>['result']
 
-    beforeEach(() => {
-      setupMockQuery({
-        data: ref(undefined),
-        error: ref(mockError),
-      })
+    beforeEach(async () => {
+      server.use(getDeclaredActivitiesToAssessErrorHandler)
       result = mountUsePaginatedStaffAssessments().result
+      await flushPromises()
     })
 
     BddTest().then('it should return empty assessments and undefined pageInfo', () => {
@@ -236,7 +150,8 @@ BddTest().given('a usePaginatedStaffAssessments composable', () => {
     })
 
     BddTest().then('it should return the error', () => {
-      expect(result.error.value).toBe(mockError)
+      expect(result.error.value).toBeDefined()
+      expect(result.error.value).not.toBeNull()
     })
   })
 })

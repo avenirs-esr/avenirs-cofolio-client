@@ -4076,6 +4076,17 @@
             }
           },
           {
+            "name": "types",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EActivityAssessmentType"
+              }
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -9560,6 +9571,12 @@
           "assessment": {
             "$ref": "#/components/schemas/ActivityAssessmentDTO"
           },
+          "assessmentTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EActivityAssessmentType"
+            }
+          },
           "submittedAt": {
             "type": "string",
             "format": "date-time"
@@ -9601,6 +9618,7 @@
         "required": [
           "activity",
           "assessmentStatus",
+          "assessmentTypes",
           "declaredActivityStatus",
           "id",
           "student",
@@ -9956,6 +9974,14 @@
           "FEEDBACK",
           "EVALUATION",
           "PUBLISH"
+        ]
+      },
+      "EActivityAssessmentType": {
+        "type": "string",
+        "enum": [
+          "COMMENT",
+          "GRADE",
+          "VALIDATION"
         ]
       },
       "EDeclaredActivityStatus": {

@@ -37,14 +37,14 @@ const {
 const ASSESSMENT_WIDTH_MAP: Record<string, string | undefined> = {
   learner: '25%',
   activityTitle: '25%',
-  type: '20%',
+  types: '20%',
   submitDate: '13%',
   status: '12%',
   actions: '5%'
 }
 
 const columns = computed<AvTableColumn<AssessmentTableRow>[]>(() => {
-  return (['learner', 'activityTitle', 'type', 'submitDate', 'status', 'actions'] as const).map(key => ({
+  return (['learner', 'activityTitle', 'types', 'submitDate', 'status', 'actions'] as const).map(key => ({
     key,
     label: t(`staff.assessments.views.AssessmentsView.components.dataDisplay.AssessmentsList.columns.${key}`),
     width: ASSESSMENT_WIDTH_MAP[key]
@@ -56,7 +56,7 @@ const rows = computed<AssessmentTableRow[]>(() => {
     id: assessment.id,
     learner: assessment.student,
     activityTitle: assessment.activity.title,
-    type: 'default',
+    types: assessment.assessmentTypes,
     submitDate: assessment.submittedAt,
     status: assessment.assessmentStatus,
     actions: assessment.id.toString()
