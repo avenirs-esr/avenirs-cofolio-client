@@ -27,6 +27,7 @@ if (__ENABLE_MSW__) {
 beforeAll(async () => {
   i18n.global.locale.value = 'fr'
   await registerFeatureLocales('terms-of-service')
+  await registerFeatureLocales('national-tools')
   config.global.plugins = config.global.plugins || []
   config.global.plugins.push(i18n)
 })

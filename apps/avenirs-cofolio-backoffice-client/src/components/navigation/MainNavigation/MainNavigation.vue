@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ROUTES } from '@/constants'
@@ -21,7 +22,7 @@ const navItems = computed(() => [
     id: 'nav-national-tools',
     to: ROUTES.NATIONAL_TOOLS,
     text: t('global.MainNavigation.nationalTools').toUpperCase(),
-    icon: MDI_ICONS.TOOLS,
+    icon: ICONS.TOOLS,
     highlight: isRouteActive({ route, routes: nationalToolsRoutes }),
   },
   {

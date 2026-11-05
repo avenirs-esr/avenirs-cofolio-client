@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import MainNavigation from '@/components/navigation/MainNavigation/MainNavigation.vue'
@@ -51,7 +52,7 @@ BddTest().given('a main navigation', () => {
       expect(getNavItems()[1]).toMatchObject({
         text: 'OUTILS NATIONAUX',
         to: ROUTES.NATIONAL_TOOLS,
-        icon: MDI_ICONS.TOOLS,
+        icon: ICONS.TOOLS,
       })
     })
 
