@@ -5,6 +5,7 @@ import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
+import GlobalAlertNotice from '@/common/components/layout/GlobalAlertNotice/GlobalAlertNotice.vue'
 import MainContent from '@/common/components/layout/MainContent/MainContent.vue'
 import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
 import { useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
@@ -69,6 +70,9 @@ defineExpose({ searchQuery })
           </ul>
         </div>
       </QuerySuspense>
+    </template>
+    <template #globalNotice>
+      <GlobalAlertNotice />
     </template>
     <template #mainnav>
       <StudentNavigation />

@@ -1,4 +1,8 @@
-import type { BuildLifeProjectConfigDTO } from '@/api/avenir-esr'
+import type { AlertMessageDTO, BuildLifeProjectConfigDTO } from '@/api/avenir-esr'
+
+export const mockedAlertMessageResponse: AlertMessageDTO = {
+  message: 'Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera <strong>indisponible</strong> pendant cette période.'
+}
 
 export const mockedBuildLifeProjectConfigResponse: BuildLifeProjectConfigDTO = {
   html: `
