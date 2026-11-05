@@ -81,6 +81,20 @@ export default ({ mode }: { mode: string }) => {
       // }
     ],
     base: basePath,
+    server: {
+      proxy: {
+        '/api/back-office': {
+          target: env.VITE_BACKOFFICE_API_PROXY_TARGET || 'http://localhost:10010',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        },
+        '/api': {
+          target: env.VITE_API_PROXY_TARGET || 'http://localhost:10000',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -123,9 +123,16 @@
               "placeholder": "Choose permissions",
               "selected": "{count} permission selected | {count} permissions selected"
             },
+            "confirmationModal": {
+              "description": "You have unsaved rights changes. If you leave, they will be lost."
+            },
+            "editDisabledTooltip": "You do not have the rights to edit this activity's authorizations",
+            "emptyState": "No one has rights on this activity.",
+            "fetchAuthorizationsError": "Unable to load the activity rights",
             "fetchError": "Unable to search users",
             "label": "Search a user",
             "placeholder": "Search by name or email",
+            "saveDisabledTooltip": "Change the rights before saving",
             "saveError": "Unable to save the permissions",
             "saveSuccess": "Permissions saved",
             "title": "Rights management"
@@ -167,6 +174,7 @@
           "tabs": {
             "content": "Content",
             "dashboard": "Dashboard",
+            "disabledTooltip": "Save or cancel your rights changes before switching tabs",
             "preview": "Catalog Preview"
           },
           "title": "All activities available in my institution"
@@ -228,6 +236,7 @@
             "confirmTitle": "Are you sure you want to publish your activity?",
             "publishError": "An error occurred while publishing the activity",
             "publishLabel": "Publish",
+            "publishRightOnlyTooltip": "You must hold the publish right on the activity to publish it",
             "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction, a summary and one/many recommended completion context(s) to publish the activity",
             "publishRequiredFieldsWithTargetsError": "Please provide a title, a thematic, an instruction, a summary, one/many recommended completion context(s) and at least one target to publish the activity",
             "publishSuccess": "Activity published successfully",

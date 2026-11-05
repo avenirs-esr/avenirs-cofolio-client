@@ -1,25 +1,32 @@
 <script lang="ts" setup>
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
-import type { EActivityRight, EActivityStatus, ExternalUserAffiliationOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityAuthorizationDTO, EActivityRight, EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
-import { AvButton, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
-import { EUniverse, invalidateGetActivityAuthorizations, useDefineActivityAuthorizations, useGetActivityAuthorizations, useGetAffiliations } from '@avenirs-esr/shared/api/avenir-esr'
+import { AvButton, AvCard, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { ConfirmationModal, FormCancelConfirmButtons, QuerySuspense, useApiErrors, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { EAuthorization, invalidateGetActivityAuthorizations, useDefineActivityAuthorizations, useGetActivityAuthorizations, useSearchActivityAuthorizationCandidates } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData, useQueryClient } from '@tanstack/vue-query'
-import { refDebounced, whenever } from '@vueuse/core'
+import { refDebounced } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { toFullName } from '@/common/utils/user/user'
 import ActivityRightsUserRow from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsUserRow/ActivityRightsUserRow.vue'
+import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
+import AuthorizationTypeBadge from '@/features/staff/admin/views/InstitutionUserDetailedView/components/badges/AuthorizationTypeBadge/AuthorizationTypeBadge.vue'
 import { useToasterStore } from '@/store'
 
 export interface ActivityRightsSectionProps {
   activityId: string
   status: EActivityStatus
+  canEdit?: boolean
 }
 
-const { activityId, status } = defineProps<ActivityRightsSectionProps>()
+const { activityId, status, canEdit = false } = defineProps<ActivityRightsSectionProps>()
+
+const emit = defineEmits<{
+  dirtyChange: [isDirty: boolean]
+}>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
@@ -27,28 +34,24 @@ const queryClient = useQueryClient()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { getErrorMessage } = useApiErrors()
 
+const isEditing = ref(false)
 const search = ref('')
 const debouncedSearch = refDebounced(search, 300)
 const selectedUsers = ref<AvAutocompleteOption[]>([])
 
 const params = computed(() => ({
   keyword: debouncedSearch.value || undefined,
-  cofolioUniverses: [EUniverse.STAFF],
 }))
 
-const { data, error, isFetching } = useGetAffiliations(params, {
-  query: { placeholderData: keepPreviousData },
+const { data, error, isFetching } = useSearchActivityAuthorizationCandidates(() => status, () => activityId, params, {
+  query: { placeholderData: keepPreviousData, enabled: isEditing },
 })
 
-type ManageableUser = ExternalUserAffiliationOverviewDTO & { userId: string }
-
-const manageableUsers = computed(() =>
-  (data.value?.data ?? []).filter((user): user is ManageableUser => !!user.userId),
-)
+const candidates = computed(() => data.value?.data ?? [])
 
 const options = computed<AvAutocompleteOption[]>(() =>
-  manageableUsers.value.map(user => ({
-    value: user.userId,
+  candidates.value.map(user => ({
+    value: user.id,
     label: toFullName(user.firstName, user.lastName),
     description: user.email,
   })),
@@ -71,6 +74,7 @@ const { mutate: defineAuthorizations, isPending: isSaving } = useDefineActivityA
   mutation: {
     onSuccess: async () => {
       addSuccessMessage(t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveSuccess'))
+      isEditing.value = false
       await invalidateGetActivityAuthorizations(queryClient, status, activityId)
     },
     onError: (error) => {
@@ -100,20 +104,70 @@ function removeUser (id: string) {
   rightsByUser.delete(id)
 }
 
-const { data: activityAuthorizations } = useGetActivityAuthorizations(() => status, () => activityId)
+const { data: activityAuthorizations, error: authorizationsError, isLoading: isLoadingAuthorizations } = useGetActivityAuthorizations(() => status, () => activityId)
 
-watch(manageableUsers, (users) => {
-  users.forEach(user => knownUsers.set(user.userId, { ...user, id: user.userId }))
-}, { immediate: true })
-
-whenever(activityAuthorizations, (authorizations) => {
+function syncWithAuthorizations (authorizations: ActivityAuthorizationDTO[] = []) {
   selectedUsers.value = authorizations.map(({ staff }) => ({
     value: staff.id,
     label: toFullName(staff.firstName, staff.lastName),
   }))
 
+  rightsByUser.clear()
   authorizations.forEach(({ staff, rights }) => rightsByUser.set(staff.id, rights))
-}, { immediate: true, once: true })
+}
+
+const readOnlyRows = computed(() =>
+  (activityAuthorizations.value ?? []).map(({ staff, rights }) => ({
+    user: { ...staff, email: '' } satisfies UserInfoType,
+    rights: rights.map(right => EAuthorization[right]),
+  })),
+)
+
+const isDirty = computed(() => {
+  if (!isEditing.value) {
+    return false
+  }
+
+  const saved = new Map((activityAuthorizations.value ?? []).map(({ staff, rights }) => [staff.id, new Set(rights)]))
+  const current = selectedUsers.value.map(({ value }) => String(value))
+
+  return current.length !== saved.size || current.some((id) => {
+    const savedRights = saved.get(id)
+    const currentRights = rightsByUser.get(id) ?? []
+
+    return !savedRights || savedRights.size !== currentRights.length || currentRights.some(right => !savedRights.has(right))
+  })
+})
+
+const { modalOpened, openModal, closeModal } = useModal()
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({ isDirty, openModal, closeModal })
+
+function startEditing () {
+  syncWithAuthorizations(activityAuthorizations.value)
+  isEditing.value = true
+}
+
+async function cancelEditing () {
+  if (!await canLeave()) {
+    return
+  }
+
+  search.value = ''
+  syncWithAuthorizations(activityAuthorizations.value)
+  isEditing.value = false
+}
+
+watch(candidates, (users) => {
+  users.forEach(user => knownUsers.set(user.id, user))
+}, { immediate: true })
+
+watch(activityAuthorizations, (authorizations) => {
+  if (!isEditing.value) {
+    syncWithAuthorizations(authorizations)
+  }
+}, { immediate: true })
+
+watch(isDirty, dirty => emit('dirtyChange', dirty), { immediate: true })
 </script>
 
 <template>
@@ -122,7 +176,66 @@ whenever(activityAuthorizations, (authorizations) => {
     :title-icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
     data-testid="activity-rights-section"
   >
+    <template
+      v-if="!isEditing"
+      #title
+    >
+      <AvButton
+        :icon="MDI_ICONS.PENCIL_OUTLINE"
+        :label="t('global.buttons.update')"
+        :is-loading="isLoadingAuthorizations"
+        :disabled="!canEdit"
+        :disabled-tooltip="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.editDisabledTooltip')"
+        variant="OUTLINED"
+        data-testid="activity-rights-edit-button"
+        @click="startEditing"
+      />
+    </template>
+
     <QuerySuspense
+      v-if="!isEditing"
+      :error="authorizationsError"
+      :error-title="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.fetchAuthorizationsError')"
+      :is-loading="isLoadingAuthorizations"
+      :is-empty="readOnlyRows.length === 0"
+      :empty-state-message="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.emptyState')"
+    >
+      <ul
+        class="av-col av-gap-sm av-list-reset"
+        :class="{ 'activity-rights-section__list--scrollable': !isMobile }"
+        data-testid="activity-rights-readonly-list"
+      >
+        <li
+          v-for="{ user, rights } in readOnlyRows"
+          :key="user.id"
+          class="activity-rights-section__item"
+          data-testid="activity-rights-readonly-row"
+        >
+          <AvCard>
+            <div
+              class="av-gap-md av-py-sm av-px-md"
+              :class="isMobile ? 'av-col' : 'activity-rights-section__readonly-row--desktop av-row av-align-center'"
+            >
+              <UserInfo
+                :user="user"
+                class="av-flex-fill"
+              />
+              <ul class="av-flex-fill av-row av-wrap av-gap-sm av-list-reset">
+                <li
+                  v-for="right in rights"
+                  :key="right"
+                >
+                  <AuthorizationTypeBadge :type="right" />
+                </li>
+              </ul>
+            </div>
+          </AvCard>
+        </li>
+      </ul>
+    </QuerySuspense>
+
+    <QuerySuspense
+      v-else
       :error="error"
       :error-title="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.fetchError')"
       :is-loading="isFetching"
@@ -178,22 +291,35 @@ whenever(activityAuthorizations, (authorizations) => {
         </div>
 
         <div class="av-row av-justify-end">
-          <AvButton
-            :label="t('global.buttons.save')"
-            :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-            :is-loading="isSaving"
-            @click="save"
+          <FormCancelConfirmButtons
+            :is-submitting="isSaving"
+            :is-form-valid="isDirty"
+            :confirm-disabled-tooltip="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.saveDisabledTooltip')"
+            data-testid="activity-rights-form-buttons"
+            @cancel="cancelEditing"
+            @submit="save"
           />
         </div>
       </div>
     </QuerySuspense>
   </IconTitleCardContainer>
+
+  <ConfirmationModal
+    :opened="modalOpened"
+    :description="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.confirmationModal.description')"
+    @close="cancel"
+    @confirm="confirm"
+  />
 </template>
 
 <style lang="scss" scoped>
 .activity-rights-section__list--scrollable {
   max-height: calc(5 * 6rem);
   overflow-y: auto;
+}
+
+.activity-rights-section__readonly-row--desktop {
+  min-height: 3rem;
 }
 
 .activity-rights-section__item {

@@ -252,6 +252,45 @@ BddTest().given('a national activity catalog view', () => {
     })
   })
 
+  BddTest().when('the rights section reports pending changes', () => {
+    const AllTabsStub = defineComponent({ name: 'AvTabs', template: '<div><slot /></div>' })
+    const EachTabStub = defineComponent({
+      name: 'AvTab',
+      props: { disabled: { type: Boolean, default: false }, disabledTooltip: { type: String, default: undefined } },
+      template: '<div><slot /></div>',
+    })
+    const getTabs = () => wrapper.findAllComponents(EachTabStub)
+
+    beforeEach(async () => {
+      mockActiveTab(NationalActivityCatalogTabs.DASHBOARD)
+      wrapper = mountComponent(NationalActivityCatalogView, {
+        props: { status: EActivityStatus.DRAFT, id: mockedActivityContent.id },
+        global: { stubs: { ...stubs, AvTabs: AllTabsStub, AvTab: EachTabStub } },
+      })
+      await waitForLoaded()
+    })
+
+    BddTest().then('it should keep the tabs enabled by default', () => {
+      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([false, false, false])
+    })
+
+    BddTest().then('it should disable the content and preview tabs, and re-enable them once changes are gone', async () => {
+      const rightsSection = wrapper.findComponent(ActivityRightsSectionStub)
+      rightsSection.vm.$emit('dirtyChange', true)
+      await flushPromises()
+      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([true, true, false])
+      expect(getTabs().map(tab => tab.props('disabledTooltip'))).toEqual([
+        'Enregistrez ou annulez vos modifications de droits avant de changer d\'onglet',
+        'Enregistrez ou annulez vos modifications de droits avant de changer d\'onglet',
+        undefined,
+      ])
+
+      rightsSection.vm.$emit('dirtyChange', false)
+      await flushPromises()
+      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([false, false, false])
+    })
+  })
+
   BddTest().when('the status is DRAFT and the activity is loaded by a staff without the edit right', () => {
     beforeEach(async () => {
       wrapper = mountViewWithoutRights(EActivityStatus.DRAFT, 'WITHOUT_RIGHTS_ID')

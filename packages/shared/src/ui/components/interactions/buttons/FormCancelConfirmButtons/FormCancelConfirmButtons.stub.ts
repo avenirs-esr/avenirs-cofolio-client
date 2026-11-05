@@ -8,6 +8,6 @@ export const FormCancelConfirmButtonsStub = defineComponent({
     isFormValid: Boolean,
     ...AvCancelConfirmButtonsStubDefinition.props
   },
-  emits: AvCancelConfirmButtonsStubDefinition.emits,
+  emits: [...AvCancelConfirmButtonsStubDefinition.emits, 'submit'],
   template: '<div data-testid="form-cancel-confirm-buttons-stub"></div>'
 })
