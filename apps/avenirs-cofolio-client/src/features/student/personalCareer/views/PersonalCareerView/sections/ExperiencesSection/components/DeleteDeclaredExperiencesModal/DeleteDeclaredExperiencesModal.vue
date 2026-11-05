@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
-import { Loader } from '@avenirs-esr/shared'
+import { Loader, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useModal } from '@/common/composables'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import DeclaredExperienceSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'

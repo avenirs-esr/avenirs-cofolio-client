@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ICONS } from '@avenirs-esr/shared'
+import { ICONS, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useModal } from '@/common/composables'
 import MindMap from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.vue'
 import StudentProjectMindMapHelperModal
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'

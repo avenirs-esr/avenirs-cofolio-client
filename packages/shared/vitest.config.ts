@@ -14,7 +14,7 @@ export default defineConfig({
           name: 'runtime',
           environment: 'node',
           include: ['src/**/*.test.ts'],
-          exclude: ['src/ui/**/*.test.ts'],
+          exclude: ['src/ui/**/*.test.ts', 'src/composables/**/*.test.ts'],
         },
       },
       {
@@ -23,6 +23,14 @@ export default defineConfig({
           name: 'test-utils',
           environment: 'jsdom',
           include: ['test-utils/**/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'composables',
+          environment: 'jsdom',
+          include: ['src/composables/**/*.test.ts'],
         },
       },
       {

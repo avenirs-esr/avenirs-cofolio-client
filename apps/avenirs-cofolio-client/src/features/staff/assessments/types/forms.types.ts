@@ -1,4 +1,4 @@
-import type { AnyFormApi } from '@/common/types'
+import type { AnyFormApi } from '@avenirs-esr/shared'
 import type { useWriteAssessmentForm } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/composables/use-write-assessment-form/use-write-assessment-form'
 
 export type WriteAssessmentForm = ReturnType<typeof useWriteAssessmentForm>['form']

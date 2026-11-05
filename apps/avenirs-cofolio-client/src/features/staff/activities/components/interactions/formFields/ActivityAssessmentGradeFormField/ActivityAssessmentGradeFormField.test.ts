@@ -1,11 +1,10 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { InputStub, ToggleStub } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import ActivityAssessmentGradeFormField from '@/features/staff/activities/components/interactions/formFields/ActivityAssessmentGradeFormField/ActivityAssessmentGradeFormField.vue'
 import { ACTIVITY_ASSESSMENT_GRADE_MAX_DECIMALS } from '@/features/staff/activities/config'
 

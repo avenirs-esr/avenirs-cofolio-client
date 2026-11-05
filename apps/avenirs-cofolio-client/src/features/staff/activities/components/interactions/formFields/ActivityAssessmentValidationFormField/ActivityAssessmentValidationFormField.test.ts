@@ -1,10 +1,10 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ToggleStub } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import ActivityAssessmentValidationFormField from '@/features/staff/activities/components/interactions/formFields/ActivityAssessmentValidationFormField/ActivityAssessmentValidationFormField.vue'
 
 const DESCRIPTION = 'Permettre d\'indiquer si l\'activité est validée ou non'

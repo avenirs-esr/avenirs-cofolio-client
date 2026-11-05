@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { WriteAssessmentForm } from '@/features/staff/assessments/types/forms.types'
+import { Input } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { ASSESSMENT_COMMENT_MAX_LENGTH } from '@/features/staff/assessments/config'
 
 interface AssessmentCommentFormFieldProps {

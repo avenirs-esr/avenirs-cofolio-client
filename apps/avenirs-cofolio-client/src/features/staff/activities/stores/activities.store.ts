@@ -1,5 +1,5 @@
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { useModal } from '@/common/composables'
+import { useModal } from '@avenirs-esr/shared'
 
 export const useStaffActivitiesStore = defineStore('staffActivities', () => {
   const {

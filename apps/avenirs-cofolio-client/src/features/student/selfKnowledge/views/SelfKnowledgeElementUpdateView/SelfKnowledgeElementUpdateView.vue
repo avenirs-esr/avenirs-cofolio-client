@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
+import { UpdatePageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'

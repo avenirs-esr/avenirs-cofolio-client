@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@avenirs-esr/shared'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Input } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH } from '@/features/student/personalCareer/config'
 
 type DeclaredExperienceExternalLinkInputProps = Omit<InputProps, 'maxlength'>

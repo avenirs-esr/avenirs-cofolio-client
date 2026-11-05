@@ -1,5 +1,5 @@
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH, TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'

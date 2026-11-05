@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ConfirmationModal, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
-import { useModal } from '@/common/composables'
-import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
+import { Drawer } from '@/common/components'
 import { AssociationSelectionSection } from '@/features/student/associations'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'

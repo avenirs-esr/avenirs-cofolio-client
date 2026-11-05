@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { FinishDeclaredActivityConfirmModalProps } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import FinishDeclaredActivityConfirmModal from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
 
 BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {

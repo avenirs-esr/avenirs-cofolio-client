@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useModal } from '@/common/composables'
 import { USER_CATEGORY_HOME } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 

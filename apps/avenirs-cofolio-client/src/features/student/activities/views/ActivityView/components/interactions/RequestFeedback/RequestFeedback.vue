@@ -2,10 +2,9 @@
 import type { AvButtonProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { AvLocale } from '@avenirs-esr/shared'
 import { AvButton, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ConfirmationModal, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EFeedbackStatus } from '@/api/avenir-esr'
-import { ConfirmationModal } from '@/common/components'
-import { useModal } from '@/common/composables'
 import { formatDateLocalized } from '@/common/utils'
 
 export interface RequestFeedbackProps extends AvInteractiveProps {

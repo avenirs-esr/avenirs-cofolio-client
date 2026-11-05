@@ -1,13 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { MyPerspectiveCardProps } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CardStub } from '@avenirs-esr/shared'
+import { CardStub, RichTextEditorStub } from '@avenirs-esr/shared'
 import { findAvButtonByTestId, getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import MyPerspectiveCard from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 
 const mockAddSuccessMessage = vi.fn()

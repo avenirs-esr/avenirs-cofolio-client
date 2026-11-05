@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { FileDTO } from '@/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub, ToggleStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -11,9 +12,7 @@ import {
 
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
@@ -36,9 +35,9 @@ const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
 
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+    typeof import('@avenirs-esr/shared')
   >()
   return {
     ...actual,

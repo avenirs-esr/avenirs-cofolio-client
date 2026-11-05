@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@avenirs-esr/shared'
+import { Input } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
 
 type FeedbackTextareaProps = Omit<InputProps, 'maxlength' | 'isTextarea'>

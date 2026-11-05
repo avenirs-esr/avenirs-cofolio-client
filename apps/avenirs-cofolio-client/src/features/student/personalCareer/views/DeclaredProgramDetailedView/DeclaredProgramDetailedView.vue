@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorCodes, ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { ErrorCodes, ICONS, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredProgram } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'

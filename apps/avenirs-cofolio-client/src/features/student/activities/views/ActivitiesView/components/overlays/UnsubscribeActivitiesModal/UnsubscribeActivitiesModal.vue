@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useModal } from '@avenirs-esr/shared'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
-import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import { usePaginatedLibraryActivities } from '@/features/student/activities/composables/use-paginated-library-activities/use-paginated-library-activities'

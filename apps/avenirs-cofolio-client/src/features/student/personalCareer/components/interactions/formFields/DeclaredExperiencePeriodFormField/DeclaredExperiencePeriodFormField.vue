@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
-import { DatePeriodPicker } from '@/common/components'
+import { DatePeriodPicker } from '@avenirs-esr/shared'
 
 interface DeclaredExperiencePeriodFormFieldProps {
   form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ConfirmationModal, useModal } from '@avenirs-esr/shared'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { ConfirmationModal } from '@/common/components'
-import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import { TracesSelector } from '@/features/student/traces'
 import TraceDeletionConfirmationModal

@@ -1,6 +1,6 @@
 import type { EditActivityAssessmentFormData, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
   ACTIVITY_ASSESSMENT_GRADE_MIN,
   ACTIVITY_CONSIGN_MAX_LENGTH,

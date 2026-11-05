@@ -95,54 +95,9 @@
       "prevPageTitle": "Previous page",
       "topAriaLabel": "Top pagination"
     },
-    "AvRichTextEditor": {
-      "addColumnBefore": "Add column before",
-      "addColumnAfter": "Add column after",
-      "addRowBefore": "Add row before",
-      "addRowAfter": "Add row after",
-      "alignCenter": "Align center (Ctrl+E)",
-      "alignJustify": "Justify (Ctrl+J)",
-      "alignLeft": "Align left (Ctrl+L)",
-      "alignRight": "Align right (Ctrl+R)",
-      "bold": "Bold (Ctrl+B)",
-      "bulletList": "Bullet list (Ctrl+Shift+8)",
-      "decreaseIndent": "Decrease indent (Ctrl+[)",
-      "deleteColumn": "Delete column",
-      "deleteRow": "Delete row",
-      "deleteTable": "Delete table",
-      "editor": "Rich text editor",
-      "heading": "Heading",
-      "image": "Image (Ctrl+Shift+I)",
-      "imageName": "Image name",
-      "imageNamePlaceholder": "Enter the image name",
-      "imageUrl": "Image URL",
-      "increaseIndent": "Increase indent (Ctrl+])",
-      "insertTable": "Insert table",
-      "italic": "Italic (Ctrl+I)",
-      "link": "Link (Ctrl+K)",
-      "linkName": "Link name",
-      "linkNamePlaceholder": "Enter the link name",
-      "linkUrl": "Link URL",
-      "max": "Please enter a value less than or equal to {max}",
-      "maxLengthCaption": "{count} / {maxlength} characters (including spaces)",
-      "min": "Please enter a value greater than or equal to {min}",
-      "orderedList": "Ordered list (Ctrl+Shift+7)",
-      "paragraph": "Paragraph",
-      "redo": "Redo (Ctrl+Y)",
-      "removeImage": "Remove image",
-      "tableSettings": "Table settings",
-      "toolbar": "Toolbar",
-      "underline": "Underline (Ctrl+U)",
-      "undo": "Undo (Ctrl+Z)",
-      "unsetLink": "Remove link"
-    },
     "AvSideMenu": {
       "collapseButtonAriaLabel": "Collapse the menu",
       "expandButtonAriaLabel": "Expand the menu"
-    },
-    "avToggle": {
-      "activeText": "On",
-      "inactiveText": "Off"
     },
     "badges": {
       "AssociationBadge": {
@@ -214,16 +169,12 @@
       },
       "createdAt": "Created on {date}",
       "dateTimeAt": "{date} at {time}",
-      "endDateBeforeStartDate": "End date must be after start date",
       "hoursAgo": "{count} hour ago | {count} hours ago",
       "justNow": "Just now",
       "minutesAgo": "{count} minute ago | {count} minutes ago",
       "ongoing": "Ongoing",
-      "period": "Period",
       "periodPlaceholder": {
-        "default": "Select a period",
-        "fullDate": "DD/MM/YYYY - DD/MM/YYYY",
-        "monthYear": "MM/YYYY - MM/YYYY"
+        "default": "Select a period"
       },
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
@@ -245,9 +196,7 @@
       },
       "form": {
         "invalidEmail": "Please provide a valid email address (e.g.: name{'@'}example.com).",
-        "invalidLink": "Please provide a valid URL (e.g.: http://www.example.com). Don't forget to include the protocol (http:// or https://).",
         "maxLength": "Please limit your input to {maxLength} characters",
-        "requiredEndDate": "Please provide an end date.",
         "requiredField": "This field is required."
       },
       "fileUpload": "An error occurred while uploading the file."
@@ -344,12 +293,6 @@
       }
     },
     "megabyteUnit": "MB",
-    "modals": {
-      "confirmation": {
-        "description": "Any unsaved changes will be lost.",
-        "title": "Are you sure you want to exit?"
-      }
-    },
     "navigation": {
       "accessTo": "Access to"
     },

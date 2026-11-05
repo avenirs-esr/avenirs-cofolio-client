@@ -1,6 +1,6 @@
 import type { WriteAssessmentFormData } from '@/features/staff/assessments/types/forms.types'
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ASSESSMENT_COMMENT_MAX_LENGTH, ASSESSMENT_MIN_GRADE } from '@/features/staff/assessments/config'
 
 /**

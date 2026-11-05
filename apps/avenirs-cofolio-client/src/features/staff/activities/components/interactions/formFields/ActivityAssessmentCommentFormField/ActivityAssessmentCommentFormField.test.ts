@@ -1,10 +1,10 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ToggleStub } from '@avenirs-esr/shared'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import ActivityAssessmentCommentFormField from '@/features/staff/activities/components/interactions/formFields/ActivityAssessmentCommentFormField/ActivityAssessmentCommentFormField.vue'
 
 const DESCRIPTION = 'Permettre l\'ajout d\'un commentaire personnalisé pour chaque évaluation'

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { Input, useFormValidators } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH } from '@/features/staff/activities/config'
 
 interface ActivityRecommendedCompletionContextsFormFieldProps {

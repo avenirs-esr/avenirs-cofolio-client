@@ -3,11 +3,9 @@ import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Input, Toggle, useFormValidators } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
   ACTIVITY_TRACE_ALLOWED_ASSOCIATIONS_MIN,
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,

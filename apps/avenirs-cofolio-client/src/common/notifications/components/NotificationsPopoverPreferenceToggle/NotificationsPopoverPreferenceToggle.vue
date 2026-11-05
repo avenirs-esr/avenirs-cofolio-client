@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { EUserCategory, QuickLinksDTO } from '@/api/avenir-esr'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { Toggle, useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { getGetQuickLinksQueryKey, useGetQuickLinks, useUpdateNotificationPreferences } from '@/api/avenir-esr'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { useToasterStore } from '@/store'
 
 const { userCategory } = defineProps<{ userCategory: EUserCategory }>()

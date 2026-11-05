@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { DatePeriodPickerStub } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import ActivityPeriodFormField from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 
 const commonsWrapperDefinitions = {

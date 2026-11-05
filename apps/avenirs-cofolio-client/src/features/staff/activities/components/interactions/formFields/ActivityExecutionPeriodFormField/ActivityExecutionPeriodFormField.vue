@@ -2,8 +2,8 @@
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { DatePeriodPicker } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { DatePeriodPicker } from '@/common/components'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 
 interface ActivityExecutionPeriodFormFieldProps {

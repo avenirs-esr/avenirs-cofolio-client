@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
-import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
+import { FormCancelConfirmButtons } from '@avenirs-esr/shared'
+import { CreationUpdateDateDetails } from '@/common/components'
 import KitValorizationToggleFormField
   from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import DeclaredExperienceActivitySectorFormField

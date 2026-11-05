@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Toggle } from '@avenirs-esr/shared'
 import { Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 /**
  * Props for the UpdateHandleSelector component.

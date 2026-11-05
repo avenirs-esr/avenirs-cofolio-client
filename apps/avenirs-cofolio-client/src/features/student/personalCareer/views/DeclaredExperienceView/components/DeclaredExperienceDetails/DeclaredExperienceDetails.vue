@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import { DatePeriodPicker } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { CreationUpdateDateDetails, DatePeriodPicker } from '@/common/components'
+import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredExperienceActivitySectorInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'

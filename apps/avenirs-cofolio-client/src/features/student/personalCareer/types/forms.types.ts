@@ -1,4 +1,4 @@
-import type { AnyFormApi } from '@/common/types'
+import type { AnyFormApi } from '@avenirs-esr/shared'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import type {
   useAddDeclaredExperienceForm

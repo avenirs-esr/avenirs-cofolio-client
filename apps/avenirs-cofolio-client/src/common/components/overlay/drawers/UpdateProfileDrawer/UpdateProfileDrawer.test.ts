@@ -9,19 +9,17 @@ import {
   AvInputStub,
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ConfirmationModalStub, FormCancelConfirmButtonsStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { beforeEach, expect, vi } from 'vitest'
 import { EFileType } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { ImageUploadStub } from '@/common/components/interaction/files/ImageUpload/ImageUpload.stub'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -30,6 +28,9 @@ vi.mock('vue-router', async (importOriginal) => {
     useRoute: vi.fn(),
   }
 })
+
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -50,9 +51,9 @@ const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
 
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+    typeof import('@avenirs-esr/shared')
   >()
   return {
     ...actual,

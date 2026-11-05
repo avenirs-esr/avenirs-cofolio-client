@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@avenirs-esr/shared'
+import { Input } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 
 type DeclaredExperienceTitleInputProps = Omit<InputProps, 'maxlength' | 'prefixIcon'>

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { EActivityStatus } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDefinitively } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useToasterStore } from '@/store'
 
 interface DeleteActivityDefinitivelyConfirmationModalProps {

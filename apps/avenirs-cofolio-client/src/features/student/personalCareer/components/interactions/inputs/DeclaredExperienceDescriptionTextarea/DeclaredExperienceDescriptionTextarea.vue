@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@avenirs-esr/shared'
+import { Input } from '@avenirs-esr/shared'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 
 type DeclaredExperienceDescriptionTextareaProps = Omit<InputProps, 'maxlength' | 'isTextarea'>

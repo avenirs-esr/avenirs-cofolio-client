@@ -1,14 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, QuerySuspenseStub, UpdatePageTitleStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredProgramAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { UpdatePageTitleStub } from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeclaredProgramUpdateFormStub } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.stub'
@@ -38,28 +36,21 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables/use-modal/use-modal')>()
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@avenirs-esr/shared')
+  >()
   return {
     ...actual,
     useModal: () => ({
       modalOpened: confirmationModalOpened,
       openModal: openConfirmationModal,
       closeModal: closeConfirmationModal
-    })
-  }
-})
-
-const mockCanLeave = vi.fn<() => Promise<boolean>>()
-const mockConfirm = vi.fn()
-const mockCancel = vi.fn()
-
-vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
-  const actual = await importOriginal<
-    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
-  >()
-  return {
-    ...actual,
+    }),
     useUnsavedChangesGuard: () => ({
       canLeave: mockCanLeave,
       confirm: mockConfirm,

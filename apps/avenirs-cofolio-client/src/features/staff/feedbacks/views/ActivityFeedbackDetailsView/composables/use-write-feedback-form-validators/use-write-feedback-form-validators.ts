@@ -1,6 +1,6 @@
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
+import { useFormValidators } from '@avenirs-esr/shared'
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
   FEEDBACK_ATTACHMENT_ACCEPTED_FILE_TYPES,
   FEEDBACK_ATTACHMENT_MAX_FILE_SIZE,

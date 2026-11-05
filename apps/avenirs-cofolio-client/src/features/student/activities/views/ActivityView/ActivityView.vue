@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Loader } from '@avenirs-esr/shared'
+import { Loader, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
-import { useDrawer, useModal, useNavigation } from '@/common/composables'
+import { useDrawer, useNavigation } from '@/common/composables'
 import UpdateActivityDrawer
   from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'

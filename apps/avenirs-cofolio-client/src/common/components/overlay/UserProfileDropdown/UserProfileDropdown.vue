@@ -2,11 +2,10 @@
 import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
 import type { UserProfileDropdownAction } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.types'
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ConfirmationModal, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { UserProfileDropdownEvents } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.types'
-import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
 const { username, actions = [] } = defineProps<{
