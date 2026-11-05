@@ -1,0 +1,30 @@
+{
+  "global-alert": {
+    "components": {
+      "interactions": {
+        "inputs": {
+          "AlertActiveToggle": {
+            "activeText": "Enabled",
+            "description": "Manually activate the alert",
+            "inactiveText": "Disabled"
+          },
+          "AlertMessageRichTextEditor": {
+            "label": "Message"
+          }
+        }
+      }
+    },
+    "views": {
+      "AlertUpdateView": {
+        "composables": {
+          "useUpdateAlertForm": {
+            "error": "An error occurred while updating the global alert.",
+            "success": "The global alert has been updated."
+          }
+        },
+        "guardDescription": "Are you sure you want to cancel your changes? Unsaved changes will be lost.",
+        "title": "Change global alert"
+      }
+    }
+  }
+}

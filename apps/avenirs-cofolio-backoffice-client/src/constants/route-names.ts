@@ -3,6 +3,13 @@
  */
 export const ROUTES = {
   /**
+   * Route names and paths for the global alert module.
+   */
+  GLOBAL_ALERT: {
+    UPDATE: { name: 'global-alert-update', path: '/global-alert/update' },
+  },
+
+  /**
    * Route names and paths for the home module.
    */
   HOME: { name: 'home', path: '/' },

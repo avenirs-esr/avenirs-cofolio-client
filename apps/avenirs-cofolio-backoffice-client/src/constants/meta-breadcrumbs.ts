@@ -5,6 +5,13 @@ import { ROUTES } from '@/constants/route-names'
  */
 export const META_BREADCRUMBS = {
   /**
+   * Breadcrumb metadata for the global alert module.
+   */
+  GLOBAL_ALERT: {
+    DEFAULT: { textKey: 'global.MainNavigation.globalAlert' },
+  },
+
+  /**
    * Breadcrumb metadata for the home module.
    */
   HOME: { textKey: 'global.MainNavigation.home', to: ROUTES.HOME },
@@ -24,6 +31,13 @@ export const META_BREADCRUMBS = {
  * Breadcrumb paths organized by application module.
  */
 export const BASE_BREADCRUMBS = {
+  /**
+   * Breadcrumb paths for the global alert module.
+   */
+  GLOBAL_ALERT: {
+    BASE: [META_BREADCRUMBS.HOME, META_BREADCRUMBS.GLOBAL_ALERT.DEFAULT],
+  },
+
   /**
    * Breadcrumb paths for the home module.
    */

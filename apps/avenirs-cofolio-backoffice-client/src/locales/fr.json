@@ -8,6 +8,7 @@
       "defaultTitle": "Aucun élément à afficher"
     },
     "MainNavigation": {
+      "globalAlert": "Alerte globale",
       "home": "Accueil",
       "nationalTools": "Outils nationaux",
       "termsOfService": "Conditions d'utilisation"

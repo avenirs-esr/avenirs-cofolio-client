@@ -4077,6 +4077,17 @@
             }
           },
           {
+            "name": "types",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EActivityAssessmentType"
+              }
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4537,6 +4548,54 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ExternalUserImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/config/website-content/setup/alert": {
+      "get": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "getAlertConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertConfigurationDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "putAlertConfig",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertConfigurationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertConfigurationDTO"
                 }
               }
             }
@@ -5701,6 +5760,26 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/BuildLifeProjectConfigDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/config/website-content/alert/message": {
+      "get": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "getAlertMessage",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertMessageDTO"
                 }
               }
             }
@@ -9561,6 +9640,12 @@
           "assessment": {
             "$ref": "#/components/schemas/ActivityAssessmentDTO"
           },
+          "assessmentTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EActivityAssessmentType"
+            }
+          },
           "submittedAt": {
             "type": "string",
             "format": "date-time"
@@ -9576,7 +9661,7 @@
           "assessedBy": {
             "$ref": "#/components/schemas/UserInfoDTO"
           },
-          "status": {
+          "declaredActivityStatus": {
             "type": "string",
             "$ref": "#/components/schemas/EDeclaredActivityStatus",
             "enum": [
@@ -9588,12 +9673,23 @@
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
+          },
+          "assessmentStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityAssessmentStatus",
+            "enum": [
+              "NEW",
+              "OPENED",
+              "SENT"
+            ]
           }
         },
         "required": [
           "activity",
+          "assessmentStatus",
+          "assessmentTypes",
+          "declaredActivityStatus",
           "id",
-          "status",
           "student",
           "submittedAt"
         ]
@@ -9949,6 +10045,14 @@
           "PUBLISH"
         ]
       },
+      "EActivityAssessmentType": {
+        "type": "string",
+        "enum": [
+          "COMMENT",
+          "GRADE",
+          "VALIDATION"
+        ]
+      },
       "EDeclaredActivityStatus": {
         "type": "string",
         "description": "Enum for declared activity status",
@@ -10214,6 +10318,28 @@
             "type": "boolean"
           }
         }
+      },
+      "AlertConfigurationDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "message"
+        ]
       },
       "InstitutionData": {
         "type": "object",
@@ -11017,6 +11143,14 @@
           "data",
           "page"
         ]
+      },
+      "AlertMessageDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
       },
       "InstitutionConfigurationElements": {
         "type": "object",

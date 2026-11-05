@@ -8,8 +8,9 @@
       "defaultTitle": "No items to display"
     },
     "MainNavigation": {
+      "globalAlert": "Global alert",
       "home": "Home",
-      "nationalTools": "National Tools",
+      "nationalTools": "National tools",
       "termsOfService": "Terms of Service"
     },
     "text": "Text",
