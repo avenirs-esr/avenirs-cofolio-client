@@ -193,6 +193,14 @@ BddTest().given('a student tools traces view notice component', () => {
         expect(notice.props('text')).toContain('seront supprimées')
         expect(notice.props('text')).toContain('Pour rappel')
       })
+
+      BddTest().then('it should render the emphasized count in bold', async () => {
+        await nextTick()
+
+        const notice = wrapper.findComponent({ name: 'AvNotice' })
+        expect(notice.props('text')).toMatch(/<strong[^>]*>5 d'entre elles<\/strong>/)
+        expect(notice.props('text')).not.toContain('**')
+      })
     })
   })
 })

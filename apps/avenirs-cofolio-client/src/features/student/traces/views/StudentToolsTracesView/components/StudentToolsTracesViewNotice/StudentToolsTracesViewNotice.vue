@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
-import { AvNotice } from '@avenirs-esr/avenirs-dsav'
+import { AvNotice, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useGetTraceConfig } from '@/api/avenir-esr'
 
@@ -28,7 +28,7 @@ function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCoun
   if (maxDayBeforeDeletion && maxDayBeforeDeletion > 0) {
     message += ` ${t('student.traces.views.StudentToolsTracesView.warningMessage.reminder', maxDayBeforeDeletion)}`
   }
-  return message
+  return formatTextToHtml(message)
 }
 
 const criticalDays = computed(() => tracesConfig.value?.maxRemainingDaysBeforeCritical)

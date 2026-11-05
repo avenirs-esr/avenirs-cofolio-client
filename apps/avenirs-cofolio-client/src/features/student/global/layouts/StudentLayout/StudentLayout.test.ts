@@ -4,6 +4,7 @@ import { QuerySuspenseStub, SkipLinksStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
+import { GlobalAlertNoticeStub } from '@/common/components/layout/GlobalAlertNotice/GlobalAlertNotice.stub'
 import { SwitchUniverseStub } from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
@@ -49,6 +50,7 @@ BddTest().given('a student layout', () => {
       template: '<nav data-testid="navigation">Navigation</nav>'
     },
     Footer: FooterStub,
+    GlobalAlertNotice: GlobalAlertNoticeStub,
     RouterView: {
       name: 'RouterView',
       template: '<div data-testid="router-view" />'
@@ -59,6 +61,7 @@ BddTest().given('a student layout', () => {
 
   const getAvHeader = () => wrapper.findComponent(AvHeaderStub)
   const getFooter = () => wrapper.findComponent(FooterStub)
+  const getGlobalAlertNotice = () => wrapper.findComponent(GlobalAlertNoticeStub)
   const getMenuBurgerStore = () => useMenuBurgerStore()
   const getNavigation = () => wrapper.find('[data-testid="navigation"]')
   const getNotificationsPopover = () => wrapper.findComponent(StudentNotificationsPopoverStub)
@@ -113,6 +116,11 @@ BddTest().given('a student layout', () => {
 
       BddTest().then('it should render the SkipLinks component', () => {
         expect(getSkipLinks().exists()).toBe(true)
+      })
+
+      BddTest().then('it should render the global alert notice in the header', () => {
+        expect(getAvHeader().findComponent(GlobalAlertNoticeStub).exists()).toBe(true)
+        expect(getGlobalAlertNotice().exists()).toBe(true)
       })
 
       BddTest().and('AvHeader emits update:modelValue', () => {
