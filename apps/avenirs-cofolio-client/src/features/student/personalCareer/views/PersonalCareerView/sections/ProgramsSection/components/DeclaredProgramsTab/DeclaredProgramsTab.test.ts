@@ -25,9 +25,13 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => ({
   }))
 }))
 
-vi.mock('@/common/composables/use-base-api-exception-toast/use-base-api-exception-toast', () => ({
-  useBaseApiExceptionToast: vi.fn()
-}))
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+  return {
+    ...actual,
+    useBaseApiExceptionToast: vi.fn()
+  }
+})
 
 vi.mock('@/features/student/personalCareer/stores/personalCareer.store', () => ({
   usePersonalCareerStore: vi.fn(() => ({
