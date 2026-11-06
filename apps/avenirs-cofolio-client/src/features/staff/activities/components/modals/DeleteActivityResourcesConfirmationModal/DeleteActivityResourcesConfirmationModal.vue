@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ConfirmationModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'

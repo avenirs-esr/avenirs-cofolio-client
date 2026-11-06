@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { EActivityStatus } from '@/api/avenir-esr'
+import type { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { QuerySuspense } from '@avenirs-esr/shared'
+import { useGetActivityPresentation } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetActivityPresentation } from '@/api/avenir-esr'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 

@@ -1,4 +1,4 @@
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 
 export function isActivityResourceFile (

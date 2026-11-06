@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AvButton, CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EActivityStatus, useGetActivityDashboard } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, useGetActivityDashboard } from '@/api/avenir-esr'
 import InactiveStudentsDetailsCard
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/components/InactiveStudentsDetailsCard/InactiveStudentsDetailsCard.vue'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'

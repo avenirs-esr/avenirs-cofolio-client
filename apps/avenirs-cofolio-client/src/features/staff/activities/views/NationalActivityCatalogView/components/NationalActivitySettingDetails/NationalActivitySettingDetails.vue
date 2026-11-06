@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityContentDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

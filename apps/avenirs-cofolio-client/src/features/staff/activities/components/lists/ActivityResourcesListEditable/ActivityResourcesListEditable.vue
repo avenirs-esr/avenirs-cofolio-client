@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActivityResourcesListProps } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'

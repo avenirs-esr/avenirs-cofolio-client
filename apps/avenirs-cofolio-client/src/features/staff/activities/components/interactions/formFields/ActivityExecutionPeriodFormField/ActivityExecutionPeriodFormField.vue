@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { ActivityDraftUpdateRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { DatePeriodPicker } from '@avenirs-esr/shared'

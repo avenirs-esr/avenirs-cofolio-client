@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useGetStaffActivityWorkingSpace } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'

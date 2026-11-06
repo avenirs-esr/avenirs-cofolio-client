@@ -1,4 +1,4 @@
-import type { ActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityStaffOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 
 export function mapActivityToActivityTableRow (activity: ActivityStaffOverviewDTO): ActivityTableRow {

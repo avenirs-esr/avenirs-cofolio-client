@@ -1,8 +1,9 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import type { PagedResponseExternalUserAffiliationOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvIconStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EActivityRight, EActivityStatus, EAuthorization, getGetAffiliationsUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
@@ -11,7 +12,6 @@ import { ACTIVITY_WITH_AUTHORIZATIONS_ID, mockedActivityAuthorizations } from '@
 import { generateExternalUserAffiliationOverviewDTOs } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
 import { getAffiliationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityRight, EActivityStatus, EAuthorization, getGetAffiliationsUrl } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
 import ActivityRightsSection

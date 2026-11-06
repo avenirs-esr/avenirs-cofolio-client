@@ -1,6 +1,6 @@
 import type { DefaultBodyType, StrictRequest } from 'msw'
-import { ErrorCodes } from '#shared/exceptions/error-codes'
 import { HttpStatusCode } from '#shared/api/http-status'
+import { ErrorCodes } from '#shared/exceptions/error-codes'
 import { createEmptyPaginatedDatasetResponse, getOptionalBooleanSearchParam, internalServerError, isEmptyDataSetRequest, successJsonResponse } from '#shared/test-utils/msw/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'

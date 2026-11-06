@@ -1,5 +1,5 @@
+import type { ActivityPresentationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ActivityPresentationDTO } from '@/api/avenir-esr'
 
 export const ActivityPublicationTabStub = defineComponent({
   name: 'ActivityPublicationTab',
