@@ -1,6 +1,6 @@
 import type { MaybeRefOrGetter } from 'vue'
+import { useGetDefaultCoverPicture, useGetDefaultProfilePicture, useGetResourceByFileId } from '@avenirs-esr/shared/api/avenir-esr'
 import { onBeforeUnmount, toValue } from 'vue'
-import { useGetDefaultCoverPicture, useGetDefaultProfilePicture, useGetResourceByFileId } from '@/api/avenir-esr'
 
 /**
  * Récupère une image du storage et l'expose sous forme d'URL d'objet (blob).
