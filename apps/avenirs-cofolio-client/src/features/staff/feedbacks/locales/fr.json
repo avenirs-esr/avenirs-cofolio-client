@@ -104,11 +104,11 @@
           "FeedbacksTable": {
             "columns": {
               "activity": "Activité",
-              "iterations": "Nombre d'itérations",
+              "iterations": "Itération",
               "lastSaved": "Dernier enregistrement",
-              "receivedAt": "Date de réception de la demande",
-              "status": "Statut de la demande",
-              "student": "Prénom Nom"
+              "receivedAt": "Date de réception",
+              "status": "Statut",
+              "student": "Apprenant"
             },
             "title": {
               "default": "Toutes mes demandes de feedback",
@@ -116,6 +116,9 @@
               "sent": "Toutes mes demandes de feedback envoyées",
               "unprocessed": "Toutes mes demandes de feedback non traitées"
             }
+          },
+          "FeedBackTitle": {
+            "access": "Accéder au feedback"
           },
           "title": "Toutes mes demandes de feedback"
         }
