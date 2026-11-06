@@ -9,6 +9,7 @@ import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstit
 import AdminInstitutionSkillsView from '@/features/staff/admin/views/AdminInstitutionSkillsView/AdminInstitutionSkillsView.vue'
 import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
 import ActivityAssessmentDetailsView from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'
+import AssessmentsView from '@/features/staff/assessments/views/AssessmentsView/AssessmentsView.vue'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
@@ -81,6 +82,12 @@ testRoute(
   children.find(r => r.name === ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS.name)!,
   ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
   FeedbacksView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS.name)!,
+  ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS,
+  AssessmentsView
 )
 
 BddTest().given('the staff layout route', () => {

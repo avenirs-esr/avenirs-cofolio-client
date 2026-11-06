@@ -17,6 +17,7 @@ const ADMIN_TOOLS = 'Outils'
 const ADMIN_USERS = 'Utilisateurs'
 const HOME = 'ACCUEIL'
 const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
+const STUDENT_ASSESSMENTS = 'Toutes mes évaluations'
 const STUDENT_TRACKING = 'SUIVI DES APPRENANTS'
 
 const ADMIN_MENU_ID = 'nav-admin-menu'
@@ -124,15 +125,21 @@ BddTest().given('a staff navigation', () => {
       })
     })
 
-    BddTest().then('it should include feedback link in student tracking menu', () => {
+    BddTest().then('it should include feedback and assessment links in student tracking menu', () => {
       const links = getNavItemLinks(2)
 
-      expect(links).toHaveLength(1)
+      expect(links).toHaveLength(2)
 
       expect(links![0]).toMatchObject({
         text: STUDENT_FEEDBACKS,
         to: expect.objectContaining({ name: 'staff-student-tracking-feedbacks' }),
         icon: ICONS.FEEDBACK,
+      })
+
+      expect(links![1]).toMatchObject({
+        text: STUDENT_ASSESSMENTS,
+        to: expect.objectContaining({ name: 'staff-student-tracking-assessments' }),
+        icon: ICONS.ASSESSMENT,
       })
     })
   })
@@ -175,7 +182,7 @@ BddTest().given('a staff navigation', () => {
     })
   })
 
-  BddTest().when('the component is mounted by a user without the activities and feedbacks roles', () => {
+  BddTest().when('the component is mounted by a user without the activities, feedbacks, and assessments roles', () => {
     beforeEach(async () => {
       await mountWith([ERole.ROLE_STAFF])
     })

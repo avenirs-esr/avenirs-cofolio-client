@@ -227,6 +227,10 @@ export function useNavigation () {
     })
   }
 
+  const navigateToAssessments = (): Promise<NavigationFailure | void | undefined> => {
+    return navigate(ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS.name)
+  }
+
   const navigateToStaffActivities = (replace?: boolean) => {
     return navigate(ROUTES.STAFF.ACTIVITIES, replace)
   }
@@ -316,6 +320,7 @@ export function useNavigation () {
     navigateToActivity,
     navigateToStaffActivityFeedbackDetails,
     navigateToFeedbacks,
+    navigateToAssessments,
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,
