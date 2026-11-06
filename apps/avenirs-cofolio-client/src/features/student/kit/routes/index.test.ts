@@ -1,5 +1,5 @@
-import type { AvRoute } from '@/common/types'
-import { testRoute } from 'tests/utils'
+import type { AvRoute } from '@avenirs-esr/shared'
+import { testRoute } from '@avenirs-esr/shared/test-utils/unit'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'
 import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'

@@ -1,4 +1,4 @@
-import type { AvRoute } from '@/common/types'
+import type { AvRoute } from '@avenirs-esr/shared'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTE_ROLES } from '@/common/constants/route-roles'

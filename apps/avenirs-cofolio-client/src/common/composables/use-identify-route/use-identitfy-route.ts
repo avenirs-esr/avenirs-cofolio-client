@@ -1,4 +1,4 @@
-import type { AvRoute } from '@/common/types/router.types'
+import type { AvRoute } from '@avenirs-esr/shared'
 import { useRoute } from 'vue-router'
 import { ROUTES } from '@/common/constants'
 import { staffAdminGroupsRoutes } from '@/features/staff/admin/routes'
