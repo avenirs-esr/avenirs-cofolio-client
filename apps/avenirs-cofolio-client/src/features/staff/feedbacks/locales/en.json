@@ -104,10 +104,10 @@
           "FeedbacksTable": {
             "columns": {
               "activity": "Activity",
-              "iterations": "Number of iterations",
+              "iterations": "Iteration",
               "lastSaved": "Last saved",
               "receivedAt": "Received date",
-              "status": "Request status",
+              "status": "Status",
               "student": "Learner"
             },
             "title": {
@@ -116,6 +116,9 @@
               "sent": "All my sent feedback requests",
               "unprocessed": "All my unprocessed feedback requests"
             }
+          },
+          "FeedBackTitle": {
+            "access": "Access the feedback"
           },
           "title": "All my feedback requests"
         }
