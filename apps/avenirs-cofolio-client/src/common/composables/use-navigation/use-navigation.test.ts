@@ -459,6 +459,14 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to assessments', () => {
+    BddTest().then('it should navigate to assessments', () => {
+      const { navigateToAssessments } = navigation
+      navigateToAssessments()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS.name)
+    })
+  })
+
   BddTest().when('trying to navigate to staff activities', () => {
     BddTest().then('it should navigate to staff activities', () => {
       const { navigateToStaffActivities } = navigation
