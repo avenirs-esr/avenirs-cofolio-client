@@ -9,14 +9,17 @@ const DEFAULT_PAGE_SIZE = PageSizes.EIGHT
 function useTracesPagination () {
   const unassociatedPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const unassociatedCurrentPage = ref(0)
+  const unassociatedTotalPages = ref(1)
   const associatedPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const associatedCurrentPage = ref(0)
-
+  const associatedTotalPages = ref(1)
   return {
     unassociatedPageSizeSelected,
     unassociatedCurrentPage,
     associatedPageSizeSelected,
-    associatedCurrentPage
+    unassociatedTotalPages,
+    associatedCurrentPage,
+    associatedTotalPages
   }
 }
 
@@ -79,7 +82,9 @@ export const useTracesStore = defineStore('traces', () => {
       'unassociatedPageSizeSelected',
       'associatedPageSizeSelected',
       'unassociatedCurrentPage',
-      'associatedCurrentPage'
+      'associatedCurrentPage',
+      'unassociatedTotalPages',
+      'associatedTotalPages'
     ]
   }
 })
