@@ -116,6 +116,8 @@ Each application keeps its own client generation configuration, generated client
 
 The tooling entry point `@avenirs-esr/shared/orval` exports `AVENIR_ESR_ORVAL_OVERRIDE`, defined in `packages/shared/orval/avenir-esr.ts`. The Shared, Cofolio and Backoffice Orval configurations reuse its operation overrides, fetch response settings, enum generation and query defaults. Each configuration supplies its own input, output paths and mutator after spreading these shared overrides. This entry point is separate from the runtime root and does not load Vue components.
 
+The API entry point `@avenirs-esr/shared/api/avenir-esr` re-exports all generated requests, query and mutation hooks, query keys, helpers and models through Orval's generated barrels. It does not expose the internal HTTP mutator and is not re-exported from the shared runtime root. Application imports from `@/api/avenir-esr` remain unchanged.
+
 `packages/shared/orval.config.ts` generates the complete Vue Query client from the shared Swagger into `packages/shared/src/api/generated`, with models under `types/`, including `EErrorCode`. Generated requests use the internal `sharedFetch` mutator, configured by each host application through `configureSharedFetch` with its existing HTTP configuration and interceptor manager. Application clients remain separate. Workspace installation generates the shared client before dependent application lifecycles. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
 
 ```sh

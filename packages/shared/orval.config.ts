@@ -15,7 +15,7 @@ export default defineConfig({
       schemas: './types',
       mode: 'tags',
       clean: true,
-      indexFiles: false,
+      indexFiles: true,
       override: {
         ...AVENIR_ESR_ORVAL_OVERRIDE,
         mutator: {

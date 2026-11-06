@@ -15,6 +15,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./api/avenir-esr": "./src/api/avenir-esr/index.ts",
     "./api/specs/*": "./api/specs/*",
     "./i18n/locales/*": "./src/i18n/locales/*",
     "./orval": "./orval/avenir-esr.ts",
