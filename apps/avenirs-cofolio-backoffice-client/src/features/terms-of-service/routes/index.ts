@@ -1,4 +1,4 @@
-import type { AvRoute } from '@/types/router.types'
+import type { AvRoute } from '@avenirs-esr/shared'
 import { BASE_BREADCRUMBS, ROUTES } from '@/constants'
 
 export const termsOfServiceRoute: AvRoute = {

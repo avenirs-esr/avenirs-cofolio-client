@@ -1,4 +1,4 @@
-import { testRoute } from 'tests/utils'
+import { testRoute } from '@avenirs-esr/shared/test-utils/unit'
 import { ROUTES } from '@/common/constants'
 import { studentActivitiesCatalogRoute, studentActivitiesRoute, studentActivityRoute, studentWidgetActivityCatalogRoute, studentWidgetActivityRoute } from '@/features/student/activities/routes'
 import ActivitiesCatalogView from '@/features/student/activities/views/ActivitiesCatalogView/ActivitiesCatalogView.vue'
