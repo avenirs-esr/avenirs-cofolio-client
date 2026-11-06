@@ -114,7 +114,9 @@ The Cofolio `avenir-esr.swagger.json` contract lives in `packages/shared/api/spe
 
 Each application keeps its own client generation configuration, generated client and configured HTTP instance. Clients are generated into the owning application's `src/api/avenir-esr/generated` directory using its local `customFetch` and the shared transport engine. Shared TypeScript sources are compiled by the consuming application's tooling; there is no separate library bundling step.
 
-`packages/shared/orval.config.ts` generates only the common `EErrorCode` enum from the shared Swagger, without generating a client or changing either application's Swagger. Workspace installation generates this enum before dependent application lifecycles. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
+The tooling entry point `@avenirs-esr/shared/orval` exports `AVENIR_ESR_ORVAL_OVERRIDE`, defined in `packages/shared/orval/avenir-esr.ts`. The Shared, Cofolio and Backoffice Orval configurations reuse its operation overrides, fetch response settings, enum generation and query defaults. Each configuration supplies its own input, output paths and mutator after spreading these shared overrides. This entry point is separate from the runtime root and does not load Vue components.
+
+`packages/shared/orval.config.ts` generates the complete Vue Query client from the shared Swagger into `packages/shared/src/api/generated`, with models under `types/`, including `EErrorCode`. Generated requests use the internal `sharedFetch` mutator, configured by each host application through `configureSharedFetch` with its existing HTTP configuration and interceptor manager. Application clients remain separate. Workspace installation generates the shared client before dependent application lifecycles. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
 
 ```sh
 pnpm --filter @avenirs-esr/shared run generate:api
