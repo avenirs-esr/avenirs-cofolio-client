@@ -1,6 +1,6 @@
+import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ExposedComponentInstance } from 'tests/utils'
-import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'

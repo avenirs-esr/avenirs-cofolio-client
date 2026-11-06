@@ -15,8 +15,8 @@ const { mockGetFile, mockGetProfile, mockGetCover } = vi.hoisted(() => ({
   mockGetCover: vi.fn(),
 }))
 
-vi.mock('@/api/avenir-esr', async importOriginal => ({
-  ...await importOriginal<typeof import('@/api/avenir-esr')>(),
+vi.mock('@avenirs-esr/shared/api/avenir-esr', async importOriginal => ({
+  ...await importOriginal<typeof import('@avenirs-esr/shared/api/avenir-esr')>(),
   useGetResourceByFileId: (...args: unknown[]) => {
     mockGetFile(...args)
     return { data: mockFile }

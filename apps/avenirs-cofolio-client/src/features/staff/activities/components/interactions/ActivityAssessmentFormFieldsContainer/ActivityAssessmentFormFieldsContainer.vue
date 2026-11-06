@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { ActivityDraftUpdateRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

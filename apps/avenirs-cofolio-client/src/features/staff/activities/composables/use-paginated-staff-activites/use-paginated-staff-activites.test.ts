@@ -1,4 +1,4 @@
-import type { PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import type { PagedResponseActivityStaffOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException } from '@avenirs-esr/shared'

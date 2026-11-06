@@ -1,5 +1,6 @@
 import type { RouteLocationRaw } from 'vue-router'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUniverse, EUserCategory, getMe } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mockAddErrorMessage } from 'tests/mocks'
@@ -7,7 +8,6 @@ import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { meServerErrorHandler, meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUniverse, EUserCategory, getMe } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { AUTH_PREFS_KEY, AUTH_SESSION_KEY } from '@/features/auth/global/stores/auth.store.constants'
@@ -34,8 +34,8 @@ vi.mock('@tanstack/vue-query', async (importOriginal) => {
   return { ...actual, useQueryClient: () => ({ clear: mockClear }) }
 })
 
-vi.mock('@/api/avenir-esr', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
+vi.mock('@avenirs-esr/shared/api/avenir-esr', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared/api/avenir-esr')>()
 
   return { ...actual, getMe: vi.fn(actual.getMe) }
 })

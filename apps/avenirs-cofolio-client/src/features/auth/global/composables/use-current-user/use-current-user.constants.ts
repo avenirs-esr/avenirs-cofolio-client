@@ -1,5 +1,5 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import { EFileType } from '@/api/avenir-esr'
+import type { ProfileOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 
 /**
  * Stand-in while there is no profile (logged out, loading, failed).

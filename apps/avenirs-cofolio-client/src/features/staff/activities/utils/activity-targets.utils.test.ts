@@ -1,4 +1,5 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ScopeNodeResponseType } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   mockedDevProgramOptionNode,
   mockedDevStudentGroupNode,
@@ -8,7 +9,6 @@ import {
   mockedSecondaryInstitutionNode,
   mockedStaffScope,
 } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
-import { ScopeNodeResponseType } from '@/api/avenir-esr'
 import { isInstitutionTargetType, scopeToActivityTargets } from '@/features/staff/activities/utils/activity-targets.utils'
 
 BddTest().given('activity targets utils', () => {

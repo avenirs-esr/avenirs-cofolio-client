@@ -1,4 +1,4 @@
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export enum ActivityResourceType {
   FILE = 'file',

@@ -2,8 +2,8 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'
+import { useGetActivityInactiveStudents } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetActivityInactiveStudents } from '@/api/avenir-esr'
 import { formatDateLocalized } from '@/common/utils'
 
 export interface InactiveStudentsDetailsCardProps {

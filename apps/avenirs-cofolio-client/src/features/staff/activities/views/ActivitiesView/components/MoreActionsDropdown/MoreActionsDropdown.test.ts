@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { MoreActionsDropdownProps } from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityStatus, ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityStatus, ERole } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 

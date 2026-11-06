@@ -1,4 +1,4 @@
-import type { AcceptedCguDTO, EUserCategory } from '@/api/avenir-esr'
+import type { AcceptedCguDTO, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { INVALID_USER_CATEGORY, UNIVERSE_USER_CATEGORY, USER_CATEGORY_HOME, USER_CATEGORY_PRIORITY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'

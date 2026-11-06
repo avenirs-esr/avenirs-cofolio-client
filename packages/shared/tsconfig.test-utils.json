@@ -14,7 +14,8 @@
     "src/exceptions/base-api-error-codes.ts",
     "src/exceptions/error-codes.ts",
     "src/ui/**/*.stub.ts",
-    "src/types/**/*.ts"],
+    "src/types/**/*.ts"
+  ],
   "exclude": [
     "test-utils/**/*.test.ts",
     "test-utils/mount-composable.ts",

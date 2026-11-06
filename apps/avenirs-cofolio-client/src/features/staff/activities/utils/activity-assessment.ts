@@ -1,4 +1,4 @@
-import type { ActivityAssessmentRequest } from '@/api/avenir-esr'
+import type { ActivityAssessmentRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityAssessmentFormData } from '@/features/staff/activities/types/forms.types'
 
 export function toActivityAssessmentRequest ({

@@ -1,5 +1,5 @@
 import type { AnyVueFormApi } from '@avenirs-esr/shared'
-import type { EActivityThematic, FileDTO } from '@/api/avenir-esr'
+import type { EActivityThematic, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 
 export interface ActivityDraftCreationFormData {

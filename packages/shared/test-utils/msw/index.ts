@@ -1,6 +1,6 @@
+import type { DefaultBodyType, JsonBodyType, StrictRequest } from 'msw'
 import { HttpStatusCode } from '#shared/api/http-status'
 import { ErrorCodes } from '#shared/exceptions/error-codes'
-import type { DefaultBodyType, JsonBodyType, StrictRequest } from 'msw'
 import { HttpResponse } from 'msw'
 
 export function isEmptyDataSetRequest (request: StrictRequest<DefaultBodyType>) {
