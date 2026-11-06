@@ -1,4 +1,4 @@
-import { EErrorCode as ApiErrors } from '#shared/api/generated/errors/eErrorCode'
+import { EErrorCode as ApiErrors } from '#shared/api/generated/types/eErrorCode'
 import { BaseApiErrorCode } from '#shared/exceptions/base-api-error-codes'
 
 export const ErrorCodes = {

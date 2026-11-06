@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module'
+import { AVENIR_ESR_ORVAL_OVERRIDE } from '@avenirs-esr/shared/orval'
 import { defineConfig } from 'orval'
 
 export default defineConfig({
@@ -14,22 +15,10 @@ export default defineConfig({
       mode: 'tags',
       clean: true,
       override: {
-        fetch: {
-          includeHttpResponseReturnType: false,
-        },
+        ...AVENIR_ESR_ORVAL_OVERRIDE,
         mutator: {
           path: './../fetch-instance/fetch-instance.ts',
           name: 'customFetch',
-        },
-        enumGenerationType: 'enum',
-        query: {
-          useInfinite: false,
-          usePrefetch: false,
-          useInvalidate: true,
-          useSetQueryData: false,
-          useGetQueryData: false,
-          signal: false,
-          runtimeValidation: false,
         },
       },
     },

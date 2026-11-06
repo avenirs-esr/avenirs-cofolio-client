@@ -1,5 +1,5 @@
 import type { BaseApiException, FetchOptions, ResponseInterceptorContext } from '@avenirs-esr/shared'
-import { AvIsoLocaleMap, createCustomFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
+import { AvIsoLocaleMap, configureSharedFetch, createCustomFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
 import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
 import { i18n } from '@/plugins/vue-i18n'
 
@@ -63,10 +63,14 @@ interceptorManager.addResponseInterceptor(async (response: Response, context: Re
   return response
 })
 
-const fetcher = createCustomFetch({
+const fetchConfig = {
   baseUrl: `${__BASE_URL__}`,
   defaultHeaders: { 'Content-Type': 'application/json' },
-}, interceptorManager)
+}
+
+const fetcher = createCustomFetch(fetchConfig, interceptorManager)
+
+configureSharedFetch(fetchConfig, interceptorManager)
 
 export async function customFetch<T> (url: string, options: RequestInit): Promise<T> {
   return fetcher<T>(url, options)
