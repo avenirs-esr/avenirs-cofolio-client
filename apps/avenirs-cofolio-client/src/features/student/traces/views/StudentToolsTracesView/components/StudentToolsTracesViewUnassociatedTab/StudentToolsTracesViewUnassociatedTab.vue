@@ -26,7 +26,7 @@ const {
   onUpdateCurrentPage,
   onUpdatePageSize,
   resetCurrentPage
-} = usePagination(toRef(tracesStore, 'unassociatedCurrentPage'), toRef(tracesStore, 'unassociatedPageSizeSelected'))
+} = usePagination(toRef(tracesStore, 'unassociatedCurrentPage'), toRef(tracesStore, 'unassociatedPageSizeSelected'), toRef(tracesStore, 'unassociatedTotalPages'))
 
 const { tracesViewQueryParams, onUpdateFilters } = useTraceFilters({ isAssociated: false })
 
@@ -44,10 +44,21 @@ const pageInfo = computed(() => data.value?.page)
 
 useBaseApiExceptionToast(error)
 
-watch([
-  () => tracesViewQueryParams.params.value,
-  () => tracesViewQueryParams.traceFilter.value
-], () => resetCurrentPage())
+watch(pageInfo, (info) => {
+  if (info) {
+    tracesStore.unassociatedTotalPages = info.totalPages
+  }
+})
+
+watch(
+  [
+    () => tracesViewQueryParams.params.value,
+    () => tracesViewQueryParams.traceFilter.value,
+  ],
+  () => {
+    resetCurrentPage()
+  }
+)
 </script>
 
 <template>
