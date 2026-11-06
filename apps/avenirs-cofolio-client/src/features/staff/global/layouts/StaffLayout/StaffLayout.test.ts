@@ -31,18 +31,11 @@ vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
+    useBaseApiExceptionToast: vi.fn(),
     useLanguageSwitcher: () => ({
       languageSelector: [],
       selectLanguage: selectLanguageMock
     }),
-  }
-})
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useBaseApiExceptionToast: vi.fn()
   }
 })
 
