@@ -5,6 +5,8 @@ import { useI18n } from 'vue-i18n'
 import { useDateUtils } from '@/common/composables'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
+import FeedbackActivityTitle
+  from '@/features/staff/feedbacks/views/FeedbacksView/components/base/FeedbackActivityTitle/FeedbackActivityTitle.vue'
 
 export interface FeedbackCardProps {
   feedback: FeedbackStaffListItemDTO
@@ -33,9 +35,10 @@ const updatedAtLabel = computed(() => feedback.updatedAt ? `${t('staff.feedbacks
         {{ studentLabel }}
       </span>
 
-      <span class="b2-regular av-text-text2">
-        {{ feedback.activity?.title }}
-      </span>
+      <FeedbackActivityTitle
+        :feedback="{ id: feedback.id ?? '', status: feedback.status }"
+        :activity="{ id: feedback.activity?.id, title: feedback?.activity?.title ?? '' }"
+      />
     </div>
 
     <div class="details av-col av-gap-sm">

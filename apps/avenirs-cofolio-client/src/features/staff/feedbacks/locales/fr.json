@@ -104,11 +104,11 @@
           "FeedbacksTable": {
             "columns": {
               "activity": "Activité",
-              "iterations": "Nombre d'itérations",
+              "iterations": "Itération",
               "lastSaved": "Dernier enregistrement",
               "receivedAt": "Date de réception",
               "status": "Statut",
-              "student": "Apprenant"
+              "student": "Apprenant(e)"
             },
             "title": {
               "default": "Toutes mes demandes de feedback",
