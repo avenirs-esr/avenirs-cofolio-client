@@ -4,6 +4,7 @@ import type { EActivityStatus } from '@/api/avenir-esr'
 export const ActivityRightsSectionStub = defineComponent({
   name: 'ActivityRightsSection',
   template: '<div data-testid="activity-rights-section-stub"></div>',
+  emits: ['dirtyChange'],
   props: {
     activityId: {
       type: String,
@@ -13,5 +14,6 @@ export const ActivityRightsSectionStub = defineComponent({
       type: String as PropType<EActivityStatus>,
       required: true,
     },
+    canEdit: Boolean,
   },
 })

@@ -17,6 +17,7 @@ export const ActivityPublicationTabStub = defineComponent({
       default: () => [],
     },
     lockPersistedTargets: Boolean,
+    hasPublishRight: Boolean,
   },
   emits: ['published', 'update:modelValue'],
   template: '<div data-testid="activity-publication-tab-stub"></div>',
