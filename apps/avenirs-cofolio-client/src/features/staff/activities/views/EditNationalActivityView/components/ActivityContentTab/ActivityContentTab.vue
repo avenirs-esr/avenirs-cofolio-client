@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'

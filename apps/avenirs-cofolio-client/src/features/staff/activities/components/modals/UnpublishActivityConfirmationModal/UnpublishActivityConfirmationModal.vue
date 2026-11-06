@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
+import { invalidateGetStaffActivityWorkingSpace, useUnpublishActivity } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetStaffActivityWorkingSpace, useUnpublishActivity } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 
 interface UnpublishActivityConfirmationModalProps {

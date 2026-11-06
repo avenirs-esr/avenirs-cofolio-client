@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useGetStaffActivityLibrary } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { useGetStaffActivityLibrary } from '@/api/avenir-esr'
 import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
 import StaffAllActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.vue'
 

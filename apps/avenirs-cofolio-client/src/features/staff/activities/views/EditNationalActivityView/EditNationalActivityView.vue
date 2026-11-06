@@ -1,13 +1,9 @@
 <script setup lang="ts">
+import type { ActivityDraftUpdateRequest, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Ref } from 'vue'
-import type { ActivityDraftUpdateRequest, FileDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, PageTitle, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useRouteQuery } from '@vueuse/router'
-import { useI18n } from 'vue-i18n'
 import {
 
   EActivityStatus,
@@ -21,7 +17,11 @@ import {
   useGetActivityPresentation,
   useUpdateActivityDraft,
   useUploadDraftBanner
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useRouteQuery } from '@vueuse/router'
+import { useI18n } from 'vue-i18n'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'

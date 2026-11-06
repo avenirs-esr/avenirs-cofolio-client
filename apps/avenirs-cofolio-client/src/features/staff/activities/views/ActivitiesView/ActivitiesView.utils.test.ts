@@ -1,6 +1,6 @@
-import type { ActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityStaffOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import { EActivityStatus, EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 
 const activity: ActivityStaffOverviewDTO = {

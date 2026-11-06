@@ -1,4 +1,4 @@
-import type { ScopeNodeResponseType } from '@/api/avenir-esr'
+import type { ScopeNodeResponseType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export interface ActivityTarget {
   id: string

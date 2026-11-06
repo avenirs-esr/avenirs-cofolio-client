@@ -1,5 +1,5 @@
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { FileDTO } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 
 export const ActivityBannerFormFieldStub = defineComponent({

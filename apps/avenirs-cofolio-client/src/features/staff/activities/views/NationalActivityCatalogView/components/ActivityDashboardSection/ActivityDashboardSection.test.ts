@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID, mockedActivityContent, mockedActivityDashboard } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
 import { InactiveStudentsDetailsCardStub }

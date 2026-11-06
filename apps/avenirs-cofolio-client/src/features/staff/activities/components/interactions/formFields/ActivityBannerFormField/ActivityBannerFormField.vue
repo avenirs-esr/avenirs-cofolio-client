@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AnyFieldApi } from '@avenirs-esr/shared'
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityForm, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { AvSelectModelValue, AvSelectOption } from '@avenirs-esr/avenirs-dsav'
-import type { EActivityRight } from '@/api/avenir-esr'
+import type { EActivityRight } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvCard, AvIcon, AvSelect, AvTooltip, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAuthorization } from '@/api/avenir-esr'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import { useAuthorizationTypeConfig } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-authorization-type-config/use-authorization-type-config'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'

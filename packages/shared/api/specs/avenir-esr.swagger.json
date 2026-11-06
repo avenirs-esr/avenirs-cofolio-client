@@ -1202,7 +1202,6 @@
         }
       }
     },
-   
     "/me/self-knowledge/{selfKnowledgeCategory}/elements": {
       "post": {
         "tags": [
@@ -8466,7 +8465,7 @@
             "type": "string",
             "format": "date-time"
           },
-            "files": {
+          "files": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/FileDTO"
@@ -8477,8 +8476,8 @@
             "items": {
               "type": "string"
             }
-        }
-      },
+          }
+        },
         "required": [
           "createdAt",
           "description",

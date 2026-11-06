@@ -1,5 +1,5 @@
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { FileDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'

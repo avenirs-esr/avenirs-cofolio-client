@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { PageTitle, QuerySuspense, useModal } from '@avenirs-esr/shared'
+import { EActivityRight, EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityRight, EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import DeleteDraftActivityConfirmationModal

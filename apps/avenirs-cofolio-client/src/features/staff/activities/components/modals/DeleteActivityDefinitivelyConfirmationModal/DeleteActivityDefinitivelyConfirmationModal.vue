@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { EActivityStatus } from '@/api/avenir-esr'
+import type { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
+import { invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDefinitively } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDefinitively } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 
 interface DeleteActivityDefinitivelyConfirmationModalProps {

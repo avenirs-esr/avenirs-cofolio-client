@@ -1,9 +1,9 @@
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconStub, AvSelectStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityRight, EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityRight, EAuthorization } from '@/api/avenir-esr'
 import ActivityRightsUserRow
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsUserRow/ActivityRightsUserRow.vue'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'

@@ -1,4 +1,4 @@
-import type { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import type { EActivityStatus, EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 
 export interface ActivityTableRow {
   id: string

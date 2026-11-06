@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityStatus } from '@/api/avenir-esr'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import {
   DeleteDraftActivityConfirmationModalStub

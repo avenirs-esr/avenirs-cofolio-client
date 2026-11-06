@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
+import { EActivityStatus, invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 
 interface DeleteDraftActivityConfirmationModalProps {
