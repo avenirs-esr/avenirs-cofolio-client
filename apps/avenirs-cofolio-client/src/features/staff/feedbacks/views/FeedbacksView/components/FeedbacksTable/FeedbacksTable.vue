@@ -3,7 +3,7 @@ import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { FeedbackStaffListItemDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
 import type { UsePaginatedStaffFeedbacksParams } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
-import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'
 import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
@@ -13,6 +13,7 @@ import { ROUTES } from '@/common/constants'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
 import { usePaginatedStaffFeedbacks } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
+import FeedbackActivityTitle from '@/features/staff/feedbacks/views/FeedbacksView/components/base/FeedbackActivityTitle/FeedbackActivityTitle.vue'
 import FeedbackCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackCard/FeedbackCard.vue'
 
 export interface FeedbacksTableProps {
@@ -44,7 +45,7 @@ const {
 } = usePaginatedStaffFeedbacks(usePaginatedStaffFeedbacksParams)
 
 const { t } = useI18n()
-const { isBelowXl } = useAvBreakpoints()
+const { isBelowLg } = useAvBreakpoints()
 
 const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
@@ -67,40 +68,49 @@ const feedbacksTitle = computed(() => {
   }
 })
 
+const WIDTH_MAP: Record<string, string | undefined> = {
+  student: '15%',
+  activity: '25%',
+  createdAt: '15%',
+  status: '15%',
+  iteration: '15%',
+  updatedAt: '15%'
+}
+
 const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => {
   const activityColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = {
     key: 'activity',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.activity'),
-  }
-
-  const accessColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = {
-    key: 'access',
-    label: t('global.buttons.access'),
+    width: WIDTH_MAP.activity,
   }
 
   return [
     {
       key: 'student',
       label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
+      width: WIDTH_MAP.student,
     },
     ...(withActivity ? [activityColumn] : []),
     {
       key: 'createdAt',
       label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
+      width: WIDTH_MAP.createdAt,
     },
     {
       key: 'status',
       label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
+      width: WIDTH_MAP.status,
     },
     {
       key: 'iteration',
       label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),
+      width: WIDTH_MAP.iteration,
     },
     {
       key: 'updatedAt',
       label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
+      width: WIDTH_MAP.updatedAt,
     },
-    accessColumn,
   ]
 })
 </script>
@@ -134,7 +144,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
           </span>
 
           <div
-            v-if="isBelowXl"
+            v-if="isBelowLg"
             class="av-col av-gap-sm"
           >
             <RouterLink
@@ -164,7 +174,17 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
               v-if="withActivity"
               #cell(activity)="{ row }"
             >
-              {{ row?.activity?.title }}
+              <FeedbackActivityTitle
+                :feedback="{
+                  id: row.id,
+                  status: row.status,
+                }"
+                :activity="{
+                  id: row.activity?.id,
+                  title: row?.activity?.title ?? '',
+                }"
+                with-nav
+              />
             </template>
 
             <template #cell(createdAt)="{ row }">
@@ -185,24 +205,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             </template>
 
             <template #cell(updatedAt)="{ row }">
-              {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt) : '' }}
-            </template>
-
-            <template
-              #cell(access)="{ row }"
-            >
-              <AvButton
-                :label="t('global.buttons.access')"
-                :icon="MDI_ICONS.ARROW_RIGHT"
-                icon-only
-                :to="{
-                  name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
-                  params: { feedbackId: row.id },
-                }"
-                data-testid="access-button"
-                :data-activity-id="row.activity?.id"
-                :data-feedback-status="row.status"
-              />
+              {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt, true) : '' }}
             </template>
           </AvTable>
         </div>

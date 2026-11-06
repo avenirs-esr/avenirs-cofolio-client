@@ -56,7 +56,7 @@ export class StaffFeedbacksPage extends BasePage {
   async clickAccessButtonForActivity () {
     await this.page
       .locator(
-        `[data-testid="access-button"][data-activity-id="${StaffFeedbacksPage.ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID}"]`,
+        `[data-testid="feedback-title-content"][data-activity-id="${StaffFeedbacksPage.ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID}"]`,
       )
       .first()
       .click()
@@ -64,7 +64,7 @@ export class StaffFeedbacksPage extends BasePage {
 
   @When('the staff clicks access button of the first feedback with {string} status')
   async clickAccessButtonOfFirstFeedbackWithStatus (feedbackStatus: string) {
-    const button = this.page.locator(`[data-testid="access-button"][data-feedback-status="${feedbackStatus}"]`).first()
+    const button = this.page.locator(`[data-testid="feedback-title-content"][data-feedback-status="${feedbackStatus}"]`).first()
     await clickOnElement(button)
   }
 }
