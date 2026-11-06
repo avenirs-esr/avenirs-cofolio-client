@@ -3,7 +3,7 @@ import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus } from '@/api/avenir-esr'
-import { isDeclaredActivitySubmitted, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { isDeclaredActivityCompleted, isDeclaredActivitySubmittedForAssessment, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
@@ -24,25 +24,33 @@ const { t } = useI18n()
 
 const isUnsubscribed = computed(() => isDeclaredActivityUnsubscribed(status))
 
-const associateAction = computed<ActionItem>(() => {
-  let disabled = false
-  let disabledTooltip
+const actionDisabledState = computed(() => {
+  let disabledTooltip: string | undefined
 
   if (isDeclaredActivityUnsubscribed(status)) {
-    disabled = true
     disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.unsubscribedDisabledTooltip')
   }
-  else if (isDeclaredActivitySubmitted(status)) {
-    disabled = true
+  else if (isDeclaredActivitySubmittedForAssessment(status)) {
     disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.submittedDisabledTooltip')
   }
-
+  else if (isDeclaredActivityCompleted(status)) {
+    disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.completedDisabledTooltip')
+  }
   return {
-    type: Action.ASSOCIATE,
-    disabled,
+    disabled: !!disabledTooltip,
     disabledTooltip
   }
 })
+
+const associateAction = computed<ActionItem>(() => ({
+  type: Action.ASSOCIATE,
+  ...actionDisabledState.value
+}))
+
+const dissociateAction = computed<ActionItem>(() => ({
+  type: Action.DISSOCIATE,
+  ...actionDisabledState.value
+}))
 
 const deleteAction = computed<ActionItem>(() => ({
   type: Action.DELETE,
@@ -60,7 +68,7 @@ const actions = computed(() => (
   [
     deleteAction.value,
     associateAction.value,
-    Action.DISSOCIATE,
+    dissociateAction.value,
     ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))

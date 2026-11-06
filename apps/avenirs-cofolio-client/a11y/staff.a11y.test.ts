@@ -1,4 +1,4 @@
-import type { AvRoute } from '@/common/types'
+import type { AvRoute } from '@avenirs-esr/shared'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { A11Y_TEST_TIMEOUT, waitMswToStart } from '@avenirs-esr/shared/test-utils/a11y'

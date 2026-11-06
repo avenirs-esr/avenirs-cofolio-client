@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { useBaseApiExceptionToast } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useTracesView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
-import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
+import { usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentDetailedTraceCard

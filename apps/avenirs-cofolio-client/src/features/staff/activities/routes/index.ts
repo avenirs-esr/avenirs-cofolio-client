@@ -1,5 +1,5 @@
+import type { AvRoute } from '@avenirs-esr/shared'
 import type { EActivityStatus } from '@/api/avenir-esr'
-import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 

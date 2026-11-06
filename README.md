@@ -87,6 +87,8 @@ The existing application test utilities re-export the component and router helpe
 
 Import `createFormFieldTestWrapper`, its `CreateFormFieldTestWrapperOptions` type, `findAvButtonByTestId` and `getAvButtonByTestId` directly from `@avenirs-esr/shared/test-utils/unit`. The form wrapper creates a TanStack Form with one field and runs its optional validator factory inside component setup. The button helpers match `AvButtonStub` components by their inherited `data-testid`; `findAvButtonByTestId` returns `undefined` when absent, while `getAvButtonByTestId` throws.
 
+Import `testRoute` from `@avenirs-esr/shared/test-utils/unit` to check route configuration and lazy-loaded component identity. Its `AvRoute` type is exported from `@avenirs-esr/shared`; application-specific `RouteMeta` declarations remain in their original app-local `router.types.ts` files.
+
 The unit entry point also exports the setup helpers:
 
 - `setupWarningHandler` installs the strict warning handler explicitly from each local setup.

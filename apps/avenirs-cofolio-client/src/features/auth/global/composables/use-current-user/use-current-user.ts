@@ -1,5 +1,5 @@
+import { useBaseApiExceptionToast } from '@avenirs-esr/shared'
 import { useGetProfile } from '@/api/avenir-esr'
-import { useBaseApiExceptionToast } from '@/common/composables'
 import { useCurrentUserSession } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session'
 import { INVALID_PROFILE, PROFILE_GC_TIME, PROFILE_STALE_TIME } from '@/features/auth/global/composables/use-current-user/use-current-user.constants'
 

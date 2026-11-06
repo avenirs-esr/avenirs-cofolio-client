@@ -115,6 +115,7 @@
         "ActivityView": {
           "ActivityDetailedDropdown": {
             "associateAction": {
+              "completedDisabledTooltip": "Vous ne pouvez plus modifier les associations, car vous avez terminé votre activité.",
               "unsubscribedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l'activité",
               "submittedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous avez soumis votre activité"
             },
@@ -174,6 +175,7 @@
               "success": "Votre prise de recul a été sauvegardée automatiquement"
             },
             "editCompletedDisabledTooltip": "Vous ne pouvez plus modifier votre prise de recul car l'activité est terminée",
+            "editSubmittedDisabledTooltip": "Vous ne pouvez plus modifier votre prise de recul, car l'activité a été soumise pour évaluation.",
             "editUnsubscribedDisabledTooltip": "Vous ne pouvez plus modifier votre prise de recul car vous vous êtes désinscrit(e) de l'activité",
             "perspective": "Ma prise de recul",
             "save": {

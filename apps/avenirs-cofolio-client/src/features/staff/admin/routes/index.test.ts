@@ -1,4 +1,4 @@
-import { testRoute } from 'tests/utils'
+import { testRoute } from '@avenirs-esr/shared/test-utils/unit'
 import { ROUTES } from '@/common/constants'
 import { staffAdminGroupRoute, staffAdminGroupsRoute, staffAdminGroupUserRoute, staffAdminSkillsRoute, staffAdminToolsRoute, staffAdminUserRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'

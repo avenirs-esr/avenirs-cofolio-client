@@ -1,4 +1,4 @@
-import { testRoute } from 'tests/utils'
+import { testRoute } from '@avenirs-esr/shared/test-utils/unit'
 import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'

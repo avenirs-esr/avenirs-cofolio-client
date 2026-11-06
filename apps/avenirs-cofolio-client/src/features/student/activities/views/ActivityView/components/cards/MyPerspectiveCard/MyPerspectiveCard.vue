@@ -84,6 +84,10 @@ const editDisabledTooltip = computed(() => {
     return t('student.activities.views.ActivityView.MyPerspectiveCard.editCompletedDisabledTooltip')
   }
 
+  if (activityStatus === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT) {
+    return t('student.activities.views.ActivityView.MyPerspectiveCard.editSubmittedDisabledTooltip')
+  }
+
   if (activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED) {
     return t('student.activities.views.ActivityView.MyPerspectiveCard.editUnsubscribedDisabledTooltip')
   }
