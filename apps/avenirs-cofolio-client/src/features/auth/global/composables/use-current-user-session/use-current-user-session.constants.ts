@@ -1,5 +1,5 @@
 import type { RouteLocationRaw } from 'vue-router'
-import { EUniverse, EUserCategory } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
 /**
