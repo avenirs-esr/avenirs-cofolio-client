@@ -8,7 +8,10 @@ import { ROUTES } from '@/constants/route-names'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const routesToCheck = [
+  ROUTES.NATIONAL_TOOLS,
   ROUTES.TERMS_OF_SERVICE,
+  ROUTES.GLOBAL_ALERT.DETAILS,
+  ROUTES.GLOBAL_ALERT.UPDATE,
 ]
 
 test.describe('routes', () => {
