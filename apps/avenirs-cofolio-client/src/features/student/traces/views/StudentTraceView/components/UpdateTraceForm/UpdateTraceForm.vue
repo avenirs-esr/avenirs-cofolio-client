@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
+import { useDateUtils } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useDateUtils } from '@/common/composables'
 import { bytesToMegabytes } from '@/common/utils/file/file'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'

@@ -2,9 +2,8 @@
 import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
-import { Card } from '@avenirs-esr/shared'
+import { Card, useDateUtils } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'

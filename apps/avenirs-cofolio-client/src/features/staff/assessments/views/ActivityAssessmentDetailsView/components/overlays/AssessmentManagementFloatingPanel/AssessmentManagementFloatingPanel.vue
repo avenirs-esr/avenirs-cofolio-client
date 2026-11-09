@@ -2,10 +2,9 @@
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
 import type { DeclaredActivityAssessmentDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, AvButton, AvMessage, MDI_ICONS, MS_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { ICONS } from '@avenirs-esr/shared'
+import { ICONS, useDateUtils } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import FloatingPanel from '@/common/components/overlay/FloatingPanel/FloatingPanel.vue'
-import { useDateUtils } from '@/common/composables'
 import AssessmentCommentFormField
   from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/interaction/formFields/AssessmentCommentFormField/AssessmentCommentFormField.vue'
 import AssessmentGradeFormField

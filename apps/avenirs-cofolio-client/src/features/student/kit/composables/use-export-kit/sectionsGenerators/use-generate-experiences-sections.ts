@@ -1,9 +1,9 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { formatDateToYearMonthLocalized } from '@avenirs-esr/shared'
 import { EExperienceType, useGetDeclaredExperienceView } from '@avenirs-esr/shared/api/avenir-esr'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
-import { formatDateToYearMonthLocalized } from '@/common/utils/date/date'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
 

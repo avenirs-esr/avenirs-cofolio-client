@@ -1,8 +1,16 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { DateArg } from 'date-fns'
-import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns'
+import { formatDateLocalized, formatTimeLocalized, parseDate } from '@avenirs-esr/shared'
+import {
+  differenceInCalendarDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInMonths,
+  differenceInWeeks,
+  differenceInYears
+} from 'date-fns'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { formatDateLocalized, formatTimeLocalized, parseDate } from '@/common/utils'
 
 /**
  * Result returned by the useDateUtils composable.
@@ -94,7 +102,7 @@ interface UseDateUtilsReturn {
  *
  * @example
  * ```ts
- * import { useDateUtils } from '@/common/composables'
+ * import { useDateUtils } from '@avenirs-esr/shared'
  *
  * const { formatTranslatedDateTime } = useDateUtils()
  *

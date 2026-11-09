@@ -1,6 +1,7 @@
 export { useApiErrors } from '#shared/composables/use-api-errors/use-api-errors'
 export type { BreadcrumbLinkRaw, MetaBreadcrumb } from '#shared/composables/use-breadcrumb/types'
 export { useBreadcrumb } from '#shared/composables/use-breadcrumb/use-breadcrumb'
+export { useDateUtils } from '#shared/composables/use-date-utils/use-date-utils'
 export type { UseFormValidatorsReturn, validateDateIntervalArgs, ValidationOptions } from '#shared/composables/use-form-validators/use-form-validators'
 export { useFormValidators } from '#shared/composables/use-form-validators/use-form-validators'
 export { useLanguageSwitcher } from '#shared/composables/use-language-switcher/use-language-switcher'
