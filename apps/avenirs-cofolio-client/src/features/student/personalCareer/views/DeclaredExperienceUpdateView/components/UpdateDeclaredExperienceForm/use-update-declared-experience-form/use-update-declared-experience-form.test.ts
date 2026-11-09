@@ -1,11 +1,11 @@
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Mock } from 'vitest'
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EExperienceType } from '@/api/avenir-esr'
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,

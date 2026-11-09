@@ -1,5 +1,5 @@
+import type { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { EExperienceType } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createFormFieldTestWrapper } from '@avenirs-esr/shared/test-utils/unit'

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvSelectOption, AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EExperienceType } from '@/api/avenir-esr'
 
 type DeclaredExperienceTypeSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'prefixIcon' | 'label'>
 

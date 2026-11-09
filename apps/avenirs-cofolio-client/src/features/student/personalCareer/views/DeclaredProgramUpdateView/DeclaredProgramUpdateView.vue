@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, ICONS, QuerySuspense, UpdatePageTitle, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { EAssociationContextType, useGetAssociations, useGetDeclaredProgram } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations, useGetDeclaredProgram } from '@/api/avenir-esr'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'

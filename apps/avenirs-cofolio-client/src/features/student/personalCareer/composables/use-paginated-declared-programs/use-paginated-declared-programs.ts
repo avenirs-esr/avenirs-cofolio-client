@@ -1,8 +1,8 @@
+import type { DeclaredProgramViewDTO, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MaybeRef, Ref } from 'vue'
-import type { DeclaredProgramViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { useGetDeclaredPrograms } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { toValue } from 'vue'
-import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 

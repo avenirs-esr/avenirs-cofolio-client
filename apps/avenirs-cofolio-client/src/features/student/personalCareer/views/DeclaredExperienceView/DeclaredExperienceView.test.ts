@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared'
+import { EAssociationContextType, EErrorCode } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -11,7 +12,6 @@ import {
   declaredExperiencesHandlers,
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'

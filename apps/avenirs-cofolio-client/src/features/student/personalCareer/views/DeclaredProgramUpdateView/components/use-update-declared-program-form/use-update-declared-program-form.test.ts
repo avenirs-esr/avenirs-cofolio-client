@@ -1,5 +1,5 @@
+import type { DeclaredProgramDetailedDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Mock } from 'vitest'
-import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'

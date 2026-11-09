@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EExperienceType } from '@/api/avenir-esr'
 import { useWatchQueryParam } from '@/common/composables'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 

@@ -1,6 +1,6 @@
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EExperienceType } from '@/api/avenir-esr'
+import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
 
 BddTest().given('an isProfessional utility function', () => {

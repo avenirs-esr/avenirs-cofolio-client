@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EExperienceType } from '@/api/avenir-esr'
+import type { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import { markRaw } from 'vue'
 import DeclaredExperienceTypeSelect from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'

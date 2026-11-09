@@ -1,5 +1,5 @@
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { AvCancelConfirmButtonsStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'

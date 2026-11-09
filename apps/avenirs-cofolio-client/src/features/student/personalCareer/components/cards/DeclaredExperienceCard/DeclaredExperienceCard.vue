@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IconOptions } from '@avenirs-esr/shared'
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { FloatingIconCard } from '@avenirs-esr/shared'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'

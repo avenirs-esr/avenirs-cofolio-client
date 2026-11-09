@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EProgramStatus } from '@/api/avenir-esr'
+import type { EProgramStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

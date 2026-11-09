@@ -1,6 +1,7 @@
 import type { Mock } from 'vitest'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -8,7 +9,6 @@ import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/decl
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createDeclaredProgramErrorHandler, createDeclaredProgramHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import {
   useAddDeclaredProgramForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'

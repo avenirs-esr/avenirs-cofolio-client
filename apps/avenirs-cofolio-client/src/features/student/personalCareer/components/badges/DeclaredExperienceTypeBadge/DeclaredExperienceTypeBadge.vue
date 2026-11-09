@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EExperienceType } from '@/api/avenir-esr'
+import type { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

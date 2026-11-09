@@ -1,6 +1,7 @@
 import type { Mock } from 'vitest'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType, EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -8,7 +9,6 @@ import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student/d
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, EExperienceType } from '@/api/avenir-esr'
 import {
   useAddDeclaredExperienceForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
