@@ -1,5 +1,5 @@
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const CATEGORY_ELEMENTS_PAGE_SIZE = 3
 

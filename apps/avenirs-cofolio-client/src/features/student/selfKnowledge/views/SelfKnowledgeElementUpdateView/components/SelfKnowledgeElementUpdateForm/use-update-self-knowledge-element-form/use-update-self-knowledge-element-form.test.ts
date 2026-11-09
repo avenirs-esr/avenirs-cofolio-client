@@ -1,5 +1,5 @@
+import type { FileDTO, SelfKnowledgeElementDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Mock } from 'vitest'
-import type { FileDTO, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'

@@ -1,4 +1,4 @@
-import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeCategoryDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { defineStore } from 'pinia'
 import { useDrawer } from '@/common/composables'
 

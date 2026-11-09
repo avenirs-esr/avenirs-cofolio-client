@@ -1,5 +1,5 @@
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MaybeRef } from 'vue'
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'

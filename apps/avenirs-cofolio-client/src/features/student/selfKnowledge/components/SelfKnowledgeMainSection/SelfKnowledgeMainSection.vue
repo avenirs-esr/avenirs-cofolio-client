@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, useModal } from '@avenirs-esr/shared'
+import { useGetSelfKnowledgeCategories } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'

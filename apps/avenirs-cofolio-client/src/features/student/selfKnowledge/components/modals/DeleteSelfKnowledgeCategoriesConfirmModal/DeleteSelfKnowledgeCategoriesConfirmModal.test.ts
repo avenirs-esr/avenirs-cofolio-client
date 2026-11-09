@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeleteSelfKnowledgeCategoriesConfirmModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesConfirmModal/DeleteSelfKnowledgeCategoriesConfirmModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { beforeEach, expect, vi } from 'vitest'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import DeleteSelfKnowledgeCategoriesConfirmModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesConfirmModal/DeleteSelfKnowledgeCategoriesConfirmModal.vue'
 
 vi.mock('@/store', async (importOriginal) => {

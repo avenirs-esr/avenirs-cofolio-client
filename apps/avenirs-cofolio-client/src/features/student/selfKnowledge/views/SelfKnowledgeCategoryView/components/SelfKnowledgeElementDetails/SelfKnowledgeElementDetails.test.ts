@@ -1,5 +1,5 @@
+import type { SelfKnowledgeElementDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeElementDetailsProps } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'

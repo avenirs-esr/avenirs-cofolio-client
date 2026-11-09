@@ -1,4 +1,4 @@
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'

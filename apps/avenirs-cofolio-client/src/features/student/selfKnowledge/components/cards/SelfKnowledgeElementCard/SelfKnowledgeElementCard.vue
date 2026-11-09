@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@avenirs-esr/shared'
-import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { FloatingIconCard } from '@avenirs-esr/shared'
 import { Rating } from '@/common/components'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'

@@ -1,9 +1,9 @@
+import type { SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Ref } from 'vue'
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
