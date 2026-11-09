@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
+import { EUserCategory, NotificationDTOType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, NotificationDTOType } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import ActivityModifiedNotificationCard from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.vue'
 import AssessmentModifiedNotificationCard from '@/features/student/global/components/cards/AssessmentModifiedNotificationCard/AssessmentModifiedNotificationCard.vue'
