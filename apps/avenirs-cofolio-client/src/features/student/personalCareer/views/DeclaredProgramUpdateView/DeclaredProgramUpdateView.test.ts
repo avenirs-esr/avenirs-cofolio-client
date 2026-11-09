@@ -8,7 +8,7 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredProgramAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { DeclaredProgramUpdateFormStub } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.stub'
 import { DeclaredProgramUpdateViewTabs } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.types'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
@@ -85,7 +85,7 @@ const stubs = {
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   DeclaredProgramUpdateForm: DeclaredProgramUpdateFormStub,
   ConfirmationModal: ConfirmationModalStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub
 }
@@ -118,7 +118,7 @@ BddTest().given('a declared program update view component', () => {
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
   const getAvTabs = () => wrapper.findComponent(AvTabsStub)
   const getActiveAvTab = () => wrapper.findComponent(AvTabStub)
-  const getElementAssociations = () => wrapper.findComponent(ElementAssociationsStub)
+  const getElementAssociations = () => wrapper.findComponent(ElementAssociationsCardsStub)
 
   const selectTab = async (tab: DeclaredProgramUpdateViewTabs) => {
     getAvTabs().vm.$emit('update:modelValue', tab)
@@ -264,7 +264,7 @@ BddTest().given('a declared program update view component', () => {
 
       BddTest().then('it should render ElementAssociations with correct props in the associations tab', async () => {
         await vi.waitFor(() => {
-          const elementAssociations = getActiveAvTab().findComponent(ElementAssociationsStub)
+          const elementAssociations = getActiveAvTab().findComponent(ElementAssociationsCardsStub)
 
           expect(elementAssociations.exists()).toBe(true)
           expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)

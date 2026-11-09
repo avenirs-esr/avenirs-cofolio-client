@@ -11,7 +11,7 @@ import { createTraceDetailedHandler, downloadTraceAttachmentErrorHandler } from 
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
@@ -80,7 +80,7 @@ BddTest().given('a student trace view', () => {
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
     AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
-    ElementAssociations: ElementAssociationsStub,
+    ElementAssociationsCards: ElementAssociationsCardsStub,
     DeleteAssociationsModal: DeleteAssociationsModalStub
   }
 
@@ -174,7 +174,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {
-      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+      expect(wrapper.findComponent(ElementAssociationsCardsStub).exists()).toBe(false)
     })
   })
 
@@ -284,7 +284,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should render ElementAssociations for the trace', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
 
       expect(elementAssociations.exists()).toBe(true)
       expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.TRACE)
@@ -292,7 +292,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should pass the fetched associations to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
 
       expect(elementAssociations.props('associations')).toEqual(mockedTraceAssociations)
       expect(elementAssociations.props('error')).toBeNull()
@@ -318,7 +318,7 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should pass the error to ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
 
         expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: ErrorCodes.SERVER }))
         expect(elementAssociations.props('associations')).toBeUndefined()

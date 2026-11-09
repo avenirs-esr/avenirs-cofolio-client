@@ -10,7 +10,7 @@ import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handl
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 
@@ -64,7 +64,7 @@ const stubs = {
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   ConfirmationModal: ConfirmationModalStub
 }
@@ -125,7 +125,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should render ElementAssociations with correct props', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
         expect(elementAssociations.props('elementId')).toBe('123')
@@ -136,7 +136,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should render ElementAssociations as readonly', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
       })
     })
@@ -159,7 +159,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should pass the empty associations to ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
       })
@@ -167,7 +167,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should display a zero associations count in the associations tab title', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
+        expect(wrapper.findComponent(ElementAssociationsCardsStub).props('associations')).toEqual(mockedEmptyAssociations)
       })
 
       expect(wrapper.findAllComponents(AvTabStub)[1].props('title')).toBe('Mes associations (0)')
@@ -184,7 +184,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should pass the associations error to ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
@@ -204,7 +204,7 @@ BddTest().given('a student update declared skill view component', () => {
     })
 
     BddTest().then('it should not render ElementAssociations', () => {
-      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+      expect(wrapper.findComponent(ElementAssociationsCardsStub).exists()).toBe(false)
     })
 
     BddTest().then('it should display a zero associations count in the associations tab title', () => {

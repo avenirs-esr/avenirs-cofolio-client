@@ -7,7 +7,8 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations } from '@/features/student/associations'
+import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 
 interface StudentUpdateDeclaredSkillViewProps {
@@ -93,7 +94,7 @@ async function handleCancel () {
       :icon="ICONS.ASSOCIATIONS"
       data-testid="update-declared-skill-associations-tab"
     >
-      <ElementAssociations
+      <ElementAssociationsCards
         v-if="declaredSkillDetailed"
         :context-type="EAssociationContextType.DECLARED_SKILL"
         :element-id="declaredSkillDetailed.id"

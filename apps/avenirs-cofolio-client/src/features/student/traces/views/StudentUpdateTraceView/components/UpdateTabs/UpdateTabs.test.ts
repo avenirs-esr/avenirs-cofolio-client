@@ -6,7 +6,7 @@ import { EAssociationContextType, EFileType, ETraceAuthorType } from '@avenirs-e
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociations, mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 
 const mockCloseUpdateTraceModal = vi.fn()
@@ -65,7 +65,7 @@ BddTest().given('an update tab', () => {
       props: ['trace', 'form'],
       template: '<div class="update-trace-form">Update Trace Form</div>'
     },
-    ElementAssociations: ElementAssociationsStub
+    ElementAssociationsCards: ElementAssociationsCardsStub
   }
 
   beforeEach(async () => {
@@ -141,7 +141,7 @@ BddTest().given('an update tab', () => {
     })
 
     BddTest().then('it should pass undefined associations to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
       expect(elementAssociations.exists()).toBe(true)
       expect(elementAssociations.props('associations')).toBeUndefined()
     })
@@ -149,22 +149,22 @@ BddTest().given('an update tab', () => {
 
   BddTest().when('rendering the associations tab', () => {
     BddTest().then('it should render ElementAssociations component', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
       expect(elementAssociations.exists()).toBe(true)
     })
 
     BddTest().then('it should pass the trace context type to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
       expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should pass associations prop to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
       expect(elementAssociations.props('associations')).toEqual(mockedTraceAssociations)
     })
 
     BddTest().then('it should pass the trace id as elementId to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+      const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
       expect(elementAssociations.props('elementId')).toEqual(mockedTrace.id)
     })
 

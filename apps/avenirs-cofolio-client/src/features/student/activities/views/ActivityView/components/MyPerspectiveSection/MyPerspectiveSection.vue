@@ -10,7 +10,8 @@ import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activiti
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import { MyPerspectiveSectionTab } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.types'
 import MyPerspectiveTab from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations } from '@/features/student/associations'
+import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 
 export interface MyPerspectiveSectionProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
@@ -42,7 +43,7 @@ const associationsCount = computed(() => countElementAssociations(EAssociationCo
       :icon="ICONS.ASSOCIATIONS"
       data-testid="associated-elements-tab-item"
     >
-      <ElementAssociations
+      <ElementAssociationsCards
         :context-type="EAssociationContextType.DECLARED_ACTIVITY"
         :element-id="declaredActivityDetails.id"
         :associations="declaredActivityAssociations"
@@ -55,7 +56,7 @@ const associationsCount = computed(() => countElementAssociations(EAssociationCo
             :trace-allowed-associations="getLimit(EAssociationContextType.TRACE).max ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE"
           />
         </template>
-      </ElementAssociations>
+      </ElementAssociationsCards>
     </AvTab>
   </AvTabs>
 </template>

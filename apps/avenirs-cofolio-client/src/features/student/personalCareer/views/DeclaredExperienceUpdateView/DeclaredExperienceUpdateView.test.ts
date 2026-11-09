@@ -7,7 +7,7 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ROUTES } from '@/common/constants/route-names'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 
 const routerPush = vi.fn()
@@ -59,7 +59,7 @@ const stubs = {
   UpdatePageTitle: UpdatePageTitleStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   AvTabs: { template: '<div><slot /></div>' },
   AvTab: AvTabStub
 }
@@ -97,7 +97,7 @@ BddTest().given('a declared experience update view', () => {
       const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
 
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
         expect(elementAssociations.props('elementId')).toBe(route.params.id)
@@ -148,7 +148,7 @@ BddTest().given('a declared experience update view', () => {
 
     BddTest().then('it should pass the empty associations to ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.props('elementId')).toBe('EXP_WITHOUT_ASSOCIATIONS')
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
         expect(elementAssociations.props('error')).toBeNull()
@@ -157,7 +157,7 @@ BddTest().given('a declared experience update view', () => {
 
     BddTest().then('it should display a zero associations count in the associations tab title', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
+        expect(wrapper.findComponent(ElementAssociationsCardsStub).props('associations')).toEqual(mockedEmptyAssociations)
       })
 
       expect(wrapper.findAllComponents(AvTabStub)[1].props('title')).toBe('Mes associations (0)')
@@ -173,7 +173,7 @@ BddTest().given('a declared experience update view', () => {
 
     BddTest().then('it should pass the associations error to ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
       })
@@ -181,7 +181,7 @@ BddTest().given('a declared experience update view', () => {
 
     BddTest().then('it should display a zero associations count in the associations tab title', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(ElementAssociationsStub).props('error')).not.toBeNull()
+        expect(wrapper.findComponent(ElementAssociationsCardsStub).props('error')).not.toBeNull()
       })
 
       expect(wrapper.findAllComponents(AvTabStub)[1].props('title')).toBe('Mes associations (0)')

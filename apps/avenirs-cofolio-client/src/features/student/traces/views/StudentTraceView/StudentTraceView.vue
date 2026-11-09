@@ -7,7 +7,8 @@ import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { downloadBlob } from '@/common/utils/download/download'
-import { AssociateModal, countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { AssociateModal, countElementAssociations } from '@/features/student/associations'
+import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import StudentTraceDetails from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
@@ -147,7 +148,7 @@ const trailingLinks = computed(() => [
           data-testid="associations-tab-item"
         >
           <Loader :is-loading="isAssociationsLoading">
-            <ElementAssociations
+            <ElementAssociationsCards
               :context-type="EAssociationContextType.TRACE"
               :element-id="traceDetailed.id"
               :associations="traceAssociations"

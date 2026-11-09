@@ -13,7 +13,7 @@ import {
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
@@ -98,7 +98,7 @@ const stubs = {
   ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
   DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub,
   QuerySuspense: QuerySuspenseStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   AssociateModal: AssociateModalStub,
@@ -129,7 +129,7 @@ BddTest().given('a declared program detailed view component', () => {
   const getDeleteModal = () => wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub)
   const getAvTabs = () => wrapper.findComponent(AvTabsStub)
   const getActiveAvTab = () => wrapper.findComponent(AvTabStub)
-  const getElementAssociations = () => wrapper.findComponent(ElementAssociationsStub)
+  const getElementAssociations = () => wrapper.findComponent(ElementAssociationsCardsStub)
 
   const selectTab = async (tab: DeclaredProgramDetailedViewTabs) => {
     await vi.waitFor(() => {

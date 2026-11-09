@@ -5,7 +5,8 @@ import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails
 import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations } from '@/features/student/associations'
+import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import DeclaredSkillDetails
@@ -120,7 +121,7 @@ function handleSkillDeleted () {
       :icon="ICONS.ASSOCIATIONS"
       data-testid="skill-associations-tab-item"
     >
-      <ElementAssociations
+      <ElementAssociationsCards
         v-if="declaredSkillDetailed"
         :context-type="EAssociationContextType.DECLARED_SKILL"
         :element-id="declaredSkillDetailed.id"

@@ -1,6 +1,11 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { AssociationsDTO, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, EAssociationContextType, SkillProgressAssociationDTO, TraceAssociationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { QueryKey } from '@tanstack/vue-query'
+import type { AssociatedActivityCardProps } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
+import type { AssociatedDeclaredExperienceCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
+import type { AssociatedDeclaredProgramCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
+import type { AssociatedSkillCardProps, } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
+import type { AssociatedTraceCardProps } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import type { IdTitle } from '@/types'
 
 /**
@@ -40,6 +45,20 @@ export interface AssociationContextConfig {
   /** Whether the association search of this context type can be filtered on the association status. */
   filterable?: boolean
 }
+
+export type AllAssociationsType
+  = | TraceAssociationDTO
+    | DeclaredActivityAssociationDTO
+    | SkillProgressAssociationDTO
+    | DeclaredExperienceAssociationDTO
+    | DeclaredProgramAssociationDTO
+
+export type AllCardsProps
+  = | { associatedTrace: AssociatedTraceCardProps['associatedTrace'] }
+    | { declaredActivity: AssociatedActivityCardProps['declaredActivity'] }
+    | { declaredSkill: AssociatedSkillCardProps['declaredSkill'] }
+    | { declaredExperience: AssociatedDeclaredExperienceCardProps['declaredExperience'] }
+    | { declaredProgram: AssociatedDeclaredProgramCardProps['declaredProgram'] }
 
 /**
  * An association of an element, whatever the context type of the associated element.

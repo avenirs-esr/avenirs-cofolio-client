@@ -6,7 +6,8 @@ import { ICONS } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations } from '@/features/student/associations'
+import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 
 interface UpdateTabsProps {
@@ -54,7 +55,7 @@ const associationCount = computed(() => countElementAssociations(EAssociationCon
         :icon="ICONS.ASSOCIATIONS"
         data-testid="update-trace-associations-tab"
       >
-        <ElementAssociations
+        <ElementAssociationsCards
           :context-type="EAssociationContextType.TRACE"
           :element-id="trace.id"
           :associations="associations"

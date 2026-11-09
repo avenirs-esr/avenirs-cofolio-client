@@ -12,7 +12,7 @@ import {
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
@@ -48,7 +48,7 @@ const stubs = {
   DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
@@ -127,7 +127,7 @@ BddTest().given('a student declared skill view', () => {
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
         expect(elementAssociations.props('associations')).toEqual(mockedDeclaredSkillAssociations)
@@ -273,7 +273,7 @@ BddTest().given('a student declared skill view', () => {
         expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(true)
       })
 
-      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+      expect(wrapper.findComponent(ElementAssociationsCardsStub).exists()).toBe(false)
       expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
   })
@@ -291,7 +291,7 @@ BddTest().given('a student declared skill view', () => {
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
         expect(elementAssociations.props('error')).toBeNull()
@@ -303,7 +303,7 @@ BddTest().given('a student declared skill view', () => {
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
+        expect(wrapper.findComponent(ElementAssociationsCardsStub).props('associations')).toEqual(mockedEmptyAssociations)
       })
 
       expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
@@ -323,7 +323,7 @@ BddTest().given('a student declared skill view', () => {
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsCardsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
