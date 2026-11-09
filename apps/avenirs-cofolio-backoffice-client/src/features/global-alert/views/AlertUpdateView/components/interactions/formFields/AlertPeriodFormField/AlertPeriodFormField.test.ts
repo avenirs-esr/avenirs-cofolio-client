@@ -3,22 +3,23 @@ import type { AlertUpdateForm, AlertUpdateFormData } from '@/features/global-ale
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { DatePeriodPickerStub } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
+import { nextTick } from 'vue'
 import AlertPeriodFormField from '@/features/global-alert/views/AlertUpdateView/components/interactions/formFields/AlertPeriodFormField/AlertPeriodFormField.vue'
 import { useUpdateAlertFormValidators } from '@/features/global-alert/views/AlertUpdateView/composables/use-update-alert-form-validators/use-update-alert-form-validators'
 
-const START_DATE = '2026-11-05'
-const END_DATE = '2026-11-08'
-const NEW_START_DATE = '2026-12-01'
-const NEW_END_DATE = '2026-12-02'
+const START_DATE = '2026-11-05T10:00'
+const END_DATE = '2026-11-08T18:00'
+const NEW_START_DATE = '2026-12-01T09:00'
+const NEW_END_DATE = '2026-12-02T17:00'
 
 const TestWrapper = defineComponent({
   components: {
-    AlertPeriodFormField
+    AlertPeriodFormField,
   },
   props: {
-    disabled: Boolean
+    disabled: Boolean,
   },
   setup () {
     const { validateStartDate, validateEndDate } = useUpdateAlertFormValidators()
@@ -45,7 +46,7 @@ const TestWrapper = defineComponent({
     <form @submit.prevent="form.handleSubmit">
       <AlertPeriodFormField :form="form" :disabled="disabled" />
     </form>
-  `
+  `,
 })
 
 type WrapperInstance = InstanceType<typeof TestWrapper>
@@ -55,13 +56,13 @@ BddTest().given('an alert period form field', () => {
   let wrapper: VueWrapper<WrapperInstance>
 
   const stubs = {
-    DatePeriodPicker: DatePeriodPickerStub
+    DatePeriodPicker: DatePeriodPickerStub,
   }
 
   const mountWith = (props: FieldProps = {}) => {
     wrapper = mount(TestWrapper, {
       props,
-      global: { stubs }
+      global: { stubs },
     })
   }
 
@@ -72,12 +73,14 @@ BddTest().given('an alert period form field', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should configure an optional date period picker', () => {
+    BddTest().then('it should configure a datetime-local date period picker', () => {
       expect(getPicker().props()).toMatchObject({
-        type: 'date',
+        type: 'datetime-local',
+        inputFormat: 'dd/MM/yyyy HH:mm',
+        outputFormat: 'dd/MM/yyyy HH:mm',
         showOngoing: false,
-        required: false,
         disabled: false,
+        labelVisible: true,
         startDate: START_DATE,
         endDate: END_DATE,
       })
@@ -87,7 +90,7 @@ BddTest().given('an alert period form field', () => {
   BddTest().when('the component is disabled', () => {
     beforeEach(() => {
       mountWith({
-        disabled: true
+        disabled: true,
       })
     })
 
@@ -96,40 +99,63 @@ BddTest().given('an alert period form field', () => {
     })
   })
 
-  BddTest().when('the picker emits a new period', () => {
-    beforeEach(() => {
-      getPicker().vm.$emit('update:startDate', NEW_START_DATE)
-      getPicker().vm.$emit('update:endDate', NEW_END_DATE)
+  BddTest().when('the picker emits a new start date', () => {
+    beforeEach(async () => {
+      getPicker().vm.$emit('update:start-date', NEW_START_DATE)
+      await nextTick()
     })
 
-    BddTest().then('it should update both dates', async () => {
-      await vi.waitFor(() => {
-        expect(getPicker().props()).toMatchObject({
-          startDate: NEW_START_DATE,
-          endDate: NEW_END_DATE,
-        })
+    BddTest().then('it should update the start date', () => {
+      expect(wrapper.vm.form.state.values.startDate).toBe(NEW_START_DATE)
+    })
+  })
+
+  BddTest().when('the picker emits a new end date', () => {
+    beforeEach(async () => {
+      getPicker().vm.$emit('update:end-date', NEW_END_DATE)
+      await nextTick()
+    })
+
+    BddTest().then('it should update the end date', () => {
+      expect(wrapper.vm.form.state.values.endDate).toBe(NEW_END_DATE)
+    })
+  })
+
+  BddTest().when('the picker emits a new period', () => {
+    beforeEach(async () => {
+      getPicker().vm.$emit('update:start-date', NEW_START_DATE)
+      getPicker().vm.$emit('update:end-date', NEW_END_DATE)
+      await nextTick()
+    })
+
+    BddTest().then('it should update both dates', () => {
+      expect(wrapper.vm.form.state.values).toMatchObject({
+        startDate: NEW_START_DATE,
+        endDate: NEW_END_DATE,
       })
     })
   })
 
   BddTest().when('the picker is cleared', () => {
-    beforeEach(() => {
-      getPicker().vm.$emit('update:startDate', '')
-      getPicker().vm.$emit('update:endDate', '')
+    beforeEach(async () => {
+      getPicker().vm.$emit('update:start-date', '')
+      getPicker().vm.$emit('update:end-date', '')
+      await nextTick()
     })
 
     BddTest().then('it should reset both dates to undefined', () => {
       expect(wrapper.vm.form.state.values).toMatchObject({
         startDate: undefined,
-        endDate: undefined
+        endDate: undefined,
       })
     })
   })
 
   BddTest().when('the form is submitted without an end date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:endDate', '')
+      getPicker().vm.$emit('update:end-date', '')
       await wrapper.find('form').trigger('submit')
+      await flushPromises()
     })
 
     BddTest().then('it should display the end date error', async () => {
@@ -141,8 +167,9 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the form is submitted without a start date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:startDate', '')
+      getPicker().vm.$emit('update:start-date', '')
       await wrapper.find('form').trigger('submit')
+      await flushPromises()
     })
 
     BddTest().then('it should display the start date error', async () => {

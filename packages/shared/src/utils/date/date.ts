@@ -173,3 +173,32 @@ export function formatDateToYearMonthLocalized (date: DateArg<Date>, localeCode:
 export function formatDateToYearLocalized (date: DateArg<Date>, localeCode: AvLocale): string {
   return formatLocalized(date, localeCode, 'yyyy')
 }
+
+/**
+ * Converts an ISO instant string to a formatted date string.
+ *
+ * @param value ISO instant string or undefined
+ * @param outputFormat Desired output format (default: 'dd/MM/yyyy HH:mm')
+ * @returns Formatted date string or empty string if invalid
+ */
+export function fromInstant (value: string | undefined, outputFormat = 'dd/MM/yyyy HH:mm'): string {
+  if (!value) {
+    return ''
+  }
+  const date = parseISO(value)
+  return isValid(date) ? format(date, outputFormat) : ''
+}
+
+/**
+ * Converts a date string in the format 'dd/MM/yyyy HH:mm' to an ISO instant string.
+ *
+ * @param date Date string in the format 'dd/MM/yyyy HH:mm' or undefined
+ * @returns ISO instant string or undefined if input is invalid
+ */
+export function toInstant (date: string | undefined): string | undefined {
+  if (!date) {
+    return undefined
+  }
+
+  return parse(date, 'dd/MM/yyyy HH:mm', new Date()).toISOString()
+}

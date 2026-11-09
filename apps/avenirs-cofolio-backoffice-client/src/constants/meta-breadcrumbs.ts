@@ -8,7 +8,8 @@ export const META_BREADCRUMBS = {
    * Breadcrumb metadata for the global alert module.
    */
   GLOBAL_ALERT: {
-    DEFAULT: { textKey: 'global.MainNavigation.globalAlert' },
+    DETAILS: { textKey: 'global.MainNavigation.globalAlert', to: ROUTES.GLOBAL_ALERT.DETAILS },
+    UPDATE: { textKey: 'global.components.navigation.UpdatePageTitle.update', to: ROUTES.GLOBAL_ALERT.UPDATE }
   },
 
   /**
@@ -35,7 +36,12 @@ export const BASE_BREADCRUMBS = {
    * Breadcrumb paths for the global alert module.
    */
   GLOBAL_ALERT: {
-    BASE: [META_BREADCRUMBS.HOME, META_BREADCRUMBS.GLOBAL_ALERT.DEFAULT],
+    DETAILS: [META_BREADCRUMBS.HOME, META_BREADCRUMBS.GLOBAL_ALERT.DETAILS],
+    UPDATE: [
+      META_BREADCRUMBS.HOME,
+      META_BREADCRUMBS.GLOBAL_ALERT.DETAILS,
+      META_BREADCRUMBS.GLOBAL_ALERT.UPDATE
+    ],
   },
 
   /**

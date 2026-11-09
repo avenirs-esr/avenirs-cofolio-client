@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { AlertConfigurationDTO } from '@/api/avenir-esr'
-import { useApiErrors, useToasterStore } from '@avenirs-esr/shared'
+import { fromInstant, toInstant, useApiErrors, useToasterStore } from '@avenirs-esr/shared'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -35,7 +35,9 @@ export function useUpdateAlertForm (alert?: AlertConfigurationDTO, onAlertUpdate
 
   const defaultValues: AlertUpdateFormData = {
     message: '',
-    ...alert
+    ...alert,
+    startDate: fromInstant(alert?.startDate),
+    endDate: fromInstant(alert?.endDate),
   }
 
   const form = useForm({
@@ -70,12 +72,15 @@ export function useUpdateAlertForm (alert?: AlertConfigurationDTO, onAlertUpdate
       })
     },
     onSubmit: ({ value }) => {
+      const startDate = toInstant(value.startDate)
+      const endDate = toInstant(value.endDate)
+
       mutateUpdateAlert({
         data: {
           message: value.message,
           ...(value.active && { active: true }),
-          ...(value.startDate && { startDate: value.startDate }),
-          ...(value.endDate && { endDate: value.endDate }),
+          ...(startDate && { startDate }),
+          ...(endDate && { endDate }),
         },
       })
     },

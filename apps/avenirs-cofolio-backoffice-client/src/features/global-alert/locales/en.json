@@ -9,21 +9,44 @@
             "inactiveText": "Disabled"
           },
           "AlertMessageRichTextEditor": {
-            "label": "Message"
+            "label": "Alert content"
           }
         }
       }
     },
+    "entityName": "Global alert",
     "views": {
+      "AlertDetailsView": {
+        "components": {
+          "dataDisplay": {
+            "AlertDetailsTable": {
+              "columns": {
+                "label": "Property",
+                "value": "Value"
+              },
+              "rows": {
+                "period": "Period",
+                "render": "Render",
+                "status": "Status"
+              }
+            }
+          }
+        },
+        "emptyState": "No global alert is configured.",
+        "subtitle": "Configured alert",
+        "updateButton": "Update"
+      },
       "AlertUpdateView": {
+        "components": {
+          "AlertPeriod": "Alert activation period"
+        },
         "composables": {
           "useUpdateAlertForm": {
             "error": "An error occurred while updating the global alert.",
             "success": "The global alert has been updated."
           }
         },
-        "guardDescription": "Are you sure you want to cancel your changes? Unsaved changes will be lost.",
-        "title": "Change global alert"
+        "guardDescription": "Are you sure you want to cancel your changes? Unsaved changes will be lost."
       }
     }
   }

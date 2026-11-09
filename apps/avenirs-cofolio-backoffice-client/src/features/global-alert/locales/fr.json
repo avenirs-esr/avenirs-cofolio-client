@@ -9,21 +9,44 @@
             "inactiveText": "Désactivée"
           },
           "AlertMessageRichTextEditor": {
-            "label": "Message"
+            "label": "Contenu de l'alerte"
           }
         }
       }
     },
+    "entityName": "Alerte globale",
     "views": {
+      "AlertDetailsView": {
+        "components": {
+          "dataDisplay": {
+            "AlertDetailsTable": {
+              "columns": {
+                "label": "Propriété",
+                "value": "Valeur"
+              },
+              "rows": {
+                "period": "Période",
+                "render": "Rendu",
+                "status": "Statut"
+              }
+            }
+          }
+        },
+        "emptyState": "Aucune alerte globale n'est configurée.",
+        "subtitle": "Alerte configurée",
+        "updateButton": "Modifier"
+      },
       "AlertUpdateView": {
+        "components": {
+          "AlertPeriod": "Période d'activation de l'alerte"
+        },
         "composables": {
           "useUpdateAlertForm": {
             "error": "Une erreur est survenue lors de la mise à jour de l'alerte globale.",
             "success": "L'alerte globale a été mise à jour."
           }
         },
-        "guardDescription": "Êtes-vous certain(e) de vouloir annuler les modifications\u00A0? Les changements non enregistrés seront perdus.",
-        "title": "Modifier l'alerte globale"
+        "guardDescription": "Êtes-vous certain(e) de vouloir annuler les modifications\u00A0? Les changements non enregistrés seront perdus."
       }
     }
   }

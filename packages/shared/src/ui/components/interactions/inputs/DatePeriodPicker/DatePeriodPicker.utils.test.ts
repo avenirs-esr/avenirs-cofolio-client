@@ -46,9 +46,15 @@ BddTest().given('toOutputValue', () => {
     })
   })
 
-  BddTest().when('the type is date and the value is a Date', () => {
+  BddTest().when('the type is date', () => {
     BddTest().then('it should format the date', () => {
       expect(toOutputValue(dateValue, 'date', 'dd/MM/yyyy')).toBe('01/02/2024')
+    })
+  })
+
+  BddTest().when('the type is datetime-local and the value is a Date', () => {
+    BddTest().then('it should format the date', () => {
+      expect(toOutputValue(dateValue, 'datetime-local', 'dd/MM/yyyy HH:mm')).toBe('01/02/2024 00:00')
     })
   })
 
@@ -70,6 +76,12 @@ BddTest().given('getDatePlaceholderKey', () => {
   BddTest().when('the type is date', () => {
     BddTest().then('it returns the date range placeholder key', () => {
       expect(getDatePlaceholderKey('date')).toBe('global.components.interactions.inputs.DatePeriodPicker.periodPlaceholder.fullDate')
+    })
+  })
+
+  BddTest().when('the type is datetime-local', () => {
+    BddTest().then('it returns the datetime-local range placeholder key', () => {
+      expect(getDatePlaceholderKey('datetime-local')).toBe('global.components.interactions.inputs.DatePeriodPicker.periodPlaceholder.datetime-local')
     })
   })
 })
