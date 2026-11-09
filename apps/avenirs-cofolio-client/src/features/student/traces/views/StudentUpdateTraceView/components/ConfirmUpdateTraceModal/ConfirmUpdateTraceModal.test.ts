@@ -1,11 +1,11 @@
+import type { TraceDeclaredActivityDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
 import type { ConfirmUpdateTraceModalProps } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
 

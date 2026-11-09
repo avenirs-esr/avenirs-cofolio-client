@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { ETraceAuthorType } from '@/api/avenir-esr'
 import { TraceAuthorTypeRadioSetStub } from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSet/TraceAuthorTypeRadioSet.stub'
 import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
 

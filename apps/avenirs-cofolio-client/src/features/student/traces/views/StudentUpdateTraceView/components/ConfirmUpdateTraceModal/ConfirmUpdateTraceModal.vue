@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
+import type { TraceDeclaredActivityDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

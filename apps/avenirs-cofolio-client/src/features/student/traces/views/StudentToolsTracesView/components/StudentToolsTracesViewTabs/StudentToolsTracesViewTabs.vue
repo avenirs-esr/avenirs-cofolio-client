@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import type { TracesSummaryDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

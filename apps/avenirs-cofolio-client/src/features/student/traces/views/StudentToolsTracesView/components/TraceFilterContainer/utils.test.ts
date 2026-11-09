@@ -1,5 +1,5 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
+import { TraceFilterFileTypesItem } from '@avenirs-esr/shared/api/avenir-esr'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
 

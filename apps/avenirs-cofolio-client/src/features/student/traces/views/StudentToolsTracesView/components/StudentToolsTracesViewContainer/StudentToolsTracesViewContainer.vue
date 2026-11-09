@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGetTracesSummary } from '@/api/avenir-esr'
+import { useGetTracesSummary } from '@avenirs-esr/shared/api/avenir-esr'
 import StudentToolsTracesAddTraceDrawer
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import StudentToolsTracesViewTabs

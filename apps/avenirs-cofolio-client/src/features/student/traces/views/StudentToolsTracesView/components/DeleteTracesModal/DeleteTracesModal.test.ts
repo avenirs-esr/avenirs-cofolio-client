@@ -1,13 +1,13 @@
-import type { VueWrapper } from '@vue/test-utils'
-import type { MockedFunction } from 'vitest'
 import type {
   TraceViewDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MockedFunction } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import { ETraceAuthorType } from '@/api/avenir-esr'
 import { TracesSelectorStub } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TraceSelector.stub'
 import {
   TraceDeletionConfirmationModalStub

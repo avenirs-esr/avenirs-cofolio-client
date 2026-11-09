@@ -1,10 +1,10 @@
+import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { TraceViewDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { ETraceAuthorType } from '@/api/avenir-esr'
 import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import StudentTraceViewCompactCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceViewCompactCard/StudentTraceViewCompactCard.vue'

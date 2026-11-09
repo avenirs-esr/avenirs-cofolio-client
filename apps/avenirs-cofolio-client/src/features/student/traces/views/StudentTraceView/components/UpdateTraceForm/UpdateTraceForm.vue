@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import { useI18n } from 'vue-i18n'
 import { useDateUtils } from '@/common/composables'

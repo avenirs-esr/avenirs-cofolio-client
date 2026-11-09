@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import type { TracesSummaryDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvNotice, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
+import { useGetTraceConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetTraceConfig } from '@/api/avenir-esr'
 
 defineProps<{
   tracesSummary: TracesSummaryDTO | undefined

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
-import type { TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
+import type { TraceFilter, TraceFilterFileTypesItem } from '@avenirs-esr/shared/api/avenir-esr'
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
 import { AvButton, AvInput, AvModal, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'

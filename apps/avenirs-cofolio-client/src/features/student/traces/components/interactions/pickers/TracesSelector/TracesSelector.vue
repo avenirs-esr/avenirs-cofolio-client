@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceOverviewDTO, TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceOverviewDTO, TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
 import StudentTraceViewCompactCard

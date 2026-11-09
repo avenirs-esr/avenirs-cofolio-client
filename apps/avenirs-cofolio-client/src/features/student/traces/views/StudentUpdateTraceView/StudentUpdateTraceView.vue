@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
+import type { TraceDeclaredActivityDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, ConfirmationModal, UpdatePageTitle, useApiErrors, useModal } from '@avenirs-esr/shared'
-import { useI18n } from 'vue-i18n'
 import {
   EAssociationContextType,
 
   useGetAssociations,
   useGetLockedDeclaredActivities,
   useGetTraceDetail
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
