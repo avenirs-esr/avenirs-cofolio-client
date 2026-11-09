@@ -1,11 +1,12 @@
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AssociationsDeleteRequest, AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper, } from '@vue/test-utils'
 import type { PathParams, } from 'msw'
 import type { MockInstance } from 'vitest'
-import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-esr'
 import type { DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType, getUnassociateUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
@@ -20,7 +21,6 @@ import {
 import { createGetAssociationsHandler, unassociateErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { anyAssociationContextType } from '@/__mocks__/msw/utils'
-import { EAssociationContextType, getUnassociateUrl } from '@/api/avenir-esr'
 import { AssociationsSelectorStub } from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.stub'
 import {
   DeleteAssociationsConfirmModalStub

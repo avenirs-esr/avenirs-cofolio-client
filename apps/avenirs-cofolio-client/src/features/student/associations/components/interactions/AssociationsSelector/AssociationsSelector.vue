@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, SkillProgressDTO, TraceOverviewDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, SkillProgressDTO, TraceOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { isDeletableDeclaredActivityAssociation } from '@/common/activities/rules/activities.rules'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'

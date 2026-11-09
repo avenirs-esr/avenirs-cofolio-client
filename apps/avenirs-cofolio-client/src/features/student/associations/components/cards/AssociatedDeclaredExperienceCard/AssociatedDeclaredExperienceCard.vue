@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { ROUTES } from '@/common/constants'

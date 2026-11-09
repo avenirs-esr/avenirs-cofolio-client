@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@avenirs-esr/shared'
-import type { EActivityThematic } from '@/api/avenir-esr'
+import type { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Association } from '@/features/student/associations/types/associations.types'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { FloatingIconCard } from '@avenirs-esr/shared'
-import { EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 

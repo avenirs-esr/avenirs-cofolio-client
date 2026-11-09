@@ -1,7 +1,8 @@
-import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociatedElementsCardProps } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import {
@@ -12,7 +13,6 @@ import {
   createMockedTraceAssociations,
   mockedEmptyAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedActivityCardStub } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import { AssociatedDeclaredExperienceCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.stub'
 import { AssociatedDeclaredProgramCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.stub'

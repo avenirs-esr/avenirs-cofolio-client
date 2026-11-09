@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ICONS } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'

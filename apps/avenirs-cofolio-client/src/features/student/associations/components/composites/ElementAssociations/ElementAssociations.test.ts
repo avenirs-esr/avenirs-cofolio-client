@@ -1,9 +1,10 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
-import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { ElementAssociationsProps } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiErrorCode, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -14,7 +15,6 @@ import {
   mockedEmptyAssociations,
   mockedTraceAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedElementsCardStub } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.stub'
 import ElementAssociations from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
 import { useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'

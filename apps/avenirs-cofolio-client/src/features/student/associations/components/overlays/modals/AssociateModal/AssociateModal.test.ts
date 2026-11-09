@@ -4,6 +4,7 @@ import type { MockInstance } from 'vitest'
 import type { AssociateModalProps } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub, ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
@@ -16,7 +17,6 @@ import {
   searchForAssociationErrorHandler
 } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociationCompactCardStub } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.stub'
 import {
   AssociationSearchFilterSelectStub

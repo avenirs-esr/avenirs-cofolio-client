@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvDropdownItem, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { EAssociationContextType } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

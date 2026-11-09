@@ -1,7 +1,7 @@
-import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationLimits, ElementAssociation } from '@/features/student/associations/types/associations.types'
 import type { IdTitle } from '@/types'
-import { EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_PAIRS } from '@/features/student/associations/constants/associations.constants'
 
 type AssociationDTO = AssociationsDTO[keyof AssociationsDTO][number]

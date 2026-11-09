@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import AssociatedActivityCard from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import AssociatedDeclaredExperienceCard
