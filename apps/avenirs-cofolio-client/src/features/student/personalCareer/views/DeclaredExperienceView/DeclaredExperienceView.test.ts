@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared'
 import { EAssociationContextType, EErrorCode } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -12,7 +12,6 @@ import {
   declaredExperiencesHandlers,
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
@@ -74,7 +73,7 @@ const DeclaredExperienceDetailedStub = defineComponent({
 })
 
 const stubs = {
-  DetailedPageTitle: DetailedPageTitleStub,
+  DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailedStub,
   ElementAssociations: ElementAssociationsStub,
@@ -106,9 +105,9 @@ BddTest().given('a declared experience view component', () => {
       vi.clearAllMocks()
     })
 
-    BddTest().then('it should render DetailedPageTitle with correct title and trailing links', async () => {
+    BddTest().then('it should render DetailPageTitle with correct title and trailing links', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+        const pageTitle = wrapper.findComponent(DetailPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
         expect(pageTitle.props('title')).toBe('Développeur Web Full Stack')
@@ -116,9 +115,9 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should render DetailedPageTitle with correct trailing links', async () => {
+    BddTest().then('it should render DetailPageTitle with correct trailing links', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+        const pageTitle = wrapper.findComponent(DetailPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
         expect(pageTitle.props('trailingLinks')).toHaveLength(1)
@@ -328,9 +327,9 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should still render DetailedPageTitle', async () => {
+    BddTest().then('it should still render DetailPageTitle', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+        const pageTitle = wrapper.findComponent(DetailPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
       })
     })

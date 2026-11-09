@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorCodes, ErrorMessage, ICONS, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { DetailPageTitle, ErrorCodes, ErrorMessage, ICONS, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
@@ -74,7 +73,7 @@ function handleSkillDeleted () {
 </script>
 
 <template>
-  <DetailedPageTitle
+  <DetailPageTitle
     :title="skillTitle"
     :trailing-links="trailingLinks"
   >
@@ -104,7 +103,7 @@ function handleSkillDeleted () {
         @deleted="closeUnassociateModal"
       />
     </template>
-  </DetailedPageTitle>
+  </DetailPageTitle>
 
   <AvTabs v-model="activeTab">
     <AvTab

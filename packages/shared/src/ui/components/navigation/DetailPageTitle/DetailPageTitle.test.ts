@@ -1,10 +1,11 @@
 import type { PageTitleProps } from '@avenirs-esr/shared'
 import type { VueWrapper } from '@vue/test-utils'
+import DetailPageTitle from '#shared/ui/components/navigation/DetailPageTitle/DetailPageTitle.vue'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { PageTitleStub } from '@avenirs-esr/shared'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
+import { ref } from 'vue'
 
 const mockIsTruncated = ref(false)
 
@@ -14,8 +15,8 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
 })
 
-BddTest().given('a detailed page title', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DetailedPageTitle>>
+BddTest().given('a detail page title', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DetailPageTitle>>
 
   const stubs = {
     PageTitle: PageTitleStub,
@@ -38,7 +39,7 @@ BddTest().given('a detailed page title', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      wrapper = await mountWithRouter<typeof DetailedPageTitle>(DetailedPageTitle, {
+      wrapper = await mountWithRouter<typeof DetailPageTitle>(DetailPageTitle, {
         props,
         global: { stubs }
       })
@@ -67,7 +68,7 @@ BddTest().given('a detailed page title', () => {
 
   BddTest().when('the component has actions slot', () => {
     beforeEach(async () => {
-      wrapper = await mountWithRouter<typeof DetailedPageTitle>(DetailedPageTitle, {
+      wrapper = await mountWithRouter<typeof DetailPageTitle>(DetailPageTitle, {
         props,
         slots: {
           actions: '<button>Action</button>'

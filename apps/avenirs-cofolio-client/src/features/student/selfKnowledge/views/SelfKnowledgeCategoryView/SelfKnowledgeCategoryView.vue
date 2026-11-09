@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, ErrorCodes, ErrorMessage, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { ConfirmationModal, DetailPageTitle, ErrorCodes, ErrorMessage, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -93,7 +92,7 @@ function onUpdateSelected () {
 </script>
 
 <template>
-  <DetailedPageTitle
+  <DetailPageTitle
     :title="pageTitle"
     :trailing-links="trailingLinks"
   >
@@ -104,7 +103,7 @@ function onUpdateSelected () {
         @delete="openConfirmModal"
       />
     </template>
-  </DetailedPageTitle>
+  </DetailPageTitle>
 
   <QuerySuspense :error="error">
     <template #error>

@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockExternalUser } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { staffAdminGroupRoute } from '@/features/staff/admin/routes'
 import { UserLayoutStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/layout/UserLayout/UserLayout.stub'
 import InstitutionUserDetailedView from '@/features/staff/admin/views/InstitutionUserDetailedView/InstitutionUserDetailedView.vue'
@@ -28,7 +27,7 @@ BddTest().given('an institution user detailed view', () => {
   let wrapper: VueWrapper<InstanceType<typeof InstitutionUserDetailedView>>
 
   const stubs = {
-    DetailedPageTitle: DetailedPageTitleStub,
+    DetailPageTitle: DetailPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     UserLayout: UserLayoutStub,
   }
@@ -42,7 +41,7 @@ BddTest().given('an institution user detailed view', () => {
     await flushPromises()
   }
 
-  const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
+  const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getUserLayout = () => wrapper.findComponent(UserLayoutStub)
 

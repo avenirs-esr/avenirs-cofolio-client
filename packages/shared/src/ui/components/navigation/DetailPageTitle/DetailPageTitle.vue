@@ -3,6 +3,7 @@ import type { PageTitleProps } from '@avenirs-esr/shared'
 import type { Slot } from 'vue'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { PageTitle } from '@avenirs-esr/shared'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 defineProps<PageTitleProps>()

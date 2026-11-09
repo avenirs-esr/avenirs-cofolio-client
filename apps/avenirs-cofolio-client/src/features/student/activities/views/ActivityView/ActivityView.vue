@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Loader, useModal } from '@avenirs-esr/shared'
+import { DetailPageTitle, Loader, useModal } from '@avenirs-esr/shared'
 import { EAssociationContextType, useGetDeclaredActivityDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useDrawer, useNavigation } from '@/common/composables'
 import UpdateActivityDrawer
   from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
@@ -86,7 +85,7 @@ function onDelete () {
       v-if="declaredActivityDetail"
       class="av-col av-gap-sm"
     >
-      <DetailedPageTitle
+      <DetailPageTitle
         :title="declaredActivityDetail!.activity.title"
         :trailing-links="trailingLinks"
         data-testid="activity-view-title"
@@ -128,7 +127,7 @@ function onDelete () {
             </div>
           </div>
         </template>
-      </DetailedPageTitle>
+      </DetailPageTitle>
 
       <ActivityLayout
         :declared-activity-details="declaredActivityDetail"

@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ErrorMessageStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, ErrorMessageStub } from '@avenirs-esr/shared'
 import { EAssociationContextType, EErrorCode } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -11,7 +11,6 @@ import {
   detailedSkillProgressNotFoundErrorHandler
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
@@ -46,7 +45,7 @@ vi.mock('@/common/composables', async () => {
 })
 
 const stubs = {
-  DetailedPageTitle: DetailedPageTitleStub,
+  DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
   ElementAssociations: ElementAssociationsStub,
@@ -84,8 +83,8 @@ BddTest().given('a student declared skill view', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render DetailedPageTitle with correct props', async () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+    BddTest().then('it should render DetailPageTitle with correct props', async () => {
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
 

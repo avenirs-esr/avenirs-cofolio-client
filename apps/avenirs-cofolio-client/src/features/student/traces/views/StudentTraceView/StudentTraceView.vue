@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorMessage, ICONS, Loader, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { DetailPageTitle, ErrorMessage, ICONS, Loader, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { EAssociationContextType, useDownloadAttachment, useGetAssociations, useGetTraceDetail } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { downloadBlob } from '@/common/utils/download/download'
@@ -96,7 +95,7 @@ const trailingLinks = computed(() => [
 </script>
 
 <template>
-  <DetailedPageTitle
+  <DetailPageTitle
     :title="traceDetailed?.title ?? ''"
     :trailing-links="trailingLinks"
   >
@@ -111,7 +110,7 @@ const trailingLinks = computed(() => [
         @download="downloadAttachment(traceDetailed.id)"
       />
     </template>
-  </DetailedPageTitle>
+  </DetailPageTitle>
 
   <Loader :is-loading>
     <div

@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub, ErrorMessageStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, DetailPageTitleStub, ErrorMessageStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { selfKnowledgeElementDetailsNotFoundHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.stub'
 import { SelfKnowledgeElementDetailsDropdownStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.stub'
@@ -60,7 +59,7 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
 })
 
 const stubs = {
-  DetailedPageTitle: DetailedPageTitleStub,
+  DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub,
   SelfKnowledgeElementDetails: SelfKnowledgeElementDetailsStub,
@@ -96,15 +95,15 @@ BddTest().given('a self knowledge category view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render DetailedPageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+    BddTest().then('it should render DetailPageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('trailingLinks')).toHaveLength(2)
     })
 
     BddTest().then('it should build the title using the selected element title', () => {
-      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+      const pageTitle = wrapper.findComponent({ name: 'DetailPageTitle' })
 
       expect(pageTitle.props('title')).toContain('Créativité')
     })
@@ -191,9 +190,9 @@ BddTest().given('a self knowledge category view component', () => {
       })
     })
 
-    BddTest().then('it should render DetailedPageTitle', async () => {
+    BddTest().then('it should render DetailPageTitle', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        const pageTitle = wrapper.findComponent({ name: 'DetailPageTitle' })
         expect(pageTitle.exists()).toBe(true)
       })
     })

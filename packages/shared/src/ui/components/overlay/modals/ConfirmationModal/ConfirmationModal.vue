@@ -49,8 +49,8 @@ const { t } = useI18n()
 <template>
   <AvModal
     id="confirmation-modal"
-    :close-button-label="props.closeButtonLabel ?? t('global.overlay.modals.ConfirmationModal.cancel')"
-    :confirm-button-label="props.confirmButtonLabel ?? t('global.overlay.modals.ConfirmationModal.confirm')"
+    :close-button-label="props.closeButtonLabel ?? t('global.components.overlay.modals.ConfirmationModal.cancel')"
+    :confirm-button-label="props.confirmButtonLabel ?? t('global.components.overlay.modals.ConfirmationModal.confirm')"
     v-bind="avModalBindings"
   >
     <template
@@ -67,12 +67,12 @@ const { t } = useI18n()
         <span
           class="n5"
           data-testid="modal-title"
-        >{{ props.title ?? t('global.overlay.modals.ConfirmationModal.title') }}</span>
+        >{{ props.title ?? t('global.components.overlay.modals.ConfirmationModal.title') }}</span>
         <span
           v-if="showDescription"
           class="b2-light"
           data-testid="modal-description"
-        >{{ props.description ?? t('global.overlay.modals.ConfirmationModal.description') }}</span>
+        >{{ props.description ?? t('global.components.overlay.modals.ConfirmationModal.description') }}</span>
       </div>
     </slot>
   </AvModal>
