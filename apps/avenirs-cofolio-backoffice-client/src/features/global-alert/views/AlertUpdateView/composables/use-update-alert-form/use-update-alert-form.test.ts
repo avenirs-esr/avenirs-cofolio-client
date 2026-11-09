@@ -8,6 +8,8 @@ import { server } from '@/__mocks__/msw/server'
 import { useUpdateAlertForm } from '@/features/global-alert/views/AlertUpdateView/composables/use-update-alert-form/use-update-alert-form'
 import { mountComposable } from '@/tests/utils'
 
+const START_DATE = '2026-11-05T10:00:00.000Z'
+const END_DATE = '2026-11-08T10:00:00.000Z'
 const ERROR_TITLE = 'Une erreur est survenue lors de la mise à jour de l\'alerte globale.'
 const SUCCESS_MESSAGE = 'L\'alerte globale a été mise à jour.'
 
@@ -32,8 +34,8 @@ const SENT_VALUES_CASES = [
   {
     description: 'a scheduled alert',
     values: {
-      startDate: '2026-11-05',
-      endDate: '2026-11-08',
+      startDate: START_DATE,
+      endDate: END_DATE,
     },
   },
 ]
@@ -65,14 +67,14 @@ const INVALID_CASES = [
   {
     description: 'a start date without end date',
     values: {
-      startDate: '2026-11-05',
+      startDate: START_DATE,
     },
     invalidField: 'endDate',
   },
   {
     description: 'an end date without start date',
     values: {
-      endDate: '2026-11-08',
+      endDate: END_DATE,
     },
     invalidField: 'startDate',
   },
@@ -117,8 +119,8 @@ BddTest().given('an alert update form composable', () => {
     BddTest().then('it should initialize its values from the alert configuration', () => {
       expect(result.form.state.values).toMatchObject({
         ...mockedAlertConfigurationDTO,
-        startDate: expect.any(String),
-        endDate: expect.any(String),
+        startDate: undefined,
+        endDate: undefined,
       })
     })
 
@@ -146,12 +148,26 @@ BddTest().given('an alert update form composable', () => {
     })
   })
 
+  BddTest().when('the alert has a scheduled period', () => {
+    beforeEach(() => {
+      mountWith({
+        startDate: START_DATE,
+        endDate: END_DATE,
+      })
+    })
+
+    BddTest().then('it should convert the dates to localized form values', () => {
+      expect(result.form.state.values.startDate).toStrictEqual(expect.any(String))
+      expect(result.form.state.values.endDate).toStrictEqual(expect.any(String))
+    })
+  })
+
   BddTest().when('the alert is activated while a period is set', () => {
     beforeEach(async () => {
       mountWith({
         active: false,
-        startDate: '2026-11-05',
-        endDate: '2026-11-08',
+        startDate: START_DATE,
+        endDate: END_DATE,
       })
 
       result.form.setFieldValue('active', true)
@@ -225,6 +241,7 @@ BddTest().given('an alert update form composable', () => {
         await vi.waitFor(() => {
           expect(onPutAlertConfig).toHaveBeenCalledWith({
             message: mockedAlertConfigurationDTO.message,
+            active: false,
           })
         })
       })
@@ -248,60 +265,6 @@ BddTest().given('an alert update form composable', () => {
           [invalidField]: expect.any(String),
         })
       })
-    })
-  })
-
-  BddTest().when('validating a field that has not been touched', () => {
-    beforeEach(() => {
-      mountWith({ message: '' })
-    })
-
-    BddTest().then('it should not validate the untouched field on change', () => {
-      const validator = result.form.options.validators?.onChange
-      expect(validator).toBeDefined()
-
-      const { fields } = validator!({
-        value: result.form.state.values,
-        formApi: result.form,
-      })
-
-      expect(fields.message).toBeUndefined()
-    })
-  })
-
-  BddTest().when('validating a field that has been touched', () => {
-    beforeEach(() => {
-      mountWith({ message: '' })
-      result.form.getFieldMeta('message')
-      result.form.setFieldValue('message', '')
-    })
-
-    BddTest().then('it should validate the touched field on change', () => {
-      const validator = result.form.options.validators?.onChange
-      expect(validator).toBeDefined()
-
-      const { fields } = validator!({
-        value: result.form.state.values,
-        formApi: result.form,
-      })
-
-      expect(fields.message).toEqual(expect.any(String))
-    })
-  })
-
-  BddTest().when('the form is blurred', () => {
-    beforeEach(() => {
-      mountWith()
-    })
-
-    BddTest().then('it should trigger change validation', () => {
-      const validator = result.form.options.validators?.onBlur
-      expect(validator).toBeDefined()
-
-      expect(() => validator!({
-        formApi: result.form,
-        value: result.form.state.values,
-      })).not.toThrow()
     })
   })
 

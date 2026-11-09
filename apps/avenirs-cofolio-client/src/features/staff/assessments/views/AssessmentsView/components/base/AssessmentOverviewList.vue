@@ -4,8 +4,8 @@ import type {
   AssessmentTableRow
 } from '@/features/staff/assessments/views/AssessmentsView/components/dataDisplay/AssessmentsList/AssessmentsList.types'
 import { AvButton, AvTable, CUIDA_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useDateUtils } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useDateUtils } from '@/common/composables/use-date-utils/use-date-utils'
 import { ROUTES } from '@/common/constants'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'

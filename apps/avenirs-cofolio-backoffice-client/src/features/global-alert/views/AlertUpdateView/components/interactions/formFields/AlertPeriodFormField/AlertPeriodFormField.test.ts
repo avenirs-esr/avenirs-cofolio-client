@@ -101,7 +101,7 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the picker emits a new start date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:start-date', NEW_START_DATE)
+      getPicker().vm.$emit('update:startDate', NEW_START_DATE)
       await nextTick()
     })
 
@@ -112,7 +112,7 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the picker emits a new end date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:end-date', NEW_END_DATE)
+      getPicker().vm.$emit('update:endDate', NEW_END_DATE)
       await nextTick()
     })
 
@@ -123,8 +123,8 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the picker emits a new period', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:start-date', NEW_START_DATE)
-      getPicker().vm.$emit('update:end-date', NEW_END_DATE)
+      getPicker().vm.$emit('update:startDate', NEW_START_DATE)
+      getPicker().vm.$emit('update:endDate', NEW_END_DATE)
       await nextTick()
     })
 
@@ -138,8 +138,8 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the picker is cleared', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:start-date', '')
-      getPicker().vm.$emit('update:end-date', '')
+      getPicker().vm.$emit('update:startDate', '')
+      getPicker().vm.$emit('update:endDate', '')
       await nextTick()
     })
 
@@ -153,7 +153,7 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the form is submitted without an end date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:end-date', '')
+      getPicker().vm.$emit('update:endDate', '')
       await wrapper.find('form').trigger('submit')
       await flushPromises()
     })
@@ -167,7 +167,7 @@ BddTest().given('an alert period form field', () => {
 
   BddTest().when('the form is submitted without a start date', () => {
     beforeEach(async () => {
-      getPicker().vm.$emit('update:start-date', '')
+      getPicker().vm.$emit('update:startDate', '')
       await wrapper.find('form').trigger('submit')
       await flushPromises()
     })

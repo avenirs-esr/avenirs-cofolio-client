@@ -1,6 +1,6 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { DateArg } from 'date-fns'
-import { formatDateLocalized, formatTimeLocalized, parseDate } from '@avenirs-esr/shared'
+import { formatDateLocalized, formatTimeLocalized, parseDate } from '#shared/utils/date/date'
 import {
   differenceInCalendarDays,
   differenceInHours,

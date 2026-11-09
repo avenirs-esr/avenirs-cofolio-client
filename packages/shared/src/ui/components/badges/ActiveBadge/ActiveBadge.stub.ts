@@ -12,5 +12,6 @@ export const ActiveBadgeStub = defineComponent({
       type: String as PropType<'FEMININE' | 'MASCULINE' | 'NEUTRAL'>,
       required: false,
     }
-  }
+  },
+  template: '<div data-testid="active-badge-stub"></div>'
 })

@@ -179,14 +179,14 @@ export function formatDateToYearLocalized (date: DateArg<Date>, localeCode: AvLo
  *
  * @param value ISO instant string or undefined
  * @param outputFormat Desired output format (default: 'dd/MM/yyyy HH:mm')
- * @returns Formatted date string or empty string if invalid
+ * @returns Formatted date string or undefined if invalid
  */
-export function fromInstant (value: string | undefined, outputFormat = 'dd/MM/yyyy HH:mm'): string {
+export function fromInstant (value: string | undefined, outputFormat = 'dd/MM/yyyy HH:mm'): string | undefined {
   if (!value) {
-    return ''
+    return undefined
   }
   const date = parseISO(value)
-  return isValid(date) ? format(date, outputFormat) : ''
+  return isValid(date) ? format(date, outputFormat) : undefined
 }
 
 /**
@@ -200,5 +200,7 @@ export function toInstant (date: string | undefined): string | undefined {
     return undefined
   }
 
-  return parse(date, 'dd/MM/yyyy HH:mm', new Date()).toISOString()
+  const parsedDate = parse(date, 'dd/MM/yyyy HH:mm', new Date())
+
+  return isValid(parsedDate) ? parsedDate.toISOString() : undefined
 }

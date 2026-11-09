@@ -1,8 +1,9 @@
 import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComputedRef, MaybeRef } from 'vue'
+import { useDateUtils } from '@avenirs-esr/shared'
 import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { toValue } from 'vue'
-import { useDateUtils, useFileValidation } from '@/common/composables'
+import { useFileValidation } from '@/common/composables'
 import { dtoToFile } from '@/common/utils/file/file'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 
