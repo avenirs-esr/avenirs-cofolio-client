@@ -31,6 +31,8 @@ export { default as RichTextEditor } from '#shared/ui/components/interactions/in
 export { ToggleStub } from '#shared/ui/components/interactions/toggles/Toggle/Toggle.stub'
 export type { ToggleProps } from '#shared/ui/components/interactions/toggles/Toggle/Toggle.vue'
 export { default as Toggle } from '#shared/ui/components/interactions/toggles/Toggle/Toggle.vue'
+export { DetailPageTitleStub } from '#shared/ui/components/navigation/DetailPageTitle/DetailPageTitle.stub'
+export { default as DetailPageTitle } from '#shared/ui/components/navigation/DetailPageTitle/DetailPageTitle.vue'
 export { PageTitleStub } from '#shared/ui/components/navigation/PageTitle/PageTitle.stub'
 export { default as PageTitle } from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'
 export type { PageTitleProps } from '#shared/ui/components/navigation/PageTitle/PageTitle.vue'

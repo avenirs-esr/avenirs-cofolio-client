@@ -1,8 +1,9 @@
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
-export const DetailedPageTitleStub = defineComponent({
-  name: 'DetailedPageTitle',
+export const DetailPageTitleStub = defineComponent({
+  name: 'DetailPageTitle',
   props: {
     title: {
       type: String,
@@ -12,7 +13,7 @@ export const DetailedPageTitleStub = defineComponent({
     },
   },
   template: `
-    <div data-testid="detailed-page-title">
+    <div data-testid="detail-page-title">
       <slot name="title" />
       <slot name="actions" />
     </div>

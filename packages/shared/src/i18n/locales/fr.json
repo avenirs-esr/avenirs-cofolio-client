@@ -93,6 +93,29 @@
           }
         }
       },
+      "navigation": {
+        "UpdatePageTitle": {
+          "update": "Modifier"
+        },
+        "SkipLinks": {
+          "ariaLabel": "Accès rapide",
+          "footer": "Aller au pied de page",
+          "main": "Aller au contenu principal"
+        }
+      },
+      "overlay": {
+        "InformationTooltip": {
+          "triggerAriaLabel": "Informations"
+        },
+        "modals": {
+          "ConfirmationModal": {
+            "cancel": "Annuler",
+            "confirm": "Confirmer",
+            "description": "Toutes les modifications non enregistrées seront perdues.",
+            "title": "Êtes-vous sûr de vouloir quitter\u00A0?"
+          }
+        }
+      },
       "QuerySuspense": {
         "defaultEmptyStateMessage": "Aucune donnée à afficher",
         "defaultErrorTitle": "Une erreur est survenue lors du chargement des données"
@@ -186,29 +209,6 @@
     },
     "header": {
       "languageSwitcher": "Changer de langue"
-    },
-    "navigation": {
-      "UpdatePageTitle": {
-        "update": "Modifier"
-      },
-      "SkipLinks": {
-        "ariaLabel": "Accès rapide",
-        "footer": "Aller au pied de page",
-        "main": "Aller au contenu principal"
-      }
-    },
-    "overlay": {
-      "InformationTooltip": {
-        "triggerAriaLabel": "Informations"
-      },
-      "modals": {
-        "ConfirmationModal": {
-          "cancel": "Annuler",
-          "confirm": "Confirmer",
-          "description": "Toutes les modifications non enregistrées seront perdues.",
-          "title": "Êtes-vous sûr de vouloir quitter\u00A0?"
-        }
-      }
     }
   }
 }

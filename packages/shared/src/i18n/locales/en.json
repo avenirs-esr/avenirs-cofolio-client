@@ -93,6 +93,29 @@
           }
         }
       },
+      "navigation": {
+        "UpdatePageTitle": {
+          "update": "Edit"
+        },
+        "SkipLinks": {
+          "ariaLabel": "Quick access",
+          "footer": "Go to footer",
+          "main": "Go to main content"
+        }
+      },
+      "overlay": {
+        "InformationTooltip": {
+          "triggerAriaLabel": "Informations"
+        },
+        "modals": {
+          "ConfirmationModal": {
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "description": "Any unsaved changes will be lost.",
+            "title": "Are you sure you want to exit?"
+          }
+        }
+      },
       "QuerySuspense": {
         "defaultEmptyStateMessage": "No data to display",
         "defaultErrorTitle": "An error occurred while loading data"
@@ -186,29 +209,6 @@
     },
     "header": {
       "languageSwitcher": "Change language"
-    },
-    "navigation": {
-      "UpdatePageTitle": {
-        "update": "Edit"
-      },
-      "SkipLinks": {
-        "ariaLabel": "Quick access",
-        "footer": "Go to footer",
-        "main": "Go to main content"
-      }
-    },
-    "overlay": {
-      "InformationTooltip": {
-        "triggerAriaLabel": "Informations"
-      },
-      "modals": {
-        "ConfirmationModal": {
-          "cancel": "Cancel",
-          "confirm": "Confirm",
-          "description": "Any unsaved changes will be lost.",
-          "title": "Are you sure you want to exit?"
-        }
-      }
     }
   }
 }

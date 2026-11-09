@@ -15,7 +15,7 @@ const { t } = useI18n({ useScope: 'global' })
 <template>
   <AvTooltip
     :content="content"
-    :trigger-aria-label="t('global.overlay.InformationTooltip.triggerAriaLabel')"
+    :trigger-aria-label="t('global.components.overlay.InformationTooltip.triggerAriaLabel')"
     force-focusable
     data-testid="information-tooltip"
   >

@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityViewProps } from '@/features/student/activities/views/ActivityView/ActivityView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, LoaderStub } from '@avenirs-esr/shared'
 import { EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -10,7 +10,6 @@ import { nextTick } from 'vue'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'
@@ -38,7 +37,7 @@ BddTest().given('a project activity view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityView>>
 
   const stubs = {
-    DetailedPageTitle: DetailedPageTitleStub,
+    DetailPageTitle: DetailPageTitleStub,
     Loader: LoaderStub,
     DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
@@ -73,17 +72,17 @@ BddTest().given('a project activity view', () => {
     })
 
     BddTest().then('it should render the page title component', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
       expect(pageTitle.exists()).toBe(true)
     })
 
     BddTest().then('it should pass the correct title', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
       expect(pageTitle.props('title')).toBe('Activité "Connaissance de soi"\u00A0: Définir ses valeurs')
     })
 
     BddTest().then('it should pass the correct breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
       expect(pageTitle.props('trailingLinks')).toHaveLength(2)
     })
 
@@ -253,7 +252,7 @@ BddTest().given('a project activity view', () => {
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(DetailedPageTitleStub).exists()).toBe(false)
+      expect(wrapper.findComponent(DetailPageTitleStub).exists()).toBe(false)
     })
 
     BddTest().then('it should not render the layout', () => {
@@ -286,7 +285,7 @@ BddTest().given('a project activity view', () => {
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(DetailedPageTitleStub).exists()).toBe(false)
+      expect(wrapper.findComponent(DetailPageTitleStub).exists()).toBe(false)
     })
 
     BddTest().then('it should not render the layout', () => {

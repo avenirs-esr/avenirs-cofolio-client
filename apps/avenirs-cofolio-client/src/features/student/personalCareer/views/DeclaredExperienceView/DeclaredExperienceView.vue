@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorCodes, ErrorMessage, ICONS, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { DetailPageTitle, ErrorCodes, ErrorMessage, ICONS, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
@@ -74,7 +73,7 @@ function handleConfirmDelete () {
 </script>
 
 <template>
-  <DetailedPageTitle
+  <DetailPageTitle
     :title="experienceTitle"
     :trailing-links="trailingLinks"
   >
@@ -106,7 +105,7 @@ function handleConfirmDelete () {
         @deleted="closeUnassociateModal"
       />
     </template>
-  </DetailedPageTitle>
+  </DetailPageTitle>
 
   <QuerySuspense
     :error="error"

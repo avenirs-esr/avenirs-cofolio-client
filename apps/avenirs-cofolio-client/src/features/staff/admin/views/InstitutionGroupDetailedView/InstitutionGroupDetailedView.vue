@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { QuerySuspense } from '@avenirs-esr/shared'
+import { DetailPageTitle, QuerySuspense } from '@avenirs-esr/shared'
 import { useGetGroupById, useGetSubGroupsOfGroup } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
 import UsersList from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.vue'
 import GroupMainInfo from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.vue'
@@ -26,7 +25,7 @@ const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
 </script>
 
 <template>
-  <DetailedPageTitle
+  <DetailPageTitle
     :title="group?.name ?? ''"
     :trailing-links="trailingLinks"
   />

@@ -8,11 +8,11 @@ const { t } = useI18n()
 const skipLinks: AvSkipLinksProps['skipLinks'] = [
   {
     id: 'main',
-    label: t('global.navigation.SkipLinks.main'),
+    label: t('global.components.navigation.SkipLinks.main'),
   },
   {
     id: 'footer',
-    label: t('global.navigation.SkipLinks.footer'),
+    label: t('global.components.navigation.SkipLinks.footer'),
   }
 ]
 </script>
@@ -20,6 +20,6 @@ const skipLinks: AvSkipLinksProps['skipLinks'] = [
 <template>
   <AvSkipLinks
     :skip-links="skipLinks"
-    :aria-label="t('global.navigation.SkipLinks.ariaLabel')"
+    :aria-label="t('global.components.navigation.SkipLinks.ariaLabel')"
   />
 </template>

@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ErrorCodes } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, ErrorCodes } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -9,7 +9,6 @@ import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixture
 import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createTraceDetailedHandler, downloadTraceAttachmentErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
@@ -74,7 +73,7 @@ BddTest().given('a student trace view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentTraceView>>
 
   const stubs = {
-    DetailedPageTitle: DetailedPageTitleStub,
+    DetailPageTitle: DetailPageTitleStub,
     AvTabs: AvTabsStub,
     AvTab: AvTabStub,
     TraceSettingsDropdown: TraceSettingsDropdownStub,
@@ -116,8 +115,8 @@ BddTest().given('a student trace view', () => {
   const title = mockedTraceDetailed.title
 
   BddTest().when('the view is mounted', () => {
-    BddTest().then('it should render DetailedPageTitle with correct props', async () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+    BddTest().then('it should render DetailPageTitle with correct props', async () => {
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
       expect(pageTitle.props('trailingLinks')).toHaveLength(1)
@@ -196,7 +195,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should render home breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
       expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
   })

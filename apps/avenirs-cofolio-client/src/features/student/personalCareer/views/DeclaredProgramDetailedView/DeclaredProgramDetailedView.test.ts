@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -12,7 +12,6 @@ import {
   declaredProgramDetailedNotFoundHandler
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
@@ -94,7 +93,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 const stubs = {
-  DetailedPageTitle: DetailedPageTitleStub,
+  DetailPageTitle: DetailPageTitleStub,
   DeclaredProgramDetailed: DeclaredProgramDetailedStub,
   ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
   DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub,
@@ -121,7 +120,7 @@ BddTest().given('a declared program detailed view component', () => {
     })
   }
 
-  const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
+  const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getQuerySuspenseLoader = () => wrapper.find('[data-testid="query-suspense-loading"]')
   const getQuerySuspenseError = () => wrapper.find('[data-testid="query-suspense-error"]')
@@ -164,7 +163,7 @@ BddTest().given('a declared program detailed view component', () => {
       await mountWith()
     })
 
-    BddTest().then('it should render DetailedPageTitle with the program title and trailing links', async () => {
+    BddTest().then('it should render DetailPageTitle with the program title and trailing links', async () => {
       await vi.waitFor(() => {
         expect(getPageTitle().props('title')).toBe('Formation déclarée 1')
         expect(getPageTitle().props('trailingLinks')).toEqual([{ text: 'Formation déclarée 1' }])
@@ -339,7 +338,7 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
-    BddTest().then('it should still render DetailedPageTitle', async () => {
+    BddTest().then('it should still render DetailPageTitle', async () => {
       await vi.waitFor(() => {
         expect(getPageTitle().exists()).toBe(true)
       })

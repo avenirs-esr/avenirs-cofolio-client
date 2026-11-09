@@ -23,7 +23,7 @@ const { isTruncated } = useTextTruncation(titleRef)
   <PageTitle v-bind="$props">
     <template #title>
       <h1 class="av-text-title av-row av-gap-sm av-align-baseline">
-        {{ t('global.navigation.UpdatePageTitle.update') }}
+        {{ t('global.components.navigation.UpdatePageTitle.update') }}
         <AvTooltip
           :disabled="!isTruncated"
           :content="title"

@@ -1,13 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { DetailPageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { GroupsListStub } from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.stub'
 import { UsersListStub } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.stub'
 import { GroupMainInfoStub } from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.stub'
@@ -17,7 +16,7 @@ BddTest().given('an institution group detailed view', () => {
   let wrapper: VueWrapper<InstanceType<typeof InstitutionGroupDetailedView>>
 
   const stubs = {
-    DetailedPageTitle: DetailedPageTitleStub,
+    DetailPageTitle: DetailPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     GroupMainInfo: GroupMainInfoStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
@@ -34,7 +33,7 @@ BddTest().given('an institution group detailed view', () => {
     await flushPromises()
   }
 
-  const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
+  const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getGroupMainInfo = () => wrapper.findComponent(GroupMainInfoStub)
   const getSections = () => wrapper.findAllComponents(IconTitleCardContainerStub)
