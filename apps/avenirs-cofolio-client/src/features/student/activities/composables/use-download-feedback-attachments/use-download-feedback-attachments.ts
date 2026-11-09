@@ -1,8 +1,8 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { useApiErrors } from '@avenirs-esr/shared'
+import { useDownloadFeedbackAttachment } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useDownloadFeedbackAttachment } from '@/api/avenir-esr'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useToasterStore } from '@/store'
 

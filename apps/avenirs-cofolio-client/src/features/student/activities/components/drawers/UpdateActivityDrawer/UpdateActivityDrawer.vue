@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { startOfDay } from 'date-fns'

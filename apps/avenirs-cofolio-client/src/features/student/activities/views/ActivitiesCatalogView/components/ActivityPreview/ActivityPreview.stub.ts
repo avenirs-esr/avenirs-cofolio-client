@@ -1,4 +1,4 @@
-import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const ActivityPreviewStub = defineComponent({
   name: 'ActivityPreviewStub',

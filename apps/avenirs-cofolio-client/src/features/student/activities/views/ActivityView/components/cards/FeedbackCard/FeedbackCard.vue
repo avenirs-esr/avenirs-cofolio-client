@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS } from '@avenirs-esr/shared'
 import { format } from 'date-fns'

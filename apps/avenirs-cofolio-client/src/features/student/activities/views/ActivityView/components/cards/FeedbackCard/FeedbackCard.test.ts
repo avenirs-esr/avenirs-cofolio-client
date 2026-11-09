@@ -1,10 +1,10 @@
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub, ICONS } from '@avenirs-esr/shared'
+import { EFeedbackStatus, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { EFeedbackStatus, EFileType } from '@/api/avenir-esr'
 import { FeedbackAttachmentsPillListStub } from '@/features/student/activities/components/lists/FeedbackAttachmentsPillList/FeedbackAttachmentsPillList.stub'
 import FeedbackCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackCard/FeedbackCard.vue'
 

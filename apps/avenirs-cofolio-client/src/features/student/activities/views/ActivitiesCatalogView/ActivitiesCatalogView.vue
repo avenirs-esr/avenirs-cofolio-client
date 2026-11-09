@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { PageTitle, QuerySuspense } from '@avenirs-esr/shared'
+import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'

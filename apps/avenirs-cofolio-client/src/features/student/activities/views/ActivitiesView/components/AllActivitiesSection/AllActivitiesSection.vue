@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
-import type { GetActivitiesViewParams } from '@/api/avenir-esr'
+import type { GetActivitiesViewParams } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, AvTagPicker, MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { Loader, QuerySuspense } from '@avenirs-esr/shared'
+import { EActivityThematic, useGetActivitiesView } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EActivityThematic, useGetActivitiesView } from '@/api/avenir-esr'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'

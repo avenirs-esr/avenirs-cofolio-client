@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
 import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 import {
   EActivityStatus,
   invalidateGetActivitiesView,
@@ -11,7 +9,9 @@ import {
   invalidateGetDeclaredActivityDetails,
   useGetDeclaredActivityDetails,
   useUnsubscribeActivitiesProgresses
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { hasPendingFeedback as computeHasPendingFeedback } from '@/common/activities/rules/activities.rules'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'

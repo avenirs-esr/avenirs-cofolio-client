@@ -1,6 +1,5 @@
+import type { EDeclaredActivityStatus, EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EFeedbackStatus } from '@/api/avenir-esr'
-import type { EDeclaredActivityStatus } from '@/api/avenir-esr/generated/types/eDeclaredActivityStatus'
 
 export const MyPerspectiveCardStub = defineComponent({
   name: 'MyPerspectiveCard',

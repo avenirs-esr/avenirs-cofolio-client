@@ -1,4 +1,4 @@
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const ActivityDetailsStub = defineComponent({
   name: 'ActivityDetailsStub',

@@ -1,4 +1,4 @@
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const ActivityLibraryCardStub = defineComponent({
   name: 'LibraryActivityCard',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvFilePill } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useDownloadFeedbackAttachments } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'

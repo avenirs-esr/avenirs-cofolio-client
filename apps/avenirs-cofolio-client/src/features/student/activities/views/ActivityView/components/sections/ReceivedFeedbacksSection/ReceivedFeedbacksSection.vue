@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import FeedbackCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackCard/FeedbackCard.vue'
 
 export interface ReceivedFeedbacksSectionProps {

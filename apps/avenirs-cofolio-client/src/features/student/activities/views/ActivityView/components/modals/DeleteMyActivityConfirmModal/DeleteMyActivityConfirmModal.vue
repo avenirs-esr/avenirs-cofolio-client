@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@avenirs-esr/shared'
 import { ConfirmationModal, useApiErrors } from '@avenirs-esr/shared'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 import {
   EActivityStatus,
   getGetDeclaredActivityDetailsQueryKey,
@@ -10,7 +8,9 @@ import {
   invalidateGetActivityPresentation,
   invalidateGetDeclaredActivitiesView,
   useDeleteActivity,
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

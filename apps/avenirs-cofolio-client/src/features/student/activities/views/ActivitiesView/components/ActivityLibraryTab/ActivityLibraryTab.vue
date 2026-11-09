@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { GetDeclaredActivitiesViewParams } from '@/api/avenir-esr'
+import type { GetDeclaredActivitiesViewParams } from '@avenirs-esr/shared/api/avenir-esr'
 import type { DeclaredActivityFilters } from '@/features/student/activities/types/declared-activities.types'
 import { AvIconText, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense, useModal } from '@avenirs-esr/shared'
+import { useGetDeclaredActivitiesView } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'

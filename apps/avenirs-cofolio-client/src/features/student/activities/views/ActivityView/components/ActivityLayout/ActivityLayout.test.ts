@@ -1,19 +1,19 @@
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type {
   SectionNavigationItem,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
-import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import { flushPromises } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 import {
   EActivityStatus,
   EActivityThematic,
   EDeclaredActivityStatus,
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
+import { flushPromises } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   SectionNavigationLayoutStub,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'

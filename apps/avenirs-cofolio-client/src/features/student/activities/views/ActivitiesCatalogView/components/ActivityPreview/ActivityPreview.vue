@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, useModal } from '@avenirs-esr/shared'
+import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { isActivitySubscribed } from '@/common/activities/rules/activities.rules'

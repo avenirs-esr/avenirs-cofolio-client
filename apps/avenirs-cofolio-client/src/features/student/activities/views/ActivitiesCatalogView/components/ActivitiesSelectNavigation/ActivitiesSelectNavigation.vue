@@ -2,8 +2,8 @@
 import type { AvSelectModelValue, AvSelectOptionGroup } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect, getAvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { Loader } from '@avenirs-esr/shared'
+import { EActivityThematic, useGetActivityNavigation } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
 

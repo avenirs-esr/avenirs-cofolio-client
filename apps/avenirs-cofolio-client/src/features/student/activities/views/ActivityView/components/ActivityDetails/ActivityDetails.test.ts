@@ -1,5 +1,5 @@
+import type { ReceivedAssessmentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import type { ActivityDetailsProps } from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub, ICONS } from '@avenirs-esr/shared'
