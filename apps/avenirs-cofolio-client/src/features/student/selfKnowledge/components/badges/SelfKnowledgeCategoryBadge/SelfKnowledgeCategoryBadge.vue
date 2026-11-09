@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AddSelfKnowledgeCategoryElementForm, UpdateSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'

@@ -1,8 +1,8 @@
-import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeCategoryDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 
 BddTest().given('a self knowledge store', () => {

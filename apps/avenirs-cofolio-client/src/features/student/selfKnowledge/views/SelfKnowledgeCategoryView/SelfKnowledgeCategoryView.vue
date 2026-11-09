@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, ErrorCodes, ErrorMessage, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'

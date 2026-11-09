@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useApiErrors } from '@avenirs-esr/shared'
+import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

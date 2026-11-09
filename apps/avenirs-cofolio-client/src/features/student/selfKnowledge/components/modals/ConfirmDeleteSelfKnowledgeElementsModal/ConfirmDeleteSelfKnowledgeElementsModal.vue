@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ConfirmationModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 

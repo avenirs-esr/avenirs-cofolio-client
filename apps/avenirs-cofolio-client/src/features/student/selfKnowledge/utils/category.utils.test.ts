@@ -1,4 +1,4 @@
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { CATEGORY_ICON_MAP, getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
