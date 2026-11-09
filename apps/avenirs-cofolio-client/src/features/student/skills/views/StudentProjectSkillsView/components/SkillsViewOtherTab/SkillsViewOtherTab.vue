@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { QuerySuspense, useBaseApiExceptionToast } from '@avenirs-esr/shared'
-import { useGetSkillProgresses } from '@/api/avenir-esr'
+import { useGetSkillProgresses } from '@avenirs-esr/shared/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { usePagination } from '@/common/composables'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills'
