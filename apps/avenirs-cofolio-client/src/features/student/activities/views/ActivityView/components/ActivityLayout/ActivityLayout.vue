@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

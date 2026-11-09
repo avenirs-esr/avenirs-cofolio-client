@@ -1,5 +1,5 @@
+import type { ReceivedAssessmentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvCardStub, AvIconTextStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub, ICONS } from '@avenirs-esr/shared'

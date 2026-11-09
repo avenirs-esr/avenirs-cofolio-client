@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { useApiErrors } from '@avenirs-esr/shared'
+import { EErrorCode, invalidateGetSelfKnowledgeElementDetails, invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useUpdateSelfKnowledgeElement } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EErrorCode, invalidateGetSelfKnowledgeElementDetails, invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import TitleDescriptionNodeTemplate from '@/common/components/base/VueFlow/TitleDescriptionNodeTemplate/TitleDescriptionNodeTemplate.vue'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'

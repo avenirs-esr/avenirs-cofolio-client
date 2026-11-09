@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { useApiErrors } from '@avenirs-esr/shared'
+import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish, useSubmitForAssessment } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish, useSubmitForAssessment } from '@/api/avenir-esr'
 import { isAssessmentEnabled, isDeclaredActivitySubmittedForAssessment } from '@/common/activities/rules/activities.rules'
 import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activity-feedbacks.rules'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'

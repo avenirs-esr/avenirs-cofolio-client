@@ -1,5 +1,5 @@
+import type { ReceivedAssessmentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 
 export const ReceivedAssessmentSectionStub = defineComponent({
   name: 'ReceivedAssessmentSection',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Loader, useModal } from '@avenirs-esr/shared'
+import { EAssociationContextType, useGetDeclaredActivityDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useDrawer, useNavigation } from '@/common/composables'

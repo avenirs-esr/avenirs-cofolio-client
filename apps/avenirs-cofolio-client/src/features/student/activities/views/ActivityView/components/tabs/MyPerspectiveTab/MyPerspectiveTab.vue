@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import MyPerspectiveCard from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import PerspectiveTabActions

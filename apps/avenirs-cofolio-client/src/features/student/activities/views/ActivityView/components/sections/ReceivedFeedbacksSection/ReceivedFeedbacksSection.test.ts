@@ -1,10 +1,10 @@
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import { FeedbackCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackCard/FeedbackCard.stub'
 import ReceivedFeedbacksSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedFeedbacksSection/ReceivedFeedbacksSection.vue'
 

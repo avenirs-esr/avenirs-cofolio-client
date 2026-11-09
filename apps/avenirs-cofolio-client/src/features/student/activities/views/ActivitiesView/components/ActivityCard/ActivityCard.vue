@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IconOptions } from '@avenirs-esr/shared'
-import type { ActivityOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { FloatingIconCard, ICONS } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'

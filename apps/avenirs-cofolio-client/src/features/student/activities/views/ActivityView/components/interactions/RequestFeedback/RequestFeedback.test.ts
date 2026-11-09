@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import RequestFeedback from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.vue'
 
 BddTest().given('a RequestFeedback component', () => {

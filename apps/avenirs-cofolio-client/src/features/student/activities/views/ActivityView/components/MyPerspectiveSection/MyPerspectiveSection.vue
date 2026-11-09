@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType, useGetAssociations } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
 import { shouldDisplayTraceLimit } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
