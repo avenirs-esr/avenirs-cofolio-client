@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import type { EAssociationContextType } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

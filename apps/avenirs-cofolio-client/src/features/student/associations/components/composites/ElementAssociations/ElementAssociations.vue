@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { AssociationsDTO, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

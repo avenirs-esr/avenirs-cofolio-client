@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvBadgeProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { SkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

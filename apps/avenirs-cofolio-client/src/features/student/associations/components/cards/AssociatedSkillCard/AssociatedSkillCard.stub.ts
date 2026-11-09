@@ -1,5 +1,5 @@
+import type { SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const AssociatedSkillCardStub = defineComponent({

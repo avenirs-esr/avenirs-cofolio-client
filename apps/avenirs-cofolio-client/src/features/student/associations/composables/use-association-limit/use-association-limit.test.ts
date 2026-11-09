@@ -1,11 +1,12 @@
+import type { AssociationLimitDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { QueryClient } from '@tanstack/vue-query'
-import type { AssociationLimitDTO } from '@/api/avenir-esr'
 import type {
   AssociationLimitState,
   UseAssociationLimitOptions,
   UseAssociationLimitsOptions,
 } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -16,7 +17,6 @@ import { createMockedAssociationLimits } from '@/__mocks__/fixtures/student/asso
 import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createGetAssociationLimitsHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { useAssociationLimit, useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 

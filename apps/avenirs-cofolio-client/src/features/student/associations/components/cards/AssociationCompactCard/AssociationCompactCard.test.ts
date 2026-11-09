@@ -2,9 +2,9 @@ import type { AssociationCompactCardProps } from '@/features/student/association
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
+import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 

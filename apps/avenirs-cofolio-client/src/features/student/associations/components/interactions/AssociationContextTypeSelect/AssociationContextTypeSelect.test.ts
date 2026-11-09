@@ -1,8 +1,8 @@
 import type { AssociationContextTypeSelectProps } from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociationContextTypeSelect from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.vue'
 
 const stubs = {

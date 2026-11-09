@@ -1,6 +1,6 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { AssociationsDTO, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { QueryKey } from '@tanstack/vue-query'
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
 
 /**

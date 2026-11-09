@@ -1,6 +1,6 @@
-import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationContextConfig } from '@/features/student/associations/types/associations.types'
-import { EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
 
 /**

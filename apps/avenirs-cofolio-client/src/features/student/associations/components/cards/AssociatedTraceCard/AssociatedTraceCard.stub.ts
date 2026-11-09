@@ -1,4 +1,4 @@
-import type { TraceAssociationDTO } from '@/api/avenir-esr'
+import type { TraceAssociationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const AssociatedTraceCardStub = defineComponent({
