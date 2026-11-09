@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { useGetDeclaredActivitiesView, useGetLatestActivitiesView } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetDeclaredActivitiesView, useGetLatestActivitiesView } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { ROUTES } from '@/common/constants'
 import { ActivitiesTab } from '@/features/student/global/types/activities.types'

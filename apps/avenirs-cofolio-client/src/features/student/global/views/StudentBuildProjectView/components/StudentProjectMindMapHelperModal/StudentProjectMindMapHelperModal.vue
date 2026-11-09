@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvModal, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
+import { useGetBuildLifeProjectConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetBuildLifeProjectConfig } from '@/api/avenir-esr'
 
 const {
   opened,
