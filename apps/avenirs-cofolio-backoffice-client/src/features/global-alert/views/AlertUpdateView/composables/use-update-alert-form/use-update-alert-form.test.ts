@@ -26,14 +26,14 @@ const SENT_VALUES_CASES = [
   {
     description: 'an active alert',
     values: {
-      active: true
+      active: true,
     },
   },
   {
     description: 'a scheduled alert',
     values: {
       startDate: '2026-11-05',
-      endDate: '2026-11-08'
+      endDate: '2026-11-08',
     },
   },
 ]
@@ -42,14 +42,14 @@ const OMITTED_VALUES_CASES = [
   {
     description: 'an inactive alert',
     values: {
-      active: false
+      active: false,
     },
   },
   {
     description: 'an alert with emptied dates',
     values: {
       startDate: '',
-      endDate: ''
+      endDate: '',
     },
   },
 ]
@@ -58,21 +58,21 @@ const INVALID_CASES = [
   {
     description: 'an empty message',
     values: {
-      message: ''
+      message: '',
     },
     invalidField: 'message',
   },
   {
     description: 'a start date without end date',
     values: {
-      startDate: '2026-11-05'
+      startDate: '2026-11-05',
     },
     invalidField: 'endDate',
   },
   {
     description: 'an end date without start date',
     values: {
-      endDate: '2026-11-08'
+      endDate: '2026-11-08',
     },
     invalidField: 'startDate',
   },
@@ -85,6 +85,7 @@ BddTest().given('an alert update form composable', () => {
 
   const mountWith = (values: Partial<AlertConfigurationDTO> = {}) => {
     const alert = { ...mockedAlertConfigurationDTO, ...values }
+
     result = mountComposable(() => useUpdateAlertForm(alert, onAlertUpdated), {
       useI18n: true,
       usePinia: true,
@@ -113,8 +114,24 @@ BddTest().given('an alert update form composable', () => {
       mountWith()
     })
 
+    BddTest().then('it should initialize its values from the alert configuration', () => {
+      expect(result.form.state.values).toMatchObject({
+        ...mockedAlertConfigurationDTO,
+        startDate: expect.any(String),
+        endDate: expect.any(String),
+      })
+    })
+
     BddTest().then('it should not be valid until a value changes', () => {
       expect(result.isFormValid.value).toBe(false)
+    })
+
+    BddTest().then('it should not be submitting', () => {
+      expect(result.isSubmitting.value).toBe(false)
+    })
+
+    BddTest().then('it should expose the alert active state', () => {
+      expect(result.isActive.value).toBe(Boolean(mockedAlertConfigurationDTO.active))
     })
   })
 
@@ -131,13 +148,57 @@ BddTest().given('an alert update form composable', () => {
 
   BddTest().when('the alert is activated while a period is set', () => {
     beforeEach(async () => {
-      mountWith({ startDate: '2026-11-05', endDate: '2026-11-08' })
+      mountWith({
+        active: false,
+        startDate: '2026-11-05',
+        endDate: '2026-11-08',
+      })
+
       result.form.setFieldValue('active', true)
       await flushPromises()
     })
 
     BddTest().then('it should clear the period', () => {
-      expect(result.form.state.values).toMatchObject({ startDate: undefined, endDate: undefined })
+      expect(result.form.state.values).toMatchObject({
+        startDate: undefined,
+        endDate: undefined,
+      })
+    })
+  })
+
+  BddTest().when('the alert is activated without a period', () => {
+    beforeEach(async () => {
+      mountWith({
+        active: false,
+        startDate: undefined,
+        endDate: undefined,
+      })
+
+      result.form.setFieldValue('active', true)
+      await flushPromises()
+    })
+
+    BddTest().then('it should keep the dates empty', () => {
+      expect(result.form.state.values.startDate).toBeUndefined()
+      expect(result.form.state.values.endDate).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the alert is deactivated while a period is set', () => {
+    beforeEach(async () => {
+      mountWith({
+        active: true,
+        startDate: undefined,
+        endDate: undefined,
+      })
+
+      result.form.setFieldValue('active', false)
+      await flushPromises()
+    })
+
+    BddTest().then('it should not modify the dates', () => {
+      expect(result.form.state.values.startDate).toBeUndefined()
+      expect(result.form.state.values.endDate).toBeUndefined()
     })
   })
 
@@ -147,7 +208,10 @@ BddTest().given('an alert update form composable', () => {
 
       BddTest().then('it should send these values along with the message', async () => {
         await vi.waitFor(() => {
-          expect(onPutAlertConfig).toHaveBeenCalledWith({ message: mockedAlertConfigurationDTO.message, ...values })
+          expect(onPutAlertConfig).toHaveBeenCalledWith({
+            message: mockedAlertConfigurationDTO.message,
+            ...values,
+          })
         })
       })
     })
@@ -159,7 +223,9 @@ BddTest().given('an alert update form composable', () => {
 
       BddTest().then('it should only send the message', async () => {
         await vi.waitFor(() => {
-          expect(onPutAlertConfig).toHaveBeenCalledWith({ message: mockedAlertConfigurationDTO.message })
+          expect(onPutAlertConfig).toHaveBeenCalledWith({
+            message: mockedAlertConfigurationDTO.message,
+          })
         })
       })
     })
@@ -173,9 +239,69 @@ BddTest().given('an alert update form composable', () => {
 
       BddTest().then(`it should only flag the ${invalidField} field`, () => {
         const validate = getOnSubmitValidator()
-        const { fields } = validate({ value: result.form.state.values, formApi: result.form })
-        expect(fields).toEqual({ [invalidField]: expect.any(String) })
+        const { fields } = validate({
+          value: result.form.state.values,
+          formApi: result.form,
+        })
+
+        expect(fields).toEqual({
+          [invalidField]: expect.any(String),
+        })
       })
+    })
+  })
+
+  BddTest().when('validating a field that has not been touched', () => {
+    beforeEach(() => {
+      mountWith({ message: '' })
+    })
+
+    BddTest().then('it should not validate the untouched field on change', () => {
+      const validator = result.form.options.validators?.onChange
+      expect(validator).toBeDefined()
+
+      const { fields } = validator!({
+        value: result.form.state.values,
+        formApi: result.form,
+      })
+
+      expect(fields.message).toBeUndefined()
+    })
+  })
+
+  BddTest().when('validating a field that has been touched', () => {
+    beforeEach(() => {
+      mountWith({ message: '' })
+      result.form.getFieldMeta('message')
+      result.form.setFieldValue('message', '')
+    })
+
+    BddTest().then('it should validate the touched field on change', () => {
+      const validator = result.form.options.validators?.onChange
+      expect(validator).toBeDefined()
+
+      const { fields } = validator!({
+        value: result.form.state.values,
+        formApi: result.form,
+      })
+
+      expect(fields.message).toEqual(expect.any(String))
+    })
+  })
+
+  BddTest().when('the form is blurred', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should trigger change validation', () => {
+      const validator = result.form.options.validators?.onBlur
+      expect(validator).toBeDefined()
+
+      expect(() => validator!({
+        formApi: result.form,
+        value: result.form.state.values,
+      })).not.toThrow()
     })
   })
 
@@ -184,7 +310,10 @@ BddTest().given('an alert update form composable', () => {
 
     BddTest().then('it should display a success message', async () => {
       await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalledWith(expect.objectContaining({ description: SUCCESS_MESSAGE }))
+        expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+          timeout: 2000,
+          description: SUCCESS_MESSAGE,
+        })
       })
     })
 
@@ -203,7 +332,10 @@ BddTest().given('an alert update form composable', () => {
 
     BddTest().then('it should display an error message', async () => {
       await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith(expect.objectContaining({ title: ERROR_TITLE }))
+        expect(mockAddErrorMessage).toHaveBeenCalledWith(expect.objectContaining({
+          title: ERROR_TITLE,
+          description: expect.any(String),
+        }))
       })
     })
 
@@ -211,6 +343,7 @@ BddTest().given('an alert update form composable', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalled()
       })
+
       expect(onAlertUpdated).not.toHaveBeenCalled()
     })
   })

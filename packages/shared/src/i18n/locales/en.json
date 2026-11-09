@@ -16,6 +16,20 @@
       }
     },
     "components": {
+      "badges": {
+        "ActiveBadge": {
+          "active": {
+            "FEMININE": "Active | Actives",
+            "MASCULINE": "Active | Actives",
+            "NEUTRAL": "Active | Actives"
+          },
+          "inactive": {
+            "FEMININE": "Inactive | Inactives",
+            "MASCULINE": "Inactive | Inactives",
+            "NEUTRAL": "Inactive | Inactives"
+          }
+        }
+      },
       "cards": {
         "Card": {
           "collapse": "Collapse",
@@ -36,6 +50,7 @@
             "ongoing": "Ongoing",
             "period": "Period",
             "periodPlaceholder": {
+              "datetime-local": "DD/MM/YYYY HH:mm - DD/MM/YYYY HH:mm",
               "fullDate": "DD/MM/YYYY - DD/MM/YYYY",
               "monthYear": "MM/YYYY - MM/YYYY"
             }

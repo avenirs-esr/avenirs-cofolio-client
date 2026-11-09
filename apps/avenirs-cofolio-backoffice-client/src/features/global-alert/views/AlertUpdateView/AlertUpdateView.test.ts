@@ -23,8 +23,10 @@ const mockCloseModal = vi.fn()
 let mockGuardIsDirty: Ref<boolean>
 const mockConfirm = vi.fn()
 const mockCancel = vi.fn()
+
 const mockUseUnsavedChangesGuard = vi.fn((options: { isDirty: Ref<boolean> }) => {
   mockGuardIsDirty = options.isDirty
+
   return {
     confirm: mockConfirm,
     cancel: mockCancel,
@@ -33,6 +35,7 @@ const mockUseUnsavedChangesGuard = vi.fn((options: { isDirty: Ref<boolean> }) =>
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
+
   return {
     ...actual,
     useRouter: () => ({
@@ -43,6 +46,7 @@ vi.mock('vue-router', async (importOriginal) => {
 
 vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+
   return {
     ...actual,
     useModal: () => ({
@@ -73,6 +77,7 @@ BddTest().given('an AlertUpdateView view', () => {
     wrapper = mountComponent(AlertUpdateView, {
       global: { stubs },
     })
+
     await vi.waitFor(() => {
       expect(getQuerySuspense().props('isLoading')).toBe(false)
     })
@@ -96,15 +101,15 @@ BddTest().given('an AlertUpdateView view', () => {
       expect(getPageTitle().props()).toMatchObject({
         title: TITLE,
         trailingLinks: [{
-          text: TITLE
-        }]
+          text: TITLE,
+        }],
       })
     })
 
     BddTest().then('it should render QuerySuspense with the query state', () => {
       expect(getQuerySuspense().props()).toMatchObject({
         isLoading: false,
-        error: null
+        error: null,
       })
     })
 
@@ -112,17 +117,18 @@ BddTest().given('an AlertUpdateView view', () => {
       expect(getForm().props('alert')).toEqual(mockedAlertConfigurationDTO)
     })
 
-    BddTest().then('it should connect the guard to the confirmation modal', () => {
+    BddTest().then('it should connect the unsaved changes guard to the confirmation modal', () => {
       expect(mockUseUnsavedChangesGuard).toHaveBeenCalledWith(expect.objectContaining({
+        isDirty: expect.any(Object),
         openModal: mockOpenModal,
-        closeModal: mockCloseModal
+        closeModal: mockCloseModal,
       }))
     })
 
     BddTest().then('it should render the confirmation modal closed by default', () => {
       expect(getConfirmationModal().props()).toMatchObject({
         opened: false,
-        description: GUARD_DESCRIPTION
+        description: GUARD_DESCRIPTION,
       })
     })
 
@@ -133,6 +139,16 @@ BddTest().given('an AlertUpdateView view', () => {
 
       BddTest().then('it should guard the unsaved changes', () => {
         expect(mockGuardIsDirty.value).toBe(true)
+      })
+    })
+
+    BddTest().and('the form becomes pristine', () => {
+      beforeEach(() => {
+        getForm().vm.$emit('dirtyChange', false)
+      })
+
+      BddTest().then('it should release the guard', () => {
+        expect(mockGuardIsDirty.value).toBe(false)
       })
     })
 
@@ -172,6 +188,19 @@ BddTest().given('an AlertUpdateView view', () => {
       })
     })
 
+    BddTest().and('the modal is closed', () => {
+      beforeEach(async () => {
+        mockModalOpened.value = true
+        await flushPromises()
+        mockModalOpened.value = false
+        await flushPromises()
+      })
+
+      BddTest().then('it should hide the confirmation modal', () => {
+        expect(getConfirmationModal().props('opened')).toBe(false)
+      })
+    })
+
     BddTest().and('the confirmation modal is confirmed', () => {
       beforeEach(() => {
         getConfirmationModal().vm.$emit('confirm')
@@ -182,7 +211,7 @@ BddTest().given('an AlertUpdateView view', () => {
       })
     })
 
-    BddTest().and('the confirmation modal is closed', () => {
+    BddTest().and('the confirmation modal is closed by the user', () => {
       beforeEach(() => {
         getConfirmationModal().vm.$emit('close')
       })

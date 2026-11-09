@@ -12,10 +12,7 @@ const { data: alert, isLoading, error } = useGetAlertConfig()
 const isDirty = ref(false)
 const { confirm, cancel } = useUnsavedChangesGuard({ isDirty, openModal, closeModal })
 
-const title = computed(() => t('global-alert.views.AlertUpdateView.title'))
-const trailingLinks = computed(() => [
-  { text: title.value }
-])
+const title = computed(() => t('global-alert.entityName'))
 
 function navigateBack () {
   router.back()
@@ -32,10 +29,7 @@ function handleAlertUpdated () {
 </script>
 
 <template>
-  <UpdatePageTitle
-    :title
-    :trailing-links
-  />
+  <UpdatePageTitle :title="title" />
 
   <div class="av-col av-gap-sm">
     <QuerySuspense

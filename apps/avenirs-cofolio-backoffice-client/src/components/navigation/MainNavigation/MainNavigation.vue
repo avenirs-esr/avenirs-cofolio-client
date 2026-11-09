@@ -32,6 +32,13 @@ const navItems = computed(() => [
     icon: MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE,
     highlight: isRouteActive({ route, routes: termsOfServiceRoutes }),
   },
+  {
+    id: 'nav-global-alert',
+    to: ROUTES.GLOBAL_ALERT.DETAILS,
+    text: t('global.MainNavigation.globalAlert').toUpperCase(),
+    icon: MDI_ICONS.ALERT_OUTLINE,
+    highlight: isRouteActive({ route, routes: [ROUTES.GLOBAL_ALERT.DETAILS, ROUTES.GLOBAL_ALERT.UPDATE] }),
+  }
 ])
 </script>
 

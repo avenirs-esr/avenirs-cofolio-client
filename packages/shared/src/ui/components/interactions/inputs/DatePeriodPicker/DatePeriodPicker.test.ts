@@ -95,6 +95,19 @@ BddTest().given('a date period picker', () => {
     })
   })
 
+  BddTest().when('it is mounted with datetime-local type', () => {
+    beforeEach(() => {
+      mountDatePeriodPicker({ type: 'datetime-local' }, {
+        endDate: '2025-03-01T15:30:00',
+        startDate: '2024-02-01T10:00:00',
+      })
+    })
+
+    BddTest().then('it should configure a datetime picker', () => {
+      expect(getDatePicker().props('type')).toBe('datetime-local')
+    })
+  })
+
   BddTest().when('the date picker emits a complete month range', () => {
     beforeEach(() => {
       mountDatePeriodPicker()

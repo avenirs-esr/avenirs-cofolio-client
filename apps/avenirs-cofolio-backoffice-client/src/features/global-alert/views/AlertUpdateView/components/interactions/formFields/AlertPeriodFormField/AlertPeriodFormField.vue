@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AlertUpdateForm } from '@/features/global-alert/views/AlertUpdateView/composables/use-update-alert-form/use-update-alert-form'
 import { DatePeriodPicker } from '@avenirs-esr/shared'
+import { useI18n } from 'vue-i18n'
 
 export interface AlertPeriodFormFieldProps {
   form: AlertUpdateForm
@@ -8,6 +9,8 @@ export interface AlertPeriodFormFieldProps {
 }
 
 const { form, disabled } = defineProps<AlertPeriodFormFieldProps>()
+
+const { t } = useI18n()
 
 const startDateField = form.useField({ name: 'startDate' })
 const endDateField = form.useField({ name: 'endDate' })
@@ -23,8 +26,12 @@ function handleEndDateChange (value?: string) {
 
 <template>
   <DatePeriodPicker
-    type="date"
+    type="datetime-local"
+    input-format="dd/MM/yyyy HH:mm"
+    output-format="dd/MM/yyyy HH:mm"
     :disabled
+    :label="t('global-alert.views.AlertUpdateView.components.AlertPeriod')"
+    label-visible
     :show-ongoing="false"
     :start-date="startDateField.state.value.value ?? ''"
     :end-date="endDateField.state.value.value"

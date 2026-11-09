@@ -24,9 +24,9 @@ export function toOutputValue (value: AvDatePickerModel, type: DatePeriodPickerT
     return date ? format(date, outputFormat) : ''
   }
 
-  return type === 'date' && isDate(value) ? format(value, outputFormat) : ''
+  return (type === 'date' || type === 'datetime-local') && isDate(value) ? format(value, outputFormat) : ''
 }
 
 export function getDatePlaceholderKey (type: DatePeriodPickerType): string {
-  return `global.components.interactions.inputs.DatePeriodPicker.periodPlaceholder.${type === 'month' ? 'monthYear' : 'fullDate'}`
+  return `global.components.interactions.inputs.DatePeriodPicker.periodPlaceholder.${type === 'month' ? 'monthYear' : type === 'datetime-local' ? 'datetime-local' : 'fullDate'}`
 }

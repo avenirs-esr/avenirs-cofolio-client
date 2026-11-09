@@ -1,3 +1,6 @@
+export { ActiveBadgeStub } from '#shared/ui/components/badges/ActiveBadge/ActiveBadge.stub'
+export type { ActiveBadgeProps } from '#shared/ui/components/badges/ActiveBadge/ActiveBadge.vue'
+export { default as ActiveBadge } from '#shared/ui/components/badges/ActiveBadge/ActiveBadge.vue'
 export { CardStub } from '#shared/ui/components/cards/Card/Card.stub'
 export { default as Card } from '#shared/ui/components/cards/Card/Card.vue'
 export type { CardProps } from '#shared/ui/components/cards/Card/Card.vue'
