@@ -1,10 +1,10 @@
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType, ESkillLevel, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, ESkillLevel, ESkillReferentialType } from '@/api/avenir-esr'
 import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 
 interface AssociationRequest {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
+import { ESkillLevel, useGetAdditionalSkillConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { ESkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 

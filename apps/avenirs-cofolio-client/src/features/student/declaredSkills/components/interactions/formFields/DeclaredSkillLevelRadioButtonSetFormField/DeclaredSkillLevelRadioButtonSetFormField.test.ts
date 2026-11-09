@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ESkillLevel } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { ESkillLevel } from '@/api/avenir-esr'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 
 const TestWrapper = {
