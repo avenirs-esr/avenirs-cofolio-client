@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { ESelfKnowledgeCategory, useGetSelfKnowledgeElements } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { ESelfKnowledgeCategory, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'

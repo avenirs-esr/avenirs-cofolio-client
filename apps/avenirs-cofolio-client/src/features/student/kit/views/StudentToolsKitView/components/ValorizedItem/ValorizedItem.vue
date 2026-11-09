@@ -2,8 +2,8 @@
 import type { Slot } from 'vue'
 import type { ValorizedElementType } from '@/features/student/kit/types/valorized.types'
 import { AvButton, AvTooltip, CUIDA_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { ESelfKnowledgeCategory, useGetSelfKnowledgeCategories } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { ESelfKnowledgeCategory, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 

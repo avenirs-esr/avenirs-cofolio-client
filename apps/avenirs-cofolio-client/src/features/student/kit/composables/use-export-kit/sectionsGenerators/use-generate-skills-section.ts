@@ -1,7 +1,7 @@
-import type { SkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { ESkillLevel, useGetAdditionalSkillConfig, useGetSkillProgresses } from '@avenirs-esr/shared/api/avenir-esr'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
-import { ESkillLevel, useGetAdditionalSkillConfig, useGetSkillProgresses } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils/type-guards/type-guards'
 
 export function useGenerateSkillsSection () {

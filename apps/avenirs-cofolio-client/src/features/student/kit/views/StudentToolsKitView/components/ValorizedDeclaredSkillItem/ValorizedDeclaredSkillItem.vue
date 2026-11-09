@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { DeclaredSkillLevelBadge, DeclaredSkillTypeBadge } from '@/features/student/declaredSkills'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'

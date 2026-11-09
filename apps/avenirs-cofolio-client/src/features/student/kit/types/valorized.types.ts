@@ -1,4 +1,4 @@
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 
 export enum ValorizedItemType {
   ASSOCIATED_TRACE = 'ASSOCIATED_TRACE',

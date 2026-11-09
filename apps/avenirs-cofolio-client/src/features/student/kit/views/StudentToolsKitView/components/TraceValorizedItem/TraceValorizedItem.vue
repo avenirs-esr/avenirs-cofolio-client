@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvLocale } from '@avenirs-esr/shared'
-import type { TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

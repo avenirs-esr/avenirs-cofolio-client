@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useGetDeclaredExperienceView } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'

@@ -1,7 +1,7 @@
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { useGetDeclaredActivitiesView } from '@avenirs-esr/shared/api/avenir-esr'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
-import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 
 export function useGenerateActivitiesSection () {
   const { t } = useI18n()
