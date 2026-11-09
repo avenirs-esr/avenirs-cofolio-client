@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { formatDateLocalized } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
 import { allFeedbacks } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { LongIconCardStub } from '@/common/components/cards/LongIconCard/LongIconCard.stub'
-import { formatDateLocalized } from '@/common/utils/date/date'
 import FeedbackLongIconCard from '@/features/staff/global/views/StaffHomeView/components/FeedbackLongIconCard/FeedbackLongIconCard.vue'
 
 BddTest().given('a feedback long icon card', () => {

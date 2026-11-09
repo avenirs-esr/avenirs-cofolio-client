@@ -2,9 +2,8 @@
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { AvIcon, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Card } from '@avenirs-esr/shared'
+import { Card, useDateUtils } from '@avenirs-esr/shared'
 import { RouterLink } from 'vue-router'
-import { useDateUtils } from '@/common/composables'
 
 export interface NotificationCardProps {
   id: string

@@ -1,4 +1,3 @@
-export * from './date/date'
 export * from './highlight/highlight'
 export * from './http/http-params'
 export * from './number/number'

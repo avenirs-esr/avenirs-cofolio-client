@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { AvLocale } from '@avenirs-esr/shared'
 import { AvBadge, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { formatDateToYearMonthLocalized } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { formatDateToYearMonthLocalized } from '@/common/utils'
 
 export interface PeriodBadgeProps {
   /**

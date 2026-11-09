@@ -2,10 +2,9 @@
 import type { AvLocale } from '@avenirs-esr/shared'
 import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Card } from '@avenirs-esr/shared'
+import { Card, formatDateLocalized } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
-import { formatDateLocalized } from '@/common/utils'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 
 export interface FeedbackHistoryCardProps {
