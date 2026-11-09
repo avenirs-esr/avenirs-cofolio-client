@@ -1,5 +1,5 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
-import type { ESkillLevel, ESkillReferentialType } from '@/api/avenir-esr'
+import type { ESkillLevel, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import type { IdTitle } from '@/types'
 

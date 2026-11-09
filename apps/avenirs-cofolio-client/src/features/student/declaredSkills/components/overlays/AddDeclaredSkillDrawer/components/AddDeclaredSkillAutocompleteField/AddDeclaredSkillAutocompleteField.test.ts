@@ -3,10 +3,10 @@ import type {
   DeclaredSkillFormData
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { AvListItemStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
 import { beforeEach, expect, vi } from 'vitest'
-import { ESkillReferentialType } from '@/api/avenir-esr'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 
 const TestWrapper = {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { FormCancelConfirmButtons } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

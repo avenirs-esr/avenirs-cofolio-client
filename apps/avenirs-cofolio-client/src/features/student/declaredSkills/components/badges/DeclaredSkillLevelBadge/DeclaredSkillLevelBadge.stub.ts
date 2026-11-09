@@ -1,5 +1,5 @@
+import type { ESkillLevel } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ESkillLevel } from '@/api/avenir-esr'
 
 export const DeclaredSkillLevelBadgeStub = defineComponent({
   name: 'DeclaredSkillLevelBadge',

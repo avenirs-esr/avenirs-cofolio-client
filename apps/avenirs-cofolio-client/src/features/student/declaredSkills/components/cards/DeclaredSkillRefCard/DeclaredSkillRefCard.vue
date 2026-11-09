@@ -2,7 +2,7 @@
 import type {
   ESkillReferentialType,
   SkillPathSegmentDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

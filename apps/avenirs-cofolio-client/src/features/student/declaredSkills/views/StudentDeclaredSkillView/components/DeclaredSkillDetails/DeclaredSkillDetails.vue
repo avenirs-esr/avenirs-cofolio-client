@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

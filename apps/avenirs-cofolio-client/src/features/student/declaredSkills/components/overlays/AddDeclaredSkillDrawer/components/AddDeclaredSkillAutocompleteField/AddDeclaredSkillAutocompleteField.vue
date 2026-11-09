@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExternalSkillDTO, PagedResponseExternalSkillDTO } from '@/api/avenir-esr'
+import type { ExternalSkillDTO, PagedResponseExternalSkillDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { DeclaredSkillOption } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import type {
   DeclaredSkillForm,
@@ -7,10 +7,10 @@ import type {
 } from '@/features/student/declaredSkills/types/forms.types'
 import { AvListItem, AvTooltip } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
+import { useGetSkillIds, useSearchExternalSkillsInfinite } from '@avenirs-esr/shared/api/avenir-esr'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useGetSkillIds, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
