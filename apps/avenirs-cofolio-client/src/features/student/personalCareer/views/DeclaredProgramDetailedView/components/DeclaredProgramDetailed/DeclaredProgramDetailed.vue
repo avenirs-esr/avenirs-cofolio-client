@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import type { DeclaredProgramDetailedDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { DatePeriodPicker } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'

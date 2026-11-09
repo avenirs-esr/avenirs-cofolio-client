@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import type { DeclaredProgramDetailedDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { FormCancelConfirmButtons } from '@avenirs-esr/shared'
 import { CreationUpdateDateDetails } from '@/common/components'
 import KitValorizationToggleFormField

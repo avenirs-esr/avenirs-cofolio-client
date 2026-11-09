@@ -1,5 +1,5 @@
+import type { DeclaredProgramDetailedDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import type { DeclaredProgramDetailedProps } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { DatePeriodPickerStub } from '@avenirs-esr/shared'

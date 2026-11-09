@@ -1,11 +1,11 @@
+import type { DeclaredProgramViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { FloatingIconCardStub } from '@avenirs-esr/shared'
+import { EProgramStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EProgramStatus } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ROUTES } from '@/common/constants'
 import { DeclaredProgramOrganizationBadgeStub }

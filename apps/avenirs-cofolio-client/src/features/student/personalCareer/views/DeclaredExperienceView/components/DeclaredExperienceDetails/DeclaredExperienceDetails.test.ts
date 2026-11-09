@@ -1,5 +1,5 @@
+import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { DeclaredExperienceDetailedProps } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { DatePeriodPickerStub } from '@avenirs-esr/shared'

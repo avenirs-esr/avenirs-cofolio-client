@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ErrorCodes, ErrorMessage, ICONS, QuerySuspense, useApiErrors, useModal } from '@avenirs-esr/shared'
+import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'

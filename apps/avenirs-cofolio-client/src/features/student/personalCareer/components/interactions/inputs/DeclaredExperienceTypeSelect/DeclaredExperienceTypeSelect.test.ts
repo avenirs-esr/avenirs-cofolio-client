@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EExperienceType } from '@/api/avenir-esr'
 import DeclaredExperienceTypeSelect
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
 
