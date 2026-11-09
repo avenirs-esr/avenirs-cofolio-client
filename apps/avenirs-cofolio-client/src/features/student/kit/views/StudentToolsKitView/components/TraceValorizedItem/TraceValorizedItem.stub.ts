@@ -1,5 +1,5 @@
+import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { TraceViewDTO } from '@/api/avenir-esr'
 import type { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 
 export const TraceValorizedItemStub = defineComponent({

@@ -1,4 +1,4 @@
-import type { GetDeclaredProgramsParams } from '@/api/avenir-esr'
+import type { GetDeclaredProgramsParams } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockParagraph, MockTextRun } from '@/common/utils/docx/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'

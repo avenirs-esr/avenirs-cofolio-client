@@ -1,5 +1,5 @@
+import type { GetDeclaredExperienceViewParams } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Paragraph } from 'docx'
-import type { GetDeclaredExperienceViewParams } from '@/api/avenir-esr'
 import type { MockParagraph } from '@/common/utils/docx/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'

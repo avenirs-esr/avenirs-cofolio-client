@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { SelfKnowledgeCategoryBadge } from '@/features/student/selfKnowledge'
 

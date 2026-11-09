@@ -1,4 +1,4 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { ProfileOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockImageRun, MockParagraph } from '@/common/utils/docx/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
