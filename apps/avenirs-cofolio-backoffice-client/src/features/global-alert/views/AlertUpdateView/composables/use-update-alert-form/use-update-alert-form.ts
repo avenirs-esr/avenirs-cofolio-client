@@ -78,7 +78,7 @@ export function useUpdateAlertForm (alert?: AlertConfigurationDTO, onAlertUpdate
       mutateUpdateAlert({
         data: {
           message: value.message,
-          ...(value.active && { active: true }),
+          ...(!startDate && !endDate && { active: !!value.active }),
           ...(startDate && { startDate }),
           ...(endDate && { endDate }),
         },

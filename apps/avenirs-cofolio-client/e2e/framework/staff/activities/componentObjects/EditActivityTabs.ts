@@ -131,7 +131,7 @@ export class EditActivityTabs {
   }
 
   private getSectionAccordion (sectionId: string) {
-    return this.page.locator(`#${sectionId} header`).first()
+    return this.page.locator(`#${sectionId} [data-testid="av-card-title"]`).first()
   }
 
   async verifyContentTabActiveByDefault () {

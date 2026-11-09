@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AlertMessageRichTextEditor from '@/features/global-alert/components/interactions/inputs/AlertMessageRichTextEditor/AlertMessageRichTextEditor.vue'
 
-const LABEL = 'Message'
+const LABEL = 'Contenu de l\'alerte'
 
 BddTest().given('an AlertMessageRichTextEditor component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AlertMessageRichTextEditor>>

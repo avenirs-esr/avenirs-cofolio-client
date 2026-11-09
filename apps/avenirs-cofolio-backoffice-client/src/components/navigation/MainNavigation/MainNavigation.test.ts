@@ -67,7 +67,7 @@ BddTest().given('a main navigation', () => {
     BddTest().then('it should include global alert item with correct properties', () => {
       expect(getNavItems()[3]).toMatchObject({
         text: 'ALERTE GLOBALE',
-        to: ROUTES.GLOBAL_ALERT,
+        to: ROUTES.GLOBAL_ALERT.DETAILS,
         icon: MDI_ICONS.ALERT_OUTLINE,
       })
     })

@@ -91,12 +91,12 @@ const rows = computed(() => [
             output-format="dd/MM/yyyy HH:mm"
             disabled
             :show-ongoing="false"
-            :start-date="startDate"
+            :start-date="startDate ?? ''"
             :end-date="endDate"
           />
           <AvNotice
             v-if="row.id === 'render'"
-            :title="row.value"
+            :text="row.value"
             type="alert"
           />
         </template>

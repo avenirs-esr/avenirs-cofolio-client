@@ -21,8 +21,8 @@ const mockError = new BaseApiException('error')
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const mockFormatTranslatedDateTime = vi.fn((value: string) => `translated-${value}`)
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
 
   return {
     ...actual,

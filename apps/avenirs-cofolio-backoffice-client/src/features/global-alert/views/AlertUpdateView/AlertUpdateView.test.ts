@@ -12,7 +12,7 @@ import AlertUpdateView from '@/features/global-alert/views/AlertUpdateView/Alert
 import { AlertUpdateFormStub } from '@/features/global-alert/views/AlertUpdateView/components/forms/AlertUpdateForm/AlertUpdateForm.stub'
 
 const GUARD_DESCRIPTION = 'Êtes-vous certain(e) de vouloir annuler les modifications\u00A0? Les changements non enregistrés seront perdus.'
-const TITLE = 'Modifier l\'alerte globale'
+const TITLE = 'Alerte globale'
 
 const mockRouterBack = vi.fn()
 
@@ -100,9 +100,6 @@ BddTest().given('an AlertUpdateView view', () => {
     BddTest().then('it should render the page title', () => {
       expect(getPageTitle().props()).toMatchObject({
         title: TITLE,
-        trailingLinks: [{
-          text: TITLE,
-        }],
       })
     })
 

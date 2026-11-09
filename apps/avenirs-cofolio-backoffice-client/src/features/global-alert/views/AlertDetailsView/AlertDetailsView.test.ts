@@ -9,7 +9,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/constants'
 import AlertDetailsView from '@/features/global-alert/views/AlertDetailsView/AlertDetailsView.vue'
 
-const EMPTY_STATE_MESSAGE = 'Aucune alerte globale configurée.'
+const EMPTY_STATE_MESSAGE = 'Aucune alerte globale n\'est configurée.'
 
 BddTest().given('an AlertDetailsView view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AlertDetailsView>>
@@ -60,19 +60,17 @@ BddTest().given('an AlertDetailsView view', () => {
     })
 
     BddTest().then('it should render the update button', () => {
-      expect(getButton().props()).toMatchObject({
-        to: ROUTES.GLOBAL_ALERT.UPDATE,
-        label: 'Modifier',
-      })
+      expect(getButton().exists()).toBe(true)
+      expect(getButton().props('to')).toBe(ROUTES.GLOBAL_ALERT.UPDATE)
+      expect(getButton().props('label')).toBe('Modifier')
     })
 
     BddTest().then('it should render QuerySuspense with the query state', () => {
-      expect(getQuerySuspense().props()).toMatchObject({
-        isLoading: false,
-        error: null,
-        isEmpty: false,
-        emptyStateMessage: EMPTY_STATE_MESSAGE,
-      })
+      expect(getQuerySuspense().exists()).toBe(true)
+      expect(getQuerySuspense().props('isLoading')).toBe(false)
+      expect(getQuerySuspense().props('error')).toBe(null)
+      expect(getQuerySuspense().props('isEmpty')).toBe(false)
+      expect(getQuerySuspense().props('emptyStateMessage')).toBe(EMPTY_STATE_MESSAGE)
     })
 
     BddTest().then('it should render the alert details table', () => {
@@ -84,7 +82,7 @@ BddTest().given('an AlertDetailsView view', () => {
       expect(getTable().props('columns')).toEqual([
         {
           key: 'label',
-          label: 'Libellé',
+          label: 'Propriété',
           width: '10%',
         },
         {
@@ -109,36 +107,33 @@ BddTest().given('an AlertDetailsView view', () => {
         },
         {
           id: 'render',
-          label: 'Message',
+          label: 'Rendu',
           value: mockedAlertConfigurationDTO.message,
         },
       ])
     })
 
     BddTest().then('it should render the active badge', () => {
-      expect(getActiveBadge().props()).toMatchObject({
-        active: mockedAlertConfigurationDTO.active,
-        labelGender: 'FEMININE',
-      })
+      expect(getActiveBadge().exists()).toBe(true)
+      expect(getActiveBadge().props('active')).toBe(!!mockedAlertConfigurationDTO.active)
+      expect(getActiveBadge().props('labelGender')).toBe('FEMININE')
     })
 
     BddTest().then('it should render the date period picker in read-only mode', () => {
-      expect(getDatePeriodPicker().props()).toMatchObject({
-        type: 'datetime-local',
-        inputFormat: 'dd/MM/yyyy HH:mm',
-        outputFormat: 'dd/MM/yyyy HH:mm',
-        disabled: true,
-        showOngoing: false,
-        startDate: fromInstant(mockedAlertConfigurationDTO.startDate),
-        endDate: fromInstant(mockedAlertConfigurationDTO.endDate),
-      })
+      expect(getDatePeriodPicker().exists()).toBe(true)
+      expect(getDatePeriodPicker().props('type')).toBe('datetime-local')
+      expect(getDatePeriodPicker().props('inputFormat')).toBe('dd/MM/yyyy HH:mm')
+      expect(getDatePeriodPicker().props('outputFormat')).toBe('dd/MM/yyyy HH:mm')
+      expect(getDatePeriodPicker().props('disabled')).toBe(true)
+      expect(getDatePeriodPicker().props('showOngoing')).toBe(false)
+      expect(getDatePeriodPicker().props('startDate')).toBe(fromInstant(mockedAlertConfigurationDTO.startDate) ?? '')
+      expect(getDatePeriodPicker().props('endDate')).toBe(fromInstant(mockedAlertConfigurationDTO.endDate))
     })
 
     BddTest().then('it should render the alert message in a notice', () => {
-      expect(getNotice().props()).toMatchObject({
-        title: mockedAlertConfigurationDTO.message,
-        type: 'alert',
-      })
+      expect(getNotice().exists()).toBe(true)
+      expect(getNotice().props('text')).toBe(mockedAlertConfigurationDTO.message)
+      expect(getNotice().props('type')).toBe('alert')
     })
   })
 

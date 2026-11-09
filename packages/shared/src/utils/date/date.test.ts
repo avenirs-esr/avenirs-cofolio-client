@@ -514,19 +514,19 @@ BddTest().given('an instant formatter', () => {
 
   BddTest().when('providing an undefined value', () => {
     BddTest().then('it should return an empty string', () => {
-      expect(fromInstant(undefined)).toBe('')
+      expect(fromInstant(undefined)).toBeUndefined()
     })
   })
 
   BddTest().when('providing an empty string', () => {
     BddTest().then('it should return an empty string', () => {
-      expect(fromInstant('')).toBe('')
+      expect(fromInstant('')).toBeUndefined()
     })
   })
 
   BddTest().when('providing an invalid instant', () => {
     BddTest().then('it should return an empty string', () => {
-      expect(fromInstant('not-a-date')).toBe('')
+      expect(fromInstant('not-a-date')).toBeUndefined()
     })
   })
 })

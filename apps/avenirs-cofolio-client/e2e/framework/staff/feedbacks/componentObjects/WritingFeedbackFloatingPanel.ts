@@ -14,7 +14,7 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
   }
 
   private getCollapseButton () {
-    return this.getExpandedPanelCard().locator('header').getByRole('button')
+    return this.getExpandedPanelCard().getByTestId('av-card-title').getByRole('button')
   }
 
   private getExpandedPanelCard () {
@@ -22,7 +22,7 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
   }
 
   private getExpandButton () {
-    return this.getCollapsedPanelCard().locator('header').getByRole('button')
+    return this.getCollapsedPanelCard().getByTestId('av-card-title').getByRole('button')
   }
 
   private getHistoryTabButton () {
