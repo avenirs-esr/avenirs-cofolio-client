@@ -1,5 +1,5 @@
+import type { AssociationsDTO, TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { AssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 
 export const UpdateTabsStub = defineComponent({

@@ -1,10 +1,10 @@
+import type { PageInfoDTO, TraceFilter, TracesViewParams, TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComputedRef, Ref } from 'vue'
-import type { PageInfoDTO, TraceFilter, TracesViewParams, TraceViewDTO } from '@/api/avenir-esr'
-import { toValue } from 'vue'
 import {
 
   useTracesView
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { toValue } from 'vue'
 import { useInfiniteScrollPagination } from '@/common/composables'
 
 export interface UsePaginatedTracesResult {

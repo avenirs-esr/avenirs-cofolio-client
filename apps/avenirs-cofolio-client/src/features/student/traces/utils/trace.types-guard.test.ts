@@ -1,6 +1,6 @@
 import type { TraceFormDataFile, TraceFormDataLink } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ETraceAuthorType } from '@/api/avenir-esr'
+import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 

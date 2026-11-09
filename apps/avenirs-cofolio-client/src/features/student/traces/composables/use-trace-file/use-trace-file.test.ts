@@ -1,7 +1,7 @@
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
-import { EFileType } from '@/api/avenir-esr'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 
 BddTest().given('a use-trace-file-validation composable', () => {

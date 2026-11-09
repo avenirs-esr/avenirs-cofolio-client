@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ETraceAuthorType } from '@/api/avenir-esr'
+import type { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

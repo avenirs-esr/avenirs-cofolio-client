@@ -1,11 +1,11 @@
+import type { AssociationsDTO, TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { AssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAssociationContextType, EFileType, ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociations, mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { EAssociationContextType, EFileType, ETraceAuthorType } from '@/api/avenir-esr'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 

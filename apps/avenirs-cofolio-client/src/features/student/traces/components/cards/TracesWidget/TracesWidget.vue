@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { useGetTraceOverview } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetTraceOverview } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { ROUTES } from '@/common/constants'
 import TraceLongIconCard from '@/features/student/global/views/StudentHomeView/components/TraceLongIconCard/TraceLongIconCard.vue'

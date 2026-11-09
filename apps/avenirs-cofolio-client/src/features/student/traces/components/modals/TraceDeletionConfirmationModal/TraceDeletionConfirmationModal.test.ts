@@ -1,17 +1,17 @@
+import type { TraceLockedDeclaredActivitiesDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
 import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import {
+  EDeclaredActivityStatus
+
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { invalidTraceId, mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createLockedDeclaredActivitiesHandler, lockedDeclaredActivitiesHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import {
-  EDeclaredActivityStatus
-
-} from '@/api/avenir-esr'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 
 const mockAddSuccessMessage = vi.fn()

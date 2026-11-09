@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
+import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { markRaw } from 'vue'
-import { ETraceAuthorType } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import TraceAuthorTypeRadioSet from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSet/TraceAuthorTypeRadioSet.vue'
 

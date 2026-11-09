@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@avenirs-esr/shared'
-import type { TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { FloatingIconCard } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

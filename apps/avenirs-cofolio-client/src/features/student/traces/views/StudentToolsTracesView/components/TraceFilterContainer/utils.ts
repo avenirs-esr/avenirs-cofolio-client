@@ -1,4 +1,4 @@
-import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
+import { TraceFilterFileTypesItem } from '@avenirs-esr/shared/api/avenir-esr'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 
 export const FILE_GLOBAL_TYPE_MAPPING: Record<FileGlobalType, TraceFilterFileTypesItem[]> = {

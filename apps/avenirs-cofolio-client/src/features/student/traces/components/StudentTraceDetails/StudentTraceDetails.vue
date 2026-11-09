@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, bytesToMegabytes, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'

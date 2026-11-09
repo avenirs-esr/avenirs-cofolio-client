@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PageTitle } from '@avenirs-esr/shared'
+import { useGetTracesSummary } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetTracesSummary } from '@/api/avenir-esr'
 import StudentToolsTracesActionButtons from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 

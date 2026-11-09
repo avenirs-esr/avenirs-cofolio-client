@@ -1,4 +1,4 @@
-import type { ETraceAuthorType } from '@/api/avenir-esr'
+import type { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 
 export enum TraceType {
