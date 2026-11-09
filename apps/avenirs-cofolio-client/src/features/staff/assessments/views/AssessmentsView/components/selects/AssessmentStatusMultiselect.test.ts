@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import AssessmentStatusMultiselect from '@/features/staff/assessments/views/AssessmentsView/components/selects/AssessmentStatusMultiselect.vue'
 
 BddTest().given('an assessment status multiselect', () => {

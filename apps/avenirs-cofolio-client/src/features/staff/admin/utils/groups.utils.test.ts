@@ -1,6 +1,6 @@
-import type { ExternalUserDetailDTO, GroupReferenceDTO } from '@/api/avenir-esr'
+import type { ExternalUserDetailDTO, GroupReferenceDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EGroupType } from '@/api/avenir-esr'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { getUserGroupsByType, getUserGroupsByTypeExcluding } from '@/features/staff/admin/utils/groups.utils'
 
 const programGroup: GroupReferenceDTO = {

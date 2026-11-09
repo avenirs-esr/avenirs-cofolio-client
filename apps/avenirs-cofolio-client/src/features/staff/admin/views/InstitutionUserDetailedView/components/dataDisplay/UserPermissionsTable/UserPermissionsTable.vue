@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import type { EAuthorizationEntityType, ERole } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

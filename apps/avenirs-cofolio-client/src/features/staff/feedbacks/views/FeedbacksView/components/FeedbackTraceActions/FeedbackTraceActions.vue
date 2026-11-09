@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useApiErrors } from '@avenirs-esr/shared'
+import { useDownloadAttachment } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useDownloadAttachment } from '@/api/avenir-esr'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useToasterStore } from '@/store'
 

@@ -1,5 +1,5 @@
+import type { ContextualAuthorizationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ContextualAuthorizationDTO } from '@/api/avenir-esr'
 
 export const UserContextualAuthorizationsTableStub = defineComponent({
   name: 'UserContextualAuthorizationsTableStub',

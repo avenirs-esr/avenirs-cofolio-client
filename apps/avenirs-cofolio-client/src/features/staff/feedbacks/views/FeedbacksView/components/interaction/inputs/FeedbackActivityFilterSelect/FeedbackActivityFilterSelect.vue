@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus } from '@/api/avenir-esr'
+import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'
+import { useGetActivitiesWithFeedbacks } from '@avenirs-esr/shared/api/avenir-esr'
 import { until, watchIgnorable } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
 
 export interface FeedbackActivityFilterSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder' | 'label'> {
   defaultActivityId?: string

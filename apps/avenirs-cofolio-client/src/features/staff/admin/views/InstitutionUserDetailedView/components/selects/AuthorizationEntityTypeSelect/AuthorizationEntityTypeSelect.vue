@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { useGetExternalUserAuthorizationTypes } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetExternalUserAuthorizationTypes } from '@/api/avenir-esr'
 
 interface AuthorizationEntityTypeSelectProps {
   user: ExternalUserDetailDTO

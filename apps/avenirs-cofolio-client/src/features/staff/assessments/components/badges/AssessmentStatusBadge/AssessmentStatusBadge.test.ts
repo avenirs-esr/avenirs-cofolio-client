@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { AssessmentStatusBadgeProps } from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'
 
 BddTest().given('an assessment status badge', () => {

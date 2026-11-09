@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AvSelectModelValue, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
-import type { GetGroupsParams } from '@/api/avenir-esr'
+import type { GetGroupsParams } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'
+import { useGetGroups } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetGroups } from '@/api/avenir-esr'
 
 const selectedGroups = defineModel<string[]>({ default: () => [] })
 

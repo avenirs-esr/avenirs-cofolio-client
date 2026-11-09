@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvLocale } from '@avenirs-esr/shared'
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

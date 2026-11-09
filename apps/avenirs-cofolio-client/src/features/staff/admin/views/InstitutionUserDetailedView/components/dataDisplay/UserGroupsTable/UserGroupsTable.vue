@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EGroupType } from '@/api/avenir-esr'
 import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
 import { getUserGroupsByType, getUserGroupsByTypeExcluding } from '@/features/staff/admin/utils/groups.utils'

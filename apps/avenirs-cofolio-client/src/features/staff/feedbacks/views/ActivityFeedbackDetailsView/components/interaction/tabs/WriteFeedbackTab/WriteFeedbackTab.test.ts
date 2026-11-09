@@ -1,7 +1,10 @@
+import type { FeedbackDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import {
+  EFeedbackStatus
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -9,9 +12,6 @@ import {
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
-import {
-  EFeedbackStatus
-} from '@/api/avenir-esr'
 import { FeedbackAttachmentsFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.stub'
 import { FeedbackFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.stub'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'

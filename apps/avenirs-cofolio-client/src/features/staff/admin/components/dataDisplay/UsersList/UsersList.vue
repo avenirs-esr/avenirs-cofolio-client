@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import type { EUserCategory } from '@/api/avenir-esr'
+import type { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
 import type { UsePaginatedAffiliationsParams } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { QuerySuspense } from '@avenirs-esr/shared'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EGroupType } from '@/api/avenir-esr'
 import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'

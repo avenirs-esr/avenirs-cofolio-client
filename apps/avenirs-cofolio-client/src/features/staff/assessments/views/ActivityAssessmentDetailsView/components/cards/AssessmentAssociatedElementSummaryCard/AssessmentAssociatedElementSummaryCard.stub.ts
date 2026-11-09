@@ -1,5 +1,5 @@
+import type { DeclaredActivityAssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
 
 export const AssessmentAssociatedElementSummaryCardStub = defineComponent({
   name: 'AssessmentAssociatedElementSummaryCard',

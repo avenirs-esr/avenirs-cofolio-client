@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AskForFeedbackParameters, NotificationDTO } from '@/api/avenir-esr'
+import type { AskForFeedbackParameters, NotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { I18nT } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'

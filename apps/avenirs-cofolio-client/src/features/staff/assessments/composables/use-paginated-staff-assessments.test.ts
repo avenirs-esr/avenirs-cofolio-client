@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -9,7 +10,6 @@ import {
 } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
 import { getDeclaredActivitiesToAssessErrorHandler } from '@/__mocks__/msw/handlers/staffs/assessments.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import { usePaginatedStaffAssessments } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 
 function mountUsePaginatedStaffAssessments ({

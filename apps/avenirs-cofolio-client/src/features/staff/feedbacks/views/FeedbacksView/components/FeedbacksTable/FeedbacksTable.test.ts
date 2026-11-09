@@ -1,6 +1,6 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
+import type { FeedbackStaffListItemDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import type { UsePaginatedStaffFeedbacksParams, UsePaginatedStaffFeedbacksResult } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

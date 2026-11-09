@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, PageTitle, QuerySuspense, useModal } from '@avenirs-esr/shared'
+import { useGetAssessmentDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetAssessmentDetails } from '@/api/avenir-esr'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import AssessmentAssociatedElementSummaryCard
   from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/cards/AssessmentAssociatedElementSummaryCard/AssessmentAssociatedElementSummaryCard.vue'

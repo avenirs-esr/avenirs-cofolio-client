@@ -1,5 +1,5 @@
+import type { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EUserCategory } from '@/api/avenir-esr'
 
 export const UsersListStub = defineComponent({
   name: 'UsersListStub',

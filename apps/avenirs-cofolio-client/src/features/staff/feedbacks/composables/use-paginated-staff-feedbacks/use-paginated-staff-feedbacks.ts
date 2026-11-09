@@ -1,10 +1,10 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { FeedbackStaffListItemDTO, PagedResponseFeedbackStaffListItemDTO, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UseQueryOptions, UseQueryReturnType } from '@tanstack/vue-query'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
-import type { FeedbackStaffListItemDTO, PagedResponseFeedbackStaffListItemDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import { usePagination } from '@/common/composables'
 
 type FetchFn = (

@@ -1,8 +1,9 @@
+import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityAssessmentRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Mock } from 'vitest'
-import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityAssessmentRequest } from '@/api/avenir-esr'
 import type { WriteAssessmentFormData } from '@/features/staff/assessments/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { HttpStatusCode } from '@avenirs-esr/shared'
+import { getSendAssessmentUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
 import { mountComposable } from 'tests/utils'
@@ -14,7 +15,6 @@ import {
   mockedAssessmentDetailsWithoutAssociations
 } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
 import { server } from '@/__mocks__/msw/server'
-import { getSendAssessmentUrl } from '@/api/avenir-esr'
 import { ASSESSMENT_DRAFT_STORAGE_KEY_PREFIX } from '@/features/staff/assessments/config'
 import { useWriteAssessmentForm } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/composables/use-write-assessment-form/use-write-assessment-form'
 

@@ -1,5 +1,5 @@
+import type { EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EUniverse } from '@/api/avenir-esr'
 
 export const UniversesListStub = defineComponent({
   name: 'UniversesList',

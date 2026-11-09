@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UsePaginatedUserContextualAuthorizationsParams } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-paginated-user-contextual-authorizations/use-paginated-user-contextual-authorizations'
 import { AvMessage } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 
 export interface AssessmentStatusBadgeProps {
   assessmentStatus: EActivityAssessmentStatus

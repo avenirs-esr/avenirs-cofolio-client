@@ -1,9 +1,9 @@
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
 import { nextTick } from 'vue'
-import { EGroupType } from '@/api/avenir-esr'
 import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 
 function mountUsePaginatedStaffAdminGroups ({

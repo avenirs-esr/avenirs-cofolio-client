@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
 
 export const UserLayoutStub = defineComponent({
   name: 'UserLayout',

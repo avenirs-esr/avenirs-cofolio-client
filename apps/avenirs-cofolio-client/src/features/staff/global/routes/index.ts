@@ -1,4 +1,4 @@
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTE_ROLES } from '@/common/constants/route-roles'

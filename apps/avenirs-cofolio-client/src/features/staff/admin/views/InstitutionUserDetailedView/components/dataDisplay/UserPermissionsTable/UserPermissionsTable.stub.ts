@@ -1,5 +1,5 @@
+import type { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ERole } from '@/api/avenir-esr'
 
 export const UserPermissionsTableStub = defineComponent({
   name: 'UserPermissionsTable',

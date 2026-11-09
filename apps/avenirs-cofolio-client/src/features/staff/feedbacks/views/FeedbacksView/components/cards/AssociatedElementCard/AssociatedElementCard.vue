@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { AvButton, CUIDA_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociatedElementTypeBadge from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.vue'
 import FeedbackTraceActions from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
 

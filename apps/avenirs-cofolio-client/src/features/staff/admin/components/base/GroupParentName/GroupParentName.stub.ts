@@ -1,5 +1,5 @@
+import type { GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { GroupOverviewDTO } from '@/api/avenir-esr'
 
 export const GroupParentNameStub = defineComponent({
   name: 'GroupParentName',

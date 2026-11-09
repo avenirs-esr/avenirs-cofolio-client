@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { EGroupType } from '@/api/avenir-esr'
 import GroupParentName from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.vue'
 
 const mockIsTruncated = ref(false)

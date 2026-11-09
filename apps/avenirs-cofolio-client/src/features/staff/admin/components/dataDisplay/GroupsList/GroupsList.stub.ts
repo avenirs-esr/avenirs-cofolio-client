@@ -1,5 +1,5 @@
+import type { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EGroupType } from '@/api/avenir-esr'
 
 export const GroupsListStub = defineComponent({
   name: 'GroupsListStub',

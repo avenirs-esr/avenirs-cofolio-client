@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EGroupType } from '@/api/avenir-esr'
+import type { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'

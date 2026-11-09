@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ERole } from '@/api/avenir-esr'
+import type { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useUserRoleConfig } from '@/features/staff/admin/composables/use-user-role-config/use-user-role-config'
 

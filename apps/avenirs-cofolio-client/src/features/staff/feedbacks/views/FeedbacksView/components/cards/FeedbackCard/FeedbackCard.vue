@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import type { FeedbackStaffListItemDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useDateUtils } from '@/common/composables'

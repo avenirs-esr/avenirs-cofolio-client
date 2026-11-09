@@ -1,10 +1,10 @@
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAuthorizationEntityType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
-import { EAuthorizationEntityType } from '@/api/avenir-esr'
 import { usePaginatedUserContextualAuthorizations } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-paginated-user-contextual-authorizations/use-paginated-user-contextual-authorizations'
 
 function mountUsePaginatedUserContextualAuthorizations ({

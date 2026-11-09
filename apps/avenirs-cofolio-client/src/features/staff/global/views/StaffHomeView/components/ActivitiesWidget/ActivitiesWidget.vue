@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ICONS, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { EActivityStatus, useGetStaffActivityWorkingSpace } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { ROUTES } from '@/common/constants'
 import ActivityLongIconCard from '@/features/staff/global/views/StaffHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'

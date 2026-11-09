@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EGroupType } from '@/api/avenir-esr'
+import type { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useGroupTypeConfig } from '@/features/staff/admin/composables/use-group-type-config/use-group-type-config'
 

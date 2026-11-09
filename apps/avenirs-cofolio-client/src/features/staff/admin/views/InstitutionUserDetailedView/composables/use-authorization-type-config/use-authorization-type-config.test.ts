@@ -1,9 +1,9 @@
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
+import { EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { EAuthorization } from '@/api/avenir-esr'
 import { useAuthorizationTypeConfig } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-authorization-type-config/use-authorization-type-config'
 
 BddTest().given('a useAuthorizationTypeConfig composable', () => {

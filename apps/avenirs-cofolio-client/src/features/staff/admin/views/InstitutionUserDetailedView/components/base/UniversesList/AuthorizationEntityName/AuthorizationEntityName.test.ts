@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityStatus, EAuthorizationEntityType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
-import { EActivityStatus, EAuthorizationEntityType } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import AuthorizationEntityName from '@/features/staff/admin/views/InstitutionUserDetailedView/components/base/UniversesList/AuthorizationEntityName/AuthorizationEntityName.vue'
 

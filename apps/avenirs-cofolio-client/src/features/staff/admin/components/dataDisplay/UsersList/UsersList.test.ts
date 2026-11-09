@@ -1,15 +1,15 @@
+import type { ExternalUserAffiliationOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { ExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
 import type {
   UsePaginatedAffiliationsParams,
   UsePaginatedAffiliationsResult,
 } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EGroupType, EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EGroupType, EUniverse } from '@/api/avenir-esr'
 import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'

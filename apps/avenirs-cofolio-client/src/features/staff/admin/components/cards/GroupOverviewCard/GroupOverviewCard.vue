@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GroupOverviewDTO } from '@/api/avenir-esr'
+import type { GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

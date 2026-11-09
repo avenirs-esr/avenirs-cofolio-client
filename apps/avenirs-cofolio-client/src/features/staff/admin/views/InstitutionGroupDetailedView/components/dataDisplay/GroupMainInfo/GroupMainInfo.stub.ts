@@ -1,5 +1,5 @@
+import type { GroupDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { GroupDTO } from '@/api/avenir-esr'
 
 export const GroupMainInfoStub = defineComponent({
   name: 'GroupMainInfo',
