@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { ERole } from '@/api/avenir-esr'
 import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
 import { ActivitiesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'

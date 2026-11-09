@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TraceOverviewDTO } from '@/api/avenir-esr'
+import type { TraceOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ICONS } from '@avenirs-esr/shared'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
 import { ROUTES } from '@/common/constants'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityModifiedParameters, NotificationDTO } from '@/api/avenir-esr'
+import type { ActivityModifiedParameters, NotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { I18nT, useI18n } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
