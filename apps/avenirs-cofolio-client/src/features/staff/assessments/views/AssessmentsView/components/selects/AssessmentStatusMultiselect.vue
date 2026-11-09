@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvSelectItem, AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 
 const selectedStatuses = defineModel<EActivityAssessmentStatus[]>({ default: () => [] })
 const selectedStatusesRef = ref<AvSelectSelectedOption[]>([])

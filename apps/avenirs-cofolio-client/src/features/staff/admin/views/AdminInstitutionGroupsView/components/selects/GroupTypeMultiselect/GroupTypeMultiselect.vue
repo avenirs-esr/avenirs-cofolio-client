@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { AvSelectItem, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EGroupType } from '@/api/avenir-esr'
 import { useGroupTypeConfig } from '@/features/staff/admin/composables/use-group-type-config/use-group-type-config'
 
 const { t } = useI18n()

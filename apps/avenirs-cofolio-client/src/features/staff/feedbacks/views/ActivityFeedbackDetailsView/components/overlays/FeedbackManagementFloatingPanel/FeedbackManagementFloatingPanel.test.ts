@@ -1,6 +1,6 @@
+import type { FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { HttpHandler } from 'msw'
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { FeedbackManagementFloatingPanelProps } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'

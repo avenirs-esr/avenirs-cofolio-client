@@ -1,13 +1,13 @@
+import type { PagedResponseFeedbackStaffListItemDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Ref } from 'vue'
-import type { PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException } from '@avenirs-esr/shared'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
 import { nextTick, unref } from 'vue'
 import { createMockedPagedResponseFeedbackStaffListItemDTO } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import { usePaginatedStaffFeedbacks } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
 
 const page = createMockedPagedResponseFeedbackStaffListItemDTO(PageSizes.TWELVE, 6, 0)

@@ -2,8 +2,8 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS, QuerySuspense } from '@avenirs-esr/shared'
+import { EAssociationContextType, EUserCategory, useGetFeedbackDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, EUserCategory, useGetFeedbackDetails } from '@/api/avenir-esr'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import AssociatedElementDetailsDrawer
   from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'

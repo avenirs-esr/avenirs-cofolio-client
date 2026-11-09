@@ -1,9 +1,9 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { ContextualAuthorizationDTO, EAuthorizationEntityType, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComputedRef, Ref } from 'vue'
-import type { ContextualAuthorizationDTO, EAuthorizationEntityType, PageInfoDTO } from '@/api/avenir-esr'
+import { useGetExternalUserAuthorizations } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { useGetExternalUserAuthorizations } from '@/api/avenir-esr'
 import { usePagination } from '@/common/composables'
 
 export interface UsePaginatedUserContextualAuthorizationsParams {

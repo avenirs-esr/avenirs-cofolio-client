@@ -1,5 +1,5 @@
+import type { EActivityAssessmentType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EActivityAssessmentType } from '@/api/avenir-esr'
 
 export const AssessmentTypeBadgeStub = defineComponent({
   name: 'AssessmentTypeBadge',

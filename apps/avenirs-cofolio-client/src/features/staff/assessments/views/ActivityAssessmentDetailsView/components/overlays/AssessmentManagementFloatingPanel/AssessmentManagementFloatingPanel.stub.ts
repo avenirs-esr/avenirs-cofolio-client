@@ -1,5 +1,5 @@
+import type { DeclaredActivityAssessmentDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
 
 export const AssessmentManagementFloatingPanelStub = defineComponent({
   name: 'AssessmentManagementFloatingPanel',

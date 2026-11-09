@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'

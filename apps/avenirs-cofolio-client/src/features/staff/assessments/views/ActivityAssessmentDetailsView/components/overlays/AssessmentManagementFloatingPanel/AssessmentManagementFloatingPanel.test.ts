@@ -1,6 +1,6 @@
+import type { DeclaredActivityAssessmentDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MockInstance } from 'vitest'
-import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
 import type { WriteAssessmentFormData } from '@/features/staff/assessments/types/forms.types'
 import type { AssessmentManagementFloatingPanelProps } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/overlays/AssessmentManagementFloatingPanel/AssessmentManagementFloatingPanel.vue'
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'

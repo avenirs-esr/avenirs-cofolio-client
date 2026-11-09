@@ -1,5 +1,5 @@
+import type { FeedbackDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 
 export const FeedbackManagementFloatingPanelStub = defineComponent({
   name: 'FeedbackManagementFloatingPanel',

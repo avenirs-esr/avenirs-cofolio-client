@@ -1,4 +1,4 @@
-import type { DeclaredExperienceViewDTO, EAssociationContextType, SkillProgressDetailsDTO, TraceDetailDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO, EAssociationContextType, SkillProgressDetailsDTO, TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export type FeedbackAssociatedElement
   = | { type: EAssociationContextType.TRACE, data: TraceDetailDTO }

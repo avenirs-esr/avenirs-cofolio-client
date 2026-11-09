@@ -1,4 +1,4 @@
-import type { EGroupType, ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { EGroupType, ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export function getUserGroupsByType (user: ExternalUserDetailDTO, types: EGroupType | EGroupType[]) {
   const typesArray = Array.isArray(types) ? types : [types]

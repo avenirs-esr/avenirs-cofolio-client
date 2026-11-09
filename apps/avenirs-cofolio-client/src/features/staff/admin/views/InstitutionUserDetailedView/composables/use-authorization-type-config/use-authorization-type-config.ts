@@ -1,7 +1,7 @@
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
+import { EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAuthorization } from '@/api/avenir-esr'
 
 export function useAuthorizationTypeConfig () {
   const { t } = useI18n()

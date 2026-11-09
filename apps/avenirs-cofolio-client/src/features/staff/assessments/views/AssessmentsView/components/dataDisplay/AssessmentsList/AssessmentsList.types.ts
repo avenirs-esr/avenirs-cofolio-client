@@ -1,4 +1,4 @@
-import type { EActivityAssessmentStatus, EActivityAssessmentType, UserInfoDTO } from '@/api/avenir-esr'
+import type { EActivityAssessmentStatus, EActivityAssessmentType, UserInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export interface AssessmentTableRow {
   id: string

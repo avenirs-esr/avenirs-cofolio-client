@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GroupDTO, GroupOverviewDTO } from '@/api/avenir-esr'
+import type { GroupDTO, GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIcon, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { ROUTES } from '@/common/constants'
 

@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { FeedbackStatusBadgeProps } from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
 
 BddTest().given('a feedback status badge', () => {

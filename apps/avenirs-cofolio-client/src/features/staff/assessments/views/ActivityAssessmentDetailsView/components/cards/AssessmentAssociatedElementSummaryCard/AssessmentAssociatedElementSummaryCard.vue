@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import AssociatedElementDetailsDrawer
   from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'

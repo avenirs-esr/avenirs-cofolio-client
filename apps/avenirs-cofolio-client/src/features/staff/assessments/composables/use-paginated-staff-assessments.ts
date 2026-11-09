@@ -1,14 +1,14 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ComputedRef, Ref } from 'vue'
 import type {
   DeclaredActivityToAssessDTO,
   EActivityAssessmentStatus,
   GetDeclaredActivitiesToAssessParams,
   PageInfoDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import type { ComputedRef, Ref } from 'vue'
+import { useGetDeclaredActivitiesToAssess } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { useGetDeclaredActivitiesToAssess } from '@/api/avenir-esr'
 import { usePagination } from '@/common/composables'
 
 export interface UsePaginatedStaffAssessmentsParams {

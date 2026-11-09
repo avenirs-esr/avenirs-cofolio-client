@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
-import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssessmentDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, AvButton, AvMessage, MDI_ICONS, MS_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

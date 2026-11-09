@@ -1,5 +1,5 @@
+import type { EActivityAssessmentStatus, UserInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EActivityAssessmentStatus, UserInfoDTO } from '@/api/avenir-esr'
 
 export const ActivityAssessmentStudentInformationStub = defineComponent({
   name: 'ActivityAssessmentStudentInformation',

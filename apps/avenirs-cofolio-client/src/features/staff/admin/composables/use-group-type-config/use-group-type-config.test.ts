@@ -1,8 +1,8 @@
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { EGroupType } from '@/api/avenir-esr'
 import { useGroupTypeConfig } from '@/features/staff/admin/composables/use-group-type-config/use-group-type-config'
 
 BddTest().given('a useGroupTypeConfig composable', () => {

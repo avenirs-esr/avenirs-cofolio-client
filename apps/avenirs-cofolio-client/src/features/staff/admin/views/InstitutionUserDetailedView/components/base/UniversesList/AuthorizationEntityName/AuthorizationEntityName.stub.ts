@@ -1,5 +1,5 @@
+import type { EAuthorizationEntityType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EAuthorizationEntityType } from '@/api/avenir-esr'
 
 export const AuthorizationEntityNameStub = defineComponent({
   name: 'AuthorizationEntityNameStub',

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, PageTitle, QuerySuspense, useModal } from '@avenirs-esr/shared'
-import { useI18n } from 'vue-i18n'
 import {
   EUserCategory,
   useGetFeedbackDetails,
   useGetFeedbacksByActivity,
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import FeedbackManagementFloatingPanel

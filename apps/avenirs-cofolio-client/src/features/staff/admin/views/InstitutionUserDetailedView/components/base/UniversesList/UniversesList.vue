@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EUniverse } from '@/api/avenir-esr'
+import type { EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 import UniverseBadge from '@/common/components/badges/UniverseBadge/UniverseBadge.vue'
 
 interface UniversesListProps {

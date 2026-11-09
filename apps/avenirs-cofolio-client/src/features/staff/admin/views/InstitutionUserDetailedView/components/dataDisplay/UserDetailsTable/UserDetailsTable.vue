@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import type { EUniverse, ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { EUniverse, ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'

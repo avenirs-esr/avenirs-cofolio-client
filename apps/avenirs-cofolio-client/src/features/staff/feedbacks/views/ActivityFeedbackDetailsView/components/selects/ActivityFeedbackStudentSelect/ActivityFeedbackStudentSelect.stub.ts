@@ -1,5 +1,5 @@
+import type { StudentFeedbackItemListDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
 
 export const ActivityFeedbackStudentSelectStub = defineComponent({
   name: 'ActivityFeedbackStudentSelect',

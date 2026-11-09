@@ -1,9 +1,9 @@
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { EUserCategory } from '@/api/avenir-esr'
 import { usePaginatedAffiliations } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 
 function mountUsePaginatedAffiliations ({

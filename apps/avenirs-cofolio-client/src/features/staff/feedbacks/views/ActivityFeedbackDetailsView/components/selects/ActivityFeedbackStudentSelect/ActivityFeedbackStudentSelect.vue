@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvSelectModelValue, AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
+import type { StudentFeedbackItemListDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, AvSelect, getAvSelectSelectedOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'

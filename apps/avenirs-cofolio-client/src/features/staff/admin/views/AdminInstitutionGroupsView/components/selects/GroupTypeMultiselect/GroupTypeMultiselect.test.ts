@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
-import { EGroupType } from '@/api/avenir-esr'
 import GroupTypeMultiselect from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/selects/GroupTypeMultiselect/GroupTypeMultiselect.vue'
 
 BddTest().given('a GroupTypeMultiselect component', () => {

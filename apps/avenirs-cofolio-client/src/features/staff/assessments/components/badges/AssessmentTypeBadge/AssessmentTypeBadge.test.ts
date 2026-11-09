@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityTypeBadgeProps } from '@/features/staff/assessments/components/badges/AssessmentTypeBadge/AssessmentTypeBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityAssessmentType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EActivityAssessmentType } from '@/api/avenir-esr'
 import AssessmentTypeBadge from '@/features/staff/assessments/components/badges/AssessmentTypeBadge/AssessmentTypeBadge.vue'
 
 BddTest().given('an assessment type badge', () => {

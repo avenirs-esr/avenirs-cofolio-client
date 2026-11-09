@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense, SkipLinks, useBaseApiExceptionToast, useLanguageSwitcher } from '@avenirs-esr/shared'
+import { EUserCategory, useGetQuickLinks } from '@avenirs-esr/shared/api/avenir-esr'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
 import GlobalAlertNotice from '@/common/components/layout/GlobalAlertNotice/GlobalAlertNotice.vue'
 import MainContent from '@/common/components/layout/MainContent/MainContent.vue'

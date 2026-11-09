@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { ExternalUserDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, QuerySuspense } from '@avenirs-esr/shared'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EGroupType } from '@/api/avenir-esr'
 import { getUserGroupsByTypeExcluding } from '@/features/staff/admin/utils/groups.utils'
 import UserGroupsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserGroupsTable/UserGroupsTable.vue'
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import type { EActivityAssessmentStatus } from '@/api/avenir-esr'
+import type { EActivityAssessmentStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UsePaginatedStaffAssessmentsParams } from '@/features/staff/assessments/composables/use-paginated-staff-assessments'
 import type {
   AssessmentTableRow

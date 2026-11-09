@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedAssessmentDetailsWithAssociations } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import AssessmentAssociatedElementSummaryCard
   from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/cards/AssessmentAssociatedElementSummaryCard/AssessmentAssociatedElementSummaryCard.vue'
 import { AssociatedElementCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.stub'

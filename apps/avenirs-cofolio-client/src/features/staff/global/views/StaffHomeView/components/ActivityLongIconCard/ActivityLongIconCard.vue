@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { ActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityStaffOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { EActivityStatus } from '@/api/avenir-esr'
+import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
 import { ROUTES } from '@/common/constants'

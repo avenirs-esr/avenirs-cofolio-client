@@ -1,6 +1,6 @@
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EGroupType } from '@/api/avenir-esr'
 
 export function useGroupTypeConfig () {
   const { t } = useI18n()

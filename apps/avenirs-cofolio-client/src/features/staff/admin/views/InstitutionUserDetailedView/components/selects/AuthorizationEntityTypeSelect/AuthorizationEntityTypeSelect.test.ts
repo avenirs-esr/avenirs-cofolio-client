@@ -1,8 +1,8 @@
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EAuthorizationEntityType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
-import { EAuthorizationEntityType } from '@/api/avenir-esr'
 import AuthorizationEntityTypeSelect from '@/features/staff/admin/views/InstitutionUserDetailedView/components/selects/AuthorizationEntityTypeSelect/AuthorizationEntityTypeSelect.vue'
 
 const stubs = {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AvIcon, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { EActivityStatus, EAuthorizationEntityType } from '@/api/avenir-esr'
+import { EActivityStatus, EAuthorizationEntityType } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
 export interface AuthorizationEntityNameProps {

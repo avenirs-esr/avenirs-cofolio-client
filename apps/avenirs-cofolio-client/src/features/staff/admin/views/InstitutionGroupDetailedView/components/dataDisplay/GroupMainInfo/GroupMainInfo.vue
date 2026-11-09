@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
+import type { GroupDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { GroupDTO } from '@/api/avenir-esr'
 import type { GroupMainInfoRow } from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.types'
 import { AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
