@@ -1,9 +1,9 @@
+import type { PagedResponseNotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PathParams } from 'msw'
-import type { PagedResponseNotificationDTO } from '@/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { EUserCategory, getGetNotificationsUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import { createStaffMockedPagedResponseNotifications } from '@/__mocks__/fixtures/staffs/notifications.fixtures'
-import { EUserCategory, getGetNotificationsUrl } from '@/api/avenir-esr'
 
 export const getStaffNotificationsErrorHandler = http.get(`*${getGetNotificationsUrl(EUserCategory.STAFF)}`, () => {
   return HttpResponse.json(

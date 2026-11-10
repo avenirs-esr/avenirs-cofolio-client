@@ -2,8 +2,13 @@ import type {
   DeclaredActivityAssessmentDetailsDTO,
   EActivityAssessmentStatus,
   PagedResponseDeclaredActivityToAssessDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import {
+  getGetAssessmentDetailsUrl,
+  getGetDeclaredActivitiesToAssessUrl,
+  getSendAssessmentUrl
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { http, HttpResponse } from 'msw'
 import {
@@ -15,11 +20,6 @@ import {
   mockedAssessmentDetailsWithAssociations,
   mockedAssessmentDetailsWithoutAssociations
 } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
-import {
-  getGetAssessmentDetailsUrl,
-  getGetDeclaredActivitiesToAssessUrl,
-  getSendAssessmentUrl
-} from '@/api/avenir-esr'
 
 export const getDeclaredActivitiesToAssessHandler = http.get(
   `*${getGetDeclaredActivitiesToAssessUrl()}`,

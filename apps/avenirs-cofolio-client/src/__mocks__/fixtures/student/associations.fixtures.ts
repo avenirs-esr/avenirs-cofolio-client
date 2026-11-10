@@ -1,7 +1,4 @@
-import type { AssociationLimitDTO, AssociationsDTO, AssociationSearchResultDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams, SkillProgressAssociationDTO, TraceAssociationDTO, TraceOverviewDTO } from '@/api/avenir-esr'
-import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
-import { createMockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
-import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
+import type { AssociationLimitDTO, AssociationsDTO, AssociationSearchResultDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams, SkillProgressAssociationDTO, TraceAssociationDTO, TraceOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   EActivityThematic,
   EAssociationContextType,
@@ -10,7 +7,10 @@ import {
   ESkillLevel,
   ESkillReferentialType,
   ETraceAuthorType
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
+import { createMockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 
 export const mockedEmptyAssociations: AssociationsDTO = {
   traceAssociations: [],

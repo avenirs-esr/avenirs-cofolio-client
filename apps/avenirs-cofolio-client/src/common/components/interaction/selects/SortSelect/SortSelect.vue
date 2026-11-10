@@ -2,8 +2,8 @@
 import type { AvSelectOption, AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { SortValue } from '@/common/types'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { ESortField, ESortOrder } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { ESortField, ESortOrder } from '@/api/avenir-esr'
 import { formatSortValue } from '@/common/utils/http/http-params'
 
 export type SortSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'label' | 'selectedText'>

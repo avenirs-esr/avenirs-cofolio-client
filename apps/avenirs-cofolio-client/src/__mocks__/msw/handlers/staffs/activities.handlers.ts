@@ -12,29 +12,8 @@ import type {
   PagedResponseActivityFeedbacksPreviewDTO,
   PagedResponseActivityStaffOverviewDTO,
   StaffInfoDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
-import { http, HttpResponse } from 'msw'
-import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
-import {
-  ACTIVITY_WITH_AUTHORIZATIONS_ID,
-  ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
-  createMockedBannerUploadResponse,
-  createMockedPagedResponseActivityStaffOverviewDTO,
-  getMockedActivityDashboard,
-  mockedActivityAuthorizations,
-  mockedActivityContent,
-  mockedActivityContentWithEnrolledStudent1,
-  mockedActivityContentWithFileAndLink,
-  mockedActivityContentWithoutEnrolledStudent,
-  mockedActivityDashboard,
-  mockedActivityDraftCreationResponse,
-  mockedActivityDraftUpdateResponse,
-  mockedInactiveStudents
-} from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   EActivityStatus,
   EErrorCode,
@@ -57,7 +36,28 @@ import {
   getUnpublishActivityUrl,
   getUpdateActivityDraftUrl,
   getUploadDraftBannerUrl
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import { http, HttpResponse } from 'msw'
+import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
+import {
+  ACTIVITY_WITH_AUTHORIZATIONS_ID,
+  ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
+  createMockedBannerUploadResponse,
+  createMockedPagedResponseActivityStaffOverviewDTO,
+  getMockedActivityDashboard,
+  mockedActivityAuthorizations,
+  mockedActivityContent,
+  mockedActivityContentWithEnrolledStudent1,
+  mockedActivityContentWithFileAndLink,
+  mockedActivityContentWithoutEnrolledStudent,
+  mockedActivityDashboard,
+  mockedActivityDraftCreationResponse,
+  mockedActivityDraftUpdateResponse,
+  mockedInactiveStudents
+} from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(

@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, AvPopoverStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { h } from 'vue'
 import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUserCategory } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import { NotificationsPopoverBodyStub } from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.stub'
 

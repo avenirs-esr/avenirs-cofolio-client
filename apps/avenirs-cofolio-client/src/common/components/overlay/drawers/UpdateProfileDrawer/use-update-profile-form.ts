@@ -1,10 +1,10 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { ProfileOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
 import { useApiErrors, useFormValidators } from '@avenirs-esr/shared'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import {
   useUpdateProfile,

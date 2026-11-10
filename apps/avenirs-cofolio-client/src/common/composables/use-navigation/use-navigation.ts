@@ -1,5 +1,5 @@
+import type { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import type { NavigationFailure, RouteLocationRaw } from 'vue-router'
-import type { EActivityThematic } from '@/api/avenir-esr'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/common/constants'
 

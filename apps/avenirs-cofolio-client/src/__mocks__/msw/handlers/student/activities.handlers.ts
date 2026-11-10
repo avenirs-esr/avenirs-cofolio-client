@@ -1,20 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
-import { delay, http, HttpResponse } from 'msw'
-import {
-  activitiesNavigationMock,
-  createLargeMockedPagedResponseDeclaredActivityViewDTO,
-  createMockedDeclaredActivitiesViewResponse,
-  createMockedDeclaredActivityDetails,
-  createMockedPagedResponseDeclaredActivityViewDTO,
-  mockedActivityDetail,
-  mockedDeclaredActivitiesOverview,
-  mockedDeclaredActivityDetails,
-  mockedFinishedDeclaredActivityDetails,
-  mockedLatestActivitiesOverview
-} from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
 
   EActivityStatus,
@@ -35,7 +21,21 @@ import {
   getUpdateDeclaredActivityUrl,
   getUpdateReflectionUrl
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import { delay, http, HttpResponse } from 'msw'
+import {
+  activitiesNavigationMock,
+  createLargeMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedDeclaredActivitiesViewResponse,
+  createMockedDeclaredActivityDetails,
+  createMockedPagedResponseDeclaredActivityViewDTO,
+  mockedActivityDetail,
+  mockedDeclaredActivitiesOverview,
+  mockedDeclaredActivityDetails,
+  mockedFinishedDeclaredActivityDetails,
+  mockedLatestActivitiesOverview
+} from '@/__mocks__/fixtures/student/activities.fixtures'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
 
 const subscribedActivities = new Set<string>()

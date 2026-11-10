@@ -1,5 +1,12 @@
-import type { EAuthorizationEntityType, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import {
+  getGetExternalUserAuthorizationTypesUrl,
+  getGetExternalUserByIdUrl,
+  getGetExternalUserUrl,
+  getGetGlobalAuthorizationOfExternalUserUrl
+
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedGetExternalUserAuthorizationsResponse,
@@ -12,13 +19,6 @@ import {
   staffUserGlobalAuthorization,
   studentUserGlobalAuthorization
 } from '@/__mocks__/fixtures/shared/external-user.fixtures'
-import {
-  getGetExternalUserAuthorizationTypesUrl,
-  getGetExternalUserByIdUrl,
-  getGetExternalUserUrl,
-  getGetGlobalAuthorizationOfExternalUserUrl
-
-} from '@/api/avenir-esr'
 
 const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAuthorizationOfExternalUserUrl(':id')}`, async ({ params }) => {
   const id = params.id as string | undefined

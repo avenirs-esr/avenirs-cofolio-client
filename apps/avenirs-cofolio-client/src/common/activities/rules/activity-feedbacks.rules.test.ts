@@ -1,8 +1,8 @@
-import type { DeclaredActivityDetailsDTO, FeedbackOverviewDTO, UserInfoDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO, FeedbackOverviewDTO, UserInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import {
   canCreateFeedbackRequest,
   computeRemainingFeedbacks,

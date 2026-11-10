@@ -12,7 +12,7 @@ export function configureSharedFetch (
   fetcher = createCustomFetch(config, interceptorManager)
 }
 
-export async function sharedFetch<T> (url: string, options: FetchOptions = {}): Promise<T> {
+export async function sharedFetch<T> (url: string, options?: FetchOptions): Promise<T> {
   if (!fetcher) {
     throw new Error('Shared HTTP transport is not configured. Call configureSharedFetch from the host application before making requests.')
   }

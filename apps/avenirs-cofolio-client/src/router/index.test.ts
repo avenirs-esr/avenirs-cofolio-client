@@ -1,7 +1,7 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ERole, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { beforeAll, beforeEach, expect, vi } from 'vitest'
 import { isNavigationFailure, NavigationFailureType, START_LOCATION } from 'vue-router'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
 const NOT_FOUND_ROUTE_NAME = 'NotFound'

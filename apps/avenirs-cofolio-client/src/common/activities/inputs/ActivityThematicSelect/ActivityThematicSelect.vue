@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvSelectModelValue, AvSelectOption, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EActivityThematic } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 
 export interface ActivityThematicSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder' | 'label'> {

@@ -1,14 +1,5 @@
-import type { FileDTO, GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { FileDTO, GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
-import { http, HttpResponse } from 'msw'
-import {
-  createMockedPagedResponseSelfKnowledgeElementViewDTO,
-  mandatorySelfKnowledgeCategories,
-  mockedSelfKnowledgeCategories,
-  mockedSelfKnowledgeCategoriesAvailable,
-  mockedSelfKnowledgeElementDetails,
-  mockedUploadAttachment
-} from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
   ESelfKnowledgeCategory,
   getAddSelfKnowledgeCategoriesUrl,
@@ -22,7 +13,16 @@ import {
   getUpdateSelfKnowledgeElementUrl,
   getUploadSelfKnowledgeAttachmentUrl
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
+import {
+  createMockedPagedResponseSelfKnowledgeElementViewDTO,
+  mandatorySelfKnowledgeCategories,
+  mockedSelfKnowledgeCategories,
+  mockedSelfKnowledgeCategoriesAvailable,
+  mockedSelfKnowledgeElementDetails,
+  mockedUploadAttachment
+} from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 
 const CATEGORY_URL_PARAM = ':selfKnowledgeCategory' as ESelfKnowledgeCategory
 

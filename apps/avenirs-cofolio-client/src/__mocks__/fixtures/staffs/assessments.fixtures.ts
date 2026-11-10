@@ -1,9 +1,9 @@
-import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityToAssessDTO, PagedResponseDeclaredActivityToAssessDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityToAssessDTO, PagedResponseDeclaredActivityToAssessDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityAssessmentStatus, EActivityAssessmentType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { EActivityAssessmentStatus, EActivityAssessmentType, EDeclaredActivityStatus } from '@/api/avenir-esr'
 
 export const mockedAssessmentDetailsWithAssociations: DeclaredActivityAssessmentDetailsDTO = {
   declaredActivityId: 'assessment-with-associations',

@@ -1,7 +1,7 @@
 import type { PathParams } from 'msw'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { getDownloadMediaUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
-import { getDownloadMediaUrl } from '@/api/avenir-esr'
 
 const downloadMediaHandler = http.get<PathParams, Blob>(`*${getDownloadMediaUrl()}`, () => {
   return HttpResponse.json<Blob>(new Blob(), {

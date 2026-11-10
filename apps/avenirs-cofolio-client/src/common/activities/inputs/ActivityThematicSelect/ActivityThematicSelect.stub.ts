@@ -1,5 +1,5 @@
+import type { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EActivityThematic } from '@/api/avenir-esr'
 
 export const ActivityThematicSelectStub = defineComponent({
   name: 'ActivityThematicSelect',

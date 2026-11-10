@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityStatusBadgeProps } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 
 BddTest().given('a declared activity status badge', () => {

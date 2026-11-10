@@ -1,5 +1,5 @@
-import type { FileDTO, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { EFileType, ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { FileDTO, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { EFileType, ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   {

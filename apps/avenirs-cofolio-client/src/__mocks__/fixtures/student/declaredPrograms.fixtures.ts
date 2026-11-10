@@ -1,9 +1,9 @@
-import type { DeclaredProgramDetailedDTO, DeclaredProgramViewDTO, PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { DeclaredProgramDetailedDTO, DeclaredProgramViewDTO, PagedResponseDeclaredProgramViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
 
   EProgramStatus
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 
 export const declaredProgramViewDTOFixture: DeclaredProgramViewDTO = {
   id: 'declared-program-123-456-789',

@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityThematicBadgeProps } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
+import { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { EActivityThematic } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 
 BddTest().given('an activity thematic badge', () => {

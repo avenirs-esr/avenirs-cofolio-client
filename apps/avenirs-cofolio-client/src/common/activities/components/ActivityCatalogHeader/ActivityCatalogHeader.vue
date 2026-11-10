@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
+import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'

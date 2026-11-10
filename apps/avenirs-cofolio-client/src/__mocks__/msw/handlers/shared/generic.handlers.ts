@@ -1,9 +1,9 @@
+import type { LoggedInUserDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PathParams } from 'msw'
-import type { LoggedInUserDTO } from '@/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { ERole, EUniverse, getGetMeUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
-import { ERole, EUniverse, getGetMeUrl } from '@/api/avenir-esr'
 
 export const mockedLoggedInUser: LoggedInUserDTO = {
   roles: Object.values(ERole),

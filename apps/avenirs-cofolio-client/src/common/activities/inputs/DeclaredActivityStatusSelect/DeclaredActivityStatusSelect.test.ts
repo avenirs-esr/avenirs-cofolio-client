@@ -1,9 +1,9 @@
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import DeclaredActivityStatusSelect from '@/common/activities/inputs/DeclaredActivityStatusSelect/DeclaredActivityStatusSelect.vue'
 
 const LABEL = 'Statut'

@@ -4,10 +4,10 @@ import type {
   GetAffiliationsParams,
   InstitutionDTO,
   PagedResponseExternalUserAffiliationOverviewDTO,
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 import { generateGroupOverviewDTOs } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { EUniverse } from '@/api/avenir-esr'
 
 function getExternalUserAffiliationOverviewDTO (index: number): ExternalUserAffiliationOverviewDTO {
   const firstName = `FirstName${index}`

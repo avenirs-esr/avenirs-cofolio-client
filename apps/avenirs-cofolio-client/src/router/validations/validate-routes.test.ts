@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { expect } from 'vitest'
-import { EUserCategory } from '@/api/avenir-esr'
 import { validateRoutes } from '@/router/validations/validate-routes'
 
 const component = { render: () => null }

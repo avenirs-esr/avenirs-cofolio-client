@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvBadge, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 
 export interface DeclaredActivityStatusBadgeProps {
   status: EDeclaredActivityStatus

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
+import { EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EUniverse } from '@/api/avenir-esr'
 
 interface UniverseBadgeProps {
   universe: EUniverse

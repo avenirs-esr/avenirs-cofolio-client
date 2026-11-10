@@ -1,21 +1,7 @@
+import type { CreateTraceDTO, FileDTO, PagedResponseTraceViewDTO, TraceConfigurationDTO, TraceDetailDTO, TraceFilter, TraceLockedDeclaredActivitiesDTO, TraceOverviewDTO, TracesCreationResponse, TracesSummaryDTO, TracesViewParams, UpdateTraceDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PathParams } from 'msw'
-import type { CreateTraceDTO, FileDTO, PagedResponseTraceViewDTO, TraceConfigurationDTO, TraceDetailDTO, TraceFilter, TraceLockedDeclaredActivitiesDTO, TraceOverviewDTO, TracesCreationResponse, TracesSummaryDTO, TracesViewParams, UpdateTraceDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
-import { isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
-import { delay, http, HttpResponse } from 'msw'
-import {
-  createDeletedTraceIdMock,
-  createMockedAttachmentUploadResponse,
-  createMockedTraceCreationResponse,
-  createMockedTracesViewResponse,
-  invalidTraceId,
-  mockedLockedDeclaredActivities,
-  mockedTraceDetailed,
-  mockedTraceOverview,
-  mockedTracesConfiguration,
-  mockedTracesSummary
-} from '@/__mocks__/fixtures/student'
 import {
 
   getCreateTraceUrl,
@@ -30,7 +16,21 @@ import {
   getUpdateTraceUrl,
   getUploadAttachmentUrl
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import { delay, http, HttpResponse } from 'msw'
+import {
+  createDeletedTraceIdMock,
+  createMockedAttachmentUploadResponse,
+  createMockedTraceCreationResponse,
+  createMockedTracesViewResponse,
+  invalidTraceId,
+  mockedLockedDeclaredActivities,
+  mockedTraceDetailed,
+  mockedTraceOverview,
+  mockedTracesConfiguration,
+  mockedTracesSummary
+} from '@/__mocks__/fixtures/student'
 
 export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   return http.get(`*${getGetTracesSummaryUrl()}`, () => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { NotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { NotificationDTO } from '@/api/avenir-esr'
 import { Loader } from '@avenirs-esr/shared'
 import { useInfiniteScroll } from '@vueuse/core'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'

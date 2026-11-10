@@ -1,6 +1,6 @@
-import type { ContextualAuthorizationDTO, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@/api/avenir-esr'
+import type { ContextualAuthorizationDTO, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { EAuthorization, EAuthorizationEntityType, EGroupType, ERole, EUniverse } from '@/api/avenir-esr'
+import { EAuthorization, EAuthorizationEntityType, EGroupType, ERole, EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockExternalUser: ExternalUserDTO = {
   eppn: 'alice.dupont',

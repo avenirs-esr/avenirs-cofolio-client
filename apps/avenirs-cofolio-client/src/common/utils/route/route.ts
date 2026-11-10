@@ -1,5 +1,5 @@
+import type { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import type { RouteLocationNormalizedLoadedGeneric, RouteRecordRaw } from 'vue-router'
-import type { ERole } from '@/api/avenir-esr'
 
 interface IsRouteActiveParams {
   /**

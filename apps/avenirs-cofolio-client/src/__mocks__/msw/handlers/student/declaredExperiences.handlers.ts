@@ -1,14 +1,5 @@
-import type { DeclaredExperienceViewDTO, EExperienceType, GetDeclaredExperienceViewParams, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO, EExperienceType, GetDeclaredExperienceViewParams, PagedResponseDeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes } from '@avenirs-esr/shared'
-import { delay, http, HttpResponse } from 'msw'
-import {
-  searchDeclaredExperienceById
-} from '@/__mocks__/fixtures/student'
-import {
-  createMockedDeclaredExperiencesPagedResponse,
-  createMockedDeclaredExperienceViewDTO,
-  declaredExperienceViewDTOFixture
-} from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import {
 
   ESortField,
@@ -19,7 +10,16 @@ import {
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { delay, http, HttpResponse } from 'msw'
+import {
+  searchDeclaredExperienceById
+} from '@/__mocks__/fixtures/student'
+import {
+  createMockedDeclaredExperiencesPagedResponse,
+  createMockedDeclaredExperienceViewDTO,
+  declaredExperienceViewDTOFixture
+} from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)

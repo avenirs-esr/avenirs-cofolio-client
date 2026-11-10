@@ -1,4 +1,5 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComposable } from 'tests/utils'
@@ -12,7 +13,6 @@ import {
   putUpdateProfilePhotoErrorHandler
 } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUserCategory } from '@/api/avenir-esr'
 import {
   useUpdateProfile,
   useUpdateProfileCover,

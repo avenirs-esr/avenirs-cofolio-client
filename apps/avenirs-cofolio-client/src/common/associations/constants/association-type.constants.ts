@@ -1,5 +1,5 @@
 import { ICONS } from '@avenirs-esr/shared'
-import { EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const ASSOCIATION_TYPE_ICONS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: ICONS.TRACES,

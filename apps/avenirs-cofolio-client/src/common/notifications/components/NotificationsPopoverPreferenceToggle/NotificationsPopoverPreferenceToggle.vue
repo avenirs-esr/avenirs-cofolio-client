@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { EUserCategory, QuickLinksDTO } from '@/api/avenir-esr'
+import type { EUserCategory, QuickLinksDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { Toggle, useApiErrors } from '@avenirs-esr/shared'
+import { getGetQuickLinksQueryKey, useGetQuickLinks, useUpdateNotificationPreferences } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { getGetQuickLinksQueryKey, useGetQuickLinks, useUpdateNotificationPreferences } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 
 const { userCategory } = defineProps<{ userCategory: EUserCategory }>()
