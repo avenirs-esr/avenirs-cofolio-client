@@ -19,7 +19,7 @@ export default defineConfig({
       override: {
         ...AVENIR_ESR_ORVAL_OVERRIDE,
         mutator: {
-          path: fileURLToPath(new URL('./src/api/fetch/fetch-instance/fetch-instance.ts', import.meta.url)),
+          path: fileURLToPath(new URL('./src/api/avenir-esr/fetch-instance/fetch-instance.ts', import.meta.url)),
           name: 'sharedFetch',
         },
       },
