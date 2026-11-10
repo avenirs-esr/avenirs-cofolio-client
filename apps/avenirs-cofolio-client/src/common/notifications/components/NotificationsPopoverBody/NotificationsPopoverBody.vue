@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { EUserCategory, NotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { EUserCategory, NotificationDTO } from '@/api/avenir-esr'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { invalidateGetNotifications, invalidateGetQuickLinks, useGetQuickLinks, useMarkAsSeen } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetNotifications, invalidateGetQuickLinks, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
 import NotificationsPopoverEmptyOrDisabled from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.vue'
 import NotificationsPopoverList from '@/common/notifications/components/NotificationsPopoverList/NotificationsPopoverList.vue'
 import NotificationsPopoverPreferenceToggle from '@/common/notifications/components/NotificationsPopoverPreferenceToggle/NotificationsPopoverPreferenceToggle.vue'

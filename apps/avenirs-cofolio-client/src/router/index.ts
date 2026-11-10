@@ -1,4 +1,4 @@
-import type { EUserCategory } from '@/api/avenir-esr'
+import type { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTES } from '@/common/constants'
 import { hasSomeRole } from '@/common/utils/route/route'

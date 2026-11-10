@@ -1,5 +1,5 @@
-import type { NotificationDTO, PagedResponseNotificationDTO } from '@/api/avenir-esr'
-import { ActivityModifiedParametersUpdatedFieldsItem, NotificationDTOType } from '@/api/avenir-esr'
+import type { NotificationDTO, PagedResponseNotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { ActivityModifiedParametersUpdatedFieldsItem, NotificationDTOType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockedStudentNotification: NotificationDTO = {
   id: crypto.randomUUID(),

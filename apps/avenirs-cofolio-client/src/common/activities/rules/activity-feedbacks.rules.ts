@@ -1,5 +1,5 @@
-import type { ActivityContentDTO, DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import { EFeedbackStatus } from '@/api/avenir-esr'
+import type { ActivityContentDTO, DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,

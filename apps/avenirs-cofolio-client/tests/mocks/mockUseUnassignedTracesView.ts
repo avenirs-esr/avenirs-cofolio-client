@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { PagedResponseTraceViewDTO, TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import type { PagedResponseTraceViewDTO, TraceViewDTO } from '@/api/avenir-esr'
 
 type ExtendedUseQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
   traces: Ref<TraceViewDTO[]>

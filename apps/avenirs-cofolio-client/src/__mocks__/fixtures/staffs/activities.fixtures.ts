@@ -9,9 +9,9 @@ import type {
   InactiveStudentDTO,
   PagedResponseActivityStaffOverviewDTO,
   StaffInfoDTO
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
-import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
 export const ACTIVITY_WITH_ENROLLED_STUDENTS_ID

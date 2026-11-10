@@ -1,4 +1,4 @@
-import { ERole } from '@/api/avenir-esr'
+import { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const ROUTE_ROLES = {
   STUDENT: {

@@ -1,5 +1,5 @@
-import type { NotificationDTO, PagedResponseNotificationDTO } from '@/api/avenir-esr'
-import { NotificationDTOType } from '@/api/avenir-esr'
+import type { NotificationDTO, PagedResponseNotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { NotificationDTOType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockedStaffNotification: NotificationDTO = {
   id: crypto.randomUUID(),

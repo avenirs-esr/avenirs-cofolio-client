@@ -1,7 +1,7 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityThematic } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
 

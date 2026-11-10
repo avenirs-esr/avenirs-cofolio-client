@@ -1,7 +1,7 @@
-import type { ActivityContentDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { expect } from 'vitest'
-import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
 import {
   hasPendingFeedback,
   isActivityAssociationToTraceDisabled,

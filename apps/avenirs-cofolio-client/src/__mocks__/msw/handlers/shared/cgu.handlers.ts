@@ -1,8 +1,8 @@
-import type { AcceptedCguDTO, CguDTO } from '@/api/avenir-esr'
+import type { AcceptedCguDTO, CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { getAcceptCguUrl, getGetLatestCguUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu, mockedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
-import { getAcceptCguUrl, getGetLatestCguUrl } from '@/api/avenir-esr'
 
 export const cguQueryErrorHandler = http.get(`*${getGetLatestCguUrl()}`, () => {
   return HttpResponse.json(

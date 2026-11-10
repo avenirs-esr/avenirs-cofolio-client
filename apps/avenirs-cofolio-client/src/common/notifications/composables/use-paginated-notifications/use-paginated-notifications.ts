@@ -1,10 +1,10 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
+import type { EUserCategory, NotificationDTO, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Ref } from 'vue'
-import type { EUserCategory, NotificationDTO, PageInfoDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { useGetNotifications } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { toValue } from 'vue'
-import { useGetNotifications } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
 
 export interface UsePaginatedNotifications {

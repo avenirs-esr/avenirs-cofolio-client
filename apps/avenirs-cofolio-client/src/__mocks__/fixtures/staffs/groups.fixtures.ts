@@ -1,6 +1,6 @@
-import type { GetGroupsParams, GroupDTO, GroupOverviewDTO, GroupReferenceDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
+import type { GetGroupsParams, GroupDTO, GroupOverviewDTO, GroupReferenceDTO, PagedResponseGroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { EGroupType } from '@/api/avenir-esr'
+import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockGroup: GroupDTO = {
   id: 'P1',

@@ -190,7 +190,7 @@ Each rule is an exported, documented pure function that takes the domain DTO(s) 
 
 ```typescript
 // src/common/activities/rules/activities.rules.ts
-import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from "@/api/avenir-esr";
+import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from "@avenirs-esr/shared/api/avenir-esr";
 
 export function computeRemainingFeedbacks(declaredActivityDetails: DeclaredActivityDetailsDTO) {
   return declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0);

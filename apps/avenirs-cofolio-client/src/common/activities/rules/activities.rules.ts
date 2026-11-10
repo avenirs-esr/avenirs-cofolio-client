@@ -1,9 +1,9 @@
-import type { ActivityContentDTO, ActivityPresentationDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, ActivityPresentationDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import {
   EDeclaredActivityStatus,
   EFeedbackStatus
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
 const NOT_DELETABLE_DECLARED_ACTIVITY_STATUSES = new Set([EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK, EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT, EDeclaredActivityStatus.COMPLETED])

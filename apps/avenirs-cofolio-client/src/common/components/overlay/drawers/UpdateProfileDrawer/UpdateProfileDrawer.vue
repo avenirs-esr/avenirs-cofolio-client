@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { FileDTO } from '@/api/avenir-esr'
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   AvAccordion,
   AvAccordionsGroup,
@@ -8,10 +8,10 @@ import {
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, FormCancelConfirmButtons, useApiErrors, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { EUserCategory, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
 import { Drawer, ImageUpload } from '@/common/components'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'

@@ -1,6 +1,6 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { ProfileOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { DeliverableOverviewDTO, EventOverviewDTO, PageOverviewDTO, ResumeOverviewDTO, } from '@/types'
-import { EFileType } from '@/api/avenir-esr'
+import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 

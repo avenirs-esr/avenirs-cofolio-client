@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvLocale } from '@avenirs-esr/shared'
 import { formatDateLocalized, PageTitle, QuerySuspense } from '@avenirs-esr/shared'
+import { useGetLatestCgu } from '@avenirs-esr/shared/api/avenir-esr'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
-import { useGetLatestCgu } from '@/api/avenir-esr'
 import CguAcceptanceBar from '@/common/views/CguView/components/CguAcceptanceBar/CguAcceptanceBar.vue'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { EUserCategory } from '@/api/avenir-esr'
+import { useGetQuickLinks } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetQuickLinks } from '@/api/avenir-esr'
 
 const { userCategory } = defineProps<{ userCategory: EUserCategory }>()
 

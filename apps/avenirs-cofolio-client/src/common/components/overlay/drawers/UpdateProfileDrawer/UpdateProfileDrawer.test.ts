@@ -1,8 +1,8 @@
+import type { EUserCategory, FileDTO, ProfileOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MockedFunction } from 'vitest'
 import type { SetupContext } from 'vue'
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import type { EUserCategory, FileDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
 import {
   AvAccordionsGroupStub,
   AvAccordionStub,
@@ -10,10 +10,10 @@ import {
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ConfirmationModalStub, FormCancelConfirmButtonsStub } from '@avenirs-esr/shared'
+import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EFileType } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { ImageUploadStub } from '@/common/components/interaction/files/ImageUpload/ImageUpload.stub'

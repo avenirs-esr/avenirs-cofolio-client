@@ -1,4 +1,4 @@
-import type { EAssociationContextType } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 
 /**
  * msw path parameters used by the association handlers, which answer for any

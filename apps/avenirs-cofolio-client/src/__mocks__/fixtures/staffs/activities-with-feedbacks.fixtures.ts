@@ -1,4 +1,4 @@
-import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus, PagedResponseActivityFeedbacksPreviewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus, PagedResponseActivityFeedbacksPreviewDTO, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { allFeedbacks } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 
 export function getMockedActivitiesWithFeedbacks ({ statuses }: { statuses?: EFeedbackStatus[] } = {}): ActivityFeedbacksPreviewDTO[] {

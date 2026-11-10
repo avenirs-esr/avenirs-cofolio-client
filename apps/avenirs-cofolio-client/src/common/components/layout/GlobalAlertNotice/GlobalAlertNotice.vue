@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FetchOptions } from '@avenirs-esr/shared'
 import { AvNotice } from '@avenirs-esr/avenirs-dsav'
-import { useGetAlertMessage } from '@/api/avenir-esr'
+import { useGetAlertMessage } from '@avenirs-esr/shared/api/avenir-esr'
 
 const requestOptions: FetchOptions = { skipUnauthorizedHandling: true }
 

@@ -1,5 +1,17 @@
-import type { EFeedbackStatus, FeedbackDashboardDTO, FeedbackDetailsDTO, FeedbackOverviewDTO, FileDTO, PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import type { EFeedbackStatus, FeedbackDashboardDTO, FeedbackDetailsDTO, FeedbackOverviewDTO, FileDTO, PagedResponseFeedbackStaffListItemDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import {
+
+  getDeleteFeedbackAttachmentUrl,
+  getGetFeedbackDashboardUrl,
+  getGetFeedbackDetailsUrl,
+  getGetFeedbackHistoryUrl,
+  getGetStaffFeedbacksUrl,
+  getSubmitFeedbackUrl,
+  getUpdateFeedbackUrl,
+  getUploadFeedbackAttachmentUrl
+
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
@@ -12,18 +24,6 @@ import {
   mockedFeedbackHistory,
   mockedUploadedFeedbackAttachment
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
-import {
-
-  getDeleteFeedbackAttachmentUrl,
-  getGetFeedbackDashboardUrl,
-  getGetFeedbackDetailsUrl,
-  getGetFeedbackHistoryUrl,
-  getGetStaffFeedbacksUrl,
-  getSubmitFeedbackUrl,
-  getUpdateFeedbackUrl,
-  getUploadFeedbackAttachmentUrl
-
-} from '@/api/avenir-esr'
 
 export const getFeedbackDashboardHandler = http.get(`*${getGetFeedbackDashboardUrl()}`, ({ request }) => {
   const url = new URL(request.url)

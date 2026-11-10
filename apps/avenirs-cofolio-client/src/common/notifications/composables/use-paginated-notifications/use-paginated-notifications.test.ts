@@ -1,8 +1,8 @@
-import type { NotificationDTO } from '@/api/avenir-esr'
+import type { NotificationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EUserCategory } from '@/api/avenir-esr'
 import { usePaginatedNotifications } from '@/common/notifications/composables/use-paginated-notifications/use-paginated-notifications'
 
 BddTest().given('the usePaginatedNotifications composable', () => {

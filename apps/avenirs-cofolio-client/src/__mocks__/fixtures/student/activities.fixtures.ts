@@ -1,4 +1,4 @@
-import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, GetDeclaredActivitiesViewParams, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, GetDeclaredActivitiesViewParams, PagedResponseDeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   EActivityStatus,
   EActivityThematic,
@@ -7,7 +7,7 @@ import {
   EFileType,
   ESortField,
   ESortOrder
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
 export const mockedActivityOverview: ActivityOverviewDTO = {

@@ -1,9 +1,9 @@
 import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { EActivityThematic } from '@/api/avenir-esr'
 import ActivityThematicSelect from '@/common/activities/inputs/ActivityThematicSelect/ActivityThematicSelect.vue'
 
 const LABEL = 'Thématique'

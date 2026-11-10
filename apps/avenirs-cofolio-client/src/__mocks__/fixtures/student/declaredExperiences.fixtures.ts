@@ -1,11 +1,11 @@
-import type { DeclaredExperienceViewDTO, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO, PagedResponseDeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
 
   EExperienceType,
   ESortField,
   ESortOrder
 
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
 
 export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
   id: 'declared-experience-123-456-789',

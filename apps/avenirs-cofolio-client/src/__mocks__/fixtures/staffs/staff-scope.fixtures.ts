@@ -1,5 +1,5 @@
-import type { ScopeNodeResponse, StaffScopeResponse } from '@/api/avenir-esr'
-import { ScopeNodeResponseType } from '@/api/avenir-esr'
+import type { ScopeNodeResponse, StaffScopeResponse } from '@avenirs-esr/shared/api/avenir-esr'
+import { ScopeNodeResponseType } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockedSecondaryInstitutionNode: ScopeNodeResponse = {
   id: 'secondary-institution-id',

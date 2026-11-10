@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvSelectModelValue, AvSelectOption, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 
 export interface DeclaredActivityStatusSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder' | 'label' | 'multiple'> {

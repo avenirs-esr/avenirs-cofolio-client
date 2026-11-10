@@ -1,8 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { EUserCategory, FileDTO, ProfileUpdateRequest, UploadCoverPictureBody, UploadProfilePictureBody } from '@/api/avenir-esr'
+import type { EUserCategory, FileDTO, ProfileUpdateRequest, UploadCoverPictureBody, UploadProfilePictureBody } from '@avenirs-esr/shared/api/avenir-esr'
 import { useApiErrors } from '@avenirs-esr/shared'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 import {
 
   invalidateGetProfile,
@@ -10,7 +8,9 @@ import {
   useUploadCoverPicture as useUpdateProfileCoverFromApi,
   useUpdateProfile as useUpdateProfileFromApi,
   useUploadProfilePicture as useUpdateProfilePhotoFromApi
-} from '@/api/avenir-esr'
+} from '@avenirs-esr/shared/api/avenir-esr'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 

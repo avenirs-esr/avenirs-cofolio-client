@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import type { FileDTO } from '@/api/avenir-esr'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'

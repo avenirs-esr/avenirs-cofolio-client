@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityContentDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'

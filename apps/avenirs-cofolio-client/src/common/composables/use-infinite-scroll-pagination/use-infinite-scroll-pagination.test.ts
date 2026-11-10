@@ -1,5 +1,5 @@
+import type { PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Ref } from 'vue'
-import type { PageInfoDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach } from 'vitest'
 import { useInfiniteScrollPagination } from '@/common/composables/use-infinite-scroll-pagination/use-infinite-scroll-pagination'

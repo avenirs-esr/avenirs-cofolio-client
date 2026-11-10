@@ -1,4 +1,4 @@
-import type { QuickLinksDTO } from '@/api/avenir-esr'
+import type { QuickLinksDTO } from '@avenirs-esr/shared/api/avenir-esr'
 
 export const mockedStudentQuickLinks: QuickLinksDTO = {
   userId: crypto.randomUUID(),
