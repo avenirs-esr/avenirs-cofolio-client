@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
 import { useI18n } from 'vue-i18n'
+import { withRequiredMark } from '@/common/utils/string/string'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
 import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
@@ -36,7 +37,7 @@ function onChangeAiUsageToggle (value: boolean) {
         data-testid="nature-section"
       >
         <span class="caption-regular">
-          {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title') }}
+          {{ withRequiredMark(t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title')) }}
         </span>
 
         <TraceAuthorTypeRadioSetFormField :form="form" />

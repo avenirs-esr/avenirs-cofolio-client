@@ -46,6 +46,7 @@ function handleFileDeleted (fileName: string) {
       >
         <TraceFileUploadFormField
           :form="form"
+          required
           @file-selected="handleFileSelected"
           @file-deleted="handleFileDeleted"
         />
