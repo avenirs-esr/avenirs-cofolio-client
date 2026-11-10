@@ -4,13 +4,13 @@ import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr
 import type { IdTitleList } from '@/types'
 import { AvModal, AvSelect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useModal } from '@avenirs-esr/shared'
-import { useGetAssociations } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import AssociationsSelector from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import DeleteAssociationsConfirmModal
   from '@/features/student/associations/components/overlays/modals/DeleteAssociationsConfirmModal/DeleteAssociationsConfirmModal.vue'
 import { useAssociationMutations } from '@/features/student/associations/composables/use-association-mutations/use-association-mutations'
-import { countAssociations, getAssociableContextTypes, getElementAssociations } from '@/features/student/associations/utils/associations.utils'
+import { useAssociationType } from '@/features/student/associations/composables/use-association-type/use-association-type'
+import { getElementAssociations } from '@/features/student/associations/utils/associations.utils'
 
 export interface DeleteAssociationsModalProps {
   opened: boolean
@@ -27,48 +27,13 @@ const emit = defineEmits<{
   (e: 'deleted'): void
 }>()
 
-const { data: associations } = useGetAssociations(contextType, elementId, undefined, {
-  query: {
-    enabled: computed(() => !!elementId)
-  }
+const { selectableTypes, selectedType, selectedOption, typeOptions, associations } = useAssociationType ({
+  contextType,
+  elementId,
+  action: 'dissociate',
 })
 
 const { t } = useI18n()
-
-const associableContextTypes = computed(() => getAssociableContextTypes(contextType))
-const isTypeSelectable = computed(() => associableContextTypes.value.length > 0)
-
-const internalType = ref<EAssociationContextType | undefined>(associableContextTypes.value?.[0])
-
-const typeOptions = computed(() =>
-  associableContextTypes.value.filter(type => type !== contextType)
-    .map((type) => {
-      const disabled = countAssociations(associations.value, [type]) === 0
-      return {
-        value: type,
-        label: t(`student.associations.availableContextTypes.${type}`),
-        disabled,
-        disabledTooltip: disabled
-          ? t(`student.associations.contextTypes.${type}.unassociateDisabledTooltip`)
-          : undefined
-
-      }
-    })
-)
-const selectedType = computed<AvSelectSelectedOption | null>({
-  get () {
-    const type = internalType?.value
-    if (!type) {
-      return null
-    }
-    return typeOptions.value.find(option => String(option.value) === type) ?? null
-  },
-  set (typeOption) {
-    if (typeOption) {
-      internalType.value = typeOption.value as EAssociationContextType
-    }
-  }
-})
 
 const {
   modalOpened: confirmModalOpened,
@@ -80,7 +45,7 @@ const { unassociate, isPending } = useAssociationMutations()
 
 const selectedAssociationIds = ref<string[]>([])
 
-const elementAssociations = computed(() => getElementAssociations(associations.value, internalType.value))
+const elementAssociations = computed(() => getElementAssociations(associations.value, selectedType.value))
 
 const selectedAssociations = computed<IdTitleList>(() =>
   elementAssociations.value
@@ -106,7 +71,7 @@ function onConfirm () {
   unassociate({
     contextType,
     elementId,
-    associatedContextType: internalType.value!,
+    associatedContextType: selectedType.value!,
     associationIds: selectedAssociationIds.value
   }, () => {
     selectedAssociationIds.value = []
@@ -140,19 +105,19 @@ function onConfirm () {
     </template>
 
     <AvSelect
-      v-if="isTypeSelectable"
-      :model-value="selectedType"
+      v-if="selectableTypes.length"
+      :model-value="selectedOption"
       :options="typeOptions"
       :label="t('student.associations.overlays.associateModal.chooseType')"
       :placeholder="t(`student.associations.overlays.associateModal.chooseTypePlaceholder`)"
       data-testid="association-type-select"
-      @update:model-value="(option) => { selectedType = option as AvSelectSelectedOption | null }"
+      @update:model-value="(option) => { selectedOption = option as AvSelectSelectedOption | null }"
     />
 
-    <template v-if="internalType && associations">
+    <template v-if="selectedType && associations">
       <AssociationsSelector
         v-model="selectedAssociationIds"
-        :associated-context-type="internalType"
+        :associated-context-type="selectedType"
         :associations="associations"
       />
     </template>

@@ -9,11 +9,11 @@ import AssociationCompactCard from '@/features/student/associations/components/c
 import AssociationSearchFilterSelect from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'
 import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import ConfirmAssociateModal from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
-import { useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { useAssociationMutations } from '@/features/student/associations/composables/use-association-mutations/use-association-mutations'
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
+import { useAssociationType } from '@/features/student/associations/composables/use-association-type/use-association-type'
 import { DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
-import { getAssociableContextTypes, getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
+import { getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
 
 type AssociationOption = AvAutocompleteOption & Pick<Association, 'category'>
 
@@ -32,44 +32,15 @@ const emit = defineEmits<{
   (e: 'associated'): void
 }>()
 
-const { getAssociateState } = useAssociationLimits({
+const { selectableTypes, selectedType, selectedOption, typeOptions, } = useAssociationType ({
   contextType,
-  elementId: () => elementId
+  elementId,
+  action: 'associate',
 })
 
-const associableContextTypes = computed(() => getAssociableContextTypes(contextType))
-
-const isTypeSelectable = computed(() => associableContextTypes.value.length > 0)
-
-const internalType = ref<EAssociationContextType | undefined>(associableContextTypes.value?.[0])
-
-const isDark = computed(() => internalType.value === EAssociationContextType.DECLARED_SKILL)
+const isDark = computed(() => selectedType.value === EAssociationContextType.DECLARED_SKILL)
 
 const { t } = useI18n()
-
-const typeOptions = computed(() =>
-  associableContextTypes.value
-    .filter(type => type !== contextType)
-    .map((type) => {
-      const state = getAssociateState(type)
-      return { value: type, label: t(`student.associations.availableContextTypes.${type}`), disabled: state.disabled, disabledTooltip: state.disabledTooltip }
-    }))
-
-const selectedType = computed<AvSelectSelectedOption | null>({
-  get () {
-    const type = internalType?.value
-
-    if (!type) {
-      return null
-    }
-    return typeOptions.value.find(option => String(option.value) === internalType.value) ?? null
-  },
-  set (typeOption) {
-    if (typeOption) {
-      internalType.value = typeOption.value as EAssociationContextType
-    }
-  }
-})
 
 const {
   modalOpened: confirmModalOpened,
@@ -93,9 +64,9 @@ const {
 } = useAssociationSearch({
   contextType,
   elementId: () => elementId,
-  associatedContextType: () => internalType.value!,
+  associatedContextType: () => selectedType.value!,
   selectedIds: () => selectedOptions.value.map(({ value }) => value.toString()),
-  enabled: () => opened && !!internalType?.value
+  enabled: () => opened && !!selectedType?.value
 })
 
 const { associate, isPending } = useAssociationMutations()
@@ -120,7 +91,7 @@ const selectedAssociations = computed<Association[]>(() =>
 )
 
 const searchPlaceholder = computed(() => {
-  const type = internalType.value
+  const type = selectedType!.value
   if (type == null) {
     return ''
   }
@@ -163,7 +134,7 @@ function onConfirm () {
   associate({
     contextType,
     elementId,
-    associatedContextType: internalType.value!,
+    associatedContextType: selectedType.value!,
     idsToAssociate: selectedAssociations.value.map(({ id }) => id)
   }, () => {
     clear()
@@ -175,18 +146,18 @@ function onConfirm () {
 <template>
   <ConfirmationModal
     :opened="opened"
-    :data-testid="internalType ? `associate-${getContextTypeSlug(internalType!, true)}-modal` : undefined"
+    :data-testid="selectedType ? `associate-${getContextTypeSlug(selectedType!, true)}-modal` : undefined"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="internalType ? t(`student.associations.contextTypes.${internalType}.associateConfirm`, { count: selectedAssociations.length }) : t('global.buttons.associate')"
+    :confirm-button-label="selectedType ? t(`student.associations.contextTypes.${selectedType}.associateConfirm`, { count: selectedAssociations.length }) : t('global.buttons.associate')"
     :confirm-button-icon="ICONS.ASSOCIATE"
-    :confirm-button-disabled="!internalType || selectedAssociations.length === 0"
-    :confirm-button-disabled-tooltip="internalType ? t(`student.associations.contextTypes.${internalType}.confirmButtonDisabledTooltip`) : undefined"
+    :confirm-button-disabled="!selectedType || selectedAssociations.length === 0"
+    :confirm-button-disabled-tooltip="selectedType ? t(`student.associations.contextTypes.${selectedType}.confirmButtonDisabledTooltip`) : undefined"
     :is-loading="isLoading"
     @close="onClose"
     @confirm="openConfirmModal"
   >
     <template
-      v-if="internalType"
+      v-if="selectedType"
       #header
     >
       <div
@@ -194,22 +165,22 @@ function onConfirm () {
         data-testid="header"
       >
         <span class="b2-regular av-text-text1">
-          {{ t(`student.associations.contextTypes.${internalType}.associateTitle`) }}
+          {{ t(`student.associations.contextTypes.${selectedType}.associateTitle`) }}
         </span>
       </div>
     </template>
 
     <AvSelect
-      v-if="isTypeSelectable"
-      :model-value="selectedType"
+      v-if="selectableTypes.length"
+      :model-value="selectedOption"
       :options="typeOptions"
       :label="t('student.associations.overlays.associateModal.chooseType')"
       :placeholder="t(`student.associations.overlays.associateModal.noElementsToAssociate`)"
       disabled-tooltip="student.associations.overlays.associateModal.noElementsToAssociate"
       data-testid="association-type-select"
-      @update:model-value="(option) => { selectedType = option as AvSelectSelectedOption | null }"
+      @update:model-value="(option) => { selectedOption = option as AvSelectSelectedOption | null }"
     />
-    <template v-if="internalType">
+    <template v-if="selectedType">
       <SearchAssociationLayout
         v-model="selectedOptions"
         v-model:search="searchQuery"
@@ -228,14 +199,14 @@ function onConfirm () {
         >
           <AssociationSearchFilterSelect
             v-model="searchFilter"
-            :context-type="internalType"
+            :context-type="selectedType"
           />
         </template>
 
         <template #selectedItem="{ item }">
           <AssociationCompactCard
-            v-if="internalType"
-            :context-type="internalType"
+            v-if="selectedType"
+            :context-type="selectedType"
             :association="item"
             class="av-w-full"
           />
@@ -246,7 +217,7 @@ function onConfirm () {
 
   <ConfirmAssociateModal
     :opened="confirmModalOpened"
-    :title="internalType ? t(`student.associations.contextTypes.${internalType}.associateConfirmTitle`, { count: selectedAssociations.length }) : ''"
+    :title="selectedType ? t(`student.associations.contextTypes.${selectedType}.associateConfirmTitle`, { count: selectedAssociations.length }) : ''"
     :items="selectedAssociations"
     @cancel="closeConfirmModal"
     @confirm="onConfirm"
@@ -254,8 +225,8 @@ function onConfirm () {
 
   <ConfirmationModal
     :opened="cancelConfirmationModalOpened"
-    :description="internalType ? t(`student.associations.contextTypes.${internalType}.cancelConfirmation`) : undefined"
-    :data-testid="internalType ? `associate-${getContextTypeSlug(internalType!, true)}-confirmation-modal` : undefined"
+    :description="selectedType ? t(`student.associations.contextTypes.${selectedType}.cancelConfirmation`) : undefined"
+    :data-testid="selectedType ? `associate-${getContextTypeSlug(selectedType!, true)}-confirmation-modal` : undefined"
     @close="closeCancelConfirmationModal"
     @confirm="onCancel"
   />
