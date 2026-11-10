@@ -36,8 +36,8 @@ const updatedAtLabel = computed(() => feedback.updatedAt ? `${t('staff.feedbacks
       </span>
 
       <FeedbackActivityTitle
-        :feedback="{ id: feedback.id ?? '', status: feedback.status }"
-        :activity="{ id: feedback.activity?.id, title: feedback?.activity?.title ?? '' }"
+        :feedback="{ id: feedback.id, status: feedback.status }"
+        :activity="{ id: feedback.activity?.id, title: feedback?.activity?.title }"
       />
     </div>
 

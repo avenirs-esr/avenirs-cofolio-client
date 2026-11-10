@@ -6,8 +6,9 @@ import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import { flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { createMockedPagedResponseFeedbackStaffListItemDTO } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
@@ -99,7 +100,7 @@ BddTest().given('a FeedbacksTable component', () => {
       global: { stubs },
     })
 
-    await flushPromises()
+    await nextTick()
   }
 
   beforeEach(async () => {
