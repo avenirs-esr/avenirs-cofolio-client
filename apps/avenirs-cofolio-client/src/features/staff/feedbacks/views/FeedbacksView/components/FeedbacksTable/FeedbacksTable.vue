@@ -78,40 +78,14 @@ const WIDTH_MAP: Record<string, string | undefined> = {
 }
 
 const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => {
-  const activityColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = {
-    key: 'activity',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.activity'),
-    width: WIDTH_MAP.activity,
-  }
+  const allColumnKeys = ['student', 'activity', 'createdAt', 'status', 'iteration', 'updatedAt'] as const
+  const columnKeys = withActivity ? allColumnKeys : allColumnKeys.filter(key => key !== 'activity')
 
-  return [
-    {
-      key: 'student',
-      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
-      width: WIDTH_MAP.student,
-    },
-    ...(withActivity ? [activityColumn] : []),
-    {
-      key: 'createdAt',
-      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
-      width: WIDTH_MAP.createdAt,
-    },
-    {
-      key: 'status',
-      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
-      width: WIDTH_MAP.status,
-    },
-    {
-      key: 'iteration',
-      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),
-      width: WIDTH_MAP.iteration,
-    },
-    {
-      key: 'updatedAt',
-      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
-      width: WIDTH_MAP.updatedAt,
-    },
-  ]
+  return columnKeys.map(key => ({
+    key,
+    label: t(`staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.${key}`),
+    width: WIDTH_MAP[key],
+  }))
 })
 </script>
 
@@ -181,7 +155,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
                 }"
                 :activity="{
                   id: row.activity?.id,
-                  title: row?.activity?.title ?? '',
+                  title: row?.activity?.title,
                 }"
                 with-nav
               />
@@ -205,7 +179,9 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             </template>
 
             <template #cell(updatedAt)="{ row }">
-              {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt, true) : '' }}
+              <span class="b2-regular">
+                {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt, true) : '' }}
+              </span>
             </template>
           </AvTable>
         </div>

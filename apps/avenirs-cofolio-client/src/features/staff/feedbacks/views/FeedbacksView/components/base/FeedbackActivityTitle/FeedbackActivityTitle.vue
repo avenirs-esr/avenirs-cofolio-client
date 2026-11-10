@@ -4,8 +4,8 @@ import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { ROUTES } from '@/common/constants'
 
 export interface FeedbackActivityTitleProps {
-  feedback: { id: string, status?: EFeedbackStatus }
-  activity: { id?: string, title: string }
+  feedback: { id?: string, status?: EFeedbackStatus }
+  activity: { id?: string, title?: string }
   withNav?: boolean
 }
 
