@@ -6,6 +6,7 @@ import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpl
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
 import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { bytesToMegabytes } from '@/common/utils/file/file'
+import { withRequiredMark } from '@/common/utils/string/string'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { TRACE_MAX_SIZE_BYTES } from '@/features/student/traces/config'
 
@@ -14,6 +15,7 @@ interface TraceFileUploadProps extends Omit<FileUploadProps, 'title' | 'descript
   description?: string
   accept?: string[]
   label?: string
+  required?: boolean
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   description = undefined,
   accept = [...TRACE_ACCEPTED_FILE_TYPES],
   disabled = false,
+  required = false,
   ...restProps
 } = defineProps<TraceFileUploadProps>()
 
@@ -58,7 +61,7 @@ const avFileUploadProps = computed<FileUploadProps>(() => ({
   ...restProps,
   accept,
   disabled,
-  title: title ?? t('global.information.FileUpload.title'),
+  title: withRequiredMark(title ?? t('global.information.FileUpload.title'), required),
   ariaLabel: title ?? t('global.information.FileUpload.title'),
   description: description ?? t('global.information.FileUpload.dragAndDrop')
 }))
