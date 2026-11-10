@@ -2,6 +2,19 @@
   "terms-of-service": {
     "views": {
       "TermsOfServiceView": {
+        "components": {
+          "forms": {
+            "TermsOfServiceUpdateForm": {
+              "publish": "Publish"
+            }
+          }
+        },
+        "composables": {
+          "useUpdateTermsOfServicesForm": {
+            "error": "The terms of service could not be updated",
+            "success": "The terms of service have been updated"
+          }
+        },
         "title": "Terms of Service"
       }
     }

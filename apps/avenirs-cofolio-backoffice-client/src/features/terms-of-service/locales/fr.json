@@ -2,6 +2,19 @@
   "terms-of-service": {
     "views": {
       "TermsOfServiceView": {
+        "components": {
+          "forms": {
+            "TermsOfServiceUpdateForm": {
+              "publish": "Publier"
+            }
+          }
+        },
+        "composables": {
+          "useUpdateTermsOfServicesForm": {
+            "error": "Les conditions générales d'utilisation n'ont pas pu être mises à jour",
+            "success": "Les conditions générales d'utilisation ont été mises à jour"
+          }
+        },
         "title": "Conditions Générales d'Utilisation"
       }
     }
