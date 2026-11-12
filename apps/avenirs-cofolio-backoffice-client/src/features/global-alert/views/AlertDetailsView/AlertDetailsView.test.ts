@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvNoticeStub, AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ActiveBadgeStub, DatePeriodPickerStub, DetailPageTitleStub, fromInstant, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { DatePeriodPickerStub, DetailPageTitleStub, fromInstant, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
@@ -8,6 +8,7 @@ import { getAlertConfigErrorHandler } from '@/__mocks__/msw/handlers/global-aler
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/constants'
 import AlertDetailsView from '@/features/global-alert/views/AlertDetailsView/AlertDetailsView.vue'
+import { AlertStatusBadgeStub } from '@/features/global-alert/views/AlertDetailsView/components/badges/AlertStatusBadge/AlertStatusBadge.stub'
 
 const EMPTY_STATE_MESSAGE = 'Aucune alerte globale n\'est configurée.'
 
@@ -18,7 +19,7 @@ BddTest().given('an AlertDetailsView view', () => {
     AvButton: AvButtonStub,
     AvNotice: AvNoticeStub,
     AvTable: AvTableStub,
-    ActiveBadge: ActiveBadgeStub,
+    AlertStatusBadge: AlertStatusBadgeStub,
     DatePeriodPicker: DatePeriodPickerStub,
     DetailPageTitle: DetailPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
@@ -28,7 +29,7 @@ BddTest().given('an AlertDetailsView view', () => {
   const getButton = () => wrapper.findComponent(AvButtonStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getTable = () => wrapper.findComponent(AvTableStub)
-  const getActiveBadge = () => wrapper.findComponent(ActiveBadgeStub)
+  const getStatusBadge = () => wrapper.findComponent(AlertStatusBadgeStub)
   const getDatePeriodPicker = () => wrapper.findComponent(DatePeriodPickerStub)
   const getNotice = () => wrapper.findComponent(AvNoticeStub)
 
@@ -96,7 +97,7 @@ BddTest().given('an AlertDetailsView view', () => {
     BddTest().then('it should display the alert details in the table rows', () => {
       expect(getTable().props('rows')).toEqual([
         {
-          id: 'active',
+          id: 'status',
           label: 'Statut',
           value: String(mockedAlertConfigurationDTO.active ?? false),
         },
@@ -114,9 +115,10 @@ BddTest().given('an AlertDetailsView view', () => {
     })
 
     BddTest().then('it should render the active badge', () => {
-      expect(getActiveBadge().exists()).toBe(true)
-      expect(getActiveBadge().props('active')).toBe(!!mockedAlertConfigurationDTO.active)
-      expect(getActiveBadge().props('labelGender')).toBe('FEMININE')
+      expect(getStatusBadge().exists()).toBe(true)
+      expect(getStatusBadge().props('active')).toBe(mockedAlertConfigurationDTO.active)
+      expect(getStatusBadge().props('startDate')).toBe(mockedAlertConfigurationDTO.startDate)
+      expect(getStatusBadge().props('endDate')).toBe(mockedAlertConfigurationDTO.endDate)
     })
 
     BddTest().then('it should render the date period picker in read-only mode', () => {
