@@ -18,7 +18,6 @@ export default ({ mode }: { mode: string }) => {
     '**/*.d.ts',
     '**/*.fixtures.ts',
     '**/*.handlers.ts',
-    'orval.config.ts',
     'src/App.vue',
     'public/mockServiceWorker.js',
     'src/__mocks__/*',

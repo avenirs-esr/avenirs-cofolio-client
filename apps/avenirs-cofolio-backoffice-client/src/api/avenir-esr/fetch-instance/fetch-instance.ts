@@ -1,11 +1,9 @@
-import type { BaseApiException } from '@avenirs-esr/shared'
-import { AvIsoLocaleMap, configureSharedFetch, createCustomFetch, FetchInterceptorManager } from '@avenirs-esr/shared'
+import { AvIsoLocaleMap, configureSharedFetch, FetchInterceptorManager } from '@avenirs-esr/shared'
 import { i18n } from '@/plugins/vue-i18n'
 
 const interceptorManager = new FetchInterceptorManager()
 
 interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => {
-  // TODO: add any request-specific logic here (headers, params ...)
   const locale = i18n.global.locale.value
   const isoLocale = AvIsoLocaleMap[locale as keyof typeof AvIsoLocaleMap] ?? AvIsoLocaleMap.fr
 
@@ -14,7 +12,6 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
     'x-signed-context': 'student',
     'Accept-Language': isoLocale,
     'Authorization': __BEARER_TOKEN__,
-    // header set only in development mode to be able to use local api, see @vite.config.ts
     ...(__USER_EPPN__ != null ? { eppn: __USER_EPPN__ } : {})
   }
   return options
@@ -29,14 +26,4 @@ const fetchConfig = {
   defaultHeaders: { 'Content-Type': 'application/json' },
 }
 
-const fetcher = createCustomFetch(fetchConfig, interceptorManager)
-
 configureSharedFetch(fetchConfig, interceptorManager)
-
-export async function customFetch<T> (url: string, options: RequestInit): Promise<T> {
-  return fetcher<T>(url, options)
-}
-
-export type ErrorType<_Error> = BaseApiException
-
-export type BodyType<BodyData> = BodyData
