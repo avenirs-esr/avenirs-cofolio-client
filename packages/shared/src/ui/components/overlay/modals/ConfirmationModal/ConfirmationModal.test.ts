@@ -113,6 +113,19 @@ BddTest().given('a confirmation modal', () => {
     })
   })
 
+  BddTest().when('custom description slot is provided', () => {
+    beforeEach(() => {
+      mountConfirmationModal({ description: 'Prop Description' }, { description: '<strong class="custom-description">Custom Description</strong>' })
+    })
+
+    BddTest().then('it should render the slot instead of the description prop', () => {
+      const descriptionText = wrapper.find('[data-testid="modal-description"]')
+
+      expect(descriptionText.find('.custom-description').exists()).toBe(true)
+      expect(descriptionText.text()).toBe('Custom Description')
+    })
+  })
+
   BddTest().when('custom default slot is provided', () => {
     beforeEach(() => {
       mountConfirmationModal({}, { default: '<div class="custom-content">Custom Content</div>' })

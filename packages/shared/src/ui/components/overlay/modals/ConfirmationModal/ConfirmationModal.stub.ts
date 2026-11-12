@@ -21,7 +21,7 @@ export const ConfirmationModalStub = defineComponent({
       <slot name="header" />
       <slot>
         <div>{{ title }}</div>
-        <div>{{ description }}</div>
+        <div><slot name="description">{{ description }}</slot></div>
       </slot>
     </div>
   `
