@@ -81,12 +81,17 @@ pnpm --filter avenirs-cofolio-backoffice-client run preview
 pnpm --filter avenirs-cofolio-backoffice-client run build
 pnpm --filter avenirs-cofolio-backoffice-client run test
 pnpm --filter avenirs-cofolio-backoffice-client run test:watch
-pnpm --filter avenirs-cofolio-backoffice-client run generate:api
 ```
 
 The development server uses `http://localhost:5174/cofolio-back-office/`, separate from Cofolio's default port 5173. It fails if port 5174 is already in use instead of silently selecting another port.
 
-The application uses `/cofolio-back-office/` as its default base path. Place its private environment file next to this README, using `.env.example` as a template. The API contract remains in `api-specs/avenir-esr.swagger.json` and generated clients are written to `src/api/avenir-esr/generated/`.
+The application uses `/cofolio-back-office/` as its default base path. Place its private environment file next to this README, using `.env.example` as a template. API requests, query and mutation hooks, and models are imported from `@avenirs-esr/shared/api/avenir-esr`; Backoffice does not generate a local API client. Its `src/api/avenir-esr/fetch-instance/fetch-instance.ts` module configures the shared HTTP transport with application-specific headers and interceptors and is loaded by application bootstrap and unit-test setup.
+
+Regenerate the shared API client from the workspace root:
+
+```sh
+pnpm --filter @avenirs-esr/shared run generate:api
+```
 
 Accessibility uses a dedicated preview on port 4174:
 
