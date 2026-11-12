@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import { AvButton, AvNotice, AvTable, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ActiveBadge, DatePeriodPicker, DetailPageTitle, fromInstant, QuerySuspense } from '@avenirs-esr/shared'
+import { DatePeriodPicker, DetailPageTitle, fromInstant, QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useGetAlertConfig } from '@/api/avenir-esr'
 import { ROUTES } from '@/constants'
+import AlertStatusBadge from '@/features/global-alert/views/AlertDetailsView/components/badges/AlertStatusBadge/AlertStatusBadge.vue'
 
 const { t } = useI18n()
 const { data: alert, isLoading, error } = useGetAlertConfig()
@@ -34,7 +35,7 @@ const columns: AvTableColumn<{ label: string, value: string }>[] = [
 
 const rows = computed(() => [
   {
-    id: 'active',
+    id: 'status',
     label: t('global-alert.views.AlertDetailsView.components.dataDisplay.AlertDetailsTable.rows.status'),
     value: String(alert?.value?.active ?? false)
   },
@@ -79,9 +80,11 @@ const rows = computed(() => [
           <span>{{ row.label }}</span>
         </template>
         <template #cell(value)="{ row }">
-          <ActiveBadge
-            v-if="row.id === 'active'"
-            :active="row.value === String(true)"
+          <AlertStatusBadge
+            v-if="row.id === 'status'"
+            :active="alert?.active"
+            :start-date="alert?.startDate"
+            :end-date="alert?.endDate"
             label-gender="FEMININE"
           />
           <DatePeriodPicker

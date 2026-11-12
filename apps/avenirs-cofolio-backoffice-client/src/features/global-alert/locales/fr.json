@@ -18,6 +18,13 @@
     "views": {
       "AlertDetailsView": {
         "components": {
+          "badges": {
+            "AlertStatusBadge": {
+              "ACTIVE": "Active",
+              "INACTIVE": "Inactive",
+              "PROGRAMMED": "Programmée"
+            }
+          },
           "dataDisplay": {
             "AlertDetailsTable": {
               "columns": {

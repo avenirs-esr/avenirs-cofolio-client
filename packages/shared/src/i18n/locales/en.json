@@ -16,20 +16,6 @@
       }
     },
     "components": {
-      "badges": {
-        "ActiveBadge": {
-          "active": {
-            "FEMININE": "Active | Actives",
-            "MASCULINE": "Active | Actives",
-            "NEUTRAL": "Active | Actives"
-          },
-          "inactive": {
-            "FEMININE": "Inactive | Inactives",
-            "MASCULINE": "Inactive | Inactives",
-            "NEUTRAL": "Inactive | Inactives"
-          }
-        }
-      },
       "cards": {
         "Card": {
           "collapse": "Collapse",
