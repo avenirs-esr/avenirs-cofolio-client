@@ -98,8 +98,9 @@ BddTest().given('a TermsOfServiceUpdateForm component', () => {
       expect(getPublishButton().attributes('form')).toBe(formId)
     })
 
-    BddTest().then('it should disable the publish button when the form is invalid', () => {
+    BddTest().then('it should disable the publish button and set disabled-tooltip when the form is invalid', () => {
       expect(getPublishButton().props('disabled')).toBe(true)
+      expect(getPublishButton().props('disabledTooltip')).toBe('Le formulaire n\'est pas valide')
     })
 
     BddTest().then('it should emit the initial dirty state', () => {

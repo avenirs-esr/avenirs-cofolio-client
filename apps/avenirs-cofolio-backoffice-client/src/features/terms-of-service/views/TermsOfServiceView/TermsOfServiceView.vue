@@ -11,12 +11,10 @@ const { data: cgu, isLoading, error } = useGetLatestCgu()
 <template>
   <PageTitle :title="t('terms-of-service.views.TermsOfServiceView.title')" />
 
-  <div class="av-col av-gap-sm">
-    <QuerySuspense
-      :error
-      :is-loading
-    >
-      <TermsOfServiceUpdateForm :cgu />
-    </QuerySuspense>
-  </div>
+  <QuerySuspense
+    :error
+    :is-loading
+  >
+    <TermsOfServiceUpdateForm :cgu />
+  </QuerySuspense>
 </template>

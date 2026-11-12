@@ -10,9 +10,7 @@ export interface TermsOfServiceUpdateFormProps {
   cgu?: CguDTO
 }
 
-const {
-  cgu,
-} = defineProps<TermsOfServiceUpdateFormProps>()
+const { cgu } = defineProps<TermsOfServiceUpdateFormProps>()
 
 const emit = defineEmits<{
   dirtyChange: [value: boolean]
@@ -50,6 +48,7 @@ watch(isDirty, value => emit('dirtyChange', value), { immediate: true })
             id="description"
             :model-value="field.state.value"
             :error-message="field.state.meta.errors?.join(', ')"
+            :is-loading="isSubmitting"
             @update:model-value="(value?: string) => field.handleChange(value !== '<p></p>' ? (value ?? '') : '')"
           />
         </template>
@@ -68,6 +67,7 @@ watch(isDirty, value => emit('dirtyChange', value), { immediate: true })
         type="submit"
         :is-loading="isSubmitting"
         :disabled="!isFormValid"
+        :disabled-tooltip="t('global.components.interactions.buttons.FormCancelConfirmButtons.invalidForm')"
         :label="t('terms-of-service.views.TermsOfServiceView.components.forms.TermsOfServiceUpdateForm.publish')"
         @click="handleSubmit"
       />
