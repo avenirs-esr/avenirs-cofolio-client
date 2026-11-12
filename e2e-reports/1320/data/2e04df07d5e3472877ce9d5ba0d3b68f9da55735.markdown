@@ -1,0 +1,386 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/selfKnowledge/selfKnowledge.feature.spec.js >> Student Project Self-Knowledge Main Section Page >> Update Profile Drawer >> Student can open the update profile drawer
+- Location: .features-gen/tests/student/lifeProject/selfKnowledge/selfKnowledge.feature.spec.js:33:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation "Accès rapide":
+    - list [ref=e3]:
+      - listitem [ref=e4]:
+        - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+          - /url: "#main"
+          - generic [ref=e6]: Aller au contenu principal
+      - listitem [ref=e7]:
+        - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+          - /url: "#footer"
+          - generic [ref=e9]: Aller au pied de page
+  - banner [ref=e10]:
+    - generic [ref=e16]:
+      - text: "Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera"
+      - strong [ref=e17]: indisponible
+      - text: pendant cette période.
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - link "Accueil - Cofolio Apprenant" [ref=e26] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e27]
+        - button "Changer d'univers" [ref=e29] [cursor=pointer]:
+          - generic [ref=e32]: Changer d'univers
+      - generic [ref=e34]:
+        - list [ref=e37]:
+          - listitem [ref=e38]:
+            - button "Notifications" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: Notifications
+          - listitem [ref=e45]:
+            - button "J. moulin" [ref=e48] [cursor=pointer]:
+              - generic [ref=e51]: J. moulin
+        - navigation [ref=e54]:
+          - button "FR" [ref=e57] [cursor=pointer]:
+            - generic [ref=e60]: FR
+    - navigation "Menu principal" [ref=e64]:
+      - list [ref=e65]:
+        - listitem [ref=e66]:
+          - link "ACCUEIL" [ref=e67] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e70]: ACCUEIL
+        - listitem [ref=e71]:
+          - link "MES ACTIVITÉS" [ref=e72] [cursor=pointer]:
+            - /url: /cofolio/student/activities
+            - generic [ref=e75]: MES ACTIVITÉS
+        - listitem [ref=e76]:
+          - link "MES COMPÉTENCES" [ref=e77] [cursor=pointer]:
+            - /url: /cofolio/student/skills
+            - generic [ref=e80]: MES COMPÉTENCES
+        - listitem [ref=e81]:
+          - button "MON PROJET DE VIE" [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: MON PROJET DE VIE
+        - listitem [ref=e84]:
+          - button "MES OUTILS" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: MES OUTILS
+  - main [ref=e87]:
+    - generic [ref=e88]:
+      - generic [ref=e90]:
+        - navigation "Fil d'Ariane" [ref=e91]:
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Accueil" [ref=e95] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e96]:
+              - generic: Mon projet de vie
+            - listitem [ref=e97]:
+              - generic: Bâtir mon projet
+            - listitem [ref=e98]:
+              - generic: Me connaître
+        - heading "Bâtir mon projet" [level=1] [ref=e101]
+      - generic [ref=e103]:
+        - navigation "0140c9c9-c803-4cfe-a669-233246537cee navigation" [ref=e104]:
+          - generic [ref=e105]:
+            - button "Réduire le menu" [expanded] [ref=e109] [cursor=pointer]
+            - menu [ref=e113]:
+              - menuitem "Ma carte mentale" [ref=e114]:
+                - button "Ma carte mentale" [ref=e115] [cursor=pointer]:
+                  - generic [ref=e120]: Ma carte mentale
+              - menuitem "Me connaître" [ref=e121]:
+                - button "Me connaître" [ref=e122] [cursor=pointer]:
+                  - generic [ref=e127]: Me connaître
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - generic [ref=e134]: Me connaître
+            - button "Modifier mon profil" [ref=e136] [cursor=pointer]:
+              - generic [ref=e139]: Modifier mon profil
+          - generic [ref=e140]:
+            - generic [ref=e142]:
+              - img "Bannière du profil" [ref=e143]
+              - img "Photo de profil" [ref=e145]
+            - generic [ref=e148]:
+              - generic [ref=e149]: Jeanne Moulin
+              - generic [ref=e150]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+          - button "Gérer mes catégories" [ref=e154] [cursor=pointer]:
+            - generic [ref=e157]: Gérer mes catégories
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - generic [ref=e161]:
+                  - generic [ref=e165]: Mes points forts (10)
+                  - button "Gérer mes éléments" [ref=e169] [cursor=pointer]:
+                    - generic [ref=e172]: Gérer mes éléments
+                - button "Réduire" [expanded] [ref=e175] [cursor=pointer]
+              - generic [ref=e179]:
+                - generic [ref=e180]: Identifier et valoriser mes qualités, talents et réussites marquantes.
+                - generic [ref=e182]:
+                  - navigation [ref=e183]:
+                    - list [ref=e184]:
+                      - listitem [ref=e185]: Page 1 sur 2
+                      - listitem
+                      - listitem [ref=e186]:
+                        - generic [ref=e188]:
+                          - link "Page précédente" [disabled]:
+                            - /url: "#page-1"
+                      - listitem [ref=e189]:
+                        - link "Page suivante" [ref=e192] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem
+                  - generic [ref=e195]:
+                    - link "Créativité Je suis capable de trouver des solutions originales et innovantes aux problèmes ⭐ 1/5" [ref=e196] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=25c704e6-1524-463c-8874-45b829c36ca6
+                      - generic [ref=e198]:
+                        - generic [ref=e201]: Créativité
+                        - generic [ref=e205]:
+                          - generic [ref=e209]: Je suis capable de trouver des solutions originales et innovantes aux problèmes
+                          - generic [ref=e212]:
+                            - generic [ref=e213]: ⭐
+                            - generic [ref=e214]: 1/5
+                    - link "Esprit d'équipe Je travaille efficacement avec les autres et favorise la collaboration" [ref=e215] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=5edcb789-872b-4c11-aa68-c57732bd5532
+                      - generic [ref=e217]:
+                        - generic [ref=e220]: Esprit d'équipe
+                        - generic [ref=e228]: Je travaille efficacement avec les autres et favorise la collaboration
+                    - link "Leadership Je sais prendre des initiatives et guider une équipe vers ses objectifs" [ref=e229] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=88a1b57a-8b5e-47d1-ac14-1eab9a6221d6
+                      - generic [ref=e231]:
+                        - generic [ref=e234]: Leadership
+                        - generic [ref=e242]: Je sais prendre des initiatives et guider une équipe vers ses objectifs
+                    - link "Persévérance Je continue mes efforts même face aux difficultés" [ref=e243] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=32d688c3-e449-4c44-93d2-2e6fb9f9588b
+                      - generic [ref=e245]:
+                        - generic [ref=e248]: Persévérance
+                        - generic [ref=e256]: Je continue mes efforts même face aux difficultés
+                    - link "Communication Je m'exprime clairement et j'écoute activement les autres" [ref=e257] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=179c60b2-beb8-40af-a4a1-1fdc07072417
+                      - generic [ref=e259]:
+                        - generic [ref=e262]: Communication
+                        - generic [ref=e270]: Je m'exprime clairement et j'écoute activement les autres
+                    - link "Adaptabilité Je m'ajuste facilement aux changements et aux nouvelles situations ⭐ ⭐ 2/5" [ref=e271] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=454aaf51-7bda-4e5d-83b6-c78e391c5d39
+                      - generic [ref=e273]:
+                        - generic [ref=e276]: Adaptabilité
+                        - generic [ref=e280]:
+                          - generic [ref=e284]: Je m'ajuste facilement aux changements et aux nouvelles situations
+                          - generic [ref=e287]:
+                            - generic [ref=e288]: ⭐
+                            - generic [ref=e289]: ⭐
+                            - generic [ref=e290]: 2/5
+            - generic [ref=e291]:
+              - generic [ref=e292]:
+                - generic [ref=e293]:
+                  - generic [ref=e297]: Mes valeurs (10)
+                  - button "Gérer mes éléments" [ref=e301] [cursor=pointer]:
+                    - generic [ref=e304]: Gérer mes éléments
+                - button "Réduire" [expanded] [ref=e307] [cursor=pointer]
+              - generic [ref=e311]:
+                - generic [ref=e312]: Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.
+                - generic [ref=e314]:
+                  - navigation [ref=e315]:
+                    - list [ref=e316]:
+                      - listitem [ref=e317]: Page 1 sur 2
+                      - listitem
+                      - listitem [ref=e318]:
+                        - generic [ref=e320]:
+                          - link "Page précédente" [disabled]:
+                            - /url: "#page-1"
+                      - listitem [ref=e321]:
+                        - link "Page suivante" [ref=e324] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem
+                  - generic [ref=e327]:
+                    - link "Respect Traiter les autres avec considération et dignité ⭐ ⭐ ⭐ 3/5" [ref=e328] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=d03ba434-3b10-4afc-8184-e21bd061d655
+                      - generic [ref=e330]:
+                        - generic [ref=e333]: Respect
+                        - generic [ref=e337]:
+                          - generic [ref=e341]: Traiter les autres avec considération et dignité
+                          - generic [ref=e344]:
+                            - generic [ref=e345]: ⭐
+                            - generic [ref=e346]: ⭐
+                            - generic [ref=e347]: ⭐
+                            - generic [ref=e348]: 3/5
+                    - link "Honnêteté Agir avec intégrité et transparence dans toutes mes interactions" [ref=e349] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=5d1f965c-abdf-4bad-82c9-ca05da8b9ddc
+                      - generic [ref=e351]:
+                        - generic [ref=e354]: Honnêteté
+                        - generic [ref=e362]: Agir avec intégrité et transparence dans toutes mes interactions
+                    - link "Solidarité Soutenir et aider les autres dans le besoin ⭐ ⭐ ⭐ ⭐ 4/5" [ref=e363] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=452d30ef-85ea-404f-940c-c7dc0e854692
+                      - generic [ref=e365]:
+                        - generic [ref=e368]: Solidarité
+                        - generic [ref=e372]:
+                          - generic [ref=e376]: Soutenir et aider les autres dans le besoin
+                          - generic [ref=e379]:
+                            - generic [ref=e380]: ⭐
+                            - generic [ref=e381]: ⭐
+                            - generic [ref=e382]: ⭐
+                            - generic [ref=e383]: ⭐
+                            - generic [ref=e384]: 4/5
+                    - link "Justice Promouvoir l'équité et l'égalité des chances pour tous ⭐ ⭐ 2/5" [ref=e385] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=51060cc0-15eb-44a7-8694-301bf824898b
+                      - generic [ref=e387]:
+                        - generic [ref=e390]: Justice
+                        - generic [ref=e394]:
+                          - generic [ref=e398]: Promouvoir l'équité et l'égalité des chances pour tous
+                          - generic [ref=e401]:
+                            - generic [ref=e402]: ⭐
+                            - generic [ref=e403]: ⭐
+                            - generic [ref=e404]: 2/5
+                    - link "Liberté Respecter l'autonomie et les choix de chacun" [ref=e405] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=76d0ffe9-2303-469a-ba74-62a98f2ef5f7
+                      - generic [ref=e407]:
+                        - generic [ref=e410]: Liberté
+                        - generic [ref=e418]: Respecter l'autonomie et les choix de chacun
+                    - link "Engagement M'investir pleinement dans mes projets et responsabilités ⭐ ⭐ ⭐ 3/5" [ref=e419] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=f775dcc7-391e-4c26-b737-96b58918f148
+                      - generic [ref=e421]:
+                        - generic [ref=e424]: Engagement
+                        - generic [ref=e428]:
+                          - generic [ref=e432]: M'investir pleinement dans mes projets et responsabilités
+                          - generic [ref=e435]:
+                            - generic [ref=e436]: ⭐
+                            - generic [ref=e437]: ⭐
+                            - generic [ref=e438]: ⭐
+                            - generic [ref=e439]: 3/5
+            - generic [ref=e440]:
+              - generic [ref=e441]:
+                - generic [ref=e442]:
+                  - generic [ref=e446]: Mes envies (10)
+                  - button "Gérer mes éléments" [ref=e450] [cursor=pointer]:
+                    - generic [ref=e453]: Gérer mes éléments
+                - button "Réduire" [expanded] [ref=e456] [cursor=pointer]
+              - generic [ref=e460]:
+                - generic [ref=e461]: Clarifier ce que j'ai envie d'explorer, d'apprendre ou de vivre à court et moyen terme.
+                - generic [ref=e463]:
+                  - navigation [ref=e464]:
+                    - list [ref=e465]:
+                      - listitem [ref=e466]: Page 1 sur 2
+                      - listitem
+                      - listitem [ref=e467]:
+                        - generic [ref=e469]:
+                          - link "Page précédente" [disabled]:
+                            - /url: "#page-1"
+                      - listitem [ref=e470]:
+                        - link "Page suivante" [ref=e473] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem
+                  - generic [ref=e476]:
+                    - link "Développer mes compétences techniques Approfondir mes connaissances dans mon domaine d'expertise" [ref=e477] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=034a2a73-85f7-4992-9fd6-d91e8de53d70
+                      - generic [ref=e479]:
+                        - generic [ref=e482]: Développer mes compétences techniques
+                        - generic [ref=e490]: Approfondir mes connaissances dans mon domaine d'expertise
+                    - link "Manager une équipe Acquérir de l'expérience en gestion et leadership ⭐ ⭐ ⭐ ⭐ 4/5" [ref=e491] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=3d1a52de-f8ed-47be-be43-d2d879cdd9e1
+                      - generic [ref=e493]:
+                        - generic [ref=e496]: Manager une équipe
+                        - generic [ref=e500]:
+                          - generic [ref=e504]: Acquérir de l'expérience en gestion et leadership
+                          - generic [ref=e507]:
+                            - generic [ref=e508]: ⭐
+                            - generic [ref=e509]: ⭐
+                            - generic [ref=e510]: ⭐
+                            - generic [ref=e511]: ⭐
+                            - generic [ref=e512]: 4/5
+                    - link "Voyager à l'étranger Découvrir de nouvelles cultures et élargir mes horizons ⭐ ⭐ ⭐ 3/5" [ref=e513] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=b559cefd-07b0-4353-8fdb-8e8398252308
+                      - generic [ref=e515]:
+                        - generic [ref=e518]: Voyager à l'étranger
+                        - generic [ref=e522]:
+                          - generic [ref=e526]: Découvrir de nouvelles cultures et élargir mes horizons
+                          - generic [ref=e529]:
+                            - generic [ref=e530]: ⭐
+                            - generic [ref=e531]: ⭐
+                            - generic [ref=e532]: ⭐
+                            - generic [ref=e533]: 3/5
+                    - link "Créer mon entreprise Développer un projet entrepreneurial qui me passionne" [ref=e534] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=cf8e706d-070d-498a-b83f-3b2a7107b762
+                      - generic [ref=e536]:
+                        - generic [ref=e539]: Créer mon entreprise
+                        - generic [ref=e547]: Développer un projet entrepreneurial qui me passionne
+                    - link "Continuer mes études Poursuivre ma formation académique dans un domaine qui m'intéresse" [ref=e548] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=f8dd6317-1e1e-4098-97c7-7fd2637b9267
+                      - generic [ref=e550]:
+                        - generic [ref=e553]: Continuer mes études
+                        - generic [ref=e561]: Poursuivre ma formation académique dans un domaine qui m'intéresse
+                    - link "Contribuer à des projets sociaux M'engager dans des initiatives à impact positif" [ref=e562] [cursor=pointer]:
+                      - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=008eaee2-ff2c-44c7-8fe5-44d35afbdb8b
+                      - generic [ref=e564]:
+                        - generic [ref=e567]: Contribuer à des projets sociaux
+                        - generic [ref=e575]: M'engager dans des initiatives à impact positif
+  - contentinfo [ref=e576]:
+    - generic [ref=e578]:
+      - generic [ref=e579]:
+        - link "Logo ANR" [ref=e580] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e581]
+        - link "Logo France 2030" [ref=e582] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e583]
+      - generic [ref=e584]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e585]:
+      - generic [ref=e586]:
+        - img "Logo Cofolio" [ref=e587]
+        - generic [ref=e598]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e599]:
+        - generic [ref=e600]:
+          - generic [ref=e601]: Informations légales
+          - list [ref=e602]:
+            - listitem [ref=e603]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e604] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e605]:
+              - link "Conditions générales d'utilisation" [ref=e606] [cursor=pointer]:
+                - /url: /cofolio/student/cgu
+            - listitem [ref=e607]:
+              - link "Données personnelles" [ref=e608] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e609]:
+              - link "Gestion des cookies" [ref=e610] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e611]:
+          - generic [ref=e612]: Autres sites
+          - list [ref=e613]:
+            - listitem [ref=e614]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e615] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e616]:
+          - generic [ref=e617]: Partenaires
+          - generic [ref=e618]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e619] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e620]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e621] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e623]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e627] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Page } from '@playwright/test'
+  2 | 
+  3 | export async function waitForPageLoad (page: Page) {
+> 4 |   await page.waitForLoadState('networkidle')
+    |              ^ Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+  5 | }
+  6 | 
+```
