@@ -124,7 +124,8 @@
     },
     "error": {
       "api": {
-        "ACTIVITY_DRAFT_NOT_FOUND": "Activity draft not found",
+        "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED": "This change of activity authorizations is not allowed",
+        "ACTIVITY_DRAFT_NOT_FOUND":"Activity draft not found",
         "ACTIVITY_NOT_FOUND": "Activity not found",
         "ACTIVITY_UNPUBLISHED": "This activity has been unpublished and is no longer available",
         "AMS_NOT_FOUND": "AMS not found",

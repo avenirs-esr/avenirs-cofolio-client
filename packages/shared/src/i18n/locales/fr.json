@@ -124,7 +124,8 @@
     },
     "error": {
       "api": {
-        "ACTIVITY_DRAFT_NOT_FOUND": "Brouillon d'activité introuvable",
+        "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED": "Cette modification des autorisations de l'activité n'est pas autorisée",
+        "ACTIVITY_DRAFT_NOT_FOUND":"Brouillon d'activité introuvable",
         "ACTIVITY_NOT_FOUND": "Activité introuvable",
         "ACTIVITY_UNPUBLISHED": "Cette activité a été dépubliée et n'est plus disponible",
         "AMS_NOT_FOUND": "AMS introuvable",

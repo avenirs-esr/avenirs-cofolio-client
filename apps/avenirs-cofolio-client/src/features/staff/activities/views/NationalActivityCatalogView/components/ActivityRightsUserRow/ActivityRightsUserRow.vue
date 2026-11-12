@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { AvSelectModelValue, AvSelectOption } from '@avenirs-esr/avenirs-dsav'
-import type { EActivityRight } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvCard, AvIcon, AvSelect, AvTooltip, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityRight, EAuthorization } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import { useAuthorizationTypeConfig } from '@/features/staff/admin/views/InstitutionUserDetailedView/composables/use-authorization-type-config/use-authorization-type-config'
@@ -11,9 +10,10 @@ import DeleteOverlay from '@/features/student/global/components/interaction/Dele
 
 export interface ActivityRightsUserRowProps {
   user: UserInfoType
+  locked?: boolean
 }
 
-defineProps<ActivityRightsUserRowProps>()
+const { locked = false } = defineProps<ActivityRightsUserRowProps>()
 
 const emit = defineEmits<{
   delete: []
@@ -25,7 +25,7 @@ const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 const { getAuthorizationTypeConfig } = useAuthorizationTypeConfig()
 
-const authorizationOptions = computed<AvSelectOption[]>(() =>
+const allOptions = computed<AvSelectOption[]>(() =>
   Object.values(EAuthorization).map((authorization) => {
     const { label, icon } = getAuthorizationTypeConfig(authorization)
 
@@ -33,8 +33,14 @@ const authorizationOptions = computed<AvSelectOption[]>(() =>
   }),
 )
 
+const authorizationOptions = computed(() =>
+  allOptions.value.filter(({ value }) => value !== EActivityRight.LEADER),
+)
+
+const isLeader = computed(() => rights.value.includes(EActivityRight.LEADER))
+
 const selectedOptions = computed(() =>
-  authorizationOptions.value.filter(({ value }) => rights.value.includes(value as EActivityRight)),
+  allOptions.value.filter(({ value }) => isLeader.value || rights.value.includes(value as EActivityRight)),
 )
 
 function updateRights (selected: AvSelectModelValue) {
@@ -43,7 +49,11 @@ function updateRights (selected: AvSelectModelValue) {
 </script>
 
 <template>
-  <DeleteOverlay @delete="emit('delete')">
+  <DeleteOverlay
+    :disabled="locked"
+    :disabled-tooltip="t('staff.activities.views.NationalActivityCatalogView.ActivityRightsSection.lockedTooltip')"
+    @delete="emit('delete')"
+  >
     <AvCard class="activity-rights-user-row">
       <div
         class="av-gap-md av-py-sm av-pl-md av-pr-4xl"
@@ -54,7 +64,10 @@ function updateRights (selected: AvSelectModelValue) {
           class="av-flex-fill"
         />
 
-        <div class="av-flex-fill">
+        <div
+          v-if="!locked"
+          class="av-flex-fill"
+        >
           <AvSelect
             :model-value="selectedOptions"
             :options="authorizationOptions"

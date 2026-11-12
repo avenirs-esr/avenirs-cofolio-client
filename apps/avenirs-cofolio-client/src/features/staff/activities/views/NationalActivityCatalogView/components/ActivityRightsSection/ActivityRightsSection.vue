@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
-import type { ActivityAuthorizationDTO, EActivityRight, EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityAuthorizationDTO, EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvButton, AvCard, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { ConfirmationModal, FormCancelConfirmButtons, QuerySuspense, useApiErrors, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
-import { EAuthorization, invalidateGetActivityAuthorizations, useDefineActivityAuthorizations, useGetActivityAuthorizations, useSearchActivityAuthorizationCandidates } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityRight, EAuthorization, invalidateGetActivityAuthorizations, useDefineActivityAuthorizations, useGetActivityAuthorizations, useSearchActivityAuthorizationCandidates } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData, useQueryClient } from '@tanstack/vue-query'
 import { refDebounced } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { toFullName } from '@/common/utils/user/user'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import ActivityRightsUserRow from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsUserRow/ActivityRightsUserRow.vue'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import AuthorizationTypeBadge from '@/features/staff/admin/views/InstitutionUserDetailedView/components/badges/AuthorizationTypeBadge/AuthorizationTypeBadge.vue'
@@ -70,6 +71,8 @@ const selectedItems = computed(() =>
 
 const rightsByUser = reactive(new Map<string, EActivityRight[]>())
 
+const { profile } = useCurrentUser()
+
 const { mutate: defineAuthorizations, isPending: isSaving } = useDefineActivityAuthorizations({
   mutation: {
     onSuccess: async () => {
@@ -119,9 +122,13 @@ function syncWithAuthorizations (authorizations: ActivityAuthorizationDTO[] = []
 const readOnlyRows = computed(() =>
   (activityAuthorizations.value ?? []).map(({ staff, rights }) => ({
     user: { ...staff, email: '' } satisfies UserInfoType,
-    rights: rights.map(right => EAuthorization[right]),
+    rights: (rights.includes(EActivityRight.LEADER) ? Object.values(EActivityRight) : rights).map(right => EAuthorization[right]),
   })),
 )
+
+function isRowLocked (userId: string) {
+  return userId === profile.data.value.id || !!rightsByUser.get(userId)?.includes(EActivityRight.LEADER)
+}
 
 const isDirty = computed(() => {
   if (!isEditing.value) {
@@ -282,6 +289,7 @@ watch(isDirty, dirty => emit('dirtyChange', dirty), { immediate: true })
             >
               <ActivityRightsUserRow
                 :user="user"
+                :locked="isRowLocked(user.id)"
                 :model-value="rightsByUser.get(user.id)"
                 @update:model-value="rightsByUser.set(user.id, $event)"
                 @delete="removeUser(user.id)"

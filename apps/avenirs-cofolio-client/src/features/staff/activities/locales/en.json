@@ -127,6 +127,7 @@
               "description": "You have unsaved rights changes. If you leave, they will be lost."
             },
             "editDisabledTooltip": "You do not have the rights to edit this activity's authorizations",
+            "lockedTooltip": "You cannot edit this contributor's rights or remove them",
             "emptyState": "No one has rights on this activity.",
             "fetchAuthorizationsError": "Unable to load the activity rights",
             "fetchError": "Unable to search users",

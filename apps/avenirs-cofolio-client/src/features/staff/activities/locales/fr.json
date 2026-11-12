@@ -127,6 +127,7 @@
               "description": "Vous avez des modifications de droits non enregistrées. Si vous quittez, elles seront perdues."
             },
             "editDisabledTooltip": "Vous n'avez pas les droits pour modifier les autorisations de cette activité",
+            "lockedTooltip": "Vous ne pouvez pas modifier les droits de cet(te) intervenant(e) ni le retirer",
             "emptyState": "Aucune personne n'a de droits sur cette activité.",
             "fetchAuthorizationsError": "Impossible de charger les droits de l'activité",
             "fetchError": "Impossible de rechercher les utilisateurs",
