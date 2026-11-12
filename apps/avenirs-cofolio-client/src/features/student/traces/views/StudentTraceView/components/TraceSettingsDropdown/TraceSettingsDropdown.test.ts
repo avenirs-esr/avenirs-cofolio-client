@@ -3,6 +3,9 @@ import type { TraceSettingsDropdownProps } from '@/features/student/traces/views
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { mockedTraceDetailed } from '@/__mocks__/fixtures/student'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import { ManageAssociableEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.stub'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
@@ -10,13 +13,20 @@ import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceV
 BddTest().given('a setting popover', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceSettingsDropdown>>
 
+  const elementId = mockedTraceDetailed.id
+
   const stubs = {
-    ManageEntityDropdown: ManageEntityDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub,
+    ManageAssociableEntityDropdown: ManageAssociableEntityDropdownStub
   }
 
   const mountWith = (props: Partial<TraceSettingsDropdownProps> = {}) => {
     wrapper = mount(TraceSettingsDropdown, {
-      props,
+      props: {
+        elementId,
+        hasAssociations: true,
+        ...props
+      },
       global: { stubs }
     })
   }
@@ -25,6 +35,7 @@ BddTest().given('a setting popover', () => {
   const getUpdateButton = () => wrapper.find(`[data-testid="${Action.UPDATE}"]`)
   const getDownloadButton = () => wrapper.find(`[data-testid="${Action.DOWNLOAD}"]`)
   const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
+  const getAssociateDropdown = () => wrapper.findComponent(ManageAssociableEntityDropdownStub)
 
   const getActionItem = (action: Action) => {
     const item = getDropdown().props('actions').find(item => item === action || (typeof item === 'object' && item.type === action))
@@ -48,6 +59,13 @@ BddTest().given('a setting popover', () => {
 
     BddTest().then('it should enable delete and download items by default', () => {
       expect(getActionItem(Action.DOWNLOAD)?.disabled).toBe(false)
+    })
+
+    BddTest().then('it should forward context, element id and has-associations to the associable dropdown', () => {
+      const generic = getAssociateDropdown()
+      expect(generic.props('contextType')).toBe(EAssociationContextType.TRACE)
+      expect(generic.props('elementId')).toBe(elementId)
+      expect(generic.props('hasAssociations')).toBe(true)
     })
   })
 

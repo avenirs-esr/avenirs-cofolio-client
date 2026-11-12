@@ -2,9 +2,10 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EActivityStatus, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityStatus, EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { ManageAssociableEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.stub'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ActivityDetailedDropdown from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
@@ -13,7 +14,8 @@ BddTest().given('an activity dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetailedDropdown>>
 
   const stubs = {
-    ManageEntityDropdown: ManageEntityDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub,
+    ManageAssociableEntityDropdown: ManageAssociableEntityDropdownStub
   }
 
   const mountWith = (props: Partial<ActivityDetailedDropdownProps> = {}) => {
@@ -21,6 +23,8 @@ BddTest().given('an activity dropdown', () => {
       props: {
         status: EDeclaredActivityStatus.COMPLETED,
         activityStatus: EActivityStatus.PUBLISHED,
+        elementId: 'declared-activity-1',
+        hasAssociations: false,
         ...props
       },
       global: { stubs }
@@ -28,11 +32,22 @@ BddTest().given('an activity dropdown', () => {
   }
 
   const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const getAssociateDropdown = () => wrapper.findComponent(ManageAssociableEntityDropdownStub)
+  const getActions = () => getDropdown().props('actions') as Array<ActionItem>
   const getUpdateButton = () => wrapper.find(`[data-testid="${Action.UPDATE}"]`)
   const getUnsubscribeButton = () => wrapper.find(`[data-testid="${Action.UNSUBSCRIBE}"]`)
   const getResubscribeButton = () => wrapper.find(`[data-testid="${Action.RESUBSCRIBE}"]`)
   const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
-  const getAssociate = () => wrapper.find(`[data-testid="${Action.ASSOCIATE}"]`)
+
+  const getAssociateOverride = () => getAssociateDropdown().props('associateOverride') as { disabled: boolean, disabledTooltip?: string }
+
+  BddTest().then('it should forward context, element id and has-associations to the associable dropdown', () => {
+    mountWith()
+    const generic = getAssociateDropdown()
+    expect(generic.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
+    expect(generic.props('elementId')).toBe('declared-activity-1')
+    expect(generic.props('hasAssociations')).toBe(false)
+  })
 
   BddTest().when('the declared activity is subscribed', () => {
     beforeEach(() => {
@@ -54,7 +69,7 @@ BddTest().given('an activity dropdown', () => {
       expect(getDeleteButton().exists()).toBe(true)
       expect(getDeleteButton().attributes('disabled')).toBe('')
 
-      const deleteAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.DELETE)
+      const deleteAction = getActions().find(({ type }) => type === Action.DELETE)
       expect(deleteAction?.disabled).toBe(true)
       expect(deleteAction?.disabledTooltip).toBeTruthy()
     })
@@ -75,15 +90,17 @@ BddTest().given('an activity dropdown', () => {
       })
     })
 
-    BddTest().then('it should enable associate action when activity is subscribed', () => {
-      expect(getAssociate().exists()).toBe(true)
-      expect(getAssociate().attributes('disabled')).toBeUndefined()
+    BddTest().then('it should pass an enabled associate override', () => {
+      const override = getAssociateOverride()
+      expect(override.disabled).toBe(false)
+      expect(override.disabledTooltip).toBeUndefined()
+    })
+  })
 
-      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-        .find(({ type }) => type === Action.ASSOCIATE)
-
-      expect(associateAction?.disabled).toBe(false)
-      expect(associateAction?.disabledTooltip).toBeUndefined()
+  BddTest().when('the associate button is clicked', () => {
+    BddTest().then('it should not emit associate ', async () => {
+      await wrapper.find(`[data-testid="${Action.ASSOCIATE}"]`).trigger('click')
+      expect(wrapper.emitted('associate')).toBeUndefined()
     })
   })
 
@@ -105,28 +122,20 @@ BddTest().given('an activity dropdown', () => {
       expect(getDeleteButton().attributes('disabled')).toBeUndefined()
     })
 
-    BddTest().then('it should disable associate action when activity is unsubscribed', () => {
-      expect(getAssociate().exists()).toBe(true)
-      expect(getAssociate().attributes('disabled')).toBe('')
-      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-        .find(({ type }) => type === Action.ASSOCIATE)
-      expect(associateAction?.disabled).toBe(true)
-      expect(associateAction?.disabledTooltip).toBeTruthy()
+    BddTest().then('it should pass a disabled associate override', () => {
+      const override = getAssociateOverride()
+      expect(override.disabled).toBe(true)
+      expect(override.disabledTooltip).toBeTruthy()
     })
 
     BddTest().when('the declared activity is completed', () => {
       beforeEach(() => {
         mountWith({ status: EDeclaredActivityStatus.COMPLETED })
       })
-      BddTest().then('it should disable associate action when activity is completed', () => {
-        expect(getAssociate().exists()).toBe(true)
-        expect(getAssociate().attributes('disabled')).toBe('')
-
-        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-          .find(({ type }) => type === Action.ASSOCIATE)
-
-        expect(associateAction?.disabled).toBe(true)
-        expect(associateAction?.disabledTooltip).toBeTruthy()
+      BddTest().then('it should pass a disabled associate override', () => {
+        const override = getAssociateOverride()
+        expect(override.disabled).toBe(true)
+        expect(override.disabledTooltip).toBeTruthy()
       })
     })
 
@@ -134,15 +143,11 @@ BddTest().given('an activity dropdown', () => {
       beforeEach(() => {
         mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT })
       })
-      BddTest().then('it should disable associate action when activity is submitted form assessment', () => {
-        expect(getAssociate().exists()).toBe(true)
-        expect(getAssociate().attributes('disabled')).toBe('')
 
-        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-          .find(({ type }) => type === Action.ASSOCIATE)
-
-        expect(associateAction?.disabled).toBe(true)
-        expect(associateAction?.disabledTooltip).toBeTruthy()
+      BddTest().then('it should pass a disabled associate override', () => {
+        const override = getAssociateOverride()
+        expect(override.disabled).toBe(true)
+        expect(override.disabledTooltip).toBeTruthy()
       })
     })
 

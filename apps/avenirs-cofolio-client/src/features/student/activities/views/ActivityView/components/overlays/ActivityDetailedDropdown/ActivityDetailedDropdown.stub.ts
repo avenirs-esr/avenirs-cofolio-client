@@ -7,8 +7,10 @@ export const ActivityDetailedDropdownStub = defineComponent({
     status: {
       type: String as PropType<EDeclaredActivityStatus>,
       required: true
-    }
+    },
+    elementId: { type: String, required: true },
+    hasAssociations: { type: Boolean, required: true },
   },
-  emits: ['update', 'unsubscribe', 'resubscribe', 'delete', 'associate', 'dissociate'],
+  emits: ['update', 'unsubscribe', 'resubscribe', 'delete'],
   template: '<div class="activity-detailed-dropdown-stub" />'
 })

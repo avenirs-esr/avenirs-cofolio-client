@@ -12,8 +12,6 @@ import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
@@ -78,10 +76,8 @@ BddTest().given('a student trace view', () => {
     AvTab: AvTabStub,
     TraceSettingsDropdown: TraceSettingsDropdownStub,
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
-    AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
-    ElementAssociationsCards: ElementAssociationsCardsStub,
-    DeleteAssociationsModal: DeleteAssociationsModalStub
+    ElementAssociationsCards: ElementAssociationsCardsStub
   }
 
   const associationsCount
@@ -159,18 +155,6 @@ BddTest().given('a student trace view', () => {
       const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
       expect(traceDetails.exists()).toBe(true)
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
-    })
-
-    BddTest().then('it should render the AssociateModal initially hidden', async () => {
-      const modal = wrapper.findComponent(AssociateModalStub)
-      expect(modal.exists()).toBe(true)
-      expect(modal.props('opened')).toBe(false)
-    })
-
-    BddTest().then('it should configure the AssociateModal to associate declared skills to the trace', () => {
-      const modal = wrapper.findComponent(AssociateModalStub)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
-      expect(modal.props('elementId')).toBe(mockedTraceDetailed.id)
     })
 
     BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {

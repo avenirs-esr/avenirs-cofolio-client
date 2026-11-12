@@ -1,26 +1,46 @@
 <script lang="ts" setup>
+import type { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useI18n } from 'vue-i18n'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import ManageAssociableEntityDropdown from '@/common/components/interaction/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import { handleEntityDropdownAction, OWN_ACTIONS } from '@/common/utils/constants'
+
+export interface ManageDeclaredProgramDropdownProps {
+  elementId: string
+  hasAssociations: boolean
+}
+
+const { elementId, hasAssociations } = defineProps<ManageDeclaredProgramDropdownProps>()
 
 const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.UPDATE | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
-
 const { t } = useI18n()
 
-const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE, Action.ASSOCIATE, Action.DISSOCIATE])
+type AllowedActions = Action.UPDATE | Action.DELETE
+
+const ownActions = computed(() => OWN_ACTIONS)
+
+function onAction (action: Action, handleAction: (a: Action) => void) {
+  handleEntityDropdownAction(action, handleAction, action => emit(action))
+}
 </script>
 
 <template>
-  <div class="av-row av-justify-end">
-    <ManageEntityDropdown
-      :actions="actions"
-      :entity-name="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.entityName')"
-      width="max-content"
-      @action-selected="(action) => emit(action as AllowedActions)"
-    />
-  </div>
+  <ManageAssociableEntityDropdown
+    :context-type="EAssociationContextType.DECLARED_PROGRAM"
+    :element-id="elementId"
+    :has-associations="hasAssociations"
+  >
+    <template #default="{ associateAction, dissociateAction, handleAction }">
+      <ManageEntityDropdown
+        :entity-name="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.entityName')"
+        width="max-content"
+        :actions="[...ownActions, associateAction, dissociateAction]"
+        @action-selected="(action) => onAction(action, handleAction)"
+      />
+    </template>
+  </ManageAssociableEntityDropdown>
 </template>

@@ -7,9 +7,8 @@ import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { downloadBlob } from '@/common/utils/download/download'
-import { AssociateModal, countElementAssociations } from '@/features/student/associations'
+import { countElementAssociations } from '@/features/student/associations'
 import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
-import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import StudentTraceDetails from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
@@ -57,18 +56,6 @@ function downloadAttachment (traceId: string) {
   })
 }
 
-const {
-  modalOpened: associateModalOpened,
-  openModal: openAssociateModal,
-  closeModal: closeAssociateModal
-} = useModal()
-
-const {
-  modalOpened: unassociateModalOpened,
-  openModal: openUnassociateModal,
-  closeModal: closeUnassociateModal
-} = useModal()
-
 const activeTab = ref(0)
 
 function onDeleteTraceSuccess () {
@@ -103,10 +90,10 @@ const trailingLinks = computed(() => [
     <template #actions>
       <TraceSettingsDropdown
         v-if="!!traceDetailed"
+        :element-id="traceDetailed.id"
+        :has-associations="associationsCount > 0"
         :download-disabled="!traceDetailed.attachment"
         @delete="openDeleteModal"
-        @associate="openAssociateModal"
-        @dissociate="openUnassociateModal"
         @update="handleUpdateTrace"
         @download="downloadAttachment(traceDetailed.id)"
       />
@@ -157,22 +144,6 @@ const trailingLinks = computed(() => [
           </Loader>
         </AvTab>
       </AvTabs>
-
-      <AssociateModal
-        :opened="associateModalOpened"
-        :context-type="EAssociationContextType.TRACE"
-        :element-id="traceDetailed.id"
-        @cancel="closeAssociateModal"
-        @associated="closeAssociateModal"
-      />
-
-      <DeleteAssociationsModal
-        :opened="unassociateModalOpened"
-        :context-type="EAssociationContextType.TRACE"
-        :element-id="traceDetailed.id"
-        @cancel="closeUnassociateModal"
-        @deleted="closeUnassociateModal"
-      />
 
       <TraceDeletionConfirmationModal
         :trace-ids="selectedTraceIdsForDeletion"

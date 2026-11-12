@@ -8,8 +8,6 @@ import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { countElementAssociations } from '@/features/student/associations'
 import ElementAssociationsCards from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
-import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
-import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
@@ -28,18 +26,6 @@ const {
   navigateToStudentDeclaredPrograms,
   navigateToStudentToolsKitDeclaredPrograms,
 } = useNavigation()
-
-const {
-  modalOpened: associateModalOpened,
-  openModal: openAssociateModal,
-  closeModal: closeAssociateModal
-} = useModal()
-
-const {
-  modalOpened: unassociateModalOpened,
-  openModal: openUnassociateModal,
-  closeModal: closeUnassociateModal
-} = useModal()
 
 const { modalOpened, openModal, closeModal } = useModal()
 
@@ -84,28 +70,10 @@ function handleConfirmDelete () {
     <template #actions>
       <ManageDeclaredProgramDropdown
         v-if="declaredProgramDetailed"
+        :element-id="selectedProgramId"
+        :has-associations="associationsCount > 0"
         @update="handleUpdateSelected"
         @delete="openModal"
-        @associate="openAssociateModal"
-        @dissociate="openUnassociateModal"
-      />
-
-      <AssociateModal
-        v-if="declaredProgramDetailed"
-        :opened="associateModalOpened"
-        :context-type="EAssociationContextType.DECLARED_PROGRAM"
-        :element-id="declaredProgramDetailed.id"
-        @cancel="closeAssociateModal"
-        @associated="closeAssociateModal"
-      />
-
-      <DeleteAssociationsModal
-        v-if="declaredProgramDetailed && associations"
-        :opened="unassociateModalOpened"
-        :context-type="EAssociationContextType.DECLARED_PROGRAM"
-        :element-id="declaredProgramDetailed.id"
-        @cancel="closeUnassociateModal"
-        @deleted="closeUnassociateModal"
       />
     </template>
   </DetailPageTitle>

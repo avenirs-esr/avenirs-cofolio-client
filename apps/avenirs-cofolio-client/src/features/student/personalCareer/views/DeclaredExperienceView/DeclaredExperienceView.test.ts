@@ -14,8 +14,6 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeleteDeclaredExperienceConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
 import { DeclaredExperienceDetailsDropdownStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
@@ -82,8 +80,6 @@ const stubs = {
   DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
-  AssociateModal: AssociateModalStub,
-  DeleteAssociationsModal: DeleteAssociationsModalStub
 }
 
 BddTest().given('a declared experience view component', () => {

@@ -1,24 +1,27 @@
 <script lang="ts" setup>
 import type { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityStatus, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { isDeclaredActivityCompleted, isDeclaredActivitySubmittedForAssessment, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import ManageAssociableEntityDropdown from '@/common/components/interaction/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
 export interface ActivityDetailedDropdownProps {
   status: EDeclaredActivityStatus
   activityStatus: EActivityStatus
+  elementId: string
+  hasAssociations: boolean
 }
 
-const { status, activityStatus } = defineProps<ActivityDetailedDropdownProps>()
+const { status, activityStatus, elementId, hasAssociations } = defineProps<ActivityDetailedDropdownProps>()
 
 const emit = defineEmits<{
   (e: AllowedAction): void
 }>()
 
-type AllowedAction = Action.UPDATE | Action.ASSOCIATE | Action.DISSOCIATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
+type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
 
 const { t } = useI18n()
 
@@ -42,16 +45,6 @@ const actionDisabledState = computed(() => {
   }
 })
 
-const associateAction = computed<ActionItem>(() => ({
-  type: Action.ASSOCIATE,
-  ...actionDisabledState.value
-}))
-
-const dissociateAction = computed<ActionItem>(() => ({
-  type: Action.DISSOCIATE,
-  ...actionDisabledState.value
-}))
-
 const deleteAction = computed<ActionItem>(() => ({
   type: Action.DELETE,
   disabled: !isUnsubscribed.value,
@@ -64,20 +57,54 @@ const resubscribeAction = computed<ActionItem>(() => ({
   disabledTooltip: t('student.activities.views.ActivitiesCatalogView.unpublishedTooltip')
 }))
 
-const actions = computed(() => (
-  [
-    deleteAction.value,
-    associateAction.value,
-    dissociateAction.value,
-    ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
-  ]
-))
+const updateAction = computed<ActionItem>(() => ({
+  type: Action.UPDATE
+}))
+
+const unsubscribeAction = computed<ActionItem>(() => ({
+  type: Action.UNSUBSCRIBE
+}))
+
+const ownActions = computed(() => [deleteAction.value, ...(isUnsubscribed.value
+  ? [resubscribeAction.value]
+  : [updateAction.value, unsubscribeAction.value])])
+
+function onAction (action: Action, handleAction: (a: Action) => void) {
+  switch (action) {
+    case Action.ASSOCIATE:
+    case Action.DISSOCIATE:
+      handleAction(action)
+      break
+    case Action.UPDATE:
+      emit(Action.UPDATE)
+      break
+    case Action.RESUBSCRIBE:
+      emit(Action.RESUBSCRIBE)
+      break
+    case Action.UNSUBSCRIBE:
+      emit(Action.UNSUBSCRIBE)
+      break
+    case Action.DELETE:
+      emit(Action.DELETE)
+      break
+  }
+}
 </script>
 
 <template>
-  <ManageEntityDropdown
-    :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
-    :actions="actions"
-    @action-selected="(action) => emit(action as AllowedAction)"
-  />
+  <ManageAssociableEntityDropdown
+    :context-type="EAssociationContextType.DECLARED_ACTIVITY"
+    :element-id="elementId"
+    :has-associations="hasAssociations"
+    :associate-override="actionDisabledState"
+  >
+    <template #default="{ associateAction, dissociateAction, handleAction }">
+      <ManageEntityDropdown
+        data-testid="activity-view-detailed-dropdown"
+        :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
+        :actions="[...ownActions, associateAction, dissociateAction]"
+        @action-selected="(action) => onAction(action, handleAction)"
+      />
+    </template>
+  </ManageAssociableEntityDropdown>
 </template>

@@ -13,8 +13,6 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
@@ -53,20 +51,11 @@ const stubs = {
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
   DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub,
-  AssociateModal: AssociateModalStub,
-  DeleteAssociationsModal: DeleteAssociationsModalStub
 }
 
 BddTest().given('a student declared skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDeclaredSkillView>>
   const getDetailedDropdown = () => wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-  const getAssociateModal = () => wrapper.findComponent(AssociateModalStub)
-  const getDeleteModal = () => wrapper.findComponent(DeleteAssociationsModalStub)
-
-  async function emitDropdown (event: 'associate' | 'dissociate') {
-    getDetailedDropdown().vm.$emit(event)
-    await nextTick()
-  }
 
   const skillId = 'declared-skill-progress-1'
 
@@ -93,6 +82,14 @@ BddTest().given('a student declared skill view', () => {
       })
 
       expect(pageTitle.props('trailingLinks')).toHaveLength(1)
+    })
+
+    BddTest().then('it should pass the element id to the detailed dropdown', () => {
+      expect(getDetailedDropdown().props('elementId')).toBe('declared-skill-progress-1')
+    })
+
+    BddTest().then('it should pass has-associations to the detailed dropdown', () => {
+      expect(getDetailedDropdown().props('hasAssociations')).toBe(true)
     })
 
     BddTest().then('it should render DeclaredSkillSettingDropdown', () => {
@@ -224,6 +221,9 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().and('the update action is selected', () => {
       beforeEach(async () => {
+        await vi.waitFor(() =>
+          expect(wrapper.findComponent(DeclaredSkillSettingDropdownStub).exists()).toBe(true)
+        )
         await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('update')
       })
 
@@ -235,6 +235,9 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().and('the skill is deleted', () => {
       beforeEach(async () => {
+        await vi.waitFor(() =>
+          expect(wrapper.findComponent(DeclaredSkillSettingDropdownStub).exists()).toBe(true)
+        )
         await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('delete')
         await wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub).vm.$emit('skillDeleted')
       })
@@ -327,90 +330,6 @@ BddTest().given('a student declared skill view', () => {
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
-      })
-    })
-  })
-
-  BddTest().when('the declared skill detail is displayed', () => {
-    BddTest().then('it should render the associate modal closed', () => {
-      const modal = getAssociateModal()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-      expect(modal.props('elementId')).toBe(skillId)
-    })
-
-    BddTest().then('it should render the delete associations modal closed', () => {
-      const modal = getDeleteModal()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-      expect(modal.props('elementId')).toBe(skillId)
-    })
-  })
-
-  BddTest().when('the associate action is triggered', () => {
-    beforeEach(async () => {
-      await emitDropdown('associate')
-    })
-
-    BddTest().then('the associate modal opens', () => {
-      expect(getAssociateModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('the delete association modal stays closed', () => {
-      expect(getDeleteModal().props('opened')).toBe(false)
-    })
-
-    BddTest().when('the associate modal emits cancel', () => {
-      beforeEach(async () => {
-        getAssociateModal().vm.$emit('cancel')
-        await nextTick()
-      })
-      BddTest().then('the associate modal closes', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().when('the associate modal emits associated', () => {
-      beforeEach(async () => {
-        getAssociateModal().vm.$emit('associated')
-        await nextTick()
-      })
-      BddTest().then('the associate modal closes', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
-      })
-    })
-  })
-
-  BddTest().when('the dissociate action is triggered', () => {
-    beforeEach(async () => {
-      await emitDropdown('dissociate')
-    })
-
-    BddTest().then('the delete association modal opens', () => {
-      expect(getDeleteModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('the associate modal stays closed', () => {
-      expect(getAssociateModal().props('opened')).toBe(false)
-    })
-
-    BddTest().when('the delete association modal emits cancel', () => {
-      beforeEach(async () => {
-        getDeleteModal().vm.$emit('cancel')
-        await nextTick()
-      })
-      BddTest().then('the delete association modal closes', () => {
-        expect(getDeleteModal().props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().when('the delete association modal emits deleted', () => {
-      beforeEach(async () => {
-        getDeleteModal().vm.$emit('deleted')
-        await nextTick()
-      })
-      BddTest().then('the delete association modal closes', () => {
-        expect(getDeleteModal().props('opened')).toBe(false)
       })
     })
   })

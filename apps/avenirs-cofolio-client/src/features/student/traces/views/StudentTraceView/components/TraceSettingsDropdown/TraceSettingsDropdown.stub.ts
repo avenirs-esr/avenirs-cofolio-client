@@ -8,14 +8,14 @@ export const TraceSettingsDropdownStub = {
     isDeletable: {
       type: Boolean,
       default: true
-    }
+    },
+    elementId: { type: String, required: true },
+    hasAssociations: { type: Boolean, required: true },
   },
   emits: [
     'delete',
     'update',
-    'download',
-    'associate',
-    'dissociate'
+    'download'
   ],
   template: `
     <div data-testid="trace-settings-dropdown">
