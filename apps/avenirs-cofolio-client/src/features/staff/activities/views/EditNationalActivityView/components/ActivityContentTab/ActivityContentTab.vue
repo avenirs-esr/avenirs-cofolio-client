@@ -2,9 +2,10 @@
 import type { ActivityContentDTO, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ICONS } from '@avenirs-esr/shared'
+import { ICONS, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+import { withRequiredMark } from '@/common/utils'
 import { isDifferentFile } from '@/common/utils/file/file'
 import ActivityAssessmentFormFieldsContainer from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.vue'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
@@ -17,10 +18,13 @@ import ActivityReflectionFormField from '@/features/staff/activities/components/
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import ActivityResourcesListEditable from '@/features/staff/activities/components/lists/ActivityResourcesListEditable/ActivityResourcesListEditable.vue'
+import ActivityCreationModal from '@/features/staff/activities/components/modals/ActivityCreationModal/ActivityCreationModal.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
+import ManageSubActivitiesDropdown from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.vue'
+import SubActivitiesSortableList from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
 interface ActivityContentTabProps {
@@ -42,6 +46,11 @@ const {
   isUpdating
 } = useEditNationalActivityViewContext()
 const { t } = useI18n()
+const {
+  modalOpened: showAddSubActivityModal,
+  openModal: displayAddSubActivityModal,
+  closeModal: hideAddSubActivityModal,
+} = useModal()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
 const isFormDirty = form.useStore(state => state.isDirty)
@@ -93,7 +102,7 @@ function deleteSelectedResources (
   >
     <div :id="ContentSectionId.TITLE">
       <IconTitleCardContainer
-        :title="`${t('staff.activities.interactions.inputs.ActivityTitleInput.label')} *`"
+        :title="withRequiredMark(t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity'))"
         :title-icon="ICONS.ACTIVITY"
       >
         <ActivityTitleFormField
@@ -198,6 +207,20 @@ function deleteSelectedResources (
       </IconTitleCardContainer>
     </div>
 
+    <div :id="ContentSectionId.SUB_ACTIVITIES">
+      <IconTitleCardContainer
+        :title="t('global.activities.contentSectionTypes.SUB_ACTIVITIES')"
+        :title-icon="MDI_ICONS.FILE_TREE_OUTLINE"
+        collapsible
+      >
+        <template #title>
+          <ManageSubActivitiesDropdown @add="displayAddSubActivityModal" />
+        </template>
+
+        <SubActivitiesSortableList :sub-activities="activity.subActivities" />
+      </IconTitleCardContainer>
+    </div>
+
     <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton
@@ -210,4 +233,10 @@ function deleteSelectedResources (
       />
     </div>
   </div>
+
+  <ActivityCreationModal
+    :activity-draft-id="activity.id"
+    :opened="showAddSubActivityModal"
+    @close="hideAddSubActivityModal"
+  />
 </template>

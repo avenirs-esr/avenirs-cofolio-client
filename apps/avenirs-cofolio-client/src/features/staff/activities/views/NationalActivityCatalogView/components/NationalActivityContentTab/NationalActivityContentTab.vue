@@ -10,6 +10,7 @@ import ActivityRecommendedCompletionContextsList from '@/common/activities/compo
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
+import NationalActivitySubActivitiesList from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySubActivitiesList/NationalActivitySubActivitiesList.vue'
 
 interface NationalActivityContentTabProps {
   activity: ActivityContentDTO
@@ -86,5 +87,11 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
     </IconTitleCardContainer>
 
     <NationalActivitySettingDetails :activity="activity" />
+
+    <NationalActivitySubActivitiesList
+      v-if="activity.subActivities.length > 0"
+      :sub-activities="activity.subActivities"
+      :status="status"
+    />
   </div>
 </template>

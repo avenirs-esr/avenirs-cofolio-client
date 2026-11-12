@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import type { InputProps } from '@avenirs-esr/shared'
+import type { ComputedRef } from 'vue'
 import { Input } from '@avenirs-esr/shared'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 
-type ActivityTitleInputProps = Omit<InputProps, 'maxlength'>
+export interface ActivityTitleInputProps extends Omit<InputProps, 'label' | 'maxlength'> {
+  isSubActivity?: boolean
+}
 
 const {
+  isSubActivity = false,
   isTextarea = false,
   labelVisible = false,
   required = true,
   id,
-  label,
   errorMessage,
 } = defineProps<ActivityTitleInputProps>()
 
@@ -20,7 +23,7 @@ const modelValue = defineModel<string>()
 const { t } = useI18n()
 const attr = useAttrs()
 
-const inputProps = computed(() => ({
+const inputProps: ComputedRef<InputProps> = computed(() => ({
   ...attr,
   isTextarea,
   required,
@@ -30,7 +33,7 @@ const inputProps = computed(() => ({
   labelVisible,
   maxlength: ACTIVITY_TITLE_MAX_LENGTH,
   id: id ?? `activity-title-input-${crypto.randomUUID()}`,
-  label: label ?? t('staff.activities.interactions.inputs.ActivityTitleInput.label'),
+  label: t(`staff.activities.interactions.inputs.ActivityTitleInput.label.${isSubActivity ? 'subActivity' : 'activity'}`),
 }))
 </script>
 

@@ -5,6 +5,7 @@ export enum ContentSectionId {
   CONTEXT = 'CONTEXT',
   DOCUMENTS = 'DOCUMENTS',
   MODALITIES = 'MODALITIES',
+  SUB_ACTIVITIES = 'SUB_ACTIVITIES',
 }
 
 export enum PublicationSectionId {

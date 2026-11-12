@@ -11,6 +11,10 @@ export const ActivityTitleFormFieldStub = defineComponent({
       type: Boolean,
       required: false
     },
+    isSubActivity: {
+      type: Boolean,
+      required: false
+    },
   },
   template: '<div data-testid="activity-title-form-field-stub"></div>',
 })

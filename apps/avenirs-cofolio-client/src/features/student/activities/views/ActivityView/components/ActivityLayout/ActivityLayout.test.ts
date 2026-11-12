@@ -72,6 +72,7 @@ BddTest().given('a project activity layout component', () => {
       description: '<h3>Description activité</h3>',
       recommendedCompletionContexts: '- Première période\n- Deuxième période',
       rights: [],
+      subActivities: [],
       createdAt: '2025-01-01T10:00:00Z',
       updatedAt: '2025-01-02T10:00:00Z',
       national: false,

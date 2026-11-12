@@ -3,7 +3,7 @@ import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
@@ -13,10 +13,13 @@ import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/com
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import { ActivityTraceFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.stub'
 import { ActivityResourcesListEditableStub } from '@/features/staff/activities/components/lists/ActivityResourcesListEditable/ActivityResourcesListEditable.stub'
+import { ActivityCreationModalStub } from '@/features/staff/activities/components/modals/ActivityCreationModal/ActivityCreationModal.stub'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
+import { ManageSubActivitiesDropdownStub } from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.stub'
+import { SubActivitiesSortableListStub } from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.stub'
 import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 
 BddTest().given('an ActivityContentTab component', () => {
@@ -26,6 +29,7 @@ BddTest().given('an ActivityContentTab component', () => {
   const stubs = {
     ActivityAssessmentFormFieldsContainer: ActivityAssessmentFormFieldsContainerStub,
     ActivityConsignFormField: ActivityConsignFormFieldStub,
+    ActivityCreationModal: ActivityCreationModalStub,
     ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
     ActivityFeedbackFormField: ActivityFeedbackFormFieldStub,
     ActivityReflectionFormField: ActivityReflectionFormFieldStub,
@@ -35,15 +39,18 @@ BddTest().given('an ActivityContentTab component', () => {
     AvButton: AvButtonStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
+    ManageSubActivitiesDropdown: ManageSubActivitiesDropdownStub,
+    SubActivitiesSortableList: SubActivitiesSortableListStub,
   }
 
   function mountTab (
-    FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty
+    FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty,
+    activity = mockedActivityContent
   ) {
     wrapper = mount(FormWrapper, {
       slots: {
         default: h(ActivityContentTab, {
-          activity: mockedActivityContent,
+          activity,
         }),
       },
       global: { stubs }
@@ -59,6 +66,15 @@ BddTest().given('an ActivityContentTab component', () => {
 
   const getResourcesList = () =>
     tab.findComponent(ActivityResourcesListEditableStub)
+
+  const getSubActivitiesList = () =>
+    tab.findComponent(SubActivitiesSortableListStub)
+
+  const getManageSubActivitiesDropdown = () =>
+    tab.findComponent(ManageSubActivitiesDropdownStub)
+
+  const getActivityCreationModal = () =>
+    tab.findComponent(ActivityCreationModalStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -106,6 +122,34 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should render the next step button', () => {
       expect(getNextStepButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render SubActivitiesSortableList in the SUB_ACTIVITIES section', () => {
+      const subActivitiesList = tab
+        .find(`#${ContentSectionId.SUB_ACTIVITIES}`)
+        .findComponent(SubActivitiesSortableListStub)
+
+      expect(subActivitiesList.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ManageSubActivitiesDropdown in the SUB_ACTIVITIES section', () => {
+      const dropdown = tab
+        .find(`#${ContentSectionId.SUB_ACTIVITIES}`)
+        .findComponent(ManageSubActivitiesDropdownStub)
+
+      expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass an empty list to SubActivitiesSortableList', () => {
+      expect(getSubActivitiesList().props('subActivities')).toEqual([])
+    })
+
+    BddTest().then('it should render ActivityCreationModal closed', () => {
+      expect(getActivityCreationModal().props('opened')).toBe(false)
+    })
+
+    BddTest().then('it should pass the activity id to ActivityCreationModal', () => {
+      expect(getActivityCreationModal().props('activityDraftId')).toBe(mockedActivityContent.id)
     })
   })
 
@@ -171,6 +215,41 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should remove deleted links from the form', () => {
       expect(getResourcesList().props('links')).not.toContain('https://avenir-esr.fr')
+    })
+  })
+
+  BddTest().when('the activity has sub-activities', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContentWithSubActivities)
+    })
+
+    BddTest().then('it should pass the sub-activities to SubActivitiesSortableList', () => {
+      expect(getSubActivitiesList().props('subActivities')).toEqual(mockedActivityContentWithSubActivities.subActivities)
+    })
+  })
+
+  BddTest().when('ManageSubActivitiesDropdown emits add', () => {
+    beforeEach(async () => {
+      getManageSubActivitiesDropdown().vm.$emit('add')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should open ActivityCreationModal', () => {
+      expect(getActivityCreationModal().props('opened')).toBe(true)
+    })
+  })
+
+  BddTest().when('ActivityCreationModal emits close', () => {
+    beforeEach(async () => {
+      getManageSubActivitiesDropdown().vm.$emit('add')
+      await wrapper.vm.$nextTick()
+
+      getActivityCreationModal().vm.$emit('close')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should close ActivityCreationModal', () => {
+      expect(getActivityCreationModal().props('opened')).toBe(false)
     })
   })
 })

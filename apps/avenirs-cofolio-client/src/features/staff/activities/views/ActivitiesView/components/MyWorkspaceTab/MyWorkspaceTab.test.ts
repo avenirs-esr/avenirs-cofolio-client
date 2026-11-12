@@ -5,8 +5,8 @@ import { useGetStaffActivityWorkingSpace } from '@avenirs-esr/shared/api/avenir-
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ActivityCreationModalStub } from '@/features/staff/activities/components/modals/ActivityCreationModal/ActivityCreationModal.stub'
 import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
-import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
 
 const displayAddActivityModal = vi.fn()
@@ -27,7 +27,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
 
   const stubs = {
     ActivitiesTab: ActivitiesTabStub,
-    ActivityDraftCreationModal: ActivityDraftCreationModalStub,
+    ActivityCreationModal: ActivityCreationModalStub,
     AvButton: AvButtonStub,
   }
 
@@ -66,7 +66,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
     })
 
     BddTest().then('it renders the activity draft creation modal closed by default', () => {
-      const modal = wrapper.findComponent(ActivityDraftCreationModalStub)
+      const modal = wrapper.findComponent(ActivityCreationModalStub)
 
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
@@ -85,7 +85,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
 
     BddTest().and('the modal emits close', () => {
       beforeEach(() => {
-        wrapper.findComponent(ActivityDraftCreationModalStub).vm.$emit('close')
+        wrapper.findComponent(ActivityCreationModalStub).vm.$emit('close')
       })
 
       BddTest().then('it should call hideAddActivityModal', () => {

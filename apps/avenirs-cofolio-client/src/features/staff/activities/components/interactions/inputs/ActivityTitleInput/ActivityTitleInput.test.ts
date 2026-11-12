@@ -60,18 +60,16 @@ BddTest().given('ActivityTitleInput component', () => {
     })
   })
 
-  BddTest().when('mounted with a custom label', () => {
-    const customLabel = 'Mon titre personnalisé'
-
+  BddTest().when('mounted as a sub-activity', () => {
     beforeEach(() => {
       wrapper = mount(ActivityTitleInput, {
-        props: { label: customLabel },
+        props: { isSubActivity: true },
         global: { stubs },
       })
     })
 
-    BddTest().then('it should pass the custom label to Input', () => {
-      expect(wrapper.findComponent(InputStub).props('label')).toBe(customLabel)
+    BddTest().then('it should use the sub-activity i18n label', () => {
+      expect(wrapper.findComponent(InputStub).props('label')).toBe('Titre de la sous-activité')
     })
   })
 

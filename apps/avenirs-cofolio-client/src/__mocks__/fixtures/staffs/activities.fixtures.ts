@@ -10,6 +10,7 @@ import type {
   PagedResponseActivityStaffOverviewDTO,
   StaffInfoDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
+import type { SubActivityOverviewDTO } from '@/api/avenir-esr'
 import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
@@ -25,6 +26,9 @@ export const ACTIVITY_WITH_FILE_AND_LINK_ID
 
 export const ACTIVITY_WITH_AUTHORIZATIONS_ID
   = '5b8d2e41-7c3a-4f69-a1d0-9e6c4b2f8a33'
+
+export const ACTIVITY_WITH_SUB_ACTIVITIES_ID
+  = '7a1b5f22-4a1e-1f34-b8d0-0a7c3f2d6b03'
 
 export const mockedStaff1: StaffInfoDTO = {
   id: 'user-1',
@@ -64,6 +68,7 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: false,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -100,6 +105,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -118,6 +124,7 @@ export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -135,6 +142,7 @@ export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 5,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-16T10:00:00Z',
 }
@@ -152,6 +160,7 @@ export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
   traceAllowedAssociations: 2,
   feedbackAllowedIterations: 1,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-02-01T09:00:00Z',
   updatedAt: '2024-02-02T09:00:00Z',
 }
@@ -169,6 +178,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
   traceAllowedAssociations: 4,
   feedbackAllowedIterations: 3,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-03-10T14:00:00Z',
   updatedAt: '2024-03-11T14:00:00Z',
 }
@@ -187,6 +197,7 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -208,6 +219,18 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
     }
   ],
   links: ['http://example.com/resource1', 'https://example.com/definir-ses-valeurs']
+}
+
+export const mockedSubActivitiesOverviewDTO: SubActivityOverviewDTO[] = [
+  { id: 'sub-activity-1', title: 'Analyser la situation' },
+  { id: 'sub-activity-2', title: 'Mettre en œuvre une solution' },
+  { id: 'sub-activity-3', title: 'Évaluer les résultats' },
+]
+
+export const mockedActivityContentWithSubActivities: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: ACTIVITY_WITH_SUB_ACTIVITIES_ID,
+  subActivities: mockedSubActivitiesOverviewDTO
 }
 
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
