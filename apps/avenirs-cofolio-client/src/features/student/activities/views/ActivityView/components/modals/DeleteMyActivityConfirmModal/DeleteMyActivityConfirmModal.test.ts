@@ -56,7 +56,14 @@ BddTest().given('a delete my activity confirmation modal', () => {
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.props('title')).toBe(defaultProps.activityTitle)
-      expect(confirmationModal.props('description')).toBe(`Êtes-vous certain(e) de vouloir supprimer définitivement votre activité : ${defaultProps.activityTitle} ? Attention, le contenu de votre activité ne pourra pas être récupéré.`)
+    })
+
+    BddTest().then('it should render the description with the activity title in bold', () => {
+      const description = getConfirmationModal().find('span .av-text-bold')
+
+      expect(description.exists()).toBe(true)
+      expect(description.text()).toBe(defaultProps.activityTitle)
+      expect(getConfirmationModal().text()).toContain('Êtes-vous certain(e) de vouloir supprimer définitivement votre activité')
     })
 
     BddTest().and('the user cancels the deletion', () => {

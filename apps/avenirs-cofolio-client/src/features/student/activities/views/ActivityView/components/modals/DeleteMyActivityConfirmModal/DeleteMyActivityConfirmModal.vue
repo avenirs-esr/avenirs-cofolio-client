@@ -10,7 +10,7 @@ import {
   useDeleteActivity,
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
+import { I18nT, useI18n } from 'vue-i18n'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 
@@ -71,9 +71,20 @@ function deleteMyActivity () {
     :opened="opened"
     :is-loading="isPending || isLoading"
     :title="activityTitle"
-    :description="t('student.activities.views.ActivityView.DeleteMyActivityConfirmModal.title', { activityTitle })"
     data-testid="delete-my-activity-confirm-modal"
     @close="$emit('cancel')"
     @confirm="deleteMyActivity"
-  />
+  >
+    <template #description>
+      <I18nT
+        keypath="student.activities.views.ActivityView.DeleteMyActivityConfirmModal.title"
+        scope="global"
+        tag="span"
+      >
+        <template #activityTitle>
+          <span class="av-text-bold">{{ activityTitle }}</span>
+        </template>
+      </I18nT>
+    </template>
+  </ConfirmationModal>
 </template>

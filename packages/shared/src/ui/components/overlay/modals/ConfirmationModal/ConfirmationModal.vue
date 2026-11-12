@@ -22,6 +22,7 @@ const { showDescription = true, ...props } = defineProps<ConfirmationModalProps>
 defineSlots<{
   header?: Slot
   default?: Slot
+  description?: Slot
 }>()
 
 const attrs = useAttrs()
@@ -72,7 +73,9 @@ const { t } = useI18n()
           v-if="showDescription"
           class="b2-light"
           data-testid="modal-description"
-        >{{ props.description ?? t('global.components.overlay.modals.ConfirmationModal.description') }}</span>
+        >
+          <slot name="description">{{ props.description ?? t('global.components.overlay.modals.ConfirmationModal.description') }}</slot>
+        </span>
       </div>
     </slot>
   </AvModal>
