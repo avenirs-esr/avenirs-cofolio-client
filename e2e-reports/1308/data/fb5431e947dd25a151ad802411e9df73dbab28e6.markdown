@@ -1,0 +1,155 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/tools/traceDetails/traceDetails.feature.spec.js >> Student Tools Trace Detail Page >> Trace Detail >> Student can open delete confirmation modal
+- Location: .features-gen/tests/student/tools/traceDetails/traceDetails.feature.spec.js:36:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('trace-settings-dropdown').getByRole('button')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('trace-settings-dropdown').getByRole('button')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - text: "Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera"
+  - strong: indisponible
+  - text: pendant cette période.
+  - link "Accueil - Cofolio Apprenant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem: Mes outils
+      - listitem:
+        - link "Mes traces":
+          - /url: /cofolio/student/tools/traces
+      - listitem: Développement d'un ePortfolio
+  - heading "Détail Développement d'un ePortfolio" [level=1]
+  - button "Gérer ma trace"
+  - tablist "Liste d’onglets":
+    - tab "Ma trace" [selected]
+    - tab "Mes éléments associés (7)"
+  - tabpanel "Ma trace":
+    - status: Valorisée dans mon kit
+    - text: Nom de ma trace
+    - textbox "Nom de ma trace" [disabled]:
+      - /placeholder: Non renseigné
+      - text: Développement d'un ePortfolio
+    - text: "Mon document chargé - Ajouté le 2 juin 2025 à 13:42 - 0 Mo An awesome attachment Images : 5Mo • Texte : 5Mo • Audio : 5Mo • Vidéo : 10Mo • Application : 10Mo Note personnelle"
+    - textbox "Note personnelle" [disabled]:
+      - /placeholder: Ajoutez votre note personnelle ici...
+      - text: An awesome personal note
+    - text: "Cette trace est issue d'une production : Production personnelle Cette trace est issue d'une production réalisée avec l'Intelligence Artificielle (IA) :"
+    - checkbox "Oui Production avec IA" [checked] [disabled]
+    - img
+    - text: Oui Production avec IA Justification de l'usage de l'IA
+    - textbox "Justification de l'usage de l'IA" [disabled]:
+      - /placeholder: Décrivez comment et pourquoi vous avez utilisé l'IA...
+      - text: An awesome justification
+    - text: Créée le 16 juin 2025 à 12:42 Modifiée le 17 juin 2025 à 17:18
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Locator } from '@playwright/test'
+  2 | import { expect } from '@playwright/test'
+  3 | 
+  4 | export async function clickOnElement (element: Locator) {
+> 5 |   await expect(element).toBeVisible()
+    |                         ^ Error: expect(locator).toBeVisible() failed
+  6 |   await expect(element).toBeEnabled()
+  7 |   await element.click()
+  8 | }
+  9 | 
+```
