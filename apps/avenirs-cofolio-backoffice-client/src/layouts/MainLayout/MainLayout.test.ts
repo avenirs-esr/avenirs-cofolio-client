@@ -13,8 +13,8 @@ const mockQuickLinks = {
   error: ref(null)
 }
 
-vi.mock('@/api/avenir-esr', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
+vi.mock('@avenirs-esr/shared/api/avenir-esr', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared/api/avenir-esr')>()
   return {
     ...actual,
     useGetQuickLinks: () => mockQuickLinks

@@ -4,6 +4,7 @@ import { afterAll, afterEach, beforeAll } from 'vitest'
 // eslint-disable-next-line no-restricted-imports
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
+import '@/api/avenir-esr/fetch-instance/fetch-instance'
 
 window.matchMedia = function () {
   return {

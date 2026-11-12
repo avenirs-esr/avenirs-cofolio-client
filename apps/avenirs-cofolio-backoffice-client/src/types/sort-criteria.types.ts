@@ -1,4 +1,4 @@
-import type { ESortField, ESortOrder } from '@/api/avenir-esr'
+import type { ESortField, ESortOrder } from '@avenirs-esr/shared/api/avenir-esr'
 
 export type SortValue = `${ESortField}_${ESortOrder}`
 

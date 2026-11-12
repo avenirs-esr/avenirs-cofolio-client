@@ -1,5 +1,5 @@
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { AlertConfigurationDTO } from '@/api/avenir-esr'
 
 export const AlertUpdateFormStub = defineComponent({
   name: 'AlertUpdateForm',
