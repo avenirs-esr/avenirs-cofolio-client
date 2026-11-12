@@ -131,6 +131,21 @@
         "defaultErrorTitle": "Une erreur est survenue lors du chargement des données"
       }
     },
+    "dates": {
+      "compact": {
+        "days": "{count} j",
+        "hours": "{count} h",
+        "minutes": "{count} min",
+        "months": "{count} mois",
+        "weeks": "{count} sem",
+        "years": "{count} an | {count} ans"
+      },
+      "dateTimeAt": "{date} à {time}",
+      "hoursAgo": "Il y a {count} heure | Il y a {count} heures",
+      "justNow": "À l'instant",
+      "minutesAgo": "Il y a {count} minute | Il y a {count} minutes"
+    },
+    "detail": "Détail",
     "error": {
       "api": {
         "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED": "Cette modification des autorisations de l'activité n'est pas autorisée",
