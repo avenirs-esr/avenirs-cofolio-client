@@ -97,7 +97,7 @@ class StudentBuildProjectSelfKnowledgePage extends BasePage {
   @When('the user clicks the display update profile drawer button')
   async clickDisplayUpdateProfileDrawerButton () {
     await this.getDisplayUpdateProfileDrawerButton().click()
-    await waitForPageLoad(this.page)
+    await expect(this.getUpdateProfileDrawer()).toBeVisible()
   }
 
   @Then('the update profile drawer is opened in the project self knowledge main section page')
