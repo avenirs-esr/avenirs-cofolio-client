@@ -19,7 +19,16 @@ export const ACTIVITY_MODIFIED_NOTIFICATION_SINGLE_SECTION_ACTIVITY_ID = '2a9f6c
 
 export const ACTIVITY_MODIFIED_NOTIFICATION_MULTIPLE_SECTIONS_ACTIVITY_ID = '7b3d4e91-6f2a-4c88-9a1e-5d3f7b2c8e44'
 
-function createMockedActivityModifiedNotification (id: string, elementId: string, updatedFields: ActivityModifiedParametersUpdatedFieldsItem[]): NotificationDTO {
+export const ACTIVITY_MODIFIED_NOTIFICATION_SINGLE_SUB_ACTIVITY_ACTIVITY_ID = '3c5f8a12-4d7e-4b99-8e2a-1f6c9d4b7e88'
+
+export const ACTIVITY_MODIFIED_NOTIFICATION_MULTIPLE_SUB_ACTIVITIES_ACTIVITY_ID = '8e1f5b24-7a3c-4d11-bf66-2a7d8e5c9f11'
+
+function createMockedActivityModifiedNotification (
+  id: string,
+  elementId: string,
+  updatedFields: ActivityModifiedParametersUpdatedFieldsItem[],
+  updatedSubActivityTitles?: string[],
+): NotificationDTO {
   return {
     id,
     createdAt: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
@@ -29,6 +38,7 @@ function createMockedActivityModifiedNotification (id: string, elementId: string
     parameters: {
       activityTitle: ACTIVITY_MODIFIED_NOTIFICATION_ACTIVITY_TITLE,
       updatedFields,
+      updatedSubActivityTitles,
     },
   }
 }
@@ -49,6 +59,24 @@ export function mockedActivityModifiedNotificationMultipleSections (): Notificat
       ActivityModifiedParametersUpdatedFieldsItem.ACTIVITY_TITLE,
       ActivityModifiedParametersUpdatedFieldsItem.THEMATIC,
     ],
+  )
+}
+
+export function mockedActivityModifiedNotificationSingleSubActivity (): NotificationDTO {
+  return createMockedActivityModifiedNotification(
+    'notification-activity-modified-single-sub-activity',
+    ACTIVITY_MODIFIED_NOTIFICATION_SINGLE_SUB_ACTIVITY_ACTIVITY_ID,
+    [ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES],
+    ['Étape 1'],
+  )
+}
+
+export function mockedActivityModifiedNotificationMultipleSubActivities (): NotificationDTO {
+  return createMockedActivityModifiedNotification(
+    'notification-activity-modified-multiple-sub-activities',
+    ACTIVITY_MODIFIED_NOTIFICATION_MULTIPLE_SUB_ACTIVITIES_ACTIVITY_ID,
+    [ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES],
+    ['Étape 1', 'Étape 2'],
   )
 }
 
@@ -90,6 +118,8 @@ export function createStudentMockedNotifications (totalElements: number): Notifi
   const notifications: NotificationDTO[] = [
     mockedActivityModifiedNotificationSingleSection(),
     mockedActivityModifiedNotificationMultipleSections(),
+    mockedActivityModifiedNotificationSingleSubActivity(),
+    mockedActivityModifiedNotificationMultipleSubActivities(),
     mockedAssessmentSentNotification(),
     mockedAssessmentModifiedNotification(),
   ]
