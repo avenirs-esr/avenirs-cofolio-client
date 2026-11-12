@@ -18,6 +18,16 @@ Feature: Student Notifications
       Then the activity modified notification with multiple updated sections is visible
       And the activity modified notification with multiple updated sections shows the correct content
 
+    @high @activity-modified-notification
+    Scenario: Student sees the activity modified notification for a single modified sub-activity
+      Then the activity modified notification for a single modified sub-activity is visible
+      And the activity modified notification for a single modified sub-activity shows the correct content
+
+    @high @activity-modified-notification
+    Scenario: Student sees the activity modified notification for multiple modified sub-activities
+      Then the activity modified notification for multiple modified sub-activities is visible
+      And the activity modified notification for multiple modified sub-activities shows the correct content
+
   Rule: Navigate to the modified activity from the notification
 
     @high @activity-modified-notification

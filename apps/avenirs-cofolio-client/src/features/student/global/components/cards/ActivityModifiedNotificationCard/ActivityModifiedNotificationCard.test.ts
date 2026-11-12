@@ -68,6 +68,19 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     })
   })
 
+  BddTest().when('notification has no elementId', () => {
+    beforeEach(() => {
+      mountDefault({
+        ...mockedNotification,
+        elementId: undefined,
+      })
+    })
+
+    BddTest().then('it should not provide a redirection target', () => {
+      expect(getNotificationCard().props('to')).toBeUndefined()
+    })
+  })
+
   BddTest().when('notification parameters contains more than one updated field', () => {
     beforeEach(() => {
       mountDefault({
@@ -87,6 +100,63 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
       expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. Les sections suivantes ont été modifiées\u00A0: Titre, Thématique, Fichiers et liens.`)
+    })
+  })
+
+  BddTest().when('notification parameters contains a single updated sub-activity', () => {
+    beforeEach(() => {
+      mountDefault({
+        ...mockedNotification,
+        parameters: {
+          ...mockedNotification.parameters,
+          updatedFields: [ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES],
+          updatedSubActivityTitles: ['Sous-activité 1'],
+        },
+      })
+    })
+
+    BddTest().then('it should render the sentence with interpolated parameters', () => {
+      const content = getContent()
+      expect(content.exists()).toBe(true)
+      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La sous-activité "Sous-activité 1" a été modifiée.`)
+    })
+  })
+
+  BddTest().when('notification parameters contains more than one updated sub-activity', () => {
+    beforeEach(() => {
+      mountDefault({
+        ...mockedNotification,
+        parameters: {
+          ...mockedNotification.parameters,
+          updatedFields: [ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES],
+          updatedSubActivityTitles: ['Sous-activité 1', 'Sous-activité 2'],
+        },
+      })
+    })
+
+    BddTest().then('it should render the sentence with interpolated parameters', () => {
+      const content = getContent()
+      expect(content.exists()).toBe(true)
+      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. Les sous-activités suivantes ont été modifiées\u00A0: Sous-activité 1, Sous-activité 2.`)
+    })
+  })
+
+  BddTest().when('notification parameters contains sub-activity update without updated sub-activity titles', () => {
+    beforeEach(() => {
+      mountDefault({
+        ...mockedNotification,
+        parameters: {
+          ...mockedNotification.parameters,
+          updatedFields: [ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES],
+          updatedSubActivityTitles: undefined,
+        },
+      })
+    })
+
+    BddTest().then('it should render the sentence with empty placeholders', () => {
+      const content = getContent()
+      expect(content.exists()).toBe(true)
+      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La sous-activité "" a été modifiée.`)
     })
   })
 
