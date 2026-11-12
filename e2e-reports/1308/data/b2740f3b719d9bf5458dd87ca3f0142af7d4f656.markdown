@@ -1,0 +1,312 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js >> Student Project Activity Page >> Activity >> Student can see the activity dropdown
+- Location: .features-gen/tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js:32:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('activity-view-detailed-dropdown')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('activity-view-detailed-dropdown')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - text: "Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera"
+  - strong: indisponible
+  - text: pendant cette période.
+  - link "Accueil - Cofolio Apprenant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem:
+        - link "Mes activités":
+          - /url: /cofolio/student/activities
+      - listitem: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - listitem: Détail
+  - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
+  - status: En cours
+  - button "Gérer mon activité"
+  - navigation "f0c0e875-9f86-4d87-880f-72649d89e026 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Détail":
+        - button "Détail"
+      - menuitem "Ma réflexion":
+        - button "Ma réflexion"
+  - status: Non valorisée dans mon kit
+  - text: "Période de réalisation 01/01/2024 - 30/06/2024 Activité \"Connaissance de soi\" : Définir ses valeurs"
+  - heading "Objectifs de l'activité" [level=3]
+  - list:
+    - listitem:
+      - paragraph: Permettre à l'apprenant.e de déterminer des valeurs auxquelles il/elle est attaché.e
+    - listitem:
+      - paragraph: Encourager l'apprenant.e à réfléchir à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes
+  - heading "Contenu de l'activité" [level=3]
+  - paragraph: "L'activité se compose de plusieurs étapes :"
+  - list:
+    - listitem:
+      - paragraph: Identification des valeurs personnelles clés
+    - listitem:
+      - paragraph: Réflexion sur la manière dont ces valeurs s'incarnent dans les comportements et les pratiques quotidiens
+    - listitem:
+      - paragraph: Mise en perspective de ces valeurs avec le projet de vie envisagé
+  - text: Contexte(s) de réalisation conseillé(s)
+  - list:
+    - listitem: À réaliser en amont d'un entretien avec un.e conseiller/conseillère ou chargé.e d'orientation et/ou d'insertion professionnelle
+    - listitem: avant une autre activité si parcours d'activités Cofolio
+  - text: Modalités de l’activité Demande de feedback
+  - status: Limité à 10 itérations
+  - text: Association de traces
+  - status: Traces illimitées
+  - text: Évaluation de l'activité
+  - status: Évaluation désactivée
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import type { Page } from '@playwright/test'
+  3   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  4   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  5   | import { ActivityDetailsObject } from '@e2e/framework/student/activities/activityPage/componentObjects/ActivityDetailsObject'
+  6   | import { MyPerspectiveSectionObject } from '@e2e/framework/student/activities/activityPage/componentObjects/MyPerspectiveSectionObject'
+  7   | import { expect } from '@playwright/test'
+  8   | import { Fixture, Then, When } from 'playwright-bdd/decorators'
+  9   | 
+  10  | @Fixture<typeof test>('studentActivityPage')
+  11  | export class StudentActivityPage extends BasePage {
+  12  |   constructor (public page: Page) {
+  13  |     super(page)
+  14  |   }
+  15  | 
+  16  |   getActivityDetails () {
+  17  |     return new ActivityDetailsObject(this.page.getByTestId('activity-details'))
+  18  |   }
+  19  | 
+  20  |   getMyPerspectiveSection () {
+  21  |     return new MyPerspectiveSectionObject(this.page.getByTestId('my-perspective-tab'))
+  22  |   }
+  23  | 
+  24  |   getTitle () {
+  25  |     return this.page.getByTestId('activity-view-title')
+  26  |   }
+  27  | 
+  28  |   getStatus () {
+  29  |     return this.page.getByTestId('activity-view-status-badge')
+  30  |   }
+  31  | 
+  32  |   getDropdown () {
+  33  |     return this.page.getByTestId('activity-view-detailed-dropdown')
+  34  |   }
+  35  | 
+  36  |   getActivityDetailedSideNavigation () {
+  37  |     return this.page.getByTestId('section-navigation-side-navigation')
+  38  |   }
+  39  | 
+  40  |   @Then('the activity details is loaded')
+  41  |   async verifyActivityDetailsVisible () {
+  42  |     await this.getActivityDetails().verifyVisible()
+  43  |   }
+  44  | 
+  45  |   @Then('the activity title is visible')
+  46  |   async verifyTitleVisible () {
+  47  |     await expect(this.getTitle()).toBeVisible()
+  48  |   }
+  49  | 
+  50  |   @Then('the activity dropdown is visible')
+  51  |   async verifyDropdownVisible () {
+> 52  |     await expect(this.getDropdown()).toBeVisible()
+      |                                      ^ Error: expect(locator).toBeVisible() failed
+  53  |   }
+  54  | 
+  55  |   @Then('the activity details start date is visible')
+  56  |   async verifyStartDateVisible () {
+  57  |     await this.getActivityDetails().verifyPeriodInputVisible()
+  58  |   }
+  59  | 
+  60  |   @Then('the activity details end date is visible')
+  61  |   async verifyEndDateVisible () {
+  62  |     await this.getActivityDetails().verifyPeriodInputVisible()
+  63  |   }
+  64  | 
+  65  |   @Then('the activity detail title is visible')
+  66  |   async verifyActivityTitleVisible () {
+  67  |     await this.getActivityDetails().verifyTitleVisible()
+  68  |   }
+  69  | 
+  70  |   @Then('the activity details description is visible')
+  71  |   async verifyActivityDescriptionVisible () {
+  72  |     await this.getActivityDetails().verifyDescriptionVisible()
+  73  |   }
+  74  | 
+  75  |   @Then('the activity details recommended completion contexts list is visible')
+  76  |   async verifyRecommendedCompletionContextsListVisible () {
+  77  |     await this.getActivityDetails().verifyRecommendedCompletionContextsListVisible()
+  78  |   }
+  79  | 
+  80  |   @Then('the activity status is visible')
+  81  |   async verifyActivityStatusVisible () {
+  82  |     await expect(this.getStatus()).toBeVisible()
+  83  |   }
+  84  | 
+  85  |   @When('the student clicks the my perspective item in the activity side menu')
+  86  |   async clickMyPerspectiveItemInSideMenu () {
+  87  |     await this.getActivityDetailedSideNavigation().getByText('Ma réflexion').click()
+  88  |   }
+  89  | 
+  90  |   @Then('the my perspective section is visible')
+  91  |   async verifyMyPerspectiveSectionVisible () {
+  92  |     await this.getMyPerspectiveSection().verifyVisible()
+  93  |   }
+  94  | 
+  95  |   @Then('the my perspective card is visible')
+  96  |   async verifyMyPerspectiveCardVisible () {
+  97  |     await this.getMyPerspectiveSection().verifyPerspectiveCardVisible()
+  98  |   }
+  99  | 
+  100 |   @Then('the my perspective card is in readonly mode')
+  101 |   async verifyMyPerspectiveCardReadonly () {
+  102 |     await this.getMyPerspectiveSection().verifyPerspectiveCardReadonly()
+  103 |   }
+  104 | 
+  105 |   @When('the student clicks the edit my perspective button')
+  106 |   async clickEditMyPerspectiveButton () {
+  107 |     await this.getMyPerspectiveSection().clickEditPerspectiveButton()
+  108 |     await this.getMyPerspectiveSection().waitForPerspectiveCardEditable()
+  109 |   }
+  110 | 
+  111 |   @Then('the my perspective card is in editable mode')
+  112 |   async verifyMyPerspectiveCardEditable () {
+  113 |     await this.getMyPerspectiveSection().verifyPerspectiveCardEditable()
+  114 |   }
+  115 | 
+  116 |   @When('the student cancels the perspective edition')
+  117 |   async clickCancelEditPerspectiveButton () {
+  118 |     await this.getMyPerspectiveSection().clickCancelEditPerspectiveButton()
+  119 |   }
+  120 | 
+  121 |   @Then('the finish activity button is hidden')
+  122 |   async verifyFinishActivityButtonHidden () {
+  123 |     await this.getMyPerspectiveSection().verifyFinishButtonHidden()
+  124 |   }
+  125 | 
+  126 |   @Then('the finish activity button is visible')
+  127 |   async verifyFinishActivityButtonVisible () {
+  128 |     await this.getMyPerspectiveSection().verifyFinishButtonVisible()
+  129 |   }
+  130 | 
+  131 |   @Then('the finish activity button is enabled')
+  132 |   async verifyFinishActivityButtonEnabled () {
+  133 |     await this.getMyPerspectiveSection().verifyFinishButtonEnabled()
+  134 |   }
+  135 | 
+  136 |   @Then('the finish activity button is disabled')
+  137 |   async verifyFinishActivityButtonDisabled () {
+  138 |     await this.getMyPerspectiveSection().verifyFinishButtonDisabled()
+  139 |   }
+  140 | 
+  141 |   @Then('the finish activity badge is visible')
+  142 |   async verifyFinishActivityBadgeVisible () {
+  143 |     await this.getMyPerspectiveSection().verifyFinishBadgeVisible()
+  144 |   }
+  145 | 
+  146 |   @Then('the finish activity badge is hidden')
+  147 |   async verifyFinishActivityBadgeHidden () {
+  148 |     await this.getMyPerspectiveSection().verifyFinishBadgeHidden()
+  149 |   }
+  150 | 
+  151 |   @When('the student clicks the finish activity button')
+  152 |   async clickFinishActivityButton () {
+```
