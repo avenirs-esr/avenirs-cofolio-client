@@ -33,8 +33,8 @@ export class StaffActivitiesPage extends BasePage {
     return this.page.getByTestId('create-activity-button')
   }
 
-  getActivityDraftCreationModal () {
-    return this.page.getByTestId('activity-draft-creation-modal')
+  getActivityCreationModal () {
+    return this.page.getByTestId('activity-creation-modal')
   }
 
   getMyWorkspaceTable () {
@@ -93,24 +93,24 @@ export class StaffActivitiesPage extends BasePage {
     await clickOnElement(this.getCreateActivityButton())
   }
 
-  @Then('the activity draft creation modal is visible')
-  async verifyActivityDraftCreationModalVisible () {
-    await expect(this.getActivityDraftCreationModal()).toBeVisible()
+  @Then('the activity creation modal is visible')
+  async verifyActivityCreationModalVisible () {
+    await expect(this.getActivityCreationModal()).toBeVisible()
   }
 
   @Then('the title form field is visible')
   async verifyTitleFormFieldVisible () {
-    await expect(this.getActivityDraftCreationModal().getByTestId('activity-title-form-field')).toBeVisible()
+    await expect(this.getActivityCreationModal().getByTestId('activity-title-form-field')).toBeVisible()
   }
 
-  @When('the user clicks on the activity draft creation modal cancel button')
-  async clickActivityDraftCreationModalCancelButton () {
-    await clickOnElement(this.getActivityDraftCreationModal().getByTestId('cancel-button'))
+  @When('the user clicks on the activity creation modal cancel button')
+  async clickActivityCreationModalCancelButton () {
+    await clickOnElement(this.getActivityCreationModal().getByTestId('cancel-button'))
   }
 
-  @Then('the activity draft creation modal is hidden')
-  async verifyActivityDraftCreationModalHidden () {
-    await expect(this.getActivityDraftCreationModal()).toBeHidden()
+  @Then('the activity creation modal is hidden')
+  async verifyActivityCreationModalHidden () {
+    await expect(this.getActivityCreationModal()).toBeHidden()
   }
 
   @When('the user clicks on the my workspace tab')

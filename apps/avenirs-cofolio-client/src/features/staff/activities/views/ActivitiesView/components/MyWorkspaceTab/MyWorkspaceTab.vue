@@ -2,9 +2,9 @@
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useGetStaffActivityWorkingSpace } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
+import ActivityCreationModal from '@/features/staff/activities/components/modals/ActivityCreationModal/ActivityCreationModal.vue'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
-import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
 
 const { t } = useI18n()
 const staffActivitiesStore = useStaffActivitiesStore()
@@ -40,7 +40,7 @@ const usePaginatedStaffActivitiesParams = {
     </template>
   </ActivitiesTab>
 
-  <ActivityDraftCreationModal
+  <ActivityCreationModal
     :opened="staffActivitiesStore.showAddActivityModal"
     @close="staffActivitiesStore.hideAddActivityModal"
   />

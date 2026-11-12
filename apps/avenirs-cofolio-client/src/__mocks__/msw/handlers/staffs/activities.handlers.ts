@@ -51,6 +51,7 @@ import {
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
+  mockedActivityContentWithSubActivities,
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse,
@@ -58,6 +59,7 @@ import {
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { getCreateSubActivityDraftUrl } from '@/api/avenir-esr'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(
@@ -298,6 +300,9 @@ export const staffsActivitiesHandlers = [
       else if (activityId === mockedActivityContentWithFileAndLink.id) {
         response = mockedActivityContentWithFileAndLink
       }
+      else if (activityId === mockedActivityContentWithSubActivities.id) {
+        response = mockedActivityContentWithSubActivities
+      }
       else if (activityId === WITHOUT_RIGHTS_ID) {
         response = {
           ...response,
@@ -389,6 +394,28 @@ export const staffsActivitiesHandlers = [
     })
   }),
   http.post(`*${getCreateActivityDraftUrl()}`, () => {
+    return HttpResponse.json<ActivityDraftCreationResponse>(mockedActivityDraftCreationResponse, {
+      status: HttpStatusCode.CREATED,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }),
+  http.post(`*${getCreateSubActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
+    const activityId: string | undefined = params.activityDraftId as string | undefined
+
+    if (!activityId) {
+      return HttpResponse.json(
+        { error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK },
+        { status: HttpStatusCode.BAD_REQUEST }
+      )
+    }
+
+    if (activityId === 'INVALID_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+        { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
     return HttpResponse.json<ActivityDraftCreationResponse>(mockedActivityDraftCreationResponse, {
       status: HttpStatusCode.CREATED,
       headers: { 'Content-Type': 'application/json' },

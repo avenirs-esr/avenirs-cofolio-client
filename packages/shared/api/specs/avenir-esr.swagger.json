@@ -261,55 +261,6 @@
         }
       }
     },
-    "/me/self-knowledge/{selfKnowledgeElementId}/attachments": {
-      "post": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "uploadSelfKnowledgeAttachment",
-        "parameters": [
-          {
-            "name": "selfKnowledgeElementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "file"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/programs/{declaredProgramId}": {
       "get": {
         "tags": [
@@ -695,6 +646,44 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}/sub-activities/order": {
+      "put": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "updateSubActivityDraftsOrder",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1195,6 +1184,55 @@
               "*/*": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/self-knowledge/{selfKnowledgeElementId}/attachments": {
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "uploadSelfKnowledgeAttachment",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
                 }
               }
             }
@@ -1864,6 +1902,47 @@
           "activity-controller"
         ],
         "operationId": "createActivityDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityDraftCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDraftCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}/sub-activities": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "createSubActivityDraft",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -8001,6 +8080,16 @@
           "assessment": {
             "$ref": "#/components/schemas/ActivityAssessmentDTO"
           },
+          "mainActivityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubActivityOverviewDTO"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -8018,6 +8107,7 @@
           "id",
           "national",
           "rights",
+          "subActivities",
           "summary",
           "title",
           "traceAllowedAssociations",
@@ -8645,8 +8735,15 @@
                     "BANNER",
                     "SUMMARY",
                     "DESCRIPTION",
-                    "RECOMMENDED_COMPLETION_CONTEXTS"
+                    "RECOMMENDED_COMPLETION_CONTEXTS",
+                    "SUB_ACTIVITIES"
                   ]
+                }
+              },
+              "updatedSubActivityTitles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
                 }
               }
             }
@@ -9545,6 +9642,16 @@
           "recommendedCompletionContexts": {
             "type": "string"
           },
+          "mainActivityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubActivityOverviewDTO"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -9558,6 +9665,7 @@
           "activityStatus",
           "banner",
           "id",
+          "subActivities",
           "summary",
           "thematic",
           "title"
@@ -10110,6 +10218,8 @@
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
           "ACTIVITY_TARGET_REMOVAL_NOT_ALLOWED",
+          "SUB_ACTIVITY_OPERATION_NOT_ALLOWED",
+          "SUB_ACTIVITY_ADDITION_NOT_ALLOWED",
           "MAX_FILE_SIZE_EXCEEDED",
           "UNEXPECTED_ERROR",
           "FILE_STORAGE_ERROR",
@@ -10153,6 +10263,10 @@
           "INVALID_DATE_FORMAT",
           "ACTIVITY_DATES",
           "ACTIVITY_ASSESSMENT",
+          "SUB_ACTIVITY_FIELD_NOT_ALLOWED",
+          "SUB_ACTIVITY_PERIOD_OUTSIDE_MAIN_ACTIVITY",
+          "ACTIVITY_PERIOD_EXCLUDES_SUB_ACTIVITIES",
+          "SUB_ACTIVITY_ORDER_MISMATCH",
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
         ]
       },

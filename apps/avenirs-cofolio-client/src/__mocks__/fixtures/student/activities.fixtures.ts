@@ -301,6 +301,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
     traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
     rights: [],
+    subActivities: [],
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z'
   },
@@ -513,6 +514,7 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
   summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'apprenant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
   description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'apprenant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'apprenant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
   recommendedCompletionContexts: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
+  subActivities: [],
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }

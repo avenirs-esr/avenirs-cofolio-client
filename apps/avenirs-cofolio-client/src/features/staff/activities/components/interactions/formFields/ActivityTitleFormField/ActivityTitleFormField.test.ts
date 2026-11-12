@@ -30,6 +30,17 @@ const TestWrapperWithLabelVisible = defineComponent({
   template: '<form @submit.prevent="form.handleSubmit()"><ActivityTitleFormField :form="form" :labelVisible="labelVisible" /></form>',
 })
 
+const TestWrapperWithSubActivity = defineComponent({
+  components: { ActivityTitleFormField },
+  setup () {
+    const form = useForm({
+      defaultValues: { title: '' },
+    }) satisfies ActivityDraftCreationForm
+    return { form, isSubActivity: true }
+  },
+  template: '<form @submit.prevent="form.handleSubmit()"><ActivityTitleFormField :form="form" :isSubActivity="isSubActivity" /></form>',
+})
+
 BddTest().given('an ActivityTitleFormField component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
   let titleFormField: VueWrapper<InstanceType<typeof ActivityTitleFormField>>
@@ -60,6 +71,10 @@ BddTest().given('an ActivityTitleFormField component', () => {
     BddTest().then('it should pass the default labelVisible prop to the input', () => {
       expect(getInput().props('labelVisible')).toBe(false)
     })
+
+    BddTest().then('it should not flag the input as a sub-activity by default', () => {
+      expect(getInput().props('isSubActivity')).toBe(false)
+    })
   })
 
   BddTest().when('the labelVisible prop is set to true', () => {
@@ -71,6 +86,18 @@ BddTest().given('an ActivityTitleFormField component', () => {
 
     BddTest().then('it should pass the labelVisible prop to the input', () => {
       expect(getInput().props('labelVisible')).toBe(true)
+    })
+  })
+
+  BddTest().when('the isSubActivity prop is set to true', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapperWithSubActivity, { global: { stubs } })
+      titleFormField = wrapper.findComponent(ActivityTitleFormField)
+    })
+
+    BddTest().then('it should pass the isSubActivity prop to the input', () => {
+      expect(getInput().props('isSubActivity')).toBe(true)
     })
   })
 

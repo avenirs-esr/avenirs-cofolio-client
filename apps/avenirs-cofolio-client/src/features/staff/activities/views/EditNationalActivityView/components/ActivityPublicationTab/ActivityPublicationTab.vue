@@ -93,7 +93,7 @@ async function publishActivityDraft () {
   >
     <div :id="PublicationSectionId.ACTIVITY_TITLE">
       <IconTitleCardContainer
-        :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label')"
+        :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity')"
         :title-icon="ICONS.ACTIVITY"
         required
       >

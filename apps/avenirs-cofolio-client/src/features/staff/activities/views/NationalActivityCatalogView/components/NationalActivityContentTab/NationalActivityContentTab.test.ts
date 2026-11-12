@@ -5,7 +5,7 @@ import { CardStub, ICONS } from '@avenirs-esr/shared'
 import { EActivityStatus, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
@@ -13,19 +13,21 @@ import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleC
 import { ActivityResourcesListStub } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivitySettingDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.stub'
+import { NationalActivitySubActivitiesListStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySubActivitiesList/NationalActivitySubActivitiesList.stub'
 
 BddTest().given('a national activity content tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityContentTab>>
 
   const stubs = {
-    AvIconText: AvIconTextStub,
-    Card: CardStub,
-    ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityDescriptionContent: ActivityDescriptionContentStub,
     ActivityRecommendedCompletionContextsList: ActivityRecommendedCompletionContextsListStub,
-    NationalActivitySettingDetails: NationalActivitySettingDetailsStub,
-    IconTitleCardContainer: IconTitleCardContainerStub,
     ActivityResourcesList: ActivityResourcesListStub,
+    ActivityThematicBadge: ActivityThematicBadgeStub,
+    AvIconText: AvIconTextStub,
+    Card: CardStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
+    NationalActivitySettingDetails: NationalActivitySettingDetailsStub,
+    NationalActivitySubActivitiesList: NationalActivitySubActivitiesListStub,
   }
 
   const fileResource: FileDTO = {
@@ -112,6 +114,10 @@ BddTest().given('a national activity content tab', () => {
       expect(wrapper.find('[data-testid="national-activity-content-tab-resources"]').exists()).toBe(false)
       expect(wrapper.findComponent(ActivityResourcesListStub).exists()).toBe(false)
     })
+
+    BddTest().then('it should not render the sub-activities list when the activity has no sub-activity', () => {
+      expect(wrapper.findComponent(NationalActivitySubActivitiesListStub).exists()).toBe(false)
+    })
   })
 
   BddTest().when('the activity has no thematic', () => {
@@ -167,6 +173,28 @@ BddTest().given('a national activity content tab', () => {
 
     BddTest().then('it should flag the resources list as draft', () => {
       expect(wrapper.findComponent(ActivityResourcesListStub).props('isDraft')).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity has sub-activities', () => {
+    beforeEach(() => {
+      wrapper = mount(NationalActivityContentTab, {
+        props: {
+          activity: mockedActivityContentWithSubActivities,
+          status: EActivityStatus.DRAFT
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the sub-activities list', () => {
+      expect(wrapper.findComponent(NationalActivitySubActivitiesListStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should forward the sub-activities and the activity status to the list', () => {
+      const subActivitiesList = wrapper.findComponent(NationalActivitySubActivitiesListStub)
+      expect(subActivitiesList.props('subActivities')).toEqual(mockedActivityContentWithSubActivities.subActivities)
+      expect(subActivitiesList.props('status')).toBe(EActivityStatus.DRAFT)
     })
   })
 })

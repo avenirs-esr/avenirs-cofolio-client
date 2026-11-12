@@ -26,16 +26,16 @@ Feature: Staff Activities Page
       Then the my workspace table is visible and contains data
     
     @high @creation
-    Scenario: Staff can open and close the activity draft creation modal
+    Scenario: Staff can open and close the activity creation modal
       When the user clicks on the create activity button
-      Then the activity draft creation modal is visible
-      When the user clicks on the activity draft creation modal cancel button
-      Then the activity draft creation modal is hidden
+      Then the activity creation modal is visible
+      When the user clicks on the activity creation modal cancel button
+      Then the activity creation modal is hidden
 
     @high @creation
     Scenario: Staff can see the title form field
       When the user clicks on the create activity button
-      Then the activity draft creation modal is visible
+      Then the activity creation modal is visible
       And the title form field is visible
 
   Rule: My workspace tab - Delete activity

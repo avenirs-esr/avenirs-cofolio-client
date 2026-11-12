@@ -26,11 +26,24 @@
         },
         "inputs": {
           "ActivityTitleInput": {
-            "label": "Titre de l'activité"
+            "label": {
+              "activity": "Titre de l'activité",
+              "subActivity": "Titre de la sous-activité"
+            }
           }
         }
       },
       "modals": {
+        "ActivityCreationModal": {
+          "error": {
+            "activity": "Une erreur est survenue lors de la création de l'activité",
+            "subActivity": "Une erreur est survenue lors de la création de la sous-activité"
+          },
+          "title": {
+            "activity": "Créer une activité",
+            "subActivity": "Créer une sous-activité"
+          }
+        },
         "DeleteActivityDefinitivelyConfirmationModal": {
           "deleteError": "Une erreur est survenue lors de la suppression définitive de l'activité",
           "deleteSuccess": "L'activité a été supprimée définitivement avec succès",
@@ -53,12 +66,6 @@
       },
       "views": {
         "ActivitiesView": {
-          "ActivityDraftCreationModal": {
-            "closeButtonLabel": "Annuler",
-            "confirmButtonLabel": "Créer",
-            "error": "Une erreur est survenue lors de la création de l'activité",
-            "title": "Créer une activité"
-          },
           "ActivityDuplicationModal": {
             "error": "Une erreur est survenue lors de la duplication de l'activité",
             "success": "L'activité a été dupliquée avec succès",
@@ -290,6 +297,12 @@
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité",
             "saveActivityContent": "Une erreur est survenue lors de l'enregistrement de l'activité | Des erreurs sont survenues lors de l'enregistrement de l'activité"
+          },
+          "ManageSubActivitiesDropdown": {
+            "entityName": "les sous-activités"
+          },
+          "SubActivitiesSortableList": {
+            "emptyState": "Aucune sous-activité pour le moment"
           },
           "success": {
             "saveActivityContent": "Activité enregistrée avec succès",

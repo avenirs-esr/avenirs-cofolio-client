@@ -9,13 +9,18 @@ import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 interface ActivityTitleFormFieldProps {
   form: ActivityDraftCreationForm | ActivityDuplicationForm | EditActivityForm
   labelVisible?: boolean
+  isSubActivity?: boolean
 }
 
 defineOptions({
   inheritAttrs: false
 })
 
-const { form, labelVisible } = defineProps<ActivityTitleFormFieldProps>()
+const {
+  form,
+  labelVisible,
+  isSubActivity,
+} = defineProps<ActivityTitleFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
@@ -44,6 +49,7 @@ const titleValidators = {
         :model-value="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         :label-visible="labelVisible"
+        :is-sub-activity
         @blur="field.handleBlur"
         @update:model-value="(value) => {
           field.handleChange(value ?? '');
