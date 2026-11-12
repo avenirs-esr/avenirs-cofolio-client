@@ -62,6 +62,7 @@ function logOut () {
     id="profile-dropdown"
     :items="dropdownItems"
     :trigger-label="username"
+    trigger-no-sentence-case
     :trigger-aria-label="username"
     :trigger-icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
     trigger-variant="DEFAULT"
