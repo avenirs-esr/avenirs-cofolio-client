@@ -3,15 +3,21 @@
     "global": {
       "cards": {
         "ActivityModifiedNotificationCard": {
-          "content": "The activity \"{activityName}\" has been updated. The following section has been modified: {sectionTypes}. | The activity \"{activityName}\" has been updated. The following sections have been modified: {sectionTypes}.",
+          "content": "The activity \"{activityName}\" has been updated. ",
           "updatedFields": {
-            "ACTIVITY_TITLE": "Title",
-            "BANNER": "Banner",
-            "DESCRIPTION": "Description",
-            "RECOMMENDED_COMPLETION_CONTEXTS": "Recommended completion context(s)",
-            "FILES_AND_LINKS": "Files and links",
-            "SUMMARY": "Summary",
-            "THEMATIC": "Theme"
+            "content": "The following section has been modified\u00A0: {sectionTypes}. | The following sections have been modified\u00A0: {sectionTypes}.",
+            "types": {
+              "ACTIVITY_TITLE": "Title",
+              "BANNER": "Banner",
+              "DESCRIPTION": "Description",
+              "RECOMMENDED_COMPLETION_CONTEXTS": "Recommended completion context(s)",
+              "FILES_AND_LINKS": "Files and links",
+              "SUMMARY": "Summary",
+              "THEMATIC": "Theme"
+            }
+          },
+          "updatedSubActivityTitles": {
+            "content": "The sub-activity \"{subActivitiesTitles}\" has been modified. | The following sub-activities have been modified: {subActivitiesTitles}."
           }
         },
         "AssessmentModifiedNotificationCard": {
