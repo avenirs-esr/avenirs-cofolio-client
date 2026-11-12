@@ -42,7 +42,7 @@ export abstract class BasePage {
     await this.page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight / 2)
     })
-    await this.page.waitForTimeout(500)
+    await new Promise(resolve => setTimeout(resolve, 500))
   }
 
   @Then('the URL contains {string}')
