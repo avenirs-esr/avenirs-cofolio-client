@@ -1,0 +1,203 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Traces Widget - Empty State >> Traces widget is visible when student has no traces
+- Location: .features-gen/tests/student/home.feature.spec.js:135:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation "Accès rapide":
+    - list [ref=e3]:
+      - listitem [ref=e4]:
+        - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+          - /url: "#main"
+          - generic [ref=e6]: Aller au contenu principal
+      - listitem [ref=e7]:
+        - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+          - /url: "#footer"
+          - generic [ref=e9]: Aller au pied de page
+  - banner [ref=e10]:
+    - generic [ref=e16]:
+      - text: "Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera"
+      - strong [ref=e17]: indisponible
+      - text: pendant cette période.
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - link "Accueil - Cofolio Apprenant" [ref=e26] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e27]
+        - button "Changer d'univers" [ref=e29] [cursor=pointer]:
+          - generic [ref=e32]: Changer d'univers
+      - generic [ref=e34]:
+        - list [ref=e37]:
+          - listitem [ref=e38]:
+            - button "Notifications" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: Notifications
+          - listitem [ref=e45]:
+            - button "J. moulin" [ref=e48] [cursor=pointer]:
+              - generic [ref=e51]: J. moulin
+        - navigation [ref=e54]:
+          - button "FR" [ref=e57] [cursor=pointer]:
+            - generic [ref=e60]: FR
+    - navigation "Menu principal" [ref=e64]:
+      - list [ref=e65]:
+        - listitem [ref=e66]:
+          - link "ACCUEIL" [ref=e67] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e70]: ACCUEIL
+        - listitem [ref=e71]:
+          - link "MES ACTIVITÉS" [ref=e72] [cursor=pointer]:
+            - /url: /cofolio/student/activities
+            - generic [ref=e75]: MES ACTIVITÉS
+        - listitem [ref=e76]:
+          - link "MES COMPÉTENCES" [ref=e77] [cursor=pointer]:
+            - /url: /cofolio/student/skills
+            - generic [ref=e80]: MES COMPÉTENCES
+        - listitem [ref=e81]:
+          - button "MON PROJET DE VIE" [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: MON PROJET DE VIE
+        - listitem [ref=e84]:
+          - button "MES OUTILS" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: MES OUTILS
+  - main [ref=e87]:
+    - generic [ref=e88]:
+      - heading "Accueil Cofolio Apprenant" [level=1] [ref=e89]
+      - generic [ref=e90]:
+        - generic [ref=e93]:
+          - generic [ref=e95]:
+            - img "Bannière du profil" [ref=e96]
+            - img "Photo de profil" [ref=e98]
+          - generic [ref=e99]:
+            - generic [ref=e102]: Jeanne Moulin
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - button "Modifier mon profil" [ref=e107] [cursor=pointer]:
+                  - generic [ref=e110]: Modifier mon profil
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - generic [ref=e120]: Ma bibliothèque d'activités
+            - generic [ref=e121]:
+              - generic [ref=e128]: Vous n’avez aucune activité dans votre bibliothèque pour le moment.
+              - link "Voir toute ma bibliothèque d'activités" [ref=e131] [cursor=pointer]:
+                - /url: /cofolio/student/activities?tab=ACTIVITY_LIBRARY
+                - generic [ref=e134]: Voir toute ma bibliothèque d'activités
+          - generic [ref=e135]:
+            - generic [ref=e141]: Nouvelles activités
+            - generic [ref=e142]:
+              - generic [ref=e145]:
+                - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e146] [cursor=pointer]':
+                  - /url: /cofolio/student/activity-details/declared-activity-1
+                  - generic [ref=e153]:
+                    - generic [ref=e154]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                    - generic [ref=e155]:
+                      - status [ref=e156]:
+                        - generic [ref=e157]: Me connaître
+                      - status [ref=e158]:
+                        - generic [ref=e159]: En cours
+                - 'link "Activité \"CV\" : Construire son parcours" [ref=e160] [cursor=pointer]':
+                  - /url: /cofolio/student/activity-details/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                  - generic [ref=e167]:
+                    - generic [ref=e168]: "Activité \"CV\" : Construire son parcours"
+                    - generic [ref=e169]:
+                      - status [ref=e170]:
+                        - generic [ref=e171]: Cv
+                      - status [ref=e172]:
+                        - generic [ref=e173]: Inscrit(e)
+                - 'link "Activité : Construire son parcours (soumise)" [ref=e174] [cursor=pointer]':
+                  - /url: /cofolio/student/activity-details/declared-activity-2
+                  - generic [ref=e181]:
+                    - generic [ref=e182]: "Activité : Construire son parcours (soumise)"
+                    - generic [ref=e183]:
+                      - status [ref=e184]:
+                        - generic [ref=e185]: Cv
+                      - status [ref=e186]:
+                        - generic [ref=e187]: Soumis pour feedback
+              - link "Voir toutes les activités" [ref=e190] [cursor=pointer]:
+                - /url: /cofolio/student/activities
+                - generic [ref=e193]: Voir toutes les activités
+          - generic [ref=e194]:
+            - generic [ref=e200]: Mes dernières traces
+            - generic [ref=e201]:
+              - generic [ref=e208]: Vous n’avez encore ajouté aucune trace.
+              - link "Voir toutes mes traces" [ref=e211] [cursor=pointer]:
+                - /url: /cofolio/student/tools/traces
+                - generic [ref=e214]: Voir toutes mes traces
+  - contentinfo [ref=e215]:
+    - generic [ref=e217]:
+      - generic [ref=e218]:
+        - link "Logo ANR" [ref=e219] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e220]
+        - link "Logo France 2030" [ref=e221] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e222]
+      - generic [ref=e223]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e224]:
+      - generic [ref=e225]:
+        - img "Logo Cofolio" [ref=e226]
+        - generic [ref=e237]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e238]:
+        - generic [ref=e239]:
+          - generic [ref=e240]: Informations légales
+          - list [ref=e241]:
+            - listitem [ref=e242]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e243] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e244]:
+              - link "Conditions générales d'utilisation" [ref=e245] [cursor=pointer]:
+                - /url: /cofolio/student/cgu
+            - listitem [ref=e246]:
+              - link "Données personnelles" [ref=e247] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e248]:
+              - link "Gestion des cookies" [ref=e249] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e250]:
+          - generic [ref=e251]: Autres sites
+          - list [ref=e252]:
+            - listitem [ref=e253]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e254] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e255]:
+          - generic [ref=e256]: Partenaires
+          - generic [ref=e257]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e258] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e259]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e260] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e262]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e266] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Page } from '@playwright/test'
+  2 | 
+  3 | export async function waitForPageLoad (page: Page) {
+> 4 |   await page.waitForLoadState('networkidle')
+    |              ^ Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+  5 | }
+  6 | 
+```

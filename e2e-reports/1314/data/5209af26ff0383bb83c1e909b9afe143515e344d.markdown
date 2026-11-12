@@ -1,0 +1,223 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/tools/kit/kit.feature.spec.js >> Student Tools Kit View >> Page Load and Basic Display >> Student can load the tools kit page successfully
+- Location: .features-gen/tests/student/tools/kit/kit.feature.spec.js:12:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation "Accès rapide":
+    - list [ref=e3]:
+      - listitem [ref=e4]:
+        - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+          - /url: "#main"
+          - generic [ref=e6]: Aller au contenu principal
+      - listitem [ref=e7]:
+        - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+          - /url: "#footer"
+          - generic [ref=e9]: Aller au pied de page
+  - banner [ref=e10]:
+    - generic [ref=e16]:
+      - text: "Une maintenance est prévue le 15 novembre de 18h à 20h : le service sera"
+      - strong [ref=e17]: indisponible
+      - text: pendant cette période.
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - link "Accueil - Cofolio Apprenant" [ref=e26] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e27]
+        - button "Changer d'univers" [ref=e29] [cursor=pointer]:
+          - generic [ref=e32]: Changer d'univers
+      - generic [ref=e34]:
+        - list [ref=e37]:
+          - listitem [ref=e38]:
+            - button "Notifications" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: Notifications
+          - listitem [ref=e45]:
+            - button "J. moulin" [ref=e48] [cursor=pointer]:
+              - generic [ref=e51]: J. moulin
+        - navigation [ref=e54]:
+          - button "FR" [ref=e57] [cursor=pointer]:
+            - generic [ref=e60]: FR
+    - navigation "Menu principal" [ref=e64]:
+      - list [ref=e65]:
+        - listitem [ref=e66]:
+          - link "ACCUEIL" [ref=e67] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e70]: ACCUEIL
+        - listitem [ref=e71]:
+          - link "MES ACTIVITÉS" [ref=e72] [cursor=pointer]:
+            - /url: /cofolio/student/activities
+            - generic [ref=e75]: MES ACTIVITÉS
+        - listitem [ref=e76]:
+          - link "MES COMPÉTENCES" [ref=e77] [cursor=pointer]:
+            - /url: /cofolio/student/skills
+            - generic [ref=e80]: MES COMPÉTENCES
+        - listitem [ref=e81]:
+          - button "MON PROJET DE VIE" [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: MON PROJET DE VIE
+        - listitem [ref=e84]:
+          - button "MES OUTILS" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: MES OUTILS
+  - main [ref=e87]:
+    - generic [ref=e88]:
+      - generic [ref=e90]:
+        - navigation "Fil d'Ariane" [ref=e91]:
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Accueil" [ref=e95] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e96]:
+              - generic: Mes outils
+            - listitem [ref=e97]:
+              - generic: Mon kit prêt à l'emploi
+        - generic [ref=e98]:
+          - generic [ref=e99]:
+            - heading "Mon kit prêt à l'emploi" [level=1] [ref=e100]
+            - img "Informations" [ref=e102]
+          - button "Exporter mon kit" [ref=e107] [cursor=pointer]:
+            - generic [ref=e110]: Exporter mon kit
+      - generic [ref=e111]:
+        - generic [ref=e113]:
+          - generic [ref=e115]:
+            - img "Bannière du profil" [ref=e116]
+            - img "Photo de profil" [ref=e118]
+          - generic [ref=e121]:
+            - generic [ref=e122]: Jeanne Moulin
+            - generic [ref=e123]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+        - generic [ref=e124]:
+          - tablist "Liste d’onglets" [ref=e125]:
+            - tab "Contenu textuel" [selected] [ref=e126] [cursor=pointer]:
+              - generic [ref=e127]: Contenu textuel
+            - tab "Contenu multimédia" [ref=e128] [cursor=pointer]:
+              - generic [ref=e129]: Contenu multimédia
+          - tabpanel "Contenu textuel" [ref=e130]:
+            - generic [ref=e131]:
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]: Mes compétences déclarées valorisées (20)
+                  - link "Voir toutes mes compétences déclarées" [ref=e136] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/skills
+                    - generic [ref=e139]: Voir toutes mes compétences déclarées
+                - button "Développer" [ref=e142] [cursor=pointer]
+              - generic [ref=e146]:
+                - generic [ref=e147]:
+                  - generic [ref=e148]: Mes expériences professionnelles (36)
+                  - link "Voir toutes mes expériences professionnelles" [ref=e149] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/personal-career/tools/kit/experiences?type=PROFESSIONAL
+                    - generic [ref=e152]: Voir toutes mes expériences professionnelles
+                - button "Développer" [ref=e155] [cursor=pointer]
+              - generic [ref=e159]:
+                - generic [ref=e160]:
+                  - generic [ref=e161]: Autres expériences (24)
+                  - link "Voir toutes mes autres expériences" [ref=e162] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/personal-career/tools/kit/experiences?type=OTHER
+                    - generic [ref=e165]: Voir toutes mes autres expériences
+                - button "Développer" [ref=e168] [cursor=pointer]
+              - generic [ref=e172]:
+                - generic [ref=e173]:
+                  - generic [ref=e174]: Activités (9)
+                  - link "Voir toutes mes activités" [ref=e175] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/activities?tab=ACTIVITY_LIBRARY
+                    - generic [ref=e178]: Voir toutes mes activités
+                - button "Développer" [ref=e181] [cursor=pointer]
+              - generic [ref=e185]:
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Formations (60)
+                  - link "Voir toutes mes formations" [ref=e188] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/personal-career/tools/kit/declared-programs
+                    - generic [ref=e191]: Voir toutes mes formations
+                - button "Développer" [ref=e194] [cursor=pointer]
+              - generic [ref=e198]:
+                - generic [ref=e199]:
+                  - generic [ref=e200]: Centres d'intérêt (3)
+                  - link "Voir tous mes centres d'intérêt" [ref=e201] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/build-project?section=SELF_KNOWLEDGE
+                    - generic [ref=e204]: Voir tous mes centres d'intérêt
+                - button "Développer" [ref=e207] [cursor=pointer]
+              - generic [ref=e211]:
+                - generic [ref=e212]:
+                  - generic [ref=e213]: Autres informations (10)
+                  - link "Voir toutes mes autres informations" [ref=e214] [cursor=pointer]:
+                    - /url: /cofolio/student/tools/kit/build-project?section=SELF_KNOWLEDGE
+                    - generic [ref=e217]: Voir toutes mes autres informations
+                - button "Développer" [ref=e220] [cursor=pointer]
+  - contentinfo [ref=e223]:
+    - generic [ref=e225]:
+      - generic [ref=e226]:
+        - link "Logo ANR" [ref=e227] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e228]
+        - link "Logo France 2030" [ref=e229] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e230]
+      - generic [ref=e231]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e232]:
+      - generic [ref=e233]:
+        - img "Logo Cofolio" [ref=e234]
+        - generic [ref=e245]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e246]:
+        - generic [ref=e247]:
+          - generic [ref=e248]: Informations légales
+          - list [ref=e249]:
+            - listitem [ref=e250]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e251] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e252]:
+              - link "Conditions générales d'utilisation" [ref=e253] [cursor=pointer]:
+                - /url: /cofolio/student/cgu
+            - listitem [ref=e254]:
+              - link "Données personnelles" [ref=e255] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e256]:
+              - link "Gestion des cookies" [ref=e257] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e258]:
+          - generic [ref=e259]: Autres sites
+          - list [ref=e260]:
+            - listitem [ref=e261]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e262] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e263]:
+          - generic [ref=e264]: Partenaires
+          - generic [ref=e265]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e266] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e267]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e268] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e270]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e274] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Page } from '@playwright/test'
+  2 | 
+  3 | export async function waitForPageLoad (page: Page) {
+> 4 |   await page.waitForLoadState('networkidle')
+    |              ^ Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+  5 | }
+  6 | 
+```
