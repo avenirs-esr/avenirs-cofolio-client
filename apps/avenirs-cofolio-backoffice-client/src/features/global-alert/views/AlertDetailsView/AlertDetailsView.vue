@@ -2,8 +2,8 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import { AvButton, AvNotice, AvTable, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { DatePeriodPicker, DetailPageTitle, fromInstant, QuerySuspense } from '@avenirs-esr/shared'
+import { useGetAlertConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetAlertConfig } from '@/api/avenir-esr'
 import { ROUTES } from '@/constants'
 import AlertStatusBadge from '@/features/global-alert/views/AlertDetailsView/components/badges/AlertStatusBadge/AlertStatusBadge.vue'
 

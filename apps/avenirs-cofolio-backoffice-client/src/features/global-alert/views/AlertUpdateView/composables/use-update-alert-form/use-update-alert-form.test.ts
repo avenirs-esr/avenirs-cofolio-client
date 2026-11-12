@@ -1,4 +1,4 @@
-import type { AlertConfigurationDTO } from '@/api/avenir-esr'
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'

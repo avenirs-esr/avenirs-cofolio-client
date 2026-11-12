@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal, QuerySuspense, UpdatePageTitle, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { useGetAlertConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { useGetAlertConfig } from '@/api/avenir-esr'
 import AlertUpdateForm from '@/features/global-alert/views/AlertUpdateView/components/forms/AlertUpdateForm/AlertUpdateForm.vue'
 
 const { t } = useI18n()

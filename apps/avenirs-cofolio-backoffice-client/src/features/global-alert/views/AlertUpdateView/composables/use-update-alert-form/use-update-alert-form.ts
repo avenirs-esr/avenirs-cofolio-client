@@ -1,10 +1,10 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { AlertConfigurationDTO } from '@/api/avenir-esr'
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { fromInstant, toInstant, useApiErrors, useToasterStore } from '@avenirs-esr/shared'
+import { invalidateGetAlertConfig, usePutAlertConfig } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetAlertConfig, usePutAlertConfig } from '@/api/avenir-esr'
 import { useUpdateAlertFormValidators } from '@/features/global-alert/views/AlertUpdateView/composables/use-update-alert-form-validators/use-update-alert-form-validators'
 
 export interface AlertUpdateFormData extends AlertConfigurationDTO {}

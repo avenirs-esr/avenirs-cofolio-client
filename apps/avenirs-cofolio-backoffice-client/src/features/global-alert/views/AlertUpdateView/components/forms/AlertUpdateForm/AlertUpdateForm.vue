@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AlertConfigurationDTO } from '@/api/avenir-esr'
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { FormCancelConfirmButtons } from '@avenirs-esr/shared'
 import { useId } from 'vue'
 import AlertActiveToggleFormField from '@/features/global-alert/views/AlertUpdateView/components/interactions/formFields/AlertActiveToggleFormField/AlertActiveToggleFormField.vue'

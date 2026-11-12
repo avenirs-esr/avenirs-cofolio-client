@@ -1,9 +1,9 @@
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { HttpHandler } from 'msw'
-import type { AlertConfigurationDTO } from '@/api/avenir-esr'
+import { getGetAlertConfigUrl, getPutAlertConfigUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { http } from 'msw'
 import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
-import { getGetAlertConfigUrl, getPutAlertConfigUrl } from '@/api/avenir-esr'
 
 export const getAlertConfigErrorHandler = http.get(`*${getGetAlertConfigUrl()}`, internalServerError)
 
