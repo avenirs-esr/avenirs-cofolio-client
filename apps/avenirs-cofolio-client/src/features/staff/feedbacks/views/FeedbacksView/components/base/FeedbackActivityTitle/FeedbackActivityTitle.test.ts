@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
-import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import FeedbackActivityTitle from '@/features/staff/feedbacks/views/FeedbacksView/components/base/FeedbackActivityTitle/FeedbackActivityTitle.vue'
 

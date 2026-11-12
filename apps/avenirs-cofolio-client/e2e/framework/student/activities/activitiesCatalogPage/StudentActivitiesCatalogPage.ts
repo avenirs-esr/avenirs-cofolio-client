@@ -1,6 +1,6 @@
+import type { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import type { Page } from '@playwright/test'
-import { EActivityThematic } from '@cofolio/api/avenir-esr/generated/types/eActivityThematic'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
 import { ActivitiesPreviousNextNavigation } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/ActivitiesPreviousNextNavigation'
@@ -17,7 +17,18 @@ class StudentActivitiesCatalogPage {
   private selectedActivityId?: string
   private subscribedDeclaredActivity?: string
 
-  private static readonly DEFAULT_THEMATIC = EActivityThematic.SELF_KNOWLEDGE
+  private static readonly EXPECTED_THEMATICS = {
+    SELF_KNOWLEDGE: true,
+    FUTURE_PLANS: true,
+    PROGRAMS: true,
+    EXPERIENCES: true,
+    TRAJECTORIES: true,
+    RESUMES: true,
+    TRANSVERSAL: true,
+    OTHER: true,
+  } satisfies Record<`${EActivityThematic}`, true>
+
+  private static readonly DEFAULT_THEMATIC: `${EActivityThematic}` = 'SELF_KNOWLEDGE'
   private static readonly DEFAULT_ACTIVITY_ID = '9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33'
   private static readonly DEFAULT_DECLARED_ACTIVITY_ID = 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7'
 
@@ -154,7 +165,7 @@ class StudentActivitiesCatalogPage {
 
   @Then('all expected thematics are displayed in side navigation')
   async verifyAllExpectedThematicsInSideNav () {
-    await this.sideNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+    await this.sideNav().verifyAllExpectedThematics(Object.keys(StudentActivitiesCatalogPage.EXPECTED_THEMATICS))
   }
 
   @When('the user selects the first activity of the {string} thematic from side navigation')
@@ -220,7 +231,7 @@ class StudentActivitiesCatalogPage {
 
   @Then('all expected thematics are displayed in select navigation')
   async verifyAllExpectedThematicsInSelectNav () {
-    await this.selectNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+    await this.selectNav().verifyAllExpectedThematics(Object.keys(StudentActivitiesCatalogPage.EXPECTED_THEMATICS))
   }
 
   @When('the user clicks on the previous activity button')

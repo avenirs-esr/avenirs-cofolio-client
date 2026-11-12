@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EFeedbackStatus } from '@/api/avenir-esr'
+import type { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { ROUTES } from '@/common/constants'
 

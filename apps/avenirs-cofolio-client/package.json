@@ -27,10 +27,6 @@
     "test:a11y:cleanup": "rimraf a11y/.output",
     "test:watch": "vitest",
     "type-check": "vue-tsc --build --force",
-    "prepare": "pnpm run generate:api",
-    "generate:api": "orval",
-    "check:api-diff": "node scripts/check-api-diff.mjs",
-    "postgenerate:api": "eslint ./src/api --fix",
     "generate:feature": "node scripts/generate-feature.mjs"
   },
   "dependencies": {

@@ -94,6 +94,16 @@ npm run test:unit
 npm run test:watch
 ```
 
+### API client
+
+API requests, query and mutation hooks, and models are imported from `@avenirs-esr/shared/api/avenir-esr`; Cofolio does not generate a local API client. Its `src/api/avenir-esr/fetch-instance/fetch-instance.ts` module configures the shared transport with application headers, locale and session revalidation/redirect handling. It is loaded by application bootstrap and unit-test setup.
+
+Regenerate the shared API client from the workspace root:
+
+```sh
+pnpm --filter @avenirs-esr/shared run generate:api
+```
+
 ### Local Development with Design System (npm link)
 
 When developing the design system (`@avenirs-esr/avenirs-dsav`) locally alongside this project, use npm link for live updates:
