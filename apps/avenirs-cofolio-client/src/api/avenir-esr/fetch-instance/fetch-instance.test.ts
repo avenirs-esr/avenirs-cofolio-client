@@ -1,31 +1,13 @@
-import type { FetchOptions, ResponseInterceptorContext } from '@avenirs-esr/shared'
-import type { MockedFunction } from 'vitest'
+import type { AvLocale, FetchOptions, ResponseInterceptorContext } from '@avenirs-esr/shared'
+import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { MockedFunction, MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createCustomFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
-import { flushPromises } from '@vue/test-utils'
+import { HttpStatusCode } from '@avenirs-esr/shared'
+import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
-
-const mockAddRequestInterceptor = vi.fn()
-const mockAddResponseInterceptor = vi.fn()
-const mockRemoveRequestInterceptor = vi.fn()
-const mockRemoveResponseInterceptor = vi.fn()
-
-function createFetchInterceptorManagerMock () {
-  return {
-    addRequestInterceptor: mockAddRequestInterceptor,
-    addResponseInterceptor: mockAddResponseInterceptor,
-    removeRequestInterceptor: mockRemoveRequestInterceptor,
-    removeResponseInterceptor: mockRemoveResponseInterceptor,
-  }
-}
-
-vi.mock('@avenirs-esr/shared', async importOriginal => ({
-  ...await importOriginal<typeof import('@avenirs-esr/shared')>(),
-  createCustomFetch: vi.fn(),
-  FetchInterceptorManager: vi.fn(createFetchInterceptorManagerMock),
-}))
 
 const mockRevalidateSession = vi.fn()
 const mockRedirectToLogin = vi.fn()
@@ -54,100 +36,154 @@ vi.mock('@/router', () => ({
   },
 }))
 
-BddTest().given('avenir-esr customFetch', () => {
-  const mockFetcher = vi.fn()
-  const mockFetch: MockedFunction<typeof fetch> = vi.fn()
+BddTest().given('the Cofolio shared HTTP configuration', () => {
+  const cgu: CguDTO = {
+    id: 'cgu-id',
+    version: 1,
+    uploadedAt: '2026-11-12T12:00:00Z',
+    content: 'Terms of service',
+  }
+  const onRequest = vi.fn<(request: Request) => void>()
+  let shared: typeof import('@avenirs-esr/shared')
+  let api: typeof import('@avenirs-esr/shared/api/avenir-esr')
+  let i18n: typeof import('@/plugins/vue-i18n').i18n
+  let configureSharedFetchSpy: MockInstance<typeof shared.configureSharedFetch>
+  let createCustomFetchSpy: MockInstance<typeof shared.createCustomFetch>
 
-  const mockedCreateCustomFetch = vi.mocked(createCustomFetch)
-  const mockedFetchInterceptorManager = vi.mocked(FetchInterceptorManager)
+  beforeEach(async () => {
+    vi.resetModules()
+    onRequest.mockClear()
+    shared = await import('@avenirs-esr/shared')
+    i18n = (await import('@/plugins/vue-i18n')).i18n
+    i18n.global.locale.value = 'fr'
+    configureSharedFetchSpy = vi.spyOn(shared, 'configureSharedFetch')
+    createCustomFetchSpy = vi.spyOn(shared, 'createCustomFetch')
 
-  beforeEach(() => {
-    vi.stubGlobal('fetch', mockFetch)
+    await import('@/api/avenir-esr/fetch-instance/fetch-instance')
+    api = await import('@avenirs-esr/shared/api/avenir-esr')
 
-    mockedCreateCustomFetch.mockReturnValue(mockFetcher)
-
-    mockFetch.mockResolvedValue(new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
+    server.use(http.get(`*${api.getGetLatestCguUrl()}`, ({ request }) => {
+      onRequest(request)
+      return HttpResponse.json(cgu)
     }))
   })
 
   afterEach(() => {
+    i18n.global.locale.value = 'fr'
+    vi.restoreAllMocks()
+  })
+
+  BddTest().when('the configuration module is initialized', () => {
+    BddTest().then('it configures the shared transport exactly once', () => {
+      expect(configureSharedFetchSpy).toHaveBeenCalledExactlyOnceWith({
+        baseUrl: __BASE_URL__,
+        defaultHeaders: { 'Content-Type': 'application/json' },
+      }, expect.any(shared.FetchInterceptorManager))
+    })
+
+    BddTest().then('it does not create an unused local fetcher', () => {
+      expect(createCustomFetchSpy).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it does not send a request during initialization', () => {
+      expect(onRequest).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('a shared request is made', () => {
+    let result: CguDTO
+
+    beforeEach(async () => {
+      result = await api.getLatestCgu()
+    })
+
+    BddTest().then('it uses the Cofolio API base URL', () => {
+      expect(onRequest).toHaveBeenCalledTimes(1)
+      expect(onRequest.mock.calls[0][0].url).toBe(`${__BASE_URL__.replace(/\/$/, '')}${api.getGetLatestCguUrl()}`)
+    })
+
+    BddTest().then('it applies the Cofolio headers and session credentials', () => {
+      const request = onRequest.mock.calls[0][0]
+
+      expect(request.headers.get('x-signed-context')).toBe('student')
+      expect(request.headers.get('Accept-Language')).toBe(shared.AvIsoLocaleMap.fr)
+      expect(request.headers.get('Authorization')).toBe(__BEARER_TOKEN__)
+      expect(request.headers.get('Content-Type')).toBe('application/json')
+      expect(request.headers.get('eppn')).toBe(__USER_EPPN__ ?? null)
+      expect(request.credentials).toBe('include')
+    })
+
+    BddTest().then('it returns the response through the Cofolio response interceptor', () => {
+      expect(result).toEqual(cgu)
+    })
+  })
+
+  BddTest().when('the locale changes after initialization', () => {
+    beforeEach(async () => {
+      await api.getLatestCgu()
+      i18n.global.locale.value = 'en'
+      await api.getLatestCgu()
+    })
+
+    BddTest().then('it reads the current application locale for each request', () => {
+      expect(onRequest).toHaveBeenCalledTimes(2)
+      expect(onRequest.mock.calls[0][0].headers.get('Accept-Language')).toBe(shared.AvIsoLocaleMap.fr)
+      expect(onRequest.mock.calls[1][0].headers.get('Accept-Language')).toBe(shared.AvIsoLocaleMap.en)
+    })
+  })
+
+  BddTest().when('the locale is unsupported', () => {
+    beforeEach(async () => {
+      i18n.global.locale.value = 'unknown' as AvLocale
+      await api.getLatestCgu()
+    })
+
+    BddTest().then('it falls back to French', () => {
+      expect(onRequest.mock.calls[0][0].headers.get('Accept-Language')).toBe(shared.AvIsoLocaleMap.fr)
+    })
+  })
+
+  BddTest().when('a shared request includes custom options', () => {
+    let controller: AbortController
+
+    beforeEach(async () => {
+      controller = new AbortController()
+      await api.getLatestCgu({
+        headers: {
+          'X-Custom-Header': 'custom-value',
+          'Authorization': 'Bearer request-token',
+        },
+        credentials: 'omit',
+        cache: 'no-store',
+        signal: controller.signal,
+      })
+      controller.abort()
+    })
+
+    BddTest().then('it preserves custom options while applying application authentication', () => {
+      const request = onRequest.mock.calls[0][0]
+
+      expect(request.headers.get('X-Custom-Header')).toBe('custom-value')
+      expect(request.headers.get('Authorization')).toBe(__BEARER_TOKEN__)
+      expect(request.credentials).toBe('omit')
+      expect(request.cache).toBe('no-store')
+      expect(request.signal.aborted).toBe(true)
+    })
+  })
+})
+
+BddTest().given('the Cofolio response interceptor', () => {
+  const mockFetch: MockedFunction<typeof fetch> = vi.fn()
+
+  beforeEach(() => {
+    vi.stubGlobal('fetch', mockFetch)
+  })
+
+  afterEach(() => {
     vi.clearAllMocks()
+    vi.restoreAllMocks()
     vi.unstubAllGlobals()
     vi.unstubAllEnvs()
-  })
-
-  BddTest().and('a fresh module import', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      vi.resetModules()
-    })
-
-    BddTest().when('customFetch is called', () => {
-      beforeEach(async () => {
-        const { customFetch } = await import('./fetch-instance')
-        await customFetch('/test', { method: 'GET' })
-      })
-
-      BddTest().then('should create FetchInterceptorManager instance', () => {
-        expect(mockedFetchInterceptorManager).toHaveBeenCalledTimes(1)
-        expect(mockAddRequestInterceptor).toHaveBeenCalledTimes(1)
-        expect(mockAddResponseInterceptor).toHaveBeenCalledTimes(1)
-      })
-
-      BddTest().then('should call createCustomFetch with correct parameters', () => {
-        expect(mockedCreateCustomFetch).toHaveBeenCalledWith({
-          baseUrl: expect.any(String),
-          defaultHeaders: { 'Content-Type': 'application/json' },
-        }, expect.any(Object))
-      })
-
-      BddTest().then('should call the fetcher with correct parameters', () => {
-        expect(mockFetcher).toHaveBeenCalledWith('/test', { method: 'GET' })
-      })
-
-      BddTest().then('should add x-signed-context header through interceptor', () => {
-        const interceptorCall = mockAddRequestInterceptor.mock.calls[0]
-        const interceptorFunction = interceptorCall[0]
-        const testOptions: RequestInit = {
-          method: 'POST',
-        }
-        const result = interceptorFunction('https://api.example.com/test', testOptions)
-        expect(result).toEqual({
-          method: 'POST',
-          headers: {
-            'Accept-Language': 'en-US',
-            'Authorization': __BEARER_TOKEN__,
-            'x-signed-context': 'student'
-          }
-        })
-      })
-    })
-  })
-
-  BddTest().and('a mock response is configured', () => {
-    const mockResponse = { data: 'test response' }
-
-    beforeEach(() => {
-      mockFetcher.mockResolvedValueOnce(mockResponse)
-      vi.clearAllMocks()
-      vi.resetModules()
-    })
-
-    BddTest().when('customFetch is invoked', () => {
-      let result: unknown
-
-      beforeEach(async () => {
-        const { customFetch } = await import('./fetch-instance')
-        result = await customFetch('/test', { method: 'GET' })
-      })
-
-      BddTest().then('should return the mocked response', () => {
-        expect(mockFetcher).toHaveBeenCalledWith('/test', { method: 'GET' })
-        expect(result).toEqual(mockResponse)
-      })
-    })
   })
 
   BddTest().and('a response goes through the response interceptor', () => {
@@ -170,8 +206,12 @@ BddTest().given('avenir-esr customFetch', () => {
       mockFetch.mockReset()
       mockCurrentRoute.meta = {}
 
-      await import('./fetch-instance')
-      interceptor = mockAddResponseInterceptor.mock.calls[0][0]
+      const { FetchInterceptorManager } = await import('@avenirs-esr/shared')
+      const addResponseInterceptorSpy = vi.spyOn(FetchInterceptorManager.prototype, 'addResponseInterceptor')
+
+      await import('@/api/avenir-esr/fetch-instance/fetch-instance')
+      const responseInterceptor = addResponseInterceptorSpy.mock.calls[0][0]
+      interceptor = (response, context) => Promise.resolve(responseInterceptor(response, context))
     })
 
     BddTest().when('the response is a 401 and /me confirms that the session is still valid', () => {
@@ -247,7 +287,7 @@ BddTest().given('avenir-esr customFetch', () => {
         const onSettled = vi.fn()
         pending.then(onSettled, onSettled)
 
-        await flushPromises()
+        await new Promise<void>(resolve => setTimeout(resolve, 0))
 
         expect(onSettled).not.toHaveBeenCalled()
       })
@@ -269,7 +309,7 @@ BddTest().given('avenir-esr customFetch', () => {
         const onSettled = vi.fn()
         pending.then(onSettled, onSettled)
 
-        await flushPromises()
+        await new Promise<void>(resolve => setTimeout(resolve, 0))
 
         expect(mockReplace).not.toHaveBeenCalled()
         expect(onSettled).not.toHaveBeenCalled()
@@ -321,7 +361,7 @@ BddTest().given('avenir-esr customFetch', () => {
         const onSettled = vi.fn()
         pending.then(onSettled, onSettled)
 
-        await flushPromises()
+        await new Promise<void>(resolve => setTimeout(resolve, 0))
 
         expect(mockRedirectToLogin).toHaveBeenCalledWith(CURRENT_ROUTE)
         expect(mockReplace).toHaveBeenCalledWith(ROUTES.AUTH.LOGIN)
@@ -415,98 +455,6 @@ BddTest().given('avenir-esr customFetch', () => {
         expect(result).toBe(response)
         expect(mockRevalidateSession).not.toHaveBeenCalled()
         expect(mockReplace).not.toHaveBeenCalled()
-      })
-    })
-  })
-
-  BddTest().and('a User interface and mock user data', () => {
-    interface User {
-      id: number
-      name: string
-      email: string
-    }
-
-    const mockUser: User = {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com'
-    }
-
-    beforeEach(() => {
-      mockFetcher.mockResolvedValueOnce(mockUser)
-      vi.clearAllMocks()
-      vi.resetModules()
-    })
-
-    BddTest().when('customFetch is called with generic type', () => {
-      let result: User
-
-      beforeEach(async () => {
-        const { customFetch } = await import('./fetch-instance')
-        result = await customFetch<User>('/api/users/1', { method: 'GET' })
-      })
-
-      BddTest().then('should pass through generic type correctly', () => {
-        expect(result).toEqual(mockUser)
-        expect(result.id).toBe(1)
-        expect(result.name).toBe('John Doe')
-        expect(result.email).toBe('john@example.com')
-      })
-    })
-  })
-
-  BddTest().and('complex request options', () => {
-    const requestOptions: RequestInit = {
-      method: 'PUT',
-      headers: {
-        'Authorization': __BEARER_TOKEN__,
-        'X-Custom-Header': 'custom-value'
-      },
-      body: JSON.stringify({ data: 'test' }),
-      signal: new AbortController().signal
-    }
-
-    beforeEach(() => {
-      mockFetcher.mockResolvedValueOnce({ success: true })
-      vi.clearAllMocks()
-      vi.resetModules()
-    })
-
-    BddTest().when('customFetch is called with complex options', () => {
-      beforeEach(async () => {
-        const { customFetch } = await import('./fetch-instance')
-        await customFetch('/api/data', requestOptions)
-      })
-
-      BddTest().then('should preserve all request options when calling fetcher', () => {
-        expect(mockFetcher).toHaveBeenCalledWith('/api/data', requestOptions)
-      })
-    })
-  })
-
-  BddTest().and('a module is imported', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      vi.resetModules()
-      await import('./fetch-instance')
-    })
-
-    BddTest().when('module initialization occurs', () => {
-      BddTest().then('should call createCustomFetch during initialization', () => {
-        expect(mockedCreateCustomFetch).toHaveBeenCalledTimes(1)
-        expect(mockedCreateCustomFetch).toHaveBeenCalledWith(
-          {
-            baseUrl: expect.any(String),
-            defaultHeaders: { 'Content-Type': 'application/json' },
-          },
-          expect.any(Object)
-        )
-      })
-
-      BddTest().then('should instantiate FetchInterceptorManager during initialization', () => {
-        expect(mockedFetchInterceptorManager).toHaveBeenCalledTimes(1)
-        expect(mockAddRequestInterceptor).toHaveBeenCalledTimes(1)
-        expect(mockAddRequestInterceptor).toHaveBeenCalledWith(expect.any(Function))
       })
     })
   })
