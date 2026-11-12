@@ -8,6 +8,22 @@ on:
       - main
 
 jobs:
+  run-shared-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node and install workspace dependencies
+        uses: avenirs-esr/avenirs-workflows/.github/actions/setup-node@main
+        with:
+          package-manager: pnpm
+          working-directory: .
+
+      - name: Run shared unit tests with coverage
+        working-directory: packages/shared
+        run: pnpm run test:coverage
+
   run-code-quality-checks:
     uses: avenirs-esr/avenirs-workflows/.github/workflows/frontend-quality-check-workflow.yaml@main
     with:
