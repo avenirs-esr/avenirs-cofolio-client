@@ -51,7 +51,14 @@ BddTest().given('an ActivityRightsUserRow component', () => {
       expect(wrapper.findComponent(UserInfoStub).props('user')).toEqual(user)
       expect(getSelect().props('multiple')).toBe(true)
       expect(getSelect().props('modelValue')).toEqual([])
-      expect(getSelect().props('options')).toHaveLength(Object.values(EAuthorization).length)
+      expect(getSelect().props('options')).toHaveLength(Object.values(EAuthorization).length - 1)
+    })
+
+    BddTest().then('it should never offer the leader option but offer manage authorizations', () => {
+      const values = (getSelect().props('options') as AvSelectOption[]).map(({ value }) => value)
+
+      expect(values).not.toContain(EAuthorization.LEADER)
+      expect(values).toContain(EAuthorization.MANAGE_AUTHORIZATIONS)
     })
 
     BddTest().then('it should not render any authorization icon', () => {
@@ -100,6 +107,24 @@ BddTest().given('an ActivityRightsUserRow component', () => {
 
     BddTest().then('it should emit delete', () => {
       expect(wrapper.emitted('delete')).toHaveLength(1)
+    })
+  })
+
+  BddTest().when('the row is locked', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityRightsUserRow, {
+        props: { user, modelValue: [EActivityRight.LEADER], locked: true },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should hide the authorizations select', () => {
+      expect(getSelect().exists()).toBe(false)
+    })
+
+    BddTest().then('it should display every automatic right of the leader and disable the delete overlay', () => {
+      expect(wrapper.findAllComponents(AvIconStub)).toHaveLength(Object.values(EAuthorization).length)
+      expect(wrapper.findComponent(DeleteOverlayStub).props('disabled')).toBe(true)
     })
   })
 

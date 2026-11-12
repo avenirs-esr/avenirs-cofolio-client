@@ -19,7 +19,7 @@ BddTest().given('a useAuthorizationTypeConfig composable', () => {
       const config = getAuthorizationTypeConfig(EAuthorization.LEADER)
 
       expect(config.icon.value).toBe(ICONS.ADMIN)
-      expect(config.label.value).toBe('Responsable')
+      expect(config.label.value).toBe('Responsable de l\'activité')
     })
   })
 

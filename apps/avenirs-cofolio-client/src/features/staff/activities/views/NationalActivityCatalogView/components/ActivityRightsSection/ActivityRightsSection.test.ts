@@ -14,6 +14,8 @@ import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleC
 import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
 import ActivityRightsSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.vue'
+import ActivityRightsUserRow
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsUserRow/ActivityRightsUserRow.vue'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import { AuthorizationTypeBadgeStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/badges/AuthorizationTypeBadge/AuthorizationTypeBadge.stub'
 import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
@@ -21,6 +23,12 @@ import { DeleteOverlayStub } from '@/features/student/global/components/interact
 const mockIsMobile = ref(false)
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    profile: { data: computed(() => ({ id: 'connected-user-id' })) },
+  }),
+}))
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
@@ -313,6 +321,37 @@ BddTest().given('an ActivityRightsSection component', () => {
       BddTest().then('it should hide the selected users section', () => {
         expect(getSelectedUsersContainer().exists()).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('the connected user and another user are selected', () => {
+    const connectedUserOption: AvAutocompleteOption = {
+      value: 'connected-user-id',
+      label: 'Connected User',
+    }
+
+    beforeEach(async () => {
+      await mountSection()
+      await selectUsers([connectedUserOption, toOption(alice)])
+    })
+
+    BddTest().then('it should lock only the row of the connected user', () => {
+      const rows = wrapper.findAllComponents(ActivityRightsUserRow)
+      expect(rows.map(row => row.props('locked'))).toEqual([true, false])
+    })
+  })
+
+  BddTest().when('a selected user has the leader right', () => {
+    beforeEach(async () => {
+      await mountSection()
+      await selectUsers([toOption(alice), toOption(bob)])
+      wrapper.findAllComponents(ActivityRightsUserRow)[0]!.vm.$emit('update:modelValue', [EActivityRight.LEADER])
+      await flushPromises()
+    })
+
+    BddTest().then('it should lock only the row of the leader', () => {
+      const rows = wrapper.findAllComponents(ActivityRightsUserRow)
+      expect(rows.map(row => row.props('locked'))).toEqual([true, false])
     })
   })
 
