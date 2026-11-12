@@ -131,6 +131,21 @@
         "defaultErrorTitle": "An error occurred while loading data"
       }
     },
+    "dates": {
+      "compact": {
+        "days": "{count}d",
+        "hours": "{count}h",
+        "minutes": "{count}m",
+        "months": "{count}mo",
+        "weeks": "{count}w",
+        "years": "{count}y"
+      },
+      "dateTimeAt": "{date} at {time}",
+      "hoursAgo": "{count} hour ago | {count} hours ago",
+      "justNow": "Just now",
+      "minutesAgo": "{count} minute ago | {count} minutes ago"
+    },
+    "detail": "Detail",
     "error": {
       "api": {
         "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED": "This change of activity authorizations is not allowed",

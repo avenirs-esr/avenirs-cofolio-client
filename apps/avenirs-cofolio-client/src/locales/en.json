@@ -160,19 +160,7 @@
     },
     "colon": "{before}:",
     "dates": {
-      "compact": {
-        "days": "{count}d",
-        "hours": "{count}h",
-        "minutes": "{count}m",
-        "months": "{count}mo",
-        "weeks": "{count}w",
-        "years": "{count}y"
-      },
       "createdAt": "Created on {date}",
-      "dateTimeAt": "{date} at {time}",
-      "hoursAgo": "{count} hour ago | {count} hours ago",
-      "justNow": "Just now",
-      "minutesAgo": "{count} minute ago | {count} minutes ago",
       "ongoing": "Ongoing",
       "periodPlaceholder": {
         "default": "Select a period"
@@ -180,7 +168,6 @@
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },
-    "detail": "Detail",
     "documentLabel": "My uploaded document",
     "disabled": "Disabled | Disabled",
     "end": "End",

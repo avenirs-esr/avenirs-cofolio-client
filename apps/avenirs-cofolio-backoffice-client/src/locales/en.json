@@ -3,7 +3,6 @@
     "buttons": {
       "close": "Close"
     },
-    "detail": "Detail",
     "emptyState": {
       "defaultTitle": "No items to display"
     },
