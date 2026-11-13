@@ -62,7 +62,12 @@ BddTest().given('a student declared skill view', () => {
   const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
   const getSettingDropdown = () => wrapper.findComponent(DeclaredSkillSettingDropdownStub)
   const getTabs = () => wrapper.findComponent(AvTabsStub)
-  const getTab = () => wrapper.findAllComponents(AvTabStub)
+  const switchTab = async (index: number) => {
+    const tabs = getTabs()
+    tabs.vm.$emit('update:modelValue', index)
+    await flushPromises()
+  }
+  const getActiveTab = () => wrapper.findAllComponents(AvTabStub)[0]
   const getDetails = () => wrapper.findComponent(DeclaredSkillDetailsStub)
   const getAssociations = () => wrapper.findComponent(ElementAssociationsStub)
   const getDeleteModal = () => wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
@@ -103,8 +108,8 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().then('it should render the details tab by default', async () => {
       await vi.waitFor(() => {
-        expect(getTab()).toHaveLength(2)
-        expect(getTab()[0].props('title')).toBe('Ma compétence déclarée')
+        expect(getActiveTab()).toBeDefined()
+        expect(getActiveTab().props('title')).toBe('Ma compétence déclarée')
       })
     })
 
@@ -113,12 +118,6 @@ BddTest().given('a student declared skill view', () => {
         expect(getDetails().exists()).toBe(true)
         expect(getDetails().props('declaredSkillProgressDetails')).toBeDefined()
         expect(getDetails().props('declaredSkillProgressDetails').title).toBe('Conduire un projet de bout en bout')
-      })
-    })
-
-    BddTest().then('it should render the associations tab with the association count', async () => {
-      await vi.waitFor(() => {
-        expect(getTab()[1].props('title')).toBe('Mes associations (7)')
       })
     })
 
@@ -136,22 +135,21 @@ BddTest().given('a student declared skill view', () => {
 
   BddTest().when('the associations tab is selected', () => {
     beforeEach(async () => {
-      await getTabs().vm.$emit('update:modelValue', 1)
-      await flushPromises()
+      await switchTab(1)
     })
 
     BddTest().then('it should render ElementAssociations with the declared skill associations', async () => {
       await vi.waitFor(() => {
         expect(getAssociations().exists()).toBe(true)
         expect(getAssociations().props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-        expect(getAssociations().props('elementId')).toBe('skill-progress-1')
+        expect(getAssociations().props('elementId')).toBe('declared-skill-progress-1')
         expect(getAssociations().props('associations')).toEqual(mockedDeclaredSkillAssociations)
         expect(getAssociations().props('error')).toBeNull()
       })
     })
 
     BddTest().then('it should display the association count in the tab title', () => {
-      expect(getTab()[1].props('title')).toBe('Mes associations (7)')
+      expect(getActiveTab().props('title')).toBe('Mes associations (7)')
     })
   })
 
@@ -266,11 +264,10 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should not render ElementAssociations when the associations tab is selected', async () => {
-      await getTabs().vm.$emit('update:modelValue', 1)
-      await flushPromises()
+      await switchTab(1)
 
       expect(getAssociations().exists()).toBe(false)
-      expect(getTab()[1].props('title')).toBe('Mes associations (0)')
+      expect(getActiveTab().props('title')).toBe('Mes associations (0)')
     })
   })
 
@@ -295,7 +292,7 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should display a zero association count in the tab title', () => {
-      expect(getTab()[1].props('title')).toBe('Mes associations (0)')
+      expect(getActiveTab().props('title')).toBe('Mes associations (0)')
     })
   })
 

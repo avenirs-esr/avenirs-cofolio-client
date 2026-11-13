@@ -68,6 +68,7 @@ function onActionSelected (action: Action) {
 
 <template>
   <ManageEntityDropdown
+    v-bind="$attrs"
     :actions="actions"
     :entity-name="entityName"
     width="max-content"
