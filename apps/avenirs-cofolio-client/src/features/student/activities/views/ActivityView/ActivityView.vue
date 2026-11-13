@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DetailPageTitle, Loader, useModal } from '@avenirs-esr/shared'
-import { EAssociationContextType, useGetDeclaredActivityDetails } from '@avenirs-esr/shared/api/avenir-esr'
+import { useGetDeclaredActivityDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { useDrawer, useNavigation } from '@/common/composables'
@@ -14,8 +14,6 @@ import ActivityLayout
 import DeleteMyActivityConfirmModal from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.vue'
 import ActivityDetailedDropdown
   from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
-import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
-import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 
 export interface ActivityViewProps {
@@ -49,18 +47,6 @@ const {
   modalOpened: deleteModalOpened,
   openModal: openDeleteModal,
   closeModal: closeDeleteModal
-} = useModal()
-
-const {
-  modalOpened: associateModalOpened,
-  openModal: openAssociateModal,
-  closeModal: closeAssociateModal
-} = useModal()
-
-const {
-  modalOpened: unassociateModalOpened,
-  openModal: openUnassociateModal,
-  closeModal: closeUnassociateModal
 } = useModal()
 
 const lastBreadcrumbLink = ref(t('global.detail'))
@@ -98,6 +84,7 @@ function onDelete () {
                 :status="declaredActivityDetail.status"
               />
               <ActivityDetailedDropdown
+                :declared-activity-id="declaredActivityDetail.id"
                 :status="declaredActivityDetail.status"
                 :activity-status="declaredActivityDetail.activity.activityStatus"
                 data-testid="activity-view-detailed-dropdown"
@@ -105,24 +92,6 @@ function onDelete () {
                 @resubscribe="openSubscribeModal"
                 @unsubscribe="openUnsubscribeModal"
                 @delete="openDeleteModal"
-                @associate="openAssociateModal"
-                @dissociate="openUnassociateModal"
-              />
-
-              <AssociateModal
-                :opened="associateModalOpened"
-                :context-type="EAssociationContextType.DECLARED_ACTIVITY"
-                :element-id="declaredActivityDetail.id"
-                @cancel="closeAssociateModal"
-                @associated="closeAssociateModal"
-              />
-
-              <DeleteAssociationsModal
-                :opened="unassociateModalOpened"
-                :context-type="EAssociationContextType.DECLARED_ACTIVITY"
-                :element-id="declaredActivityDetail.id"
-                @cancel="closeUnassociateModal"
-                @deleted="closeUnassociateModal"
               />
             </div>
           </div>

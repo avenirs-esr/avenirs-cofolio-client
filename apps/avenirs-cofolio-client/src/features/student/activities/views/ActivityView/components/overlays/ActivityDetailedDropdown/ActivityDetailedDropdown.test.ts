@@ -2,24 +2,25 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EActivityStatus, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityStatus, EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ActivityDetailedDropdown from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
+import { ManageAssociableEntityDropdownStub } from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.stub'
 
-BddTest().given('an activity dropdown', () => {
+BddTest().given('an activity detailed dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetailedDropdown>>
 
   const stubs = {
-    ManageEntityDropdown: ManageEntityDropdownStub
+    ManageAssociableEntityDropdown: ManageAssociableEntityDropdownStub
   }
 
   const mountWith = (props: Partial<ActivityDetailedDropdownProps> = {}) => {
     wrapper = mount(ActivityDetailedDropdown, {
       props: {
-        status: EDeclaredActivityStatus.COMPLETED,
+        declaredActivityId: 'declared-activity-id',
+        status: EDeclaredActivityStatus.SUBSCRIBED,
         activityStatus: EActivityStatus.PUBLISHED,
         ...props
       },
@@ -27,63 +28,74 @@ BddTest().given('an activity dropdown', () => {
     })
   }
 
-  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
-  const getUpdateButton = () => wrapper.find(`[data-testid="${Action.UPDATE}"]`)
-  const getUnsubscribeButton = () => wrapper.find(`[data-testid="${Action.UNSUBSCRIBE}"]`)
-  const getResubscribeButton = () => wrapper.find(`[data-testid="${Action.RESUBSCRIBE}"]`)
-  const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
-  const getAssociate = () => wrapper.find(`[data-testid="${Action.ASSOCIATE}"]`)
+  const getDropdown = () => wrapper.findComponent(ManageAssociableEntityDropdownStub)
+  const getActionButton = (action: Action) => wrapper.find(`[data-testid="${action}"]`)
+
+  const getAction = (action: Action) =>
+    (getDropdown().props('actions') as ActionItem[]).find(item =>
+      typeof item === 'string' ? item === action : item.type === action
+    )
 
   BddTest().when('the declared activity is subscribed', () => {
     beforeEach(() => {
-      mountWith({ status: EDeclaredActivityStatus.SUBSCRIBED })
+      mountWith()
     })
 
-    BddTest().then('it should render update, unsubscribe, and delete menu items', () => {
-      const dropdown = getDropdown()
-      expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(5)
+    BddTest().then('it should render the associable entity dropdown', () => {
+      expect(getDropdown().exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the correct entity name to the dropdown', () => {
+    BddTest().then('it should pass the declared activity identification to the dropdown', () => {
+      expect(getDropdown().props('elementId')).toBe('declared-activity-id')
+      expect(getDropdown().props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
       expect(getDropdown().props('entityName')).toBe('mon activité')
     })
 
-    BddTest().then('it should not render resubscribe and should disable delete', () => {
-      expect(getResubscribeButton().exists()).toBe(false)
-      expect(getDeleteButton().exists()).toBe(true)
-      expect(getDeleteButton().attributes('disabled')).toBe('')
+    BddTest().then('it should render update, unsubscribe, and delete actions', () => {
+      const actions = getDropdown().props('actions')
 
-      const deleteAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.DELETE)
-      expect(deleteAction?.disabled).toBe(true)
-      expect(deleteAction?.disabledTooltip).toBeTruthy()
+      expect(actions).toHaveLength(3)
+      expect(getActionButton(Action.UPDATE).exists()).toBe(true)
+      expect(getActionButton(Action.UNSUBSCRIBE).exists()).toBe(true)
+      expect(getActionButton(Action.DELETE).exists()).toBe(true)
+      expect(getActionButton(Action.RESUBSCRIBE).exists()).toBe(false)
     })
 
-    BddTest().when('the update button is clicked', () => {
+    BddTest().then('it should disable delete action with a tooltip', () => {
+      const deleteAction = getAction(Action.DELETE)
+
+      expect(getActionButton(Action.DELETE).attributes('disabled')).toBe('')
+      expect(deleteAction).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+    })
+
+    BddTest().then('it should enable association and dissociation interactions', () => {
+      expect(getDropdown().props('associationInteractiveProps')).toEqual({
+        disabled: false,
+        disabledTooltip: undefined
+      })
+      expect(getDropdown().props('dissociationInteractiveProps')).toEqual({
+        disabled: false,
+        disabledTooltip: undefined
+      })
+    })
+
+    BddTest().when('the update action is triggered', () => {
       BddTest().then('it should emit the update event', async () => {
-        const updateButton = getUpdateButton()
-        await updateButton.trigger('click')
+        await getActionButton(Action.UPDATE).trigger('click')
+
         expect(wrapper.emitted('update')).toHaveLength(1)
       })
     })
 
-    BddTest().when('the unsubscribe button is clicked', () => {
+    BddTest().when('the unsubscribe action is triggered', () => {
       BddTest().then('it should emit the unsubscribe event', async () => {
-        const unsubscribeButton = getUnsubscribeButton()
-        await unsubscribeButton.trigger('click')
+        await getActionButton(Action.UNSUBSCRIBE).trigger('click')
+
         expect(wrapper.emitted('unsubscribe')).toHaveLength(1)
       })
-    })
-
-    BddTest().then('it should enable associate action when activity is subscribed', () => {
-      expect(getAssociate().exists()).toBe(true)
-      expect(getAssociate().attributes('disabled')).toBeUndefined()
-
-      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-        .find(({ type }) => type === Action.ASSOCIATE)
-
-      expect(associateAction?.disabled).toBe(false)
-      expect(associateAction?.disabledTooltip).toBeUndefined()
     })
   })
 
@@ -92,92 +104,107 @@ BddTest().given('an activity dropdown', () => {
       mountWith({ status: EDeclaredActivityStatus.UNSUBSCRIBED })
     })
 
-    BddTest().then('it should render the dropdown with two menu items', () => {
-      const dropdown = getDropdown()
-      expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(4)
+    BddTest().then('it should render delete and resubscribe actions', () => {
+      const actions = getDropdown().props('actions')
+
+      expect(actions).toHaveLength(2)
+      expect(getActionButton(Action.DELETE).exists()).toBe(true)
+      expect(getActionButton(Action.RESUBSCRIBE).exists()).toBe(true)
+      expect(getActionButton(Action.UPDATE).exists()).toBe(false)
+      expect(getActionButton(Action.UNSUBSCRIBE).exists()).toBe(false)
     })
 
-    BddTest().then('it should not render update or unsubscribe and should enable delete', () => {
-      expect(getUpdateButton().exists()).toBe(false)
-      expect(getUnsubscribeButton().exists()).toBe(false)
-      expect(getDeleteButton().exists()).toBe(true)
-      expect(getDeleteButton().attributes('disabled')).toBeUndefined()
-    })
-
-    BddTest().then('it should disable associate action when activity is unsubscribed', () => {
-      expect(getAssociate().exists()).toBe(true)
-      expect(getAssociate().attributes('disabled')).toBe('')
-      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-        .find(({ type }) => type === Action.ASSOCIATE)
-      expect(associateAction?.disabled).toBe(true)
-      expect(associateAction?.disabledTooltip).toBeTruthy()
-    })
-
-    BddTest().when('the declared activity is completed', () => {
-      beforeEach(() => {
-        mountWith({ status: EDeclaredActivityStatus.COMPLETED })
-      })
-      BddTest().then('it should disable associate action when activity is completed', () => {
-        expect(getAssociate().exists()).toBe(true)
-        expect(getAssociate().attributes('disabled')).toBe('')
-
-        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-          .find(({ type }) => type === Action.ASSOCIATE)
-
-        expect(associateAction?.disabled).toBe(true)
-        expect(associateAction?.disabledTooltip).toBeTruthy()
+    BddTest().then('it should enable delete action', () => {
+      expect(getActionButton(Action.DELETE).attributes('disabled')).toBeUndefined()
+      expect(getAction(Action.DELETE)).toMatchObject({
+        disabled: false
       })
     })
 
-    BddTest().when('the declared activity is submitted form assessment', () => {
-      beforeEach(() => {
-        mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT })
+    BddTest().then('it should disable association and dissociation interactions with a tooltip', () => {
+      expect(getDropdown().props('associationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
       })
-      BddTest().then('it should disable associate action when activity is submitted form assessment', () => {
-        expect(getAssociate().exists()).toBe(true)
-        expect(getAssociate().attributes('disabled')).toBe('')
-
-        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
-          .find(({ type }) => type === Action.ASSOCIATE)
-
-        expect(associateAction?.disabled).toBe(true)
-        expect(associateAction?.disabledTooltip).toBeTruthy()
+      expect(getDropdown().props('dissociationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
       })
     })
 
-    BddTest().when('the resubscribe button is clicked', () => {
+    BddTest().then('it should enable the resubscribe action when the activity is published', () => {
+      expect(getAction(Action.RESUBSCRIBE)).toMatchObject({
+        disabled: false,
+        disabledTooltip: expect.any(String)
+      })
+    })
+
+    BddTest().when('the resubscribe action is triggered', () => {
       BddTest().then('it should emit the resubscribe event', async () => {
-        const resubscribeButton = getResubscribeButton()
-        await resubscribeButton.trigger('click')
+        await getActionButton(Action.RESUBSCRIBE).trigger('click')
+
         expect(wrapper.emitted('resubscribe')).toHaveLength(1)
         expect(wrapper.emitted('delete')).toBeUndefined()
       })
     })
 
-    BddTest().when('the delete button is clicked', () => {
+    BddTest().when('the delete action is triggered', () => {
       BddTest().then('it should emit the delete event', async () => {
-        const deleteButton = getDeleteButton()
-        await deleteButton.trigger('click')
+        await getActionButton(Action.DELETE).trigger('click')
+
         expect(wrapper.emitted('delete')).toHaveLength(1)
       })
-    })
-
-    BddTest().then('it should enable the resubscribe action', () => {
-      const resubscribeAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.RESUBSCRIBE)
-      expect(resubscribeAction?.disabled).toBe(false)
     })
   })
 
   BddTest().when('the declared activity is unsubscribed and the activity is unpublished', () => {
     beforeEach(() => {
-      mountWith({ status: EDeclaredActivityStatus.UNSUBSCRIBED, activityStatus: EActivityStatus.UNPUBLISHED })
+      mountWith({
+        status: EDeclaredActivityStatus.UNSUBSCRIBED,
+        activityStatus: EActivityStatus.UNPUBLISHED
+      })
     })
 
-    BddTest().then('it should disable the resubscribe action with a tooltip', () => {
-      const resubscribeAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.RESUBSCRIBE)
-      expect(resubscribeAction?.disabled).toBe(true)
-      expect(resubscribeAction?.disabledTooltip).toBeTruthy()
+    BddTest().then('it should disable resubscribe action with a tooltip', () => {
+      expect(getActionButton(Action.RESUBSCRIBE).attributes('disabled')).toBe('')
+      expect(getAction(Action.RESUBSCRIBE)).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+    })
+  })
+
+  BddTest().when('the declared activity is completed', () => {
+    beforeEach(() => {
+      mountWith({ status: EDeclaredActivityStatus.COMPLETED })
+    })
+
+    BddTest().then('it should disable association and dissociation interactions with a tooltip', () => {
+      expect(getDropdown().props('associationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+      expect(getDropdown().props('dissociationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+    })
+  })
+
+  BddTest().when('the declared activity is submitted for assessment', () => {
+    beforeEach(() => {
+      mountWith({ status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT })
+    })
+
+    BddTest().then('it should disable association and dissociation interactions with a tooltip', () => {
+      expect(getDropdown().props('associationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+      expect(getDropdown().props('dissociationInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
     })
   })
 })

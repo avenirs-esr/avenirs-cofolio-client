@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityStatus, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { isDeclaredActivityCompleted, isDeclaredActivitySubmittedForAssessment, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import ManageAssociableEntityDropdown from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 
 export interface ActivityDetailedDropdownProps {
+  declaredActivityId: string
   status: EDeclaredActivityStatus
   activityStatus: EActivityStatus
 }
@@ -18,13 +19,13 @@ const emit = defineEmits<{
   (e: AllowedAction): void
 }>()
 
-type AllowedAction = Action.UPDATE | Action.ASSOCIATE | Action.DISSOCIATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
+type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
 
 const { t } = useI18n()
 
 const isUnsubscribed = computed(() => isDeclaredActivityUnsubscribed(status))
 
-const actionDisabledState = computed(() => {
+const actionInteractiveProps = computed(() => {
   let disabledTooltip: string | undefined
 
   if (isDeclaredActivityUnsubscribed(status)) {
@@ -42,16 +43,6 @@ const actionDisabledState = computed(() => {
   }
 })
 
-const associateAction = computed<ActionItem>(() => ({
-  type: Action.ASSOCIATE,
-  ...actionDisabledState.value
-}))
-
-const dissociateAction = computed<ActionItem>(() => ({
-  type: Action.DISSOCIATE,
-  ...actionDisabledState.value
-}))
-
 const deleteAction = computed<ActionItem>(() => ({
   type: Action.DELETE,
   disabled: !isUnsubscribed.value,
@@ -67,17 +58,23 @@ const resubscribeAction = computed<ActionItem>(() => ({
 const actions = computed(() => (
   [
     deleteAction.value,
-    associateAction.value,
-    dissociateAction.value,
     ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))
 </script>
 
 <template>
-  <ManageEntityDropdown
-    :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
+  <ManageAssociableEntityDropdown
+    v-bind="$attrs"
     :actions="actions"
-    @action-selected="(action) => emit(action as AllowedAction)"
+    :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
+    :context-type="EAssociationContextType.DECLARED_ACTIVITY"
+    :element-id="declaredActivityId"
+    :association-interactive-props="actionInteractiveProps"
+    :dissociation-interactive-props="actionInteractiveProps"
+    @update="emit(Action.UPDATE)"
+    @unsubscribe="emit(Action.UNSUBSCRIBE)"
+    @delete="emit(Action.DELETE)"
+    @resubscribe="emit(Action.RESUBSCRIBE)"
   />
 </template>

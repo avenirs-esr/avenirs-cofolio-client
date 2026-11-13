@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { EAssociationContextType } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useModal } from '@avenirs-esr/shared'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
@@ -9,10 +9,10 @@ import AssociateModal from '@/features/student/associations/components/overlays/
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 
 export interface ManageAssociableEntityDropdownProps {
+  actions?: (Action | ActionItem)[]
   entityName: string
   contextType: EAssociationContextType
   elementId: string
-  actions?: (Action | ActionItem)[]
   associationInteractiveProps?: AvInteractiveProps
   dissociationInteractiveProps?: AvInteractiveProps
 }
