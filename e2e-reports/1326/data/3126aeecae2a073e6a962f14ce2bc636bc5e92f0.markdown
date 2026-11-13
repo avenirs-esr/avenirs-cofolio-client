@@ -78,7 +78,7 @@ Call log:
   - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
   - status: En cours
   - button "Gérer mon activité"
-  - navigation "1a01a03e-2a33-4574-a184-97e3efd48d04 navigation":
+  - navigation "4454a893-975a-4e56-ad29-f7f113e4a5bb navigation":
     - button "Réduire le menu" [expanded]
     - menu:
       - menuitem "Détail":
