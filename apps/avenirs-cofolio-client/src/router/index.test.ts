@@ -37,6 +37,7 @@ const { mockEnsureSession, mockSwitchProfile, mockUseCurrentUserSession } = vi.h
 }))
 
 const mockIsLoggedIn = ref(true)
+const mockNoAccount = ref<{ identifier?: string }>()
 const mockCategories = ref<EUserCategory[]>([])
 const mockRoles = ref<ERole[]>([])
 const mockActiveProfileCategory = ref<EUserCategory>(EUserCategory.STUDENT)
@@ -47,6 +48,9 @@ vi.mock('@/features/auth/global/stores/auth.store', () => ({
     ensureSession: mockEnsureSession,
     get isLoggedIn () {
       return mockIsLoggedIn.value
+    },
+    get noAccount () {
+      return mockNoAccount.value
     }
   })
 }))
@@ -86,6 +90,7 @@ BddTest().given('the application router', () => {
 
   const setupWith = async ({ isFirstNavigation = false, startsOnLoginPage = false, ...user }: SetupOptions = {}) => {
     mockEnsureSession.mockReset().mockResolvedValue(undefined)
+    mockNoAccount.value = undefined
 
     applyUserState({ ...DEFAULT_USER, isLoggedIn: !startsOnLoginPage })
     await router.push(startsOnLoginPage ? ROUTES.AUTH.LOGIN : ROUTES.STUDENT.CGU)
@@ -142,6 +147,31 @@ BddTest().given('the application router', () => {
       await router.push(ROUTES.AUTH.CGU)
 
       expect(getCurrentRouteName()).toBe(ROUTES.AUTH.CGU.name)
+    })
+  })
+
+  BddTest().when('the user is not flagged as having no account', () => {
+    beforeEach(async () => {
+      await setupWith()
+    })
+
+    BddTest().then('it should not give access to the no account page', async () => {
+      await router.push(ROUTES.AUTH.NO_ACCOUNT)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('the user is flagged as having no account', () => {
+    beforeEach(async () => {
+      await setupWith()
+      mockNoAccount.value = {}
+    })
+
+    BddTest().then('it should give access to the no account page', async () => {
+      await router.push(ROUTES.AUTH.NO_ACCOUNT)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.AUTH.NO_ACCOUNT.name)
     })
   })
 
