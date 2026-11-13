@@ -42,6 +42,7 @@
   },
   "lint-staged": {
     "apps/avenirs-cofolio-backoffice-client/**": "pnpm --dir apps/avenirs-cofolio-backoffice-client exec eslint --fix",
-    "apps/avenirs-cofolio-client/**": "pnpm --dir apps/avenirs-cofolio-client exec eslint --fix"
+    "apps/avenirs-cofolio-client/**": "pnpm --dir apps/avenirs-cofolio-client exec eslint --fix",
+    "packages/shared/**": "pnpm --dir packages/shared exec eslint --fix"
   }
 }
