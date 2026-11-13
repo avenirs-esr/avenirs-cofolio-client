@@ -135,6 +135,21 @@
         }
       },
       "overlays": {
+        "dropdowns": {
+          "ManageAssociableEntityDropdown": {
+            "disabledTooltips": {
+              "emptyAssociations": "Vous n'avez pas d'éléments associés à {entityName}",
+              "entityName": {
+                "DECLARED_ACTIVITY": "cette activité",
+                "DECLARED_EXPERIENCE": "cette expérience",
+                "DECLARED_PROGRAM": "cette formation",
+                "DECLARED_SKILL": "cette compétence",
+                "TRACE": "cette trace"
+              },
+              "fullAssociations": "Vous ne pouvez plus associer d'éléments à {entityName}"
+            }
+          }
+        },
         "associateModal": {
           "chooseType": "Choisir un type d'association",
           "chooseTypePlaceholder": "Sélectionnez une option",

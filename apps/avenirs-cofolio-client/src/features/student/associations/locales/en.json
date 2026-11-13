@@ -135,6 +135,21 @@
         }
       },
       "overlays": {
+        "dropdowns": {
+          "ManageAssociableEntityDropdown": {
+            "disabledTooltips": {
+              "emptyAssociations": "You have no elements associated with {entityName}",
+              "entityName": {
+                "DECLARED_ACTIVITY": "this activity",
+                "DECLARED_EXPERIENCE": "this experience",
+                "DECLARED_PROGRAM": "this program",
+                "DECLARED_SKILL": "this skill",
+                "TRACE": "this trace"
+              },
+              "fullAssociations": "You can no longer associate elements with {entityName}"
+            }
+          }
+        },
         "associateModal": {
           "chooseType": "Choose an association type",
           "chooseTypePlaceholder": "Select an option",

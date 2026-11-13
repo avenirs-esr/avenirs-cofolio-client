@@ -37,6 +37,7 @@ const actionInteractiveProps = computed(() => {
   else if (isDeclaredActivityCompleted(status)) {
     disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.completedDisabledTooltip')
   }
+
   return {
     disabled: !!disabledTooltip,
     disabledTooltip
