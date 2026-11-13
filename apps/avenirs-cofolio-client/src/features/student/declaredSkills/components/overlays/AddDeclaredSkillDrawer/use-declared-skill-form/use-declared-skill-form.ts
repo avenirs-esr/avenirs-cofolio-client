@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import { useApiErrors, useFormValidators } from '@avenirs-esr/shared'
+import { useApiErrors, useFormValidators, useTaskLoading } from '@avenirs-esr/shared'
 import {
   EAssociationContextType,
   EErrorCode,
@@ -11,7 +11,6 @@ import {
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationSelections } from '@/features/student/associations'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'

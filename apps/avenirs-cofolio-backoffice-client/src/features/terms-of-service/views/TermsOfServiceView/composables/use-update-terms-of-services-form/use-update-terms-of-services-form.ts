@@ -1,19 +1,20 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { CguDTO } from '@/api/avenir-esr'
+import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditTermsOfServiceFormData } from '@/features/terms-of-service/types/forms.types'
-import { useApiErrors, useToasterStore } from '@avenirs-esr/shared'
+import { useApiErrors, useTaskLoading, useToasterStore } from '@avenirs-esr/shared'
+import { invalidateGetLatestCgu, useUploadCgu } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetLatestCgu, useUploadCgu } from '@/api/avenir-esr'
 import { useUpdateTermsOfServiceFormValidators } from '@/features/terms-of-service/views/TermsOfServiceView/composables/use-update-terms-of-service-form-validators/use-update-terms-of-service-form-validators'
 
-export function useUpdateTermsOfServicesForm (cgu?: CguDTO, onTermsOfServiceUpdated?: () => void) {
+export function useUpdateTermsOfServicesForm (cgu?: CguDTO) {
   const { t } = useI18n()
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const validators = useUpdateTermsOfServiceFormValidators()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const { mutate: mutateUploadCgu, isPending } = useUploadCgu({
     mutation: {
@@ -22,12 +23,11 @@ export function useUpdateTermsOfServicesForm (cgu?: CguDTO, onTermsOfServiceUpda
         description: getErrorMessage(error),
       }),
       onSuccess: async () => {
-        await invalidateGetLatestCgu(queryClient)
+        await withTaskLoading(() => invalidateGetLatestCgu(queryClient))
         addSuccessMessage({
           timeout: 2000,
           description: t('terms-of-service.views.TermsOfServiceView.composables.useUpdateTermsOfServicesForm.success'),
         })
-        onTermsOfServiceUpdated?.()
       },
     },
   })
@@ -73,6 +73,6 @@ export function useUpdateTermsOfServicesForm (cgu?: CguDTO, onTermsOfServiceUpda
   return {
     form,
     isFormValid,
-    isSubmitting: computed(() => isPending.value),
+    isSubmitting: computed(() => isPending.value || isLoading.value),
   }
 }

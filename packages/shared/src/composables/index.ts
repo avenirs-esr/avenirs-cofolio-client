@@ -7,6 +7,7 @@ export { useFormValidators } from '#shared/composables/use-form-validators/use-f
 export { useLanguageSwitcher } from '#shared/composables/use-language-switcher/use-language-switcher'
 export type { UseModalReturn } from '#shared/composables/use-modal/use-modal'
 export { useModal } from '#shared/composables/use-modal/use-modal'
+export { useTaskLoading } from '#shared/composables/use-task-loading/use-task-loading'
 export { useBaseApiExceptionToast } from '#shared/composables/use-toast/use-toast'
 export type { UseUnsavedChangesGuardOptions } from '#shared/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 export { useUnsavedChangesGuard } from '#shared/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'

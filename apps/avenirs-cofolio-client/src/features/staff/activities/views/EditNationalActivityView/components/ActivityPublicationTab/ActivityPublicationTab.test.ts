@@ -33,12 +33,16 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
-  useTaskLoading: () => ({
-    isLoading: ref(false),
-    withTaskLoading: async (task: () => Promise<unknown> | unknown) => await task(),
-  }),
-}))
+vi.mock('@avenirs-esr/shared', async () => {
+  const actual = await vi.importActual<typeof import('@avenirs-esr/shared')>('@avenirs-esr/shared')
+  return {
+    ...actual,
+    useTaskLoading: () => ({
+      isLoading: ref(false),
+      withTaskLoading: async (task: () => Promise<unknown> | unknown) => await task(),
+    }),
+  }
+})
 
 type FormWrapperComponent
   = | typeof EditNationalActivityViewFormWrapper

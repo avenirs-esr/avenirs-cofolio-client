@@ -1,5 +1,5 @@
+import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { CguDTO } from '@/api/avenir-esr'
 
 export const TermsOfServiceUpdateFormStub = defineComponent({
   name: 'TermsOfServiceUpdateForm',
@@ -9,6 +9,6 @@ export const TermsOfServiceUpdateFormStub = defineComponent({
       required: false,
     },
   },
-  emits: ['dirtyChange', 'termsOfServiceUpdated'],
+  emits: ['dirtyChange'],
   template: '<div data-testid="terms-of-service-update-form-stub" />',
 })

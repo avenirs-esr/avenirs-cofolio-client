@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { FeedbackDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, AvButton, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import { EFeedbackStatus, EUserCategory, invalidateGetFeedbackDetails, useSubmitFeedback } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
 import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'

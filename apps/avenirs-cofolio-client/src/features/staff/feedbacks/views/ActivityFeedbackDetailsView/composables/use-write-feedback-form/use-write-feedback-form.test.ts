@@ -36,12 +36,16 @@ vi.mock('@/store', async () => {
   }
 })
 
-vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
-  useTaskLoading: vi.fn(() => ({
-    isLoading: { value: false },
-    withTaskLoading: vi.fn(fn => fn())
-  }))
-}))
+vi.mock('@avenirs-esr/shared', async () => {
+  const actual = await vi.importActual<typeof import('@avenirs-esr/shared')>('@avenirs-esr/shared')
+  return {
+    ...actual,
+    useTaskLoading: vi.fn(() => ({
+      isLoading: { value: false },
+      withTaskLoading: vi.fn(fn => fn())
+    }))
+  }
+})
 
 vi.mock('@/common/utils/file/file', async () => {
   const actual = await vi.importActual<typeof import('@/common/utils/file/file')>('@/common/utils/file/file')

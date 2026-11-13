@@ -7,7 +7,7 @@ import {
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, FormCancelConfirmButtons, useApiErrors, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { ConfirmationModal, FormCancelConfirmButtons, useApiErrors, useModal, useTaskLoading, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { EUserCategory, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
@@ -17,7 +17,6 @@ import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 
 interface UpdateProfileDrawerProps {

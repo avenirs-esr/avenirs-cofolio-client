@@ -41,6 +41,18 @@ BddTest().given('a terms of service view', () => {
     wrapper?.unmount()
   })
 
+  BddTest().when('the view is mounting', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(TermsOfServiceView, {
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render QuerySuspense in loading state while fetching latest cgu', () => {
+      expect(getQuerySuspense().props('isLoading')).toBe(true)
+    })
+  })
+
   BddTest().when('the view is mounted', () => {
     beforeEach(async () => {
       await mountView()

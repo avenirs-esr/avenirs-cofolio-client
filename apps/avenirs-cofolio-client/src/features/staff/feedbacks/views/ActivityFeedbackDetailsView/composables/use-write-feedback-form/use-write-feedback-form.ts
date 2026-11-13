@@ -2,7 +2,7 @@ import type { BaseApiException } from '@avenirs-esr/shared'
 import type { FeedbackDetailsDTO, FileDTO, UpdateFeedbackRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MaybeRef } from 'vue'
 import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
-import { ErrorCodes, useApiErrors, useFormValidators } from '@avenirs-esr/shared'
+import { ErrorCodes, useApiErrors, useFormValidators, useTaskLoading } from '@avenirs-esr/shared'
 import {
   EFeedbackStatus,
   EUserCategory,
@@ -19,7 +19,6 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { dtoToFile, isFile } from '@/common/utils/file/file'
 import { FEEDBACK_AUTO_SAVE_DEBOUNCE } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'

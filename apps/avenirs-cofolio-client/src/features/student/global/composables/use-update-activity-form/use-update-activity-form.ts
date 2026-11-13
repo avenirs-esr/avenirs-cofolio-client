@@ -1,13 +1,12 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MaybeRef } from 'vue'
-import { useApiErrors, useFormValidators } from '@avenirs-esr/shared'
+import { useApiErrors, useFormValidators, useTaskLoading } from '@avenirs-esr/shared'
 import { invalidateGetDeclaredActivityDetails, useUpdateDeclaredActivity } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 
 export interface UpdateActivityFormData {
