@@ -43,6 +43,13 @@ export default [
         },
       },
       {
+        ...ROUTES.AUTH.NO_ACCOUNT,
+        component: () => import('@/features/auth/global/views/NoAccountView/NoAccountView.vue'),
+        meta: {
+          public: true
+        },
+      },
+      {
         ...ROUTES.AUTH.PERSONAL_DATA,
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),

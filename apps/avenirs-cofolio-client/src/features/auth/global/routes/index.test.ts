@@ -6,6 +6,7 @@ import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import routes from '@/features/auth/global/routes'
 import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
+import NoAccountView from '@/features/auth/global/views/NoAccountView/NoAccountView.vue'
 
 const [root] = routes
 const children = root.children!
@@ -32,6 +33,12 @@ testRoute(
   children.find(r => r.name === ROUTES.AUTH.LOGIN.name)!,
   ROUTES.AUTH.LOGIN,
   LoginView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.AUTH.NO_ACCOUNT.name)!,
+  ROUTES.AUTH.NO_ACCOUNT,
+  NoAccountView
 )
 
 testRoute(

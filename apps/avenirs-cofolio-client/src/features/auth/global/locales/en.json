@@ -10,6 +10,13 @@
             }
           },
           "title": "Sign in to Cofolio"
+        },
+        "NoAccountView": {
+          "description": "You are signed in, but your identifier is not linked to any known Cofolio account. A super administrator must assign you an account manually: please wait.",
+          "hint": "Once your account is assigned, sign in again to access Cofolio.",
+          "identifier": "Sign-in identifier",
+          "logout": "Sign out",
+          "title": "Account pending assignment"
         }
       }
     }
