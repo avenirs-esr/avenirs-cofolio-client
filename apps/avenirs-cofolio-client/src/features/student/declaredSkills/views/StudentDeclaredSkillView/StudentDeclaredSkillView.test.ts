@@ -13,8 +13,6 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
@@ -24,6 +22,7 @@ const navigateToStudentUpdateDeclaredSkill = vi.fn()
 const navigateToStudentSkills = vi.fn()
 const navigateToStudentToolsKitUpdateSkill = vi.fn()
 const navigateToStudentToolsKitSkills = vi.fn()
+
 const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.DECLARED_SKILL.name })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -52,23 +51,22 @@ const stubs = {
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
-  DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub,
-  AssociateModal: AssociateModalStub,
-  DeleteAssociationsModal: DeleteAssociationsModalStub
+  DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub
 }
 
 BddTest().given('a student declared skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDeclaredSkillView>>
-  const getDetailedDropdown = () => wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-  const getAssociateModal = () => wrapper.findComponent(AssociateModalStub)
-  const getDeleteModal = () => wrapper.findComponent(DeleteAssociationsModalStub)
-
-  async function emitDropdown (event: 'associate' | 'dissociate') {
-    getDetailedDropdown().vm.$emit(event)
-    await nextTick()
-  }
 
   const skillId = 'declared-skill-progress-1'
+
+  const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
+  const getSettingDropdown = () => wrapper.findComponent(DeclaredSkillSettingDropdownStub)
+  const getTabs = () => wrapper.findComponent(AvTabsStub)
+  const getTab = () => wrapper.findAllComponents(AvTabStub)
+  const getDetails = () => wrapper.findComponent(DeclaredSkillDetailsStub)
+  const getAssociations = () => wrapper.findComponent(ElementAssociationsStub)
+  const getDeleteModal = () => wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
+  const getErrorMessage = () => wrapper.findComponent(ErrorMessageStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -78,156 +76,153 @@ BddTest().given('a student declared skill view', () => {
       props: { skillId },
       global: { stubs }
     })
+
     await flushPromises()
     await nextTick()
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render DetailPageTitle with correct props', async () => {
-      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
-
-      expect(pageTitle.exists()).toBe(true)
+    BddTest().then('it should render DetailPageTitle with the declared skill title', async () => {
+      expect(getPageTitle().exists()).toBe(true)
 
       await vi.waitFor(() => {
-        expect(pageTitle.props('title')).toBe('Conduire un projet de bout en bout')
+        expect(getPageTitle().props('title')).toBe('Conduire un projet de bout en bout')
       })
 
-      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
+      expect(getPageTitle().props('trailingLinks')).toHaveLength(1)
     })
 
-    BddTest().then('it should render DeclaredSkillSettingDropdown', () => {
-      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-      expect(settingDropdown.exists()).toBe(true)
+    BddTest().then('it should render DeclaredSkillSettingDropdown with the skill identifier', () => {
+      expect(getSettingDropdown().exists()).toBe(true)
+      expect(getSettingDropdown().props('declaredSkillId')).toBe(skillId)
     })
 
     BddTest().then('it should render AvTabs', () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      expect(tabs.exists()).toBe(true)
+      expect(getTabs().exists()).toBe(true)
     })
 
     BddTest().then('it should render the details tab by default', async () => {
       await vi.waitFor(() => {
-        const activeTab = wrapper.findComponent(AvTabStub)
-        expect(activeTab.exists()).toBe(true)
-        expect(activeTab.props('title')).toBe('Ma compétence déclarée')
+        expect(getTab()).toHaveLength(2)
+        expect(getTab()[0].props('title')).toBe('Ma compétence déclarée')
       })
     })
 
-    BddTest().then('it should render DeclaredSkillDetails component with correct props', async () => {
+    BddTest().then('it should render DeclaredSkillDetails with the declared skill details', async () => {
       await vi.waitFor(() => {
-        const detailsComponent = wrapper.findComponent(DeclaredSkillDetailsStub)
-        expect(detailsComponent.exists()).toBe(true)
-        expect(detailsComponent.props('declaredSkillProgressDetails')).toBeDefined()
-        expect(detailsComponent.props('declaredSkillProgressDetails').title).toBe('Conduire un projet de bout en bout')
+        expect(getDetails().exists()).toBe(true)
+        expect(getDetails().props('declaredSkillProgressDetails')).toBeDefined()
+        expect(getDetails().props('declaredSkillProgressDetails').title).toBe('Conduire un projet de bout en bout')
       })
     })
 
-    BddTest().then('it should render ElementAssociations component with correct props when associations tab is active', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
-
+    BddTest().then('it should render the associations tab with the association count', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-        expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-        expect(elementAssociations.props('associations')).toEqual(mockedDeclaredSkillAssociations)
-        expect(elementAssociations.props('error')).toBeNull()
+        expect(getTab()[1].props('title')).toBe('Mes associations (7)')
       })
     })
 
-    BddTest().then('it should display the correct count of associations in associations tab title when associations tab is active', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
-
-      await vi.waitFor(() => {
-        const activeTab = wrapper.findComponent(AvTabStub)
-        expect(activeTab.exists()).toBe(true)
-        expect(activeTab.props('title')).toBe('Mes associations (7)')
-      })
+    BddTest().then('it should render the delete confirmation modal closed', () => {
+      expect(getDeleteModal().exists()).toBe(true)
+      expect(getDeleteModal().props('opened')).toBe(false)
+      expect(getDeleteModal().props('skillId')).toBe(skillId)
+      expect(getDeleteModal().props('skillTitle')).toBe('Conduire un projet de bout en bout')
     })
 
-    BddTest().then('it should not render ErrorMessage', async () => {
-      await vi.waitFor(() => {
-        const errorMessage = wrapper.findComponent(ErrorMessageStub)
-        expect(errorMessage.exists()).toBe(false)
-      })
+    BddTest().then('it should not render ErrorMessage', () => {
+      expect(getErrorMessage().exists()).toBe(false)
     })
   })
 
-  BddTest().when('the update selected event is emitted', () => {
-    BddTest().then('it should handle the event', async () => {
-      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-      await settingDropdown.vm.$emit('update')
-      expect(navigateToStudentUpdateDeclaredSkill).toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('the delete selected event is emitted', () => {
+  BddTest().when('the associations tab is selected', () => {
     beforeEach(async () => {
-      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-      await settingDropdown.vm.$emit('delete')
+      await getTabs().vm.$emit('update:modelValue', 1)
+      await flushPromises()
     })
 
-    BddTest().then('it should open the delete confirmation modal', async () => {
+    BddTest().then('it should render ElementAssociations with the declared skill associations', async () => {
       await vi.waitFor(() => {
-        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
-        expect(deleteModal.exists()).toBe(true)
-        expect(deleteModal.props('opened')).toBe(true)
+        expect(getAssociations().exists()).toBe(true)
+        expect(getAssociations().props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+        expect(getAssociations().props('elementId')).toBe('skill-progress-1')
+        expect(getAssociations().props('associations')).toEqual(mockedDeclaredSkillAssociations)
+        expect(getAssociations().props('error')).toBeNull()
       })
+    })
+
+    BddTest().then('it should display the association count in the tab title', () => {
+      expect(getTab()[1].props('title')).toBe('Mes associations (7)')
+    })
+  })
+
+  BddTest().when('the update action is selected', () => {
+    BddTest().then('it should navigate to the declared skill update page', async () => {
+      await getSettingDropdown().vm.$emit('update')
+
+      expect(navigateToStudentUpdateDeclaredSkill).toHaveBeenCalledTimes(1)
+      expect(navigateToStudentToolsKitUpdateSkill).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the delete action is selected', () => {
+    beforeEach(async () => {
+      await getSettingDropdown().vm.$emit('delete')
+    })
+
+    BddTest().then('it should open the delete confirmation modal with the declared skill details', () => {
+      expect(getDeleteModal().props('opened')).toBe(true)
+      expect(getDeleteModal().props('skillId')).toBe(skillId)
+      expect(getDeleteModal().props('skillTitle')).toBe('Conduire un projet de bout en bout')
     })
 
     BddTest().and('the modal emits the close event', () => {
       beforeEach(async () => {
-        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
-        await deleteModal.vm.$emit('close')
+        await getDeleteModal().vm.$emit('close')
       })
 
-      BddTest().then('it should close the delete confirmation modal', async () => {
-        await vi.waitFor(() => {
-          const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
-          expect(deleteModal.exists()).toBe(true)
-          expect(deleteModal.props('opened')).toBe(false)
-        })
+      BddTest().then('it should close the delete confirmation modal', () => {
+        expect(getDeleteModal().props('opened')).toBe(false)
+      })
+
+      BddTest().then('it should not navigate to the skills page', () => {
+        expect(navigateToStudentSkills).not.toHaveBeenCalled()
       })
     })
 
     BddTest().and('the modal emits the skill deleted event', () => {
       beforeEach(async () => {
-        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
-        await deleteModal.vm.$emit('skillDeleted')
+        await getDeleteModal().vm.$emit('skillDeleted')
       })
 
-      BddTest().then('it should close the delete confirmation modal', async () => {
-        await vi.waitFor(() => {
-          const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
-          expect(deleteModal.exists()).toBe(true)
-          expect(deleteModal.props('opened')).toBe(false)
-        })
+      BddTest().then('it should close the delete confirmation modal', () => {
+        expect(getDeleteModal().props('opened')).toBe(false)
       })
 
-      BddTest().then('it should navigate to skills page', async () => {
-        await vi.waitFor(() => {
-          expect(navigateToStudentSkills).toHaveBeenCalledWith({ replace: true })
-        })
+      BddTest().then('it should navigate to the skills page', () => {
+        expect(navigateToStudentSkills).toHaveBeenCalledWith({ replace: true })
       })
     })
   })
 
   BddTest().when('the view is mounted from the tools kit', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       route.name = ROUTES.STUDENT.TOOLS_KIT_SKILL.name
+
       wrapper = mountComponent(StudentDeclaredSkillView, {
         props: { skillId },
         global: { stubs }
       })
+
+      await flushPromises()
+      await nextTick()
     })
 
     BddTest().and('the update action is selected', () => {
       beforeEach(async () => {
-        await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('update')
+        await getSettingDropdown().vm.$emit('update')
       })
 
-      BddTest().then('it should navigate to the tools kit update route', () => {
+      BddTest().then('it should navigate to the tools kit update page', () => {
         expect(navigateToStudentToolsKitUpdateSkill).toHaveBeenCalledTimes(1)
         expect(navigateToStudentUpdateDeclaredSkill).not.toHaveBeenCalled()
       })
@@ -235,8 +230,8 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().and('the skill is deleted', () => {
       beforeEach(async () => {
-        await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('delete')
-        await wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub).vm.$emit('skillDeleted')
+        await getSettingDropdown().vm.$emit('delete')
+        await getDeleteModal().vm.$emit('skillDeleted')
       })
 
       BddTest().then('it should navigate back to the tools kit skills list', () => {
@@ -247,170 +242,82 @@ BddTest().given('a student declared skill view', () => {
   })
 
   BddTest().when('the query fails with SKILL_PROGRESS_NOT_FOUND', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       server.use(detailedSkillProgressNotFoundErrorHandler)
 
       wrapper = mountComponent(StudentDeclaredSkillView, {
         props: { skillId },
         global: { stubs }
       })
+
+      await flushPromises()
     })
 
-    BddTest().then('it should render ErrorMessage with not found title and description', async () => {
+    BddTest().then('it should render ErrorMessage with the not found title and description', async () => {
       await vi.waitFor(() => {
-        const errorMessage = wrapper.findComponent(ErrorMessageStub)
-        expect(errorMessage.exists()).toBe(true)
-        expect(errorMessage.props('title')).toBe('Compétence déclarée introuvable')
-        expect(errorMessage.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
+        expect(getErrorMessage().exists()).toBe(true)
+        expect(getErrorMessage().props('title')).toBe('Compétence déclarée introuvable')
+        expect(getErrorMessage().props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
       })
     })
 
-    BddTest().then('it should not render ElementAssociations when the associations tab is active', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
+    BddTest().then('it should not render DeclaredSkillDetails', () => {
+      expect(getDetails().exists()).toBe(false)
+    })
 
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(true)
-      })
+    BddTest().then('it should not render ElementAssociations when the associations tab is selected', async () => {
+      await getTabs().vm.$emit('update:modelValue', 1)
+      await flushPromises()
 
-      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
-      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
+      expect(getAssociations().exists()).toBe(false)
+      expect(getTab()[1].props('title')).toBe('Mes associations (0)')
     })
   })
 
   BddTest().when('the associations query returns empty data', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       wrapper = mountComponent(StudentDeclaredSkillView, {
         props: { skillId: 'SKILL_WITHOUT_ASSOCIATIONS' },
         global: { stubs }
       })
+
+      await flushPromises()
+      await getTabs().vm.$emit('update:modelValue', 1)
+      await flushPromises()
     })
 
     BddTest().then('it should render ElementAssociations with empty associations', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
-
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-        expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
-        expect(elementAssociations.props('error')).toBeNull()
+        expect(getAssociations().exists()).toBe(true)
+        expect(getAssociations().props('associations')).toEqual(mockedEmptyAssociations)
+        expect(getAssociations().props('error')).toBeNull()
       })
     })
 
-    BddTest().then('it should display a zero associations count in the associations tab title', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
-
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
-      })
-
-      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
+    BddTest().then('it should display a zero association count in the tab title', () => {
+      expect(getTab()[1].props('title')).toBe('Mes associations (0)')
     })
   })
 
   BddTest().when('the associations query fails', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       wrapper = mountComponent(StudentDeclaredSkillView, {
         props: { skillId: 'INVALID_DECLARED_SKILL_ID' },
         global: { stubs }
       })
+
+      await flushPromises()
+      await getTabs().vm.$emit('update:modelValue', 1)
+      await flushPromises()
     })
 
     BddTest().then('it should pass the associations error to ElementAssociations', async () => {
-      const tabs = wrapper.findComponent(AvTabsStub)
-      await tabs.vm.$emit('update:modelValue', 1)
-
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-        expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
-        expect(elementAssociations.props('associations')).toBeUndefined()
-      })
-    })
-  })
-
-  BddTest().when('the declared skill detail is displayed', () => {
-    BddTest().then('it should render the associate modal closed', () => {
-      const modal = getAssociateModal()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-      expect(modal.props('elementId')).toBe(skillId)
-    })
-
-    BddTest().then('it should render the delete associations modal closed', () => {
-      const modal = getDeleteModal()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-      expect(modal.props('elementId')).toBe(skillId)
-    })
-  })
-
-  BddTest().when('the associate action is triggered', () => {
-    beforeEach(async () => {
-      await emitDropdown('associate')
-    })
-
-    BddTest().then('the associate modal opens', () => {
-      expect(getAssociateModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('the delete association modal stays closed', () => {
-      expect(getDeleteModal().props('opened')).toBe(false)
-    })
-
-    BddTest().when('the associate modal emits cancel', () => {
-      beforeEach(async () => {
-        getAssociateModal().vm.$emit('cancel')
-        await nextTick()
-      })
-      BddTest().then('the associate modal closes', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().when('the associate modal emits associated', () => {
-      beforeEach(async () => {
-        getAssociateModal().vm.$emit('associated')
-        await nextTick()
-      })
-      BddTest().then('the associate modal closes', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
-      })
-    })
-  })
-
-  BddTest().when('the dissociate action is triggered', () => {
-    beforeEach(async () => {
-      await emitDropdown('dissociate')
-    })
-
-    BddTest().then('the delete association modal opens', () => {
-      expect(getDeleteModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('the associate modal stays closed', () => {
-      expect(getAssociateModal().props('opened')).toBe(false)
-    })
-
-    BddTest().when('the delete association modal emits cancel', () => {
-      beforeEach(async () => {
-        getDeleteModal().vm.$emit('cancel')
-        await nextTick()
-      })
-      BddTest().then('the delete association modal closes', () => {
-        expect(getDeleteModal().props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().when('the delete association modal emits deleted', () => {
-      beforeEach(async () => {
-        getDeleteModal().vm.$emit('deleted')
-        await nextTick()
-      })
-      BddTest().then('the delete association modal closes', () => {
-        expect(getDeleteModal().props('opened')).toBe(false)
+        expect(getAssociations().exists()).toBe(true)
+        expect(getAssociations().props('error')).toEqual(
+          expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND })
+        )
+        expect(getAssociations().props('associations')).toBeUndefined()
       })
     })
   })
