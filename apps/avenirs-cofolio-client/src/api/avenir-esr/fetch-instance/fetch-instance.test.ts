@@ -3,8 +3,9 @@ import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockedFunction, MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { HttpStatusCode } from '@avenirs-esr/shared'
-import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { mockedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
+import { createCguQueryHandler } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
@@ -37,12 +38,6 @@ vi.mock('@/router', () => ({
 }))
 
 BddTest().given('the Cofolio shared HTTP configuration', () => {
-  const cgu: CguDTO = {
-    id: 'cgu-id',
-    version: 1,
-    uploadedAt: '2026-11-12T12:00:00Z',
-    content: 'Terms of service',
-  }
   const onRequest = vi.fn<(request: Request) => void>()
   let shared: typeof import('@avenirs-esr/shared')
   let api: typeof import('@avenirs-esr/shared/api/avenir-esr')
@@ -62,10 +57,7 @@ BddTest().given('the Cofolio shared HTTP configuration', () => {
     await import('@/api/avenir-esr/fetch-instance/fetch-instance')
     api = await import('@avenirs-esr/shared/api/avenir-esr')
 
-    server.use(http.get(`*${api.getGetLatestCguUrl()}`, ({ request }) => {
-      onRequest(request)
-      return HttpResponse.json(cgu)
-    }))
+    server.use(createCguQueryHandler(onRequest))
   })
 
   afterEach(() => {
@@ -114,7 +106,7 @@ BddTest().given('the Cofolio shared HTTP configuration', () => {
     })
 
     BddTest().then('it returns the response through the Cofolio response interceptor', () => {
-      expect(result).toEqual(cgu)
+      expect(result).toEqual(mockedCgu)
     })
   })
 
