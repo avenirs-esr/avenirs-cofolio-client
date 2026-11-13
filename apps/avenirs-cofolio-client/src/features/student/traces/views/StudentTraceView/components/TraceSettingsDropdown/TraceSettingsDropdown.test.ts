@@ -88,7 +88,7 @@ BddTest().given('a trace settings dropdown', () => {
 
     BddTest().then('it should provide a disabled tooltip', () => {
       expect(getActionItem(Action.DOWNLOAD)?.disabledTooltip).toBe(
-        'Le téléchargement est désactivé pour cette trace.',
+        'Le téléchargement n\'est pas disponible pour une trace de type lien.',
       )
     })
   })

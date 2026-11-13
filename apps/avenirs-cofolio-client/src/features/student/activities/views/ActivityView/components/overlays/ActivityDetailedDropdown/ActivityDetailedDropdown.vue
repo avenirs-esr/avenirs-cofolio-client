@@ -65,7 +65,6 @@ const actions = computed(() => (
 
 <template>
   <ManageAssociableEntityDropdown
-    v-bind="$attrs"
     :actions="actions"
     :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
     :context-type="EAssociationContextType.DECLARED_ACTIVITY"
