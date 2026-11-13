@@ -90,7 +90,7 @@ const filterOptions: AvTagPickerOption[] = [
         >
           <div
             v-if="activities.length > 0"
-            class="av-row av-align-center av-gap-sm av-wrap"
+            class="av-row av-align-stretch av-justify-center av-gap-sm av-wrap"
             data-testid="cards-layout"
           >
             <ActivityCard

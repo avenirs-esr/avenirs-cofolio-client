@@ -39,7 +39,6 @@ Feature: Student Project Activities Page
 
     @medium @responsive @library-activity-tab @library-activity-card @dataset-full
     Scenario: Activity library card hides detail information on mobile
-      Then the first activity card description is hidden
       And the first activity card status badge is hidden
       And the first activity card period badge is hidden
 

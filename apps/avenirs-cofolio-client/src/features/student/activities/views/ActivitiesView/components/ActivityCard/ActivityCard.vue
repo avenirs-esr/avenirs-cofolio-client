@@ -34,10 +34,10 @@ const iconOptions: IconOptions = {
       :header-rows="2"
       title-typography-classes="b1-light"
       title-color="var(--text1)"
-      height="17rem"
+      height="100%"
     >
       <template #body>
-        <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md body av-h-full">
+        <div class="av-col av-pr-4xl--md av-pt-sm av-pt-none--md body av-h-full">
           <div class="av-col av-row--md av-align-start av-justify-start--md av-gap-sm">
             <ActivityThematicBadge
               data-testid="activity-card-thematic-badge"
@@ -53,8 +53,8 @@ const iconOptions: IconOptions = {
         </div>
       </template>
       <template #footer>
-        <div class="av-col caption-light av-hidden av-unhidden--md">
-          <div class="av-mb-xs">
+        <div class="av-col caption-light">
+          <div class="av-mb-xs av-hidden av-unhidden--md">
             <ActivityPeriodBadge
               v-if="activity.startDate && activity.endDate"
               small
@@ -92,5 +92,6 @@ const iconOptions: IconOptions = {
     min-width: 27rem !important;
     max-width: 27rem !important;
   }
+  height: 100%;
 }
 </style>

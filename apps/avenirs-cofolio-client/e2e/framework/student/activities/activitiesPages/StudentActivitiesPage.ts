@@ -129,11 +129,6 @@ class StudentActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryVisible()
   }
 
-  @Then('the first activity card description is hidden')
-  async verifyFirstActivityCardDescriptionHidden () {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryHidden()
-  }
-
   @Then('the first activity card status badge is hidden')
   async verifyFirstActivityCardStatusBadgeHidden () {
     await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadgeHidden()
