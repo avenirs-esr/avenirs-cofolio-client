@@ -1,2 +1,3 @@
+src/api/avenir-esr/generated/
 src/api/generated/
 .vitest/

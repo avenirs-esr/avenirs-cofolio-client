@@ -10,7 +10,7 @@
   "include": [
     "test-utils/**/*.ts",
     "src/api/http-status.ts",
-    "src/api/generated/types/eErrorCode.ts",
+    "src/api/avenir-esr/generated/types/eErrorCode.ts",
     "src/exceptions/base-api-error-codes.ts",
     "src/exceptions/error-codes.ts",
     "src/ui/**/*.stub.ts",
