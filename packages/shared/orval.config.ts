@@ -8,7 +8,7 @@ export default defineConfig({
       target: fileURLToPath(new URL('./api/specs/avenir-esr.swagger.json', import.meta.url)),
     },
     output: {
-      workspace: fileURLToPath(new URL('./src/api/generated/', import.meta.url)),
+      workspace: fileURLToPath(new URL('./src/api/avenir-esr/generated/', import.meta.url)),
       target: './',
       client: 'vue-query',
       httpClient: 'fetch',

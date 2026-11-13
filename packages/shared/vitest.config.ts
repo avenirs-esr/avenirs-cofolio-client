@@ -49,7 +49,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json-summary'],
       include: ['src/**/*.{ts,vue}', 'test-utils/**/*.ts'],
-      exclude: ['**/*.test.ts', 'src/api/generated/**', 'src/api/fetch/types.ts', 'src/exceptions/types.ts'],
+      exclude: ['**/*.test.ts', 'src/api/avenir-esr/generated/**', 'src/api/fetch/types.ts', 'src/exceptions/types.ts'],
       thresholds: {
         branches: 85,
         functions: 85,

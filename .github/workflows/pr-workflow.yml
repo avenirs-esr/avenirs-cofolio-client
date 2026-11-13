@@ -20,6 +20,10 @@ jobs:
           package-manager: pnpm
           working-directory: .
 
+      - name: Lint shared package
+        working-directory: packages/shared
+        run: pnpm run lint
+
       - name: Run shared unit tests with coverage
         working-directory: packages/shared
         run: pnpm run test:coverage
