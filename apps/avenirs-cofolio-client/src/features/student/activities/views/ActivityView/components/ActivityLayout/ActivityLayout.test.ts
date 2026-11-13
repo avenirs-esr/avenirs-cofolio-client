@@ -30,6 +30,11 @@ import {
 } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.stub'
 import MyPerspectiveSection
   from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
+import {
+  SubActivityDetailsStub,
+} from '@/features/student/activities/views/ActivityView/components/SubActivityDetails/SubActivityDetails.stub'
+import SubActivityDetails
+  from '@/features/student/activities/views/ActivityView/components/SubActivityDetails/SubActivityDetails.vue'
 import { ActivitySections } from '@/features/student/activities/views/ActivityView/types'
 
 const { routeMock, replaceMock } = vi.hoisted(() => ({
@@ -79,13 +84,20 @@ BddTest().given('a project activity layout component', () => {
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
     },
+    subActivities: [],
   }
 
   const stubs = {
     SectionNavigationLayout: SectionNavigationLayoutStub,
     ActivityDetails: ActivityDetailsStub,
     MyPerspectiveSection: MyPerspectiveSectionStub,
+    SubActivityDetails: SubActivityDetailsStub,
   }
+
+  const subActivities = [
+    { id: 'sub-activity-1', title: 'Première sous-activité' },
+    { id: 'sub-activity-2', title: 'Deuxième sous-activité' },
+  ]
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
@@ -117,6 +129,12 @@ BddTest().given('a project activity layout component', () => {
       expect(sectionNavigationLayout.props('defaultSection')).toBe(
         ActivitySections.DETAIL,
       )
+    })
+
+    BddTest().then('it should fit the side navigation width to its content when there is no sub-activity', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('sideNavigationWidth')).toBe('fit-content')
     })
 
     BddTest().then('it should pass the select placeholder', () => {
@@ -215,6 +233,118 @@ BddTest().given('a project activity layout component', () => {
 
     BddTest().then('it should navigate using the section query param', () => {
       expect(replaceMock).toHaveBeenCalledWith({ query: { section: ActivitySections.MY_PERSPECTIVE } })
+    })
+  })
+
+  BddTest().when('the declared activity has sub-activities', () => {
+    beforeEach(async () => {
+      routeMock.query = {}
+
+      wrapper = mountComponent(ActivityLayout, {
+        props: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should insert one indexed item per sub-activity between detail and my perspective', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('items')).toEqual([
+        {
+          id: ActivitySections.DETAIL,
+          label: 'Détail',
+          icon: ICONS.ACTIVITY,
+        },
+        {
+          id: 'sub-activity-1',
+          label: 'Première sous-activité',
+          index: 1,
+        },
+        {
+          id: 'sub-activity-2',
+          label: 'Deuxième sous-activité',
+          index: 2,
+        },
+        {
+          id: ActivitySections.MY_PERSPECTIVE,
+          label: 'Ma réflexion',
+          icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
+        },
+      ])
+    })
+
+    BddTest().then('it should keep the default side navigation width', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('sideNavigationWidth')).toBeUndefined()
+    })
+
+    BddTest().then('it should associate the sub-activity details section to each sub-activity item', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const componentBySection = sectionNavigationLayout.props('componentBySection') as Record<string, unknown>
+
+      expect(componentBySection['sub-activity-1']).toBe(SubActivityDetails)
+      expect(componentBySection['sub-activity-2']).toBe(SubActivityDetails)
+    })
+
+    BddTest().then('it should pass each sub-activity in props by section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('propsBySection')).toEqual({
+        [ActivitySections.DETAIL]: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
+        },
+        'sub-activity-1': {
+          subActivity: subActivities[0],
+        },
+        'sub-activity-2': {
+          subActivity: subActivities[1],
+        },
+        [ActivitySections.MY_PERSPECTIVE]: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
+        },
+      })
+    })
+  })
+
+  BddTest().when('the section query param targets a sub-activity', () => {
+    beforeEach(async () => {
+      routeMock.query = { section: 'sub-activity-2' }
+
+      wrapper = mountComponent(ActivityLayout, {
+        props: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should use the sub-activity as default section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('defaultSection')).toBe('sub-activity-2')
     })
   })
 

@@ -304,6 +304,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z'
   },
+  subActivities: [],
   status: EDeclaredActivityStatus.IN_PROGRESS,
   finishedAt: '',
   valorized: false,
@@ -566,6 +567,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },
+    subActivities: mockedDeclaredActivityDetails.subActivities,
     endDate: mockedDeclaredActivityDetails.endDate?.slice(0, 10) ?? '',
     valorized: selectedActivity?.valorized ?? mockedDeclaredActivityDetails.valorized,
     createdAt: mockedDeclaredActivityDetails.createdAt,

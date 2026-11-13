@@ -64,7 +64,7 @@ BddTest().given('a section navigation layout component', () => {
     {
       id: 'second-section',
       label: 'Deuxième section',
-      icon: 'icon-2',
+      index: 2,
     },
   ]
 
@@ -149,7 +149,7 @@ BddTest().given('a section navigation layout component', () => {
         {
           id: 'second-section',
           label: 'Deuxième section',
-          icon: 'icon-2',
+          index: 2,
         },
       ])
     })

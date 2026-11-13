@@ -1,10 +1,7 @@
+import type { AvSideNavigationItem } from '@avenirs-esr/avenirs-dsav'
 import type { Component } from 'vue'
 
-export interface SectionNavigationItem {
-  id: string
-  label: string
-  icon: string
-}
+export interface SectionNavigationItem extends AvSideNavigationItem {}
 
 export interface SectionSelection {
   itemId: string
