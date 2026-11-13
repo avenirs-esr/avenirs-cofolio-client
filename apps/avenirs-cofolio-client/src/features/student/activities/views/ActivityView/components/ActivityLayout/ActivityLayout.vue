@@ -64,7 +64,7 @@ const propsBySection = computed(() => ({
   [ActivitySections.DETAIL]: {
     declaredActivityDetails,
   },
-  ...Object.fromEntries(subActivities.value.map(subActivity => [subActivity.id, { subActivity }])),
+  ...Object.fromEntries(subActivities.value.map(subActivity => [subActivity.id, { declaredActivityDetails, subActivity }])),
   [ActivitySections.MY_PERSPECTIVE]: {
     declaredActivityDetails,
   },

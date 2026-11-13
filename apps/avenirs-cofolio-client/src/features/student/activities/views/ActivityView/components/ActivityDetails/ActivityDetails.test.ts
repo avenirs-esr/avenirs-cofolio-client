@@ -286,6 +286,90 @@ BddTest().given('a project activity details component', () => {
     })
   })
 
+  BddTest().when('the activity is a sub-activity without staff-defined period', () => {
+    const props: ActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        valorized: true,
+        startDate: '2024-05-01',
+        endDate: '2024-05-15',
+        activity: {
+          ...mockedDeclaredActivityDetails.activity,
+          mainActivityId: 'main-activity-id',
+          startDate: undefined,
+          endDate: undefined,
+          assessment: { grade: 20 },
+        },
+        assessment: receivedAssessment,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the sub-activity title, description and recommended completion contexts', () => {
+      const titles = wrapper.findAllComponents(AvIconTextStub)
+
+      expect(titles).toHaveLength(1)
+      expect(titles[0]!.props('text')).toBe(props.declaredActivityDetails.activity.title)
+      expect(wrapper.findComponent(ActivityDescriptionContentStub).props('description')).toBe(props.declaredActivityDetails.activity.description)
+      expect(wrapper.findComponent(ActivityRecommendedCompletionContextsListStub).props('recommendedCompletionContexts'))
+        .toBe(props.declaredActivityDetails.activity.recommendedCompletionContexts)
+    })
+
+    BddTest().then('it should not render the student period of the main activity', () => {
+      expect(wrapper.findComponent(ActivityPeriodDisplayStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render ValorizedBadge', () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the activity modalities', () => {
+      expect(wrapper.find('[data-testid="activity-modalities"]').exists()).toBe(false)
+      expect(wrapper.findComponent(FeedbackInfoCardStub).exists()).toBe(false)
+      expect(wrapper.findComponent(TraceAssociationLimitCardStub).exists()).toBe(false)
+      expect(wrapper.findComponent(AssessmentInfoCardStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render ReceivedAssessmentSection', () => {
+      expect(wrapper.findComponent(ReceivedAssessmentSectionStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity with a staff-defined period', () => {
+    const props: ActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        activity: {
+          ...mockedDeclaredActivityDetails.activity,
+          mainActivityId: 'main-activity-id',
+          startDate: '2024-02-01',
+          endDate: '2024-03-15',
+        },
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render ActivityPeriodDisplay with the sub-activity dates', () => {
+      const periodDisplay = wrapper.findComponent(ActivityPeriodDisplayStub)
+
+      expect(periodDisplay.exists()).toBe(true)
+      expect(periodDisplay.props('startDate')).toBe('2024-02-01')
+      expect(periodDisplay.props('endDate')).toBe('2024-03-15')
+    })
+  })
+
   BddTest().when('the activity does not expect an assessment', () => {
     const props: ActivityDetailsProps = {
       declaredActivityDetails: {
