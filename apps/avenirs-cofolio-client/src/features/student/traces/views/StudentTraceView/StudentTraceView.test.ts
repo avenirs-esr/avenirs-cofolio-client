@@ -12,8 +12,6 @@ import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
@@ -78,10 +76,8 @@ BddTest().given('a student trace view', () => {
     AvTab: AvTabStub,
     TraceSettingsDropdown: TraceSettingsDropdownStub,
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
-    AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
     ElementAssociations: ElementAssociationsStub,
-    DeleteAssociationsModal: DeleteAssociationsModalStub
   }
 
   const associationsCount
@@ -90,18 +86,9 @@ BddTest().given('a student trace view', () => {
       + mockedTraceAssociations.declaredExperienceAssociations.length
       + mockedTraceAssociations.declaredProgramAssociations.length
 
-  async function selectAssociationsTab () {
-    const tabs = wrapper.findComponent({ name: 'AvTabs' })
+  const title = mockedTraceDetailed.title
 
-    await tabs.vm.$emit('update:modelValue', 1)
-    await flushPromises()
-  }
-
-  beforeEach(async () => {
-    vi.clearAllMocks()
-
-    const handler = createTraceDetailedHandler(mockedTraceDetailed)
-    server.use(handler)
+  async function mountView () {
     wrapper = mountComponent(StudentTraceView, {
       props: { traceId: mockedTraceDetailed.id },
       global: { stubs },
@@ -110,136 +97,140 @@ BddTest().given('a student trace view', () => {
     })
 
     await flushPromises()
+  }
+
+  async function selectAssociationsTab () {
+    const tabs = wrapper.findComponent({ name: 'AvTabs' })
+
+    await tabs.vm.$emit('update:modelValue', 1)
+    await flushPromises()
+  }
+
+  const getSettingsDropdown = () => wrapper.findComponent(TraceSettingsDropdownStub)
+  const getDeletionModal = () => wrapper.findComponent(TraceDeletionConfirmationModalStub)
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    server.use(createTraceDetailedHandler(mockedTraceDetailed))
+    await mountView()
   })
 
-  const title = mockedTraceDetailed.title
-
   BddTest().when('the view is mounted', () => {
-    BddTest().then('it should render DetailPageTitle with correct props', async () => {
+    BddTest().then('it should render DetailPageTitle with the trace title and breadcrumb', () => {
       const pageTitle = wrapper.findComponent(DetailPageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
+      expect(pageTitle.props('trailingLinks')).toEqual([{ text: title }])
     })
 
-    BddTest().then('it should render the popover', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-      expect(popover.exists()).toBe(true)
+    BddTest().then('it should render TraceSettingsDropdown', () => {
+      expect(getSettingsDropdown().exists()).toBe(true)
     })
 
-    BddTest().then('it should render the TraceDeletionConfirmationModal initially hidden with correct props', async () => {
-      const modal = wrapper.findComponent(TraceDeletionConfirmationModalStub)
+    BddTest().then('it should pass the trace identifier to TraceSettingsDropdown', () => {
+      expect(getSettingsDropdown().props('traceId')).toBe(mockedTraceDetailed.id)
+    })
+
+    BddTest().then('it should enable download when the trace has an attachment', () => {
+      expect(getSettingsDropdown().props('downloadDisabled')).toBe(false)
+    })
+
+    BddTest().then('it should render the deletion confirmation modal initially hidden', () => {
+      const modal = getDeletionModal()
 
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
       expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
-      expect(modal.props('title')).toBe(mockedTraceDetailed.title)
+      expect(modal.props('title')).toBe(title)
     })
 
-    BddTest().then('it should render AvTabs component', () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
-      expect(tabs.exists()).toBe(true)
+    BddTest().then('it should render AvTabs', () => {
+      expect(wrapper.findComponent({ name: 'AvTabs' }).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the active trace details tab by default', () => {
+    BddTest().then('it should render the trace details tab by default', () => {
       const tab = wrapper.findComponent({ name: 'AvTab' })
 
       expect(tab.exists()).toBe(true)
       expect(tab.props('title')).toBe('Ma trace')
     })
 
-    BddTest().then('it should render StudentTraceDetails component in the active tab', () => {
-      const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
+    BddTest().then('it should render StudentTraceDetails with the fetched trace', () => {
+      const traceDetails = wrapper.findComponent(StudentTraceDetailsStub)
 
       expect(traceDetails.exists()).toBe(true)
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
     })
 
-    BddTest().then('it should render StudentTraceDetails component in the first tab', () => {
-      const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
-      expect(traceDetails.exists()).toBe(true)
-      expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
-    })
-
-    BddTest().then('it should render the AssociateModal initially hidden', async () => {
-      const modal = wrapper.findComponent(AssociateModalStub)
-      expect(modal.exists()).toBe(true)
-      expect(modal.props('opened')).toBe(false)
-    })
-
-    BddTest().then('it should configure the AssociateModal to associate declared skills to the trace', () => {
-      const modal = wrapper.findComponent(AssociateModalStub)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
-      expect(modal.props('elementId')).toBe(mockedTraceDetailed.id)
-    })
-
-    BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {
+    BddTest().then('it should not render ElementAssociations in the inactive tab', () => {
       expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
     })
   })
 
-  BddTest().when('the view is mounted on home trace route', () => {
+  BddTest().when('the trace has no attachment', () => {
     beforeEach(async () => {
-      route.name = ROUTES.STUDENT.TRACE.name
+      const traceWithoutAttachment = {
+        ...mockedTraceDetailed,
+        attachment: undefined,
+      }
 
-      const handler = createTraceDetailedHandler(mockedTraceDetailed)
-      server.use(handler)
-      wrapper = mountComponent(StudentTraceView, {
-        props: { traceId: mockedTraceDetailed.id },
-        global: { stubs },
-        useTanstack: true,
-        usePinia: true,
-      })
-
-      await flushPromises()
+      server.use(createTraceDetailedHandler(traceWithoutAttachment))
+      await mountView()
     })
 
-    BddTest().then('it should render home breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
-      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
+    BddTest().then('it should disable the download action', () => {
+      expect(getSettingsDropdown().props('downloadDisabled')).toBe(true)
     })
   })
 
-  BddTest().when('the delete modal is triggered', () => {
+  BddTest().when('the view is mounted on the home trace route', () => {
     beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
+      route.name = ROUTES.STUDENT.TRACE.name
+      await mountView()
+    })
 
-      await popover.vm.$emit('delete')
+    BddTest().then('it should render the trace breadcrumb', () => {
+      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
+
+      expect(pageTitle.props('trailingLinks')).toEqual([{ text: title }])
+    })
+  })
+
+  BddTest().when('the delete action is triggered', () => {
+    beforeEach(async () => {
+      await getSettingsDropdown().vm.$emit('delete')
       await flushPromises()
     })
 
-    BddTest().then('it should open the deletion confirmation modal with trace ids', async () => {
-      const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+    BddTest().then('it should open the deletion confirmation modal with the trace identifier', () => {
+      const modal = getDeletionModal()
 
       expect(modal.props('opened')).toBe(true)
-      expect(modal.props('title')).toBe(mockedTraceDetailed.title)
+      expect(modal.props('title')).toBe(title)
       expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
     })
   })
 
-  BddTest().when('the update trace action is triggered', () => {
+  BddTest().when('the update action is triggered', () => {
     beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-      await popover.vm.$emit('update')
+      await getSettingsDropdown().vm.$emit('update')
       await flushPromises()
     })
 
-    BddTest().then('it should navigate to update trace page', async () => {
-      await vi.waitFor(() => {
-        expect(mockNavigateToStudentUpdateTrace).toHaveBeenCalledWith({
-          id: mockedTraceDetailed.id,
-        })
+    BddTest().then('it should navigate to the trace update page', () => {
+      expect(mockNavigateToStudentUpdateTrace).toHaveBeenCalledWith({
+        id: mockedTraceDetailed.id,
       })
     })
   })
 
-  BddTest().when('TraceSettingsDropdown emits download', () => {
+  BddTest().when('the download action is triggered', () => {
     BddTest().then('it should download the trace attachment', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-
-      await popover.vm.$emit('download')
+      await getSettingsDropdown().vm.$emit('download')
       await flushPromises()
+
       const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0]
+
       expect(downloadBlob).toHaveBeenCalledTimes(1)
       expect(blob).toMatchObject({
         size: expect.any(Number),
@@ -250,15 +241,13 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('TraceSettingsDropdown emits download and download fails', () => {
+  BddTest().when('the download action is triggered and the download fails', () => {
     beforeEach(() => {
       server.use(downloadTraceAttachmentErrorHandler)
     })
 
-    BddTest().then('it should add an error toaster message', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-
-      await popover.vm.$emit('download')
+    BddTest().then('it should display an error toaster message', async () => {
+      await getSettingsDropdown().vm.$emit('download')
       await flushPromises()
 
       await vi.waitFor(() => {
@@ -277,7 +266,7 @@ BddTest().given('a student trace view', () => {
       await selectAssociationsTab()
     })
 
-    BddTest().then('it should render the associations tab with correct title', () => {
+    BddTest().then('it should render the associations tab with the correct title', () => {
       const tab = wrapper.findComponent({ name: 'AvTab' })
 
       expect(tab.props('title')).toBe(`Mes éléments associés (${associationsCount})`)
@@ -302,11 +291,7 @@ BddTest().given('a student trace view', () => {
   BddTest().when('the associations tab is selected and the associations request fails', () => {
     beforeEach(async () => {
       server.use(getAssociationsErrorHandler)
-      wrapper = mountComponent(StudentTraceView, {
-        props: { traceId: mockedTraceDetailed.id },
-        global: { stubs },
-      })
-      await flushPromises()
+      await mountView()
       await selectAssociationsTab()
     })
 
@@ -320,40 +305,42 @@ BddTest().given('a student trace view', () => {
       await vi.waitFor(() => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
 
-        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: ErrorCodes.SERVER }))
+        expect(elementAssociations.props('error')).toEqual(
+          expect.objectContaining({ code: ErrorCodes.SERVER }),
+        )
         expect(elementAssociations.props('associations')).toBeUndefined()
       })
     })
   })
 
-  BddTest().when('trace deletion succeeds', () => {
+  BddTest().when('the trace deletion succeeds', () => {
     beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-
-      await popover.vm.$emit('delete')
+      await getSettingsDropdown().vm.$emit('delete')
       await flushPromises()
 
-      const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
-      modal.props('onConfirmDelete')()
+      getDeletionModal().props('onConfirmDelete')()
       await flushPromises()
     })
 
-    BddTest().then('it should navigate back to traces list', () => {
+    BddTest().then('it should close the modal', () => {
+      expect(getDeletionModal().props('opened')).toBe(false)
+    })
+
+    BddTest().then('it should navigate back to the traces list', () => {
       expect(mockNavigateToStudentTraces).toHaveBeenCalledWith({ replace: true })
     })
   })
 
-  BddTest().when('the update trace action is triggered', () => {
+  BddTest().when('the update action is triggered on the tools kit route', () => {
     beforeEach(async () => {
       route.name = ROUTES.STUDENT.TOOLS_KIT_TRACE.name
+      await mountView()
 
-      const popover = wrapper.findComponent(TraceSettingsDropdownStub)
-
-      await popover.vm.$emit('update')
+      await getSettingsDropdown().vm.$emit('update')
       await flushPromises()
     })
 
-    BddTest().then('it should navigate to the tools kit update trace page', () => {
+    BddTest().then('it should navigate to the tools kit trace update page', () => {
       expect(mockNavigateToStudentToolsKitUpdateTrace).toHaveBeenCalledWith({
         id: mockedTraceDetailed.id,
       })

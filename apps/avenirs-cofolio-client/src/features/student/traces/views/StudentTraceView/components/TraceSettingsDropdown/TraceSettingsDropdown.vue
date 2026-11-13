@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import ManageAssociableEntityDropdown from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 
 export interface TraceSettingsDropdownProps {
+  traceId: string
   downloadDisabled?: boolean
 }
 
@@ -14,7 +16,7 @@ const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.UPDATE | Action.DOWNLOAD | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
+type AllowedActions = Action.UPDATE | Action.DOWNLOAD | Action.DELETE
 
 const { t } = useI18n()
 
@@ -26,9 +28,7 @@ const actions = computed(() => {
       disabled: downloadDisabled,
       disabledTooltip: t('student.traces.views.StudentTraceView.settings.downloadDisabledTooltip')
     },
-    Action.DELETE,
-    Action.ASSOCIATE,
-    Action.DISSOCIATE
+    Action.DELETE
   ]
 
   return items
@@ -36,10 +36,14 @@ const actions = computed(() => {
 </script>
 
 <template>
-  <ManageEntityDropdown
-    :entity-name="t('student.traces.myTrace')"
+  <ManageAssociableEntityDropdown
     :actions="actions"
+    :entity-name="t('student.traces.myTrace')"
+    :element-id="traceId"
+    :context-type="EAssociationContextType.TRACE"
     data-testid="trace-settings-dropdown"
-    @action-selected="(action) => emit(action as AllowedActions)"
+    @update="() => emit(Action.UPDATE)"
+    @download="() => emit(Action.DOWNLOAD)"
+    @delete="() => emit(Action.DELETE)"
   />
 </template>
