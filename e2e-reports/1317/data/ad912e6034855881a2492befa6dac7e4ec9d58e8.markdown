@@ -1,0 +1,153 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/notifications/notifications.feature.spec.js >> Student Notifications >> Activity modified notification content >> Student sees the activity modified notification for multiple modified sub-activities
+- Location: .features-gen/tests/student/notifications/notifications.feature.spec.js:29:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('notifications-popover-body').getByTestId('notifications-popover-list').getByTestId('activity-modified-notification-card').nth(3).getByTestId('activity-modified-notification-card-content')
+Expected: "L'activité \"Activité \"CV\" : Construire son parcours\" a été mise à jour. Les sous-activités suivantes ont été modifiées : Étape 1, Étape 2."
+Received: "L'activité \"\" a été mise à jour. La section suivante a été modifiée : ."
+Timeout:  10000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 10000ms
+  - waiting for getByTestId('notifications-popover-body').getByTestId('notifications-popover-list').getByTestId('activity-modified-notification-card').nth(3).getByTestId('activity-modified-notification-card-content')
+    24 × locator resolved to <span data-testid="activity-modified-notification-card-content">…</span>
+       - unexpected value "L'activité "" a été mise à jour. La section suivante a été modifiée : ."
+
+```
+
+```yaml
+- text: "L'activité \"\" a été mise à jour. La section suivante a été modifiée : ."
+```
+
+# Test source
+
+```ts
+  7   | import { expect } from '@playwright/test'
+  8   | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  9   | 
+  10  | const ACTIVITY_MODIFIED_NOTIFICATION_ACTIVITY_TITLE = 'Activité "CV" : Construire son parcours'
+  11  | const MODIFIED_SUB_ACTIVITY_TITLES = ['Étape 1', 'Étape 2']
+  12  | 
+  13  | function updatedFieldLabel (fieldKey: string) {
+  14  |   return t(`student.global.cards.ActivityModifiedNotificationCard.updatedFields.types.${fieldKey}`)
+  15  | }
+  16  | 
+  17  | function baseContent (activityName: string) {
+  18  |   return t(
+  19  |     'student.global.cards.ActivityModifiedNotificationCard.content',
+  20  |     { activityName },
+  21  |   )
+  22  | }
+  23  | 
+  24  | function sectionsContent (sectionLabels: string[]) {
+  25  |   return t(
+  26  |     'student.global.cards.ActivityModifiedNotificationCard.updatedFields.content',
+  27  |     { sectionTypes: sectionLabels.join(', ') },
+  28  |     sectionLabels.length,
+  29  |   )
+  30  | }
+  31  | 
+  32  | function subActivitiesContent (titles: string[]) {
+  33  |   return t(
+  34  |     'student.global.cards.ActivityModifiedNotificationCard.updatedSubActivityTitles.content',
+  35  |     { subActivitiesTitles: titles.join(', ') },
+  36  |     titles.length,
+  37  |   )
+  38  | }
+  39  | 
+  40  | function activityModifiedNotificationContent (detail: string) {
+  41  |   return baseContent(ACTIVITY_MODIFIED_NOTIFICATION_ACTIVITY_TITLE) + detail
+  42  | }
+  43  | 
+  44  | export
+  45  | @Fixture<typeof test>('studentNotificationsPopoverSteps')
+  46  | class StudentNotificationsPopoverSteps {
+  47  |   private popover: NotificationsPopover
+  48  | 
+  49  |   constructor (public page: Page) {
+  50  |     this.popover = new NotificationsPopover(page)
+  51  |   }
+  52  | 
+  53  |   @When('the student opens the notifications popover')
+  54  |   async openNotificationsPopover () {
+  55  |     await this.popover.open()
+  56  |   }
+  57  | 
+  58  |   @Given('the student has enabled notifications')
+  59  |   async enableNotifications () {
+  60  |     await this.popover.enableNotificationPreference()
+  61  |   }
+  62  | 
+  63  |   @Then('the activity modified notification with a single updated section is visible')
+  64  |   async verifySingleSectionNotificationVisible () {
+  65  |     await expect(this.popover.getActivityModifiedNotificationCard(0)).toBeVisible()
+  66  |   }
+  67  | 
+  68  |   @Then('the activity modified notification with a single updated section shows the correct content')
+  69  |   async verifySingleSectionNotificationContent () {
+  70  |     const expectedContent = activityModifiedNotificationContent(sectionsContent([updatedFieldLabel('ACTIVITY_TITLE')]))
+  71  |     await expect(this.popover.getActivityModifiedNotificationCardContent(0)).toHaveText(expectedContent)
+  72  |   }
+  73  | 
+  74  |   @Then('the activity modified notification with multiple updated sections is visible')
+  75  |   async verifyMultipleSectionsNotificationVisible () {
+  76  |     await expect(this.popover.getActivityModifiedNotificationCard(1)).toBeVisible()
+  77  |   }
+  78  | 
+  79  |   @Then('the activity modified notification with multiple updated sections shows the correct content')
+  80  |   async verifyMultipleSectionsNotificationContent () {
+  81  |     const expectedContent = activityModifiedNotificationContent(sectionsContent([
+  82  |       updatedFieldLabel('ACTIVITY_TITLE'),
+  83  |       updatedFieldLabel('THEMATIC'),
+  84  |     ]))
+  85  |     await expect(this.popover.getActivityModifiedNotificationCardContent(1)).toHaveText(expectedContent)
+  86  |   }
+  87  | 
+  88  |   @Then('the activity modified notification for a single modified sub-activity is visible')
+  89  |   async verifySingleSubActivityNotificationVisible () {
+  90  |     await expect(this.popover.getActivityModifiedNotificationCard(2)).toBeVisible()
+  91  |   }
+  92  | 
+  93  |   @Then('the activity modified notification for a single modified sub-activity shows the correct content')
+  94  |   async verifySingleSubActivityNotificationContent () {
+  95  |     const expectedContent = activityModifiedNotificationContent(subActivitiesContent([MODIFIED_SUB_ACTIVITY_TITLES[0]]))
+  96  |     await expect(this.popover.getActivityModifiedNotificationCardContent(2)).toHaveText(expectedContent)
+  97  |   }
+  98  | 
+  99  |   @Then('the activity modified notification for multiple modified sub-activities is visible')
+  100 |   async verifyMultipleSubActivitiesNotificationVisible () {
+  101 |     await expect(this.popover.getActivityModifiedNotificationCard(3)).toBeVisible()
+  102 |   }
+  103 | 
+  104 |   @Then('the activity modified notification for multiple modified sub-activities shows the correct content')
+  105 |   async verifyMultipleSubActivitiesNotificationContent () {
+  106 |     const expectedContent = activityModifiedNotificationContent(subActivitiesContent(MODIFIED_SUB_ACTIVITY_TITLES))
+> 107 |     await expect(this.popover.getActivityModifiedNotificationCardContent(3)).toHaveText(expectedContent)
+      |                                                                              ^ Error: expect(locator).toHaveText(expected) failed
+  108 |   }
+  109 | 
+  110 |   @When('the student clicks on the activity modified notification with a single updated section')
+  111 |   async clickSingleSectionNotification () {
+  112 |     await this.popover.clickActivityModifiedNotificationCard(0)
+  113 |     await waitForPageLoad(this.page)
+  114 |   }
+  115 | 
+  116 |   @Then('the student is redirected to the modified activity page')
+  117 |   async verifyRedirectedToActivity () {
+  118 |     await expect(this.page).toHaveURL(new RegExp(STUDENT_ROUTES.ACTIVITY.replace(':id', '.+')))
+  119 |   }
+  120 | }
+  121 | 
+```
