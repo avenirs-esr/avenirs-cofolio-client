@@ -2,24 +2,19 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityViewProps } from '@/features/student/activities/views/ActivityView/ActivityView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { DetailPageTitleStub, LoaderStub } from '@avenirs-esr/shared'
-import { EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'
-import {
-  ActivityLayoutStub
-} from '@/features/student/activities/views/ActivityView/components/ActivityLayout/ActivityLayout.stub'
+import { ActivityLayoutStub } from '@/features/student/activities/views/ActivityView/components/ActivityLayout/ActivityLayout.stub'
 import { DeleteMyActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 
 const navigateToStudentProjectActivities = vi.fn()
 
@@ -29,8 +24,15 @@ vi.mock('@/common/composables', async (importOriginal) => {
     ...actual,
     useNavigation: () => ({
       navigateToStudentProjectActivities
-    }),
+    })
   }
+})
+
+const UpdateActivityDrawerStub = defineComponent({
+  name: 'UpdateActivityDrawer',
+  props: ['show', 'declaredActivity'],
+  emits: ['close'],
+  template: '<div data-testid="update-activity-drawer-stub" />'
 })
 
 BddTest().given('a project activity view', () => {
@@ -43,225 +45,237 @@ BddTest().given('a project activity view', () => {
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     SubscribeActivityConfirmModal: SubscribeActivityConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
-    AssociateModal: AssociateModalStub,
     ActivityLayout: ActivityLayoutStub,
     DeleteMyActivityConfirmModal: DeleteMyActivityConfirmModalStub,
-    DeleteAssociationsModal: DeleteAssociationsModalStub
+    UpdateActivityDrawer: UpdateActivityDrawerStub
   }
 
+  const mountWith = (props: ActivityViewProps = { id: 'declared-activity-1' }) => {
+    wrapper = mountComponent(ActivityView, {
+      props,
+      global: { stubs }
+    })
+  }
+
+  const getPageTitle = () => wrapper.findComponent(DetailPageTitleStub)
+  const getLayout = () => wrapper.findComponent(ActivityLayoutStub)
   const getDetailedDropdown = () => wrapper.findComponent(ActivityDetailedDropdownStub)
-  const getAssociateModals = () => wrapper.findComponent(AssociateModalStub)
-  const getDeleteModal = () => wrapper.findComponent(DeleteAssociationsModalStub)
-
-  async function emitDropdown (event: 'associate' | 'dissociate') {
-    getDetailedDropdown().vm.$emit(event)
-    await nextTick()
-  }
+  const getStatusBadge = () => wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+  const getSubscribeModal = () => wrapper.findComponent(SubscribeActivityConfirmModalStub)
+  const getUnsubscribeModal = () => wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+  const getDeleteModal = () => wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+  const getUpdateDrawer = () => wrapper.findComponent(UpdateActivityDrawerStub)
 
   BddTest().when('the view is mounted with a valid activity', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mountComponent(ActivityView, {
-        props: {
-          id: 'declared-activity-1'
-        },
-        global: { stubs }
+      mountWith()
+      await vi.waitFor(() => expect(getPageTitle().exists()).toBe(true))
+    })
+
+    BddTest().then('it should render the page title with the activity title', () => {
+      expect(getPageTitle().props('title')).toBe('Activité "Connaissance de soi"\u00A0: Définir ses valeurs')
+    })
+
+    BddTest().then('it should render the activity breadcrumb links', () => {
+      expect(getPageTitle().props('trailingLinks')).toHaveLength(2)
+    })
+
+    BddTest().then('it should render the activity layout with the declared activity details', () => {
+      const details = getLayout().props('declaredActivityDetails')
+
+      expect(getLayout().exists()).toBe(true)
+      expect(details).toMatchObject({
+        id: 'declared-activity-1',
+        status: EDeclaredActivityStatus.IN_PROGRESS
       })
-
-      await vi.waitFor(() => expect(wrapper.find('[data-testid="activity-view-title"]').exists()).toBe(true))
+      expect(details.activity.title).toContain('Définir ses valeurs')
+      expect(details.activity.summary).toContain('Activité faisant partie de la catégorie Connaissance de soi')
     })
 
-    BddTest().then('it should render the page title component', () => {
-      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
-      expect(pageTitle.exists()).toBe(true)
+    BddTest().then('it should render the status badge with the declared activity status', () => {
+      expect(getStatusBadge().exists()).toBe(true)
+      expect(getStatusBadge().props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
 
-    BddTest().then('it should pass the correct title', () => {
-      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
-      expect(pageTitle.props('title')).toBe('Activité "Connaissance de soi"\u00A0: Définir ses valeurs')
+    BddTest().then('it should pass the declared activity details to the detailed dropdown', () => {
+      const details = getLayout().props('declaredActivityDetails')
+
+      expect(getDetailedDropdown().props()).toMatchObject({
+        declaredActivityId: details.id,
+        status: details.status,
+        activityStatus: details.activity.activityStatus
+      })
     })
 
-    BddTest().then('it should pass the correct breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent(DetailPageTitleStub)
-      expect(pageTitle.props('trailingLinks')).toHaveLength(2)
+    BddTest().then('it should render the update drawer closed with the declared activity', () => {
+      expect(getUpdateDrawer().props('show')).toBe(false)
+      expect(getUpdateDrawer().props('declaredActivity')).toEqual(
+        getLayout().props('declaredActivityDetails')
+      )
     })
 
-    BddTest().then('it should render the project activity layout component', () => {
-      const layout = wrapper.findComponent(ActivityLayoutStub)
-      expect(layout.exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass the declared activity detail to the layout', () => {
-      const layout = wrapper.findComponent(ActivityLayoutStub)
-      const declaredActivityDetails = layout.props('declaredActivityDetails')
-
-      expect(declaredActivityDetails).toBeDefined()
-      expect(declaredActivityDetails.id).toBe('declared-activity-1')
-      expect(declaredActivityDetails.status).toBe(EDeclaredActivityStatus.IN_PROGRESS)
-      expect(declaredActivityDetails.activity.title).toContain('Définir ses valeurs')
-      expect(declaredActivityDetails.activity.summary).toContain('Activité faisant partie de la catégorie Connaissance de soi')
-    })
-
-    BddTest().then('it should render the DeclaredActivityStatusBadge with the correct status', () => {
-      const badge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
-      expect(badge.exists()).toBe(true)
-      expect(badge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
-    })
-
-    BddTest().then('it should pass the declared activity status to the dropdown', () => {
-      const dropdown = wrapper.findComponent(ActivityDetailedDropdownStub)
-      expect(dropdown.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
-    })
-
-    BddTest().then('it should pass the declared activity id to the UnsubscribeActivitiesConfirmModal', () => {
-      const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-      expect(modal.props('declaredActivityId')).toBe('declared-activity-1')
-    })
-
-    BddTest().and('the user clicks the unsubscribe button in the activity dropdown', () => {
+    BddTest().when('the user selects the update action', () => {
       beforeEach(async () => {
-        const unsubscribeButton = wrapper.findComponent(ActivityDetailedDropdownStub)
-        unsubscribeButton.vm.$emit('unsubscribe')
+        getDetailedDropdown().vm.$emit('update')
+        await flushPromises()
       })
 
-      BddTest().then('it should open the UnsubscribeActivitiesConfirmModal', () => {
-        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(true)
-      })
-    })
-
-    BddTest().and('the user confirms the unsubscription in the UnsubscribeActivitiesConfirmModal', () => {
-      beforeEach(async () => {
-        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-        modal.vm.$emit('unsubscribed')
+      BddTest().then('it should open the update drawer', () => {
+        expect(getUpdateDrawer().props('show')).toBe(true)
       })
 
-      BddTest().then('it should close the UnsubscribeActivitiesConfirmModal', () => {
-        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().and('the user cancels the unsubscription in the UnsubscribeActivitiesConfirmModal', () => {
-      beforeEach(async () => {
-        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-        modal.vm.$emit('cancel')
-      })
-
-      BddTest().then('it should close the UnsubscribeActivitiesConfirmModal', () => {
-        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().and('the user clicks the resubscribe button in the activity dropdown', () => {
-      beforeEach(async () => {
-        const dropdown = wrapper.findComponent(ActivityDetailedDropdownStub)
-        dropdown.vm.$emit('resubscribe')
-      })
-
-      BddTest().then('it should show the SubscribeActivityConfirmModal', () => {
-        const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(true)
-        expect(modal.props('declaredActivityId')).toBe('declared-activity-1')
-      })
-
-      BddTest().and('the user confirms the subscription in the SubscribeActivityConfirmModal', () => {
+      BddTest().and('the user closes the update drawer', () => {
         beforeEach(async () => {
-          const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
-          modal.vm.$emit('subscribed')
+          getUpdateDrawer().vm.$emit('close')
+          await flushPromises()
         })
 
-        BddTest().then('it should hide the SubscribeActivityConfirmModal', () => {
-          const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
-          expect(modal.props('opened')).toBe(false)
+        BddTest().then('it should close the update drawer', () => {
+          expect(getUpdateDrawer().props('show')).toBe(false)
         })
       })
     })
 
-    BddTest().and('the user clicks the delete button in the activity detailed dropdown', () => {
+    BddTest().when('the user selects the unsubscribe action', () => {
       beforeEach(async () => {
-        const deleteButton = wrapper.findComponent(ActivityDetailedDropdownStub)
-        deleteButton.vm.$emit('delete')
+        getDetailedDropdown().vm.$emit('unsubscribe')
+        await flushPromises()
       })
 
-      BddTest().then('it should open the DeleteMyActivityConfirmModal', () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(true)
+      BddTest().then('it should open the unsubscribe confirmation modal', () => {
+        expect(getUnsubscribeModal().props('opened')).toBe(true)
+        expect(getUnsubscribeModal().props('declaredActivityId')).toBe('declared-activity-1')
       })
 
-      BddTest().then('it should pass the correct activity id and title to the modal', () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        const layout = wrapper.findComponent(ActivityLayoutStub)
-        const declaredActivityDetails = layout.props('declaredActivityDetails')
+      BddTest().and('the user confirms the unsubscription', () => {
+        beforeEach(async () => {
+          getUnsubscribeModal().vm.$emit('unsubscribed')
+          await flushPromises()
+        })
 
-        expect(modal.props('declaredActivityId')).toBe(declaredActivityDetails.id)
-        expect(modal.props('activityId')).toBe(declaredActivityDetails.activity.id)
-        expect(modal.props('activityTitle')).toBe(declaredActivityDetails.activity.title)
+        BddTest().then('it should close the unsubscribe confirmation modal', () => {
+          expect(getUnsubscribeModal().props('opened')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user cancels the unsubscription', () => {
+        beforeEach(async () => {
+          getUnsubscribeModal().vm.$emit('cancel')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the unsubscribe confirmation modal', () => {
+          expect(getUnsubscribeModal().props('opened')).toBe(false)
+        })
       })
     })
 
-    BddTest().and('the user confirms the deletion in the DeleteMyActivityConfirmModal', () => {
+    BddTest().when('the user selects the resubscribe action', () => {
       beforeEach(async () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        modal.vm.$emit('deleted')
+        getDetailedDropdown().vm.$emit('resubscribe')
+        await flushPromises()
       })
 
-      BddTest().then('it should close the DeleteMyActivityConfirmModal', () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(false)
+      BddTest().then('it should open the subscribe confirmation modal', () => {
+        expect(getSubscribeModal().props('opened')).toBe(true)
+        expect(getSubscribeModal().props('declaredActivityId')).toBe('declared-activity-1')
       })
 
-      BddTest().then('it should navigate to the project activities page', () => {
-        expect(navigateToStudentProjectActivities).toHaveBeenCalledTimes(1)
-        expect(navigateToStudentProjectActivities).toHaveBeenCalledWith({ replace: true })
+      BddTest().and('the user confirms the subscription', () => {
+        beforeEach(async () => {
+          getSubscribeModal().vm.$emit('subscribed')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the subscribe confirmation modal', () => {
+          expect(getSubscribeModal().props('opened')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user cancels the subscription', () => {
+        beforeEach(async () => {
+          getSubscribeModal().vm.$emit('cancel')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the subscribe confirmation modal', () => {
+          expect(getSubscribeModal().props('opened')).toBe(false)
+        })
       })
     })
 
-    BddTest().and('the user cancels the deletion in the DeleteMyActivityConfirmModal', () => {
+    BddTest().when('the user selects the delete action', () => {
       beforeEach(async () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        modal.vm.$emit('cancel')
+        getDetailedDropdown().vm.$emit('delete')
+        await flushPromises()
       })
 
-      BddTest().then('it should close the DeleteMyActivityConfirmModal', () => {
-        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(false)
+      BddTest().then('it should open the delete confirmation modal', () => {
+        expect(getDeleteModal().props('opened')).toBe(true)
+      })
+
+      BddTest().then('it should pass the declared activity and activity details to the modal', () => {
+        const details = getLayout().props('declaredActivityDetails')
+
+        expect(getDeleteModal().props()).toMatchObject({
+          declaredActivityId: details.id,
+          activityId: details.activity.id,
+          activityTitle: details.activity.title
+        })
+      })
+
+      BddTest().and('the user confirms the deletion', () => {
+        beforeEach(async () => {
+          getDeleteModal().vm.$emit('deleted')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the delete confirmation modal', () => {
+          expect(getDeleteModal().props('opened')).toBe(false)
+        })
+
+        BddTest().then('it should navigate to the project activities page', () => {
+          expect(navigateToStudentProjectActivities).toHaveBeenCalledTimes(1)
+          expect(navigateToStudentProjectActivities).toHaveBeenCalledWith({ replace: true })
+        })
+      })
+
+      BddTest().and('the user cancels the deletion', () => {
+        beforeEach(async () => {
+          getDeleteModal().vm.$emit('cancel')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the delete confirmation modal', () => {
+          expect(getDeleteModal().props('opened')).toBe(false)
+        })
+
+        BddTest().then('it should not navigate to the project activities page', () => {
+          expect(navigateToStudentProjectActivities).not.toHaveBeenCalled()
+        })
       })
     })
   })
 
   BddTest().when('the view is mounted with an invalid activity', () => {
-    const props: ActivityViewProps = {
-      id: 'INVALID_DECLARED_ACTIVITY_ID'
-    }
-
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mountComponent(ActivityView, {
-        props,
-        global: { stubs }
-      })
+      mountWith({ id: 'INVALID_DECLARED_ACTIVITY_ID' })
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(DetailPageTitleStub).exists()).toBe(false)
+      expect(getPageTitle().exists()).toBe(false)
     })
 
-    BddTest().then('it should not render the layout', () => {
-      expect(wrapper.findComponent(ActivityLayoutStub).exists()).toBe(false)
+    BddTest().then('it should not render the activity layout', () => {
+      expect(getLayout().exists()).toBe(false)
     })
 
     BddTest().then('it should render an activity not found error message', async () => {
       await vi.waitFor(() => {
         const errorMessage = wrapper.find('[data-testid="error-message"]')
+
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.text()).toContain('Activité introuvable')
         expect(errorMessage.text()).toContain('L\'activité que vous recherchez n\'existe pas ou n\'est pas accessible.')
@@ -270,131 +284,27 @@ BddTest().given('a project activity view', () => {
   })
 
   BddTest().when('the view is mounted and the API returns an error', () => {
-    const props: ActivityViewProps = {
-      id: '0'
-    }
-
     beforeEach(() => {
       vi.clearAllMocks()
       server.use(declaredActivityDetailsErrorHandler)
-
-      wrapper = mountComponent(ActivityView, {
-        props,
-        global: { stubs }
-      })
+      mountWith({ id: '0' })
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(DetailPageTitleStub).exists()).toBe(false)
+      expect(getPageTitle().exists()).toBe(false)
     })
 
-    BddTest().then('it should not render the layout', () => {
-      expect(wrapper.findComponent(ActivityLayoutStub).exists()).toBe(false)
+    BddTest().then('it should not render the activity layout', () => {
+      expect(getLayout().exists()).toBe(false)
     })
 
     BddTest().then('it should render a generic error message', async () => {
       await vi.waitFor(() => {
         const errorMessage = wrapper.find('[data-testid="error-message"]')
+
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
         expect(errorMessage.text()).toContain('Erreur serveur interne')
-      })
-    })
-  })
-
-  BddTest().when('the activity detail is displayed', () => {
-    const props: ActivityViewProps = {
-      id: 'declared-activity-1'
-    }
-
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mountComponent(ActivityView, {
-        props,
-        global: { stubs }
-      })
-      await flushPromises()
-      await nextTick()
-    })
-
-    BddTest().then('it should render the associate modal closed with the activity props', () => {
-      const modal = getAssociateModals()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-      expect(modal.props('elementId')).toBe(props.id)
-    })
-
-    BddTest().then('it should render the delete associations modal closed with the activity props', () => {
-      const modal = getDeleteModal()
-
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-      expect(modal.props('elementId')).toBe(props.id)
-    })
-
-    BddTest().and('the user chooses to associate elements', () => {
-      beforeEach(async () => {
-        await emitDropdown('associate')
-      })
-
-      BddTest().then('it should open only the associate modal', () => {
-        expect(getAssociateModals().props('opened')).toBe(true)
-        expect(getDeleteModal().props('opened')).toBe(false)
-      })
-
-      BddTest().and('the user cancels the association', () => {
-        beforeEach(async () => {
-          getAssociateModals().vm.$emit('cancel')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the associate modal', () => {
-          expect(getAssociateModals().props('opened')).toBe(false)
-        })
-      })
-
-      BddTest().and('the elements get associated', () => {
-        beforeEach(async () => {
-          getAssociateModals().vm.$emit('associated')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the associate modal', () => {
-          expect(getAssociateModals().props('opened')).toBe(false)
-        })
-      })
-    })
-
-    BddTest().and('the user chooses to dissociate elements', () => {
-      beforeEach(async () => {
-        await emitDropdown('dissociate')
-      })
-
-      BddTest().then('it should open only the delete associations modal', () => {
-        expect(getDeleteModal().props('opened')).toBe(true)
-        expect(getAssociateModals().props('opened')).toBe(false)
-      })
-
-      BddTest().and('the user cancels the deletion', () => {
-        beforeEach(async () => {
-          getDeleteModal().vm.$emit('cancel')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the delete associations modal', () => {
-          expect(getDeleteModal().props('opened')).toBe(false)
-        })
-      })
-
-      BddTest().and('the associations get deleted', () => {
-        beforeEach(async () => {
-          getDeleteModal().vm.$emit('deleted')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the delete associations modal', () => {
-          expect(getDeleteModal().props('opened')).toBe(false)
-        })
       })
     })
   })
