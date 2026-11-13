@@ -1,24 +1,12 @@
-import type {
-  ActivityContentDTO,
-  ActivityDashboardDTO,
-  ActivityDraftCreationResponse,
-  ActivityDraftUpdateRequest,
-  ActivityDraftUpdateResponse,
-  ActivityPresentationDTO,
-  CreationResponse,
-  EFeedbackStatus,
-  FileDTO,
-  InactiveStudentDTO,
-  PagedResponseActivityFeedbacksPreviewDTO,
-  PagedResponseActivityStaffOverviewDTO,
-  StaffInfoDTO
-} from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, ActivityDashboardDTO, ActivityDraftCreationResponse, ActivityDraftUpdateRequest, ActivityDraftUpdateResponse, ActivityPresentationDTO, CreationResponse, EFeedbackStatus, FileDTO, InactiveStudentDTO, PagedResponseActivityFeedbacksPreviewDTO, PagedResponseActivityStaffOverviewDTO, StaffInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import {
+
   EActivityStatus,
   EErrorCode,
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
+  getCreateSubActivityDraftUrl,
   getDefineActivityAuthorizationsUrl,
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
@@ -36,6 +24,7 @@ import {
   getUnpublishActivityUrl,
   getUpdateActivityDraftUrl,
   getUploadDraftBannerUrl
+
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { http, HttpResponse } from 'msw'
@@ -59,7 +48,6 @@ import {
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { getCreateSubActivityDraftUrl } from '@/api/avenir-esr'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(

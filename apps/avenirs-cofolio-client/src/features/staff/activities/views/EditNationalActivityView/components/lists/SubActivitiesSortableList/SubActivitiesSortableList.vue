@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SubActivityOverviewDTO } from '@/api/avenir-esr'
+import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { QuerySuspense } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'

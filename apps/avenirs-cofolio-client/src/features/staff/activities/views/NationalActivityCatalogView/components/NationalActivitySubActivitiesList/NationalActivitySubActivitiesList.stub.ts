@@ -1,6 +1,5 @@
-import type { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import type { EActivityStatus, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { SubActivityOverviewDTO } from '@/api/avenir-esr'
 
 export const NationalActivitySubActivitiesListStub = defineComponent({
   name: 'NationalActivitySubActivitiesList',
