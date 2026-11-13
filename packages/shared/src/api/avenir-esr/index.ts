@@ -1,1 +1,1 @@
-export * from '#shared/api/generated/index'
+export * from '#shared/api/avenir-esr/generated/index'

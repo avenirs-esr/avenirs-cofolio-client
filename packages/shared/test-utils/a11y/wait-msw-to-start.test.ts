@@ -19,10 +19,12 @@ BddTest().given('the shared MSW wait helper', () => {
       })
       const waitForLoadState = vi.fn<Page['waitForLoadState']>()
       waitForLoadState.mockImplementation((state: string | undefined) => {
-        if (state === 'domcontentloaded')
+        if (state === 'domcontentloaded') {
           return domLoaded
-        if (state === 'networkidle')
+        }
+        if (state === 'networkidle') {
           return networkIdle
+        }
         return Promise.resolve()
       })
       const waitForTimeout = vi.fn<Page['waitForTimeout']>()
@@ -64,10 +66,12 @@ BddTest().given('the shared MSW wait helper', () => {
       })
       const waitForLoadState = vi.fn<Page['waitForLoadState']>()
       waitForLoadState.mockImplementation((state: string | undefined) => {
-        if (state === 'domcontentloaded')
+        if (state === 'domcontentloaded') {
           return domLoaded
-        if (state === 'networkidle')
+        }
+        if (state === 'networkidle') {
           return networkIdleTimeout
+        }
         return Promise.resolve()
       })
       const waitForTimeout = vi.fn<Page['waitForTimeout']>()
@@ -98,8 +102,9 @@ BddTest().given('the shared MSW wait helper', () => {
     beforeEach(async () => {
       const waitForLoadState = vi.fn<Page['waitForLoadState']>()
       waitForLoadState.mockImplementation((state: string | undefined) => {
-        if (state === 'domcontentloaded')
+        if (state === 'domcontentloaded') {
           return Promise.reject(failure)
+        }
         return Promise.resolve()
       })
       const waitForTimeout = vi.fn<Page['waitForTimeout']>()

@@ -117,7 +117,7 @@ The tooling entry point `@avenirs-esr/shared/orval` exports `AVENIR_ESR_ORVAL_OV
 
 The API entry point `@avenirs-esr/shared/api/avenir-esr` re-exports all generated requests, query and mutation hooks, query keys, helpers and models through Orval's generated barrels. It does not expose the internal HTTP mutator and is not re-exported from the shared runtime root. Both applications import their API requests, hooks and models directly from this entry point.
 
-`packages/shared/orval.config.ts` generates the complete Vue Query client from the shared Swagger into `packages/shared/src/api/generated`, with models under `types/`, including `EErrorCode`. Generated requests use the internal `sharedFetch` mutator, configured by each host application through `configureSharedFetch` with its existing HTTP configuration and interceptor manager. Workspace installation generates the shared client through the shared package's lifecycle. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
+`packages/shared/orval.config.ts` generates the complete Vue Query client from the shared Swagger into `packages/shared/src/api/avenir-esr/generated`, with models under `types/`, including `EErrorCode`. Generated requests use the internal `sharedFetch` mutator, configured by each host application through `configureSharedFetch` with its existing HTTP configuration and interceptor manager. Workspace installation generates the shared client through the shared package's lifecycle. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
 
 ```sh
 pnpm --filter @avenirs-esr/shared run generate:api
