@@ -1,8 +1,8 @@
 import type { HttpHandler } from 'msw'
+import { getGetLatestCguUrl, getUploadCguUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { http } from 'msw'
 import { mockedCguDTO } from '@/__mocks__/fixtures/cgu.fixtures'
-import { getGetLatestCguUrl, getUploadCguUrl } from '@/api/avenir-esr'
 
 export const getLatestCguErrorHandler = http.get(`*${getGetLatestCguUrl()}`, internalServerError)
 

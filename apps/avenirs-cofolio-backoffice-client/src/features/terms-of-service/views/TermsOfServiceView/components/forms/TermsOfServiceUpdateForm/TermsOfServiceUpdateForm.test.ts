@@ -43,17 +43,12 @@ const mockForm = {
   }),
 }
 
-const mockOnTermsOfServiceUpdated = vi.fn()
-
 vi.mock('@/features/terms-of-service/views/TermsOfServiceView/composables/use-update-terms-of-services-form/use-update-terms-of-services-form', () => ({
-  useUpdateTermsOfServicesForm: vi.fn((_cgu: unknown, onTermsOfServiceUpdated: () => void) => {
-    mockOnTermsOfServiceUpdated.mockImplementation(onTermsOfServiceUpdated)
-    return {
-      form: mockForm,
-      isFormValid: mockIsFormValid,
-      isSubmitting: mockIsSubmitting,
-    }
-  }),
+  useUpdateTermsOfServicesForm: vi.fn(() => ({
+    form: mockForm,
+    isFormValid: mockIsFormValid,
+    isSubmitting: mockIsSubmitting,
+  })),
 }))
 
 BddTest().given('a TermsOfServiceUpdateForm component', () => {
@@ -84,7 +79,7 @@ BddTest().given('a TermsOfServiceUpdateForm component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should initialize the form with the provided cgu', () => {
-      expect(useUpdateTermsOfServicesForm).toHaveBeenCalledWith(mockedCguDTO, expect.any(Function))
+      expect(useUpdateTermsOfServicesForm).toHaveBeenCalledWith(mockedCguDTO)
     })
 
     BddTest().then('it should render the rich text editor', () => {
@@ -151,16 +146,6 @@ BddTest().given('a TermsOfServiceUpdateForm component', () => {
 
     BddTest().then('it should submit the form', () => {
       expect(mockHandleSubmit).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  BddTest().when('the terms of service are updated', () => {
-    beforeEach(() => {
-      mockOnTermsOfServiceUpdated()
-    })
-
-    BddTest().then('it should emit termsOfServiceUpdated', () => {
-      expect(wrapper.emitted('termsOfServiceUpdated')).toHaveLength(1)
     })
   })
 })

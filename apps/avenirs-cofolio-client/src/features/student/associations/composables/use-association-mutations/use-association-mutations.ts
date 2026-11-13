@@ -1,10 +1,9 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import { useAssociate, useUnassociate } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
 import { useToasterStore } from '@/store'
 

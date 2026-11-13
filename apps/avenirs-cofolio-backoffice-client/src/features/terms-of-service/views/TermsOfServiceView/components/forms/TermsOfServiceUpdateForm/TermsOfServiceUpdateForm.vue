@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CguDTO } from '@/api/avenir-esr'
+import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvButton, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { RichTextEditor } from '@avenirs-esr/shared'
 import { markRaw, useId } from 'vue'
@@ -14,7 +14,6 @@ const { cgu } = defineProps<TermsOfServiceUpdateFormProps>()
 
 const emit = defineEmits<{
   dirtyChange: [value: boolean]
-  termsOfServiceUpdated: []
 }>()
 
 const { t } = useI18n()
@@ -23,7 +22,7 @@ const {
   form,
   isFormValid,
   isSubmitting,
-} = useUpdateTermsOfServicesForm(cgu, () => emit('termsOfServiceUpdated'))
+} = useUpdateTermsOfServicesForm(cgu)
 
 const FormField = markRaw(form.Field)
 const isDirty = form.useStore(state => state.isDirty)

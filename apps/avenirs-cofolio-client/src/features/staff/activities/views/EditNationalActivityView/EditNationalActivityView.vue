@@ -3,7 +3,7 @@ import type { ActivityDraftUpdateRequest, FileDTO } from '@avenirs-esr/shared/ap
 import type { Ref } from 'vue'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { BaseApiException, PageTitle, QuerySuspense, useApiErrors } from '@avenirs-esr/shared'
+import { BaseApiException, PageTitle, QuerySuspense, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import {
   EActivityRight,
   EActivityStatus,
@@ -25,7 +25,6 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'

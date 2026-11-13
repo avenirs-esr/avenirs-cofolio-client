@@ -1,11 +1,10 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { SkillProgressDetailsDTO, SkillProgressRequest } from '@avenirs-esr/shared/api/avenir-esr'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import { invalidateGetSkillProgressDetails, useUpdateSkillProgress } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
 

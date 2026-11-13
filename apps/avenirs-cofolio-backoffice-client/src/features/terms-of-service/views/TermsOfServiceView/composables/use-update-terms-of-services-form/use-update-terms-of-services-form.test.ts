@@ -1,4 +1,4 @@
-import type { CguDTO } from '@/api/avenir-esr'
+import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedCguDTO } from '@/__mocks__/fixtures/cgu.fixtures'
@@ -33,12 +33,11 @@ const INVALID_CASES = [
 
 BddTest().given('a terms of service update form composable', () => {
   let result: ReturnType<typeof useUpdateTermsOfServicesForm>
-  const onTermsOfServiceUpdated = vi.fn()
   const onUploadCgu = vi.fn()
 
   const mountWith = (values: Partial<CguDTO> = {}) => {
     const cgu = { ...mockedCguDTO, ...values }
-    result = mountComposable(() => useUpdateTermsOfServicesForm(cgu, onTermsOfServiceUpdated), {
+    result = mountComposable(() => useUpdateTermsOfServicesForm(cgu), {
       useI18n: true,
       usePinia: true,
       useTanstack: true,
@@ -117,12 +116,6 @@ BddTest().given('a terms of service update form composable', () => {
         expect(mockAddSuccessMessage).toHaveBeenCalledWith(expect.objectContaining({ description: SUCCESS_MESSAGE }))
       })
     })
-
-    BddTest().then('it should notify the caller', async () => {
-      await vi.waitFor(() => {
-        expect(onTermsOfServiceUpdated).toHaveBeenCalledTimes(1)
-      })
-    })
   })
 
   BddTest().when('the update fails', () => {
@@ -135,13 +128,6 @@ BddTest().given('a terms of service update form composable', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalledWith(expect.objectContaining({ title: ERROR_TITLE }))
       })
-    })
-
-    BddTest().then('it should not notify the caller', async () => {
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
-      expect(onTermsOfServiceUpdated).not.toHaveBeenCalled()
     })
   })
 })

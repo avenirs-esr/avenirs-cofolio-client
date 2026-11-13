@@ -1,12 +1,11 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredExperienceRequest, DeclaredExperienceViewDTO, EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { DeclaredExperienceFormData, DeclaredExperienceFormDataApi } from '@/features/student/personalCareer/types/forms.types'
-import { useApiErrors } from '@avenirs-esr/shared'
+import { useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import { invalidateGetDeclaredExperience, invalidateGetDeclaredExperienceView, useUpdateDeclaredExperience } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useToasterStore } from '@/store'
 
