@@ -1,6 +1,6 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 
