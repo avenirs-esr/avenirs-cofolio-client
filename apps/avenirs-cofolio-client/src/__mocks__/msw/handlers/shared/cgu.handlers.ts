@@ -4,6 +4,17 @@ import { getAcceptCguUrl, getGetLatestCguUrl } from '@avenirs-esr/shared/api/ave
 import { delay, http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu, mockedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 
+export function createCguQueryHandler (onRequest?: (request: Request) => void) {
+  return http.get(`*${getGetLatestCguUrl()}`, ({ request }) => {
+    onRequest?.(request)
+
+    return HttpResponse.json<CguDTO>(mockedCgu, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  })
+}
+
 export const cguQueryErrorHandler = http.get(`*${getGetLatestCguUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -30,12 +41,7 @@ export const acceptCguErrorHandler = http.post(`*${getAcceptCguUrl()}`, () => {
 })
 
 export const cguHandlers = [
-  http.get(`*${getGetLatestCguUrl()}`, () => {
-    return HttpResponse.json<CguDTO>(mockedCgu, {
-      status: HttpStatusCode.OK,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
+  createCguQueryHandler(),
   http.post(`*${getAcceptCguUrl()}`, () => {
     return HttpResponse.json<AcceptedCguDTO>(mockedAcceptedCgu, {
       status: HttpStatusCode.OK,
