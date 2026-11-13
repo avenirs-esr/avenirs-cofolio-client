@@ -72,10 +72,10 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
         </div>
       </template>
       <template #footer>
-        <div class="av-hidden av-unhidden--md av-px-xs w-full">
+        <div class="av-px-xs w-full">
           <span
             data-testid="activity-library-card-summary"
-            class="activity-library-card__summary av-text-text2 caption-light"
+            class="activity-library-card__summary av-text-text2 caption-light av-max-lines"
           >
             {{ activity.summary }}
           </span>
@@ -90,10 +90,9 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
   &__summary {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
     overflow: hidden;
     width: 100%;
+    --max-lines: 3;
   }
 }
 </style>
