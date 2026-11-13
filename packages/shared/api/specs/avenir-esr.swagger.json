@@ -3300,6 +3300,46 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/sub-activities/{subActivityId}": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getSubActivityDetails",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityContentDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/feedbacks": {
       "get": {
         "tags": [
@@ -8001,6 +8041,16 @@
           "assessment": {
             "$ref": "#/components/schemas/ActivityAssessmentDTO"
           },
+          "mainActivityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubActivityOverviewDTO"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -8018,6 +8068,7 @@
           "id",
           "national",
           "rights",
+          "subActivities",
           "summary",
           "title",
           "traceAllowedAssociations",

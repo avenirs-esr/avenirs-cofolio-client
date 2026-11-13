@@ -1,4 +1,4 @@
-import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, GetDeclaredActivitiesViewParams, PagedResponseDeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, GetDeclaredActivitiesViewParams, PagedResponseDeclaredActivityViewDTO, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import {
   EActivityStatus,
   EActivityThematic,
@@ -301,6 +301,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
     traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
     rights: [],
+    subActivities: [],
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z'
   },
@@ -407,6 +408,23 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
 ]
 
 export const ACTIVITY_IDS_WITH_ASSESSMENT = new Set(['declared-activity-7', 'declared-activity-8'])
+
+export const DECLARED_ACTIVITY_IDS_WITH_SUB_ACTIVITIES = new Set(['declared-activity-4'])
+
+export const mockedSubActivities: SubActivityOverviewDTO[] = [
+  {
+    id: '5b8e2f1a-3c4d-4e6f-9a7b-1c2d3e4f5a61',
+    title: 'J\'identifie mes expériences marquantes',
+  },
+  {
+    id: '5b8e2f1a-3c4d-4e6f-9a7b-1c2d3e4f5a62',
+    title: 'Je structure mes expériences selon mon projet professionnel',
+  },
+  {
+    id: '5b8e2f1a-3c4d-4e6f-9a7b-1c2d3e4f5a63',
+    title: 'Je rédige la description de mes expériences',
+  },
+]
 
 export function createMockedPagedResponseDeclaredActivityViewDTO (
   pageSize: number,
@@ -567,7 +585,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },
-    subActivities: mockedDeclaredActivityDetails.subActivities,
+    subActivities: DECLARED_ACTIVITY_IDS_WITH_SUB_ACTIVITIES.has(id) ? mockedSubActivities : mockedDeclaredActivityDetails.subActivities,
     endDate: mockedDeclaredActivityDetails.endDate?.slice(0, 10) ?? '',
     valorized: selectedActivity?.valorized ?? mockedDeclaredActivityDetails.valorized,
     createdAt: mockedDeclaredActivityDetails.createdAt,
@@ -586,5 +604,39 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
           student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas.tessier@university.com' },
         }]
       : undefined,
+  }
+}
+
+export function createMockedSubActivityContent (declaredActivityId: string, subActivityId: string): ActivityContentDTO | undefined {
+  const { activity, subActivities } = createMockedDeclaredActivityDetails(declaredActivityId)
+  const subActivity = subActivities.find(({ id }) => id === subActivityId)
+
+  if (!subActivity) {
+    return undefined
+  }
+
+  return {
+    ...activity,
+    id: subActivity.id,
+    title: subActivity.title,
+    summary: `Résumé de la sous-activité "${subActivity.title}"`,
+    description: '<h3>Consigne</h3><p>Prenez le temps de lister vos expériences personnelles et professionnelles, puis identifiez pour chacune les compétences mobilisées.</p>',
+    recommendedCompletionContexts: '- En autonomie\n- Avant l\'entretien de suivi avec un.e conseiller/conseillère',
+    startDate: '2024-02-01',
+    endDate: '2024-03-15',
+    files: [
+      {
+        id: 'sub-activity-file-1',
+        fileName: 'grille-experiences.pdf',
+        url: 'https://example.com/grille-experiences.pdf',
+        fileType: EFileType.PDF,
+        fileSize: 102400,
+        uploadedAt: '2024-01-15T10:30:00',
+      },
+    ],
+    links: ['https://example.com/valoriser-ses-experiences'],
+    assessment: undefined,
+    mainActivityId: activity.id,
+    subActivities: [],
   }
 }

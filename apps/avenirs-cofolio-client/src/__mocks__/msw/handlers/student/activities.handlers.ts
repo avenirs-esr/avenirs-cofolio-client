@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import {
 
@@ -15,6 +15,7 @@ import {
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getGetSubActivityDetailsUrl,
   getSubmitForAssessmentUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
@@ -30,6 +31,7 @@ import {
   createMockedDeclaredActivitiesViewResponse,
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedSubActivityContent,
   mockedActivityDetail,
   mockedDeclaredActivitiesOverview,
   mockedDeclaredActivityDetails,
@@ -208,6 +210,29 @@ export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredAc
         'Content-Type': 'application/json'
       }
     }
+  )
+})
+
+export const subActivityDetailsHandler = http.get(`*${getGetSubActivityDetailsUrl(':declaredActivityId', ':subActivityId')}`, ({ params }) => {
+  const subActivityContent = createMockedSubActivityContent(params.declaredActivityId as string, params.subActivityId as string)
+
+  if (!subActivityContent) {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Sub-activity not found' },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<ActivityContentDTO>(subActivityContent, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
+export const subActivityDetailsErrorHandler = http.get(`*${getGetSubActivityDetailsUrl(':declaredActivityId', ':subActivityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
@@ -565,6 +590,7 @@ export const activitiesHandlers = [
   latestActivitiesHandler,
   activityDetailHandler,
   declaredActivityDetailsHandler,
+  subActivityDetailsHandler,
   subscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
   submitForAssessmentHandler,

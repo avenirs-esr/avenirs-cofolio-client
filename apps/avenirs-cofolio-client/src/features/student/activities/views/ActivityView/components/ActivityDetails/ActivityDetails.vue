@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
-import { isAssessmentEnabled } from '@/common/activities/rules/activities.rules'
+import { isAssessmentEnabled, isSubActivity } from '@/common/activities/rules/activities.rules'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
@@ -21,14 +21,16 @@ export interface ActivityDetailsProps {
 const { declaredActivityDetails } = defineProps<ActivityDetailsProps>()
 const { t } = useI18n()
 const activity = computed(() => declaredActivityDetails.activity)
+const subActivityMode = computed(() => isSubActivity(activity.value))
 const isActivityPeriodDefined = computed(() => !!activity.value.startDate || !!activity.value.endDate)
-const hasPeriodInfo = computed(() => isActivityPeriodDefined.value || !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
+const isStudentPeriodDefined = computed(() => !subActivityMode.value && (!!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate))
+const hasPeriodInfo = computed(() => isActivityPeriodDefined.value || isStudentPeriodDefined.value)
 const periodStartDate = computed(() => isActivityPeriodDefined.value ? activity.value.startDate : declaredActivityDetails.startDate)
 const periodEndDate = computed(() => isActivityPeriodDefined.value ? activity.value.endDate : declaredActivityDetails.endDate)
 
 const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (activity.value.links?.length ?? 0))
 
-const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
+const hasAssessment = computed(() => !subActivityMode.value && isAssessmentEnabled(activity.value))
 </script>
 
 <template>
@@ -36,7 +38,10 @@ const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
     class="av-col av-gap-md"
     data-testid="activity-details"
   >
-    <ValorizedBadge :valorized="declaredActivityDetails.valorized" />
+    <ValorizedBadge
+      v-if="!subActivityMode"
+      :valorized="declaredActivityDetails.valorized"
+    />
     <ActivityPeriodDisplay
       v-if="hasPeriodInfo"
       :start-date="periodStartDate"
@@ -87,28 +92,33 @@ const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
       />
     </IconTitleCardContainer>
 
-    <AvIconText
-      :text="t('student.activities.views.ActivityView.ActivityDetails.modalities.title')"
-      typography-class="n5"
-      icon-color="var(--icon)"
-      :icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
-      text-color="var(--text1)"
-    />
-
-    <div class="av-col av-gap-sm">
-      <FeedbackInfoCard
-        :activity="declaredActivityDetails"
-        :show-additional-info="false"
+    <template v-if="!subActivityMode">
+      <AvIconText
+        :text="t('student.activities.views.ActivityView.ActivityDetails.modalities.title')"
+        typography-class="n5"
+        icon-color="var(--icon)"
+        :icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
+        text-color="var(--text1)"
       />
 
-      <TraceAssociationLimitCard
-        :trace-allowed-associations="activity.traceAllowedAssociations"
-        :icon="ICONS.TRACES"
-        :title="t('student.activities.views.ActivityView.ActivityDetails.modalities.traceAssociationTitle')"
-      />
+      <div
+        class="av-col av-gap-sm"
+        data-testid="activity-modalities"
+      >
+        <FeedbackInfoCard
+          :activity="declaredActivityDetails"
+          :show-additional-info="false"
+        />
 
-      <AssessmentInfoCard :assessment="activity.assessment" />
-    </div>
+        <TraceAssociationLimitCard
+          :trace-allowed-associations="activity.traceAllowedAssociations"
+          :icon="ICONS.TRACES"
+          :title="t('student.activities.views.ActivityView.ActivityDetails.modalities.traceAssociationTitle')"
+        />
+
+        <AssessmentInfoCard :assessment="activity.assessment" />
+      </div>
+    </template>
 
     <ReceivedAssessmentSection
       v-if="hasAssessment"

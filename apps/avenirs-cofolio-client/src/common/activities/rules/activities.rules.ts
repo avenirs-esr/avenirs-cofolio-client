@@ -68,6 +68,10 @@ export function isAssessmentEnabled (activity: Pick<ActivityContentDTO, 'assessm
   return !!activity.assessment
 }
 
+export function isSubActivity (activity: Pick<ActivityContentDTO, 'mainActivityId'>): boolean {
+  return !!activity.mainActivityId
+}
+
 export function hasPendingFeedback (feedbacks?: FeedbackOverviewDTO[]): boolean {
   return feedbacks?.some(feedback => feedback.status === EFeedbackStatus.NEW || feedback.status === EFeedbackStatus.IN_PROCESS) ?? false
 }

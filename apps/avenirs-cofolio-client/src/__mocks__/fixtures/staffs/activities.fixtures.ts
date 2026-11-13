@@ -64,6 +64,7 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: false,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -100,6 +101,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -118,6 +120,7 @@ export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -135,6 +138,7 @@ export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 5,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-16T10:00:00Z',
 }
@@ -152,6 +156,7 @@ export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
   traceAllowedAssociations: 2,
   feedbackAllowedIterations: 1,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-02-01T09:00:00Z',
   updatedAt: '2024-02-02T09:00:00Z',
 }
@@ -169,6 +174,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
   traceAllowedAssociations: 4,
   feedbackAllowedIterations: 3,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-03-10T14:00:00Z',
   updatedAt: '2024-03-11T14:00:00Z',
 }
@@ -187,6 +193,7 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
   rights: Object.values(EActivityRight),
+  subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
