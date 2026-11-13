@@ -80,6 +80,7 @@ const sideNavigationItems = computed<AvSideNavigationMenuItem[]>(() =>
     id: item.id,
     label: item.label,
     icon: item.icon,
+    index: item.index,
   })),
 )
 

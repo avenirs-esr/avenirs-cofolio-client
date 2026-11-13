@@ -8217,6 +8217,22 @@
           "valorized"
         ]
       },
+      "SubActivityOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
       "UserInfoDTO": {
         "type": "object",
         "properties": {
@@ -8943,6 +8959,12 @@
           "activity": {
             "$ref": "#/components/schemas/ActivityContentDTO"
           },
+          "subActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubActivityOverviewDTO"
+            }
+          },
           "status": {
             "type": "string",
             "$ref": "#/components/schemas/EDeclaredActivityStatus",
@@ -8997,6 +9019,7 @@
           "createdAt",
           "id",
           "status",
+          "subActivities",
           "updatedAt",
           "valorized"
         ]
