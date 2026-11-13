@@ -9,13 +9,11 @@ import { mockedDeclaredProgramAssociations, mockedEmptyAssociations } from '@/__
 import {
   declaredProgramDetailedErrorHandler,
   declaredProgramDetailedLoadingHandler,
-  declaredProgramDetailedNotFoundHandler
+  declaredProgramDetailedNotFoundHandler,
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
 import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
@@ -24,7 +22,6 @@ import DeclaredProgramDetailedView from '@/features/student/personalCareer/views
 
 const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
 
-const routerReplace = vi.fn()
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn(() => {
   mockModalOpened.value = true
@@ -32,26 +29,16 @@ const mockOpenModal = vi.fn(() => {
 const mockCloseModal = vi.fn(() => {
   mockModalOpened.value = false
 })
+
 const navigateToStudentUpdateDeclaredProgram = vi.fn()
 const navigateToStudentDeclaredPrograms = vi.fn()
 const navigateToStudentToolsKitUpdateDeclaredProgram = vi.fn()
 const navigateToStudentToolsKitDeclaredPrograms = vi.fn()
-const mockIsMobile = ref(false)
-
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-  return {
-    ...actual,
-    useAvBreakpoints: () => ({
-      isMobile: mockIsMobile,
-    })
-  }
-})
 
 const route = reactive<{ name: string, params: { id: string } }>({
   name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
   params: {
-    id: ''
+    id: '',
   },
 })
 
@@ -61,33 +48,32 @@ vi.mock('vue-router', async (importOriginal) => {
   return {
     ...actual,
     useRoute: () => route,
-    useRouter: () => ({
-      replace: routerReplace
-    })
   }
 })
 
 vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+
   return {
     ...actual,
     useModal: () => ({
       modalOpened: mockModalOpened,
       openModal: mockOpenModal,
-      closeModal: mockCloseModal
+      closeModal: mockCloseModal,
     }),
   }
 })
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
+
   return {
     ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredProgram,
       navigateToStudentDeclaredPrograms,
       navigateToStudentToolsKitUpdateDeclaredProgram,
-      navigateToStudentToolsKitDeclaredPrograms
+      navigateToStudentToolsKitDeclaredPrograms,
     }),
   }
 })
@@ -101,8 +87,6 @@ const stubs = {
   ElementAssociations: ElementAssociationsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
-  AssociateModal: AssociateModalStub,
-  DeleteAssociationsModal: DeleteAssociationsModalStub
 }
 
 BddTest().given('a declared program detailed view component', () => {
@@ -115,8 +99,9 @@ BddTest().given('a declared program detailed view component', () => {
 
   const mountWith = async (programId = 'declared-program-1') => {
     route.params.id = programId
+
     wrapper = mountComponent(DeclaredProgramDetailedView, {
-      global: { stubs }
+      global: { stubs },
     })
   }
 
@@ -135,7 +120,8 @@ BddTest().given('a declared program detailed view component', () => {
     await vi.waitFor(() => {
       expect(getAvTabs().exists()).toBe(true)
     })
-    getAvTabs().vm.$emit('update:modelValue', tab)
+
+    await getAvTabs().vm.$emit('update:modelValue', tab)
     await flushPromises()
   }
 
@@ -143,15 +129,16 @@ BddTest().given('a declared program detailed view component', () => {
     await vi.waitFor(() => {
       expect(getManageDropdown().exists()).toBe(true)
     })
-    getManageDropdown().vm.$emit(action)
+
+    await getManageDropdown().vm.$emit(action)
     await flushPromises()
   }
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks()
     mockModalOpened.value = false
     route.name = ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name
-    await flushPromises()
+    route.params.id = ''
   })
 
   afterEach(() => {
@@ -166,7 +153,9 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should render DetailPageTitle with the program title and trailing links', async () => {
       await vi.waitFor(() => {
         expect(getPageTitle().props('title')).toBe('Formation déclarée 1')
-        expect(getPageTitle().props('trailingLinks')).toEqual([{ text: 'Formation déclarée 1' }])
+        expect(getPageTitle().props('trailingLinks')).toEqual([
+          { text: 'Formation déclarée 1' },
+        ])
       })
     })
 
@@ -174,12 +163,14 @@ BddTest().given('a declared program detailed view component', () => {
       await vi.waitFor(() => {
         expect(getDeclaredProgramDetailed().exists()).toBe(true)
       })
+
       expect(getQuerySuspenseError().exists()).toBe(false)
     })
 
     BddTest().then('it should render the manage declared program dropdown', async () => {
       await vi.waitFor(() => {
         expect(getManageDropdown().exists()).toBe(true)
+        expect(getManageDropdown().props('declaredProgramId')).toBe('declared-program-1')
       })
     })
 
@@ -197,8 +188,14 @@ BddTest().given('a declared program detailed view component', () => {
 
     BddTest().then('it should render DeclaredProgramDetailed in the details tab', async () => {
       await vi.waitFor(() => {
-        expect(getDeclaredProgramDetailed().props('declaredProgramDetailed').title).toBe('Formation déclarée 1')
+        expect(getDeclaredProgramDetailed().props('declaredProgramDetailed').title)
+          .toBe('Formation déclarée 1')
       })
+    })
+
+    BddTest().then('it should pass the selected program identifier to the delete modal', () => {
+      expect(getDeleteModal().props('declaredProgramIds')).toEqual(['declared-program-1'])
+      expect(getDeleteModal().props('opened')).toBe(false)
     })
 
     BddTest().and('the associations tab is selected', () => {
@@ -232,6 +229,7 @@ BddTest().given('a declared program detailed view component', () => {
 
       BddTest().then('it should navigate to the update declared program route', () => {
         expect(navigateToStudentUpdateDeclaredProgram).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentToolsKitUpdateDeclaredProgram).not.toHaveBeenCalled()
       })
     })
 
@@ -240,33 +238,37 @@ BddTest().given('a declared program detailed view component', () => {
         await selectDropdownAction('delete')
       })
 
-      BddTest().then('it should display the delete declared program confirmation modal', () => {
+      BddTest().then('it should open the delete declared program confirmation modal', () => {
         expect(mockOpenModal).toHaveBeenCalledTimes(1)
+        expect(getDeleteModal().props('opened')).toBe(true)
       })
 
       BddTest().and('the user closes the delete confirmation modal', () => {
         beforeEach(async () => {
-          getDeleteModal().vm.$emit('close')
+          await getDeleteModal().vm.$emit('close')
           await flushPromises()
         })
 
-        BddTest().then('it should hide the delete declared program confirmation modal', () => {
+        BddTest().then('it should close the delete confirmation modal', () => {
           expect(mockCloseModal).toHaveBeenCalledTimes(1)
+          expect(getDeleteModal().props('opened')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms deletion in the delete confirmation modal', () => {
         beforeEach(async () => {
-          getDeleteModal().vm.$emit('confirm')
+          await getDeleteModal().vm.$emit('confirm')
           await flushPromises()
         })
 
-        BddTest().then('it should hide the delete declared program confirmation modal', () => {
+        BddTest().then('it should close the delete confirmation modal', () => {
           expect(mockCloseModal).toHaveBeenCalledTimes(1)
+          expect(getDeleteModal().props('opened')).toBe(false)
         })
 
         BddTest().then('it should navigate to the declared programs list route', () => {
           expect(navigateToStudentDeclaredPrograms).toHaveBeenCalledWith({ replace: true })
+          expect(navigateToStudentToolsKitDeclaredPrograms).not.toHaveBeenCalled()
         })
       })
     })
@@ -280,7 +282,8 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should render the title and details of that program', async () => {
       await vi.waitFor(() => {
         expect(getPageTitle().props('title')).toBe('Formation déclarée 2')
-        expect(getDeclaredProgramDetailed().props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
+        expect(getDeclaredProgramDetailed().props('declaredProgramDetailed').title)
+          .toBe('Formation déclarée 2')
       })
     })
   })
@@ -319,6 +322,7 @@ BddTest().given('a declared program detailed view component', () => {
       await vi.waitFor(() => {
         expect(getQuerySuspenseError().exists()).toBe(true)
       })
+
       expect(getDeclaredProgramDetailed().exists()).toBe(false)
       expect(getAvTabs().exists()).toBe(false)
     })
@@ -334,7 +338,9 @@ BddTest().given('a declared program detailed view component', () => {
       await vi.waitFor(() => {
         expect(getQuerySuspenseError().exists()).toBe(true)
         expect(getQuerySuspense().props('errorTitle')).toBe('Formation déclarée introuvable')
-        expect(getQuerySuspense().props('errorDescription')).toBe('La formation déclarée que vous recherchez n\'existe pas ou n\'est pas accessible.')
+        expect(getQuerySuspense().props('errorDescription')).toBe(
+          'La formation déclarée que vous recherchez n\'existe pas ou n\'est pas accessible.',
+        )
       })
     })
 
@@ -348,6 +354,7 @@ BddTest().given('a declared program detailed view component', () => {
       await vi.waitFor(() => {
         expect(getQuerySuspenseError().exists()).toBe(true)
       })
+
       expect(getDeclaredProgramDetailed().exists()).toBe(false)
       expect(getManageDropdown().exists()).toBe(false)
       expect(getAvTabs().exists()).toBe(false)
@@ -366,6 +373,7 @@ BddTest().given('a declared program detailed view component', () => {
         const elementAssociations = getElementAssociations()
 
         expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
         expect(elementAssociations.props('elementId')).toBe('declared-program-WITHOUT_ASSOCIATIONS')
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
         expect(elementAssociations.props('error')).toBeNull()
@@ -375,24 +383,6 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should display no association in the tab title', async () => {
       await vi.waitFor(() => {
         expect(getActiveAvTab().props('title')).toBe('Mes associations (0)')
-      })
-    })
-  })
-
-  BddTest().when('the declared program query fails', () => {
-    beforeEach(async () => {
-      await mountWith('INVALID_PROGRAM_ID')
-    })
-
-    BddTest().then('it should pass the declared program error to QuerySuspense', async () => {
-      await vi.waitFor(() => {
-        expect(getQuerySuspense().props('error')).toBeTruthy()
-      })
-    })
-
-    BddTest().then('it should not render tabs', async () => {
-      await vi.waitFor(() => {
-        expect(getAvTabs().exists()).toBe(false)
       })
     })
   })
@@ -414,10 +404,10 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
-    BddTest().and('the program is deleted', () => {
+    BddTest().and('the program deletion is confirmed', () => {
       beforeEach(async () => {
         await selectDropdownAction('delete')
-        getDeleteModal().vm.$emit('confirm')
+        await getDeleteModal().vm.$emit('confirm')
         await flushPromises()
       })
 
