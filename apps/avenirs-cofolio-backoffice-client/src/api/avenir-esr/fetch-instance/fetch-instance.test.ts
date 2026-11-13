@@ -1,18 +1,13 @@
 import type { AvLocale } from '@avenirs-esr/shared'
-import type { CguDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
+import { createGetAlertConfigHandler } from '@/__mocks__/msw/handlers/global-alert.handlers'
 import { server } from '@/__mocks__/msw/server'
 
 BddTest().given('the Backoffice shared HTTP configuration', () => {
-  const cgu: CguDTO = {
-    id: 'cgu-id',
-    version: 1,
-    uploadedAt: '2026-11-12T12:00:00Z',
-    content: 'Terms of service',
-  }
   const onRequest = vi.fn<(request: Request) => void>()
   let shared: typeof import('@avenirs-esr/shared')
   let api: typeof import('@avenirs-esr/shared/api/avenir-esr')
@@ -32,10 +27,7 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
     await import('@/api/avenir-esr/fetch-instance/fetch-instance')
     api = await import('@avenirs-esr/shared/api/avenir-esr')
 
-    server.use(http.get(`*${api.getGetLatestCguUrl()}`, ({ request }) => {
-      onRequest(request)
-      return HttpResponse.json(cgu)
-    }))
+    server.use(createGetAlertConfigHandler(onRequest))
   })
 
   afterEach(() => {
@@ -61,15 +53,15 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
   })
 
   BddTest().when('a shared request is made', () => {
-    let result: CguDTO
+    let result: AlertConfigurationDTO
 
     beforeEach(async () => {
-      result = await api.getLatestCgu()
+      result = await api.getAlertConfig()
     })
 
     BddTest().then('it uses the Backoffice API base URL', () => {
       expect(onRequest).toHaveBeenCalledTimes(1)
-      expect(onRequest.mock.calls[0][0].url).toBe(`${__BASE_URL__.replace(/\/$/, '')}${api.getGetLatestCguUrl()}`)
+      expect(onRequest.mock.calls[0][0].url).toBe(`${__BASE_URL__.replace(/\/$/, '')}${api.getGetAlertConfigUrl()}`)
     })
 
     BddTest().then('it applies the Backoffice headers', () => {
@@ -83,15 +75,15 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
     })
 
     BddTest().then('it returns the response through the Backoffice response interceptor', () => {
-      expect(result).toEqual(cgu)
+      expect(result).toEqual(mockedAlertConfigurationDTO)
     })
   })
 
   BddTest().when('the locale changes after initialization', () => {
     beforeEach(async () => {
-      await api.getLatestCgu()
+      await api.getAlertConfig()
       i18n.global.locale.value = 'en'
-      await api.getLatestCgu()
+      await api.getAlertConfig()
     })
 
     BddTest().then('it reads the current application locale for each request', () => {
@@ -104,7 +96,7 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
   BddTest().when('the locale is unsupported', () => {
     beforeEach(async () => {
       i18n.global.locale.value = 'unknown' as AvLocale
-      await api.getLatestCgu()
+      await api.getAlertConfig()
     })
 
     BddTest().then('it falls back to French', () => {
@@ -125,7 +117,7 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
     }
 
     beforeEach(async () => {
-      await api.getLatestCgu(requestOptions)
+      await api.getAlertConfig(requestOptions)
     })
 
     BddTest().then('it preserves custom options while applying application authentication', () => {

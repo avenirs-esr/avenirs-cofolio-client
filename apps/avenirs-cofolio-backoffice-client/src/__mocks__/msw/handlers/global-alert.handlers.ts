@@ -7,6 +7,13 @@ import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.f
 
 export const getAlertConfigErrorHandler = http.get(`*${getGetAlertConfigUrl()}`, internalServerError)
 
+export function createGetAlertConfigHandler (onRequest?: (request: Request) => void): HttpHandler {
+  return http.get(`*${getGetAlertConfigUrl()}`, ({ request }) => {
+    onRequest?.(request)
+    return successJsonResponse(mockedAlertConfigurationDTO)
+  })
+}
+
 export function createPutAlertConfigHandler (onRequest?: (alert: AlertConfigurationDTO) => void): HttpHandler {
   return http.put(`*${getPutAlertConfigUrl()}`, async ({ request }) => {
     const alert = await request.json() as AlertConfigurationDTO
@@ -18,6 +25,6 @@ export function createPutAlertConfigHandler (onRequest?: (alert: AlertConfigurat
 export const putAlertErrorHandler = http.put(`*${getPutAlertConfigUrl()}`, internalServerError)
 
 export const globalAlertHandlers = [
-  http.get(`*${getGetAlertConfigUrl()}`, () => successJsonResponse(mockedAlertConfigurationDTO)),
+  createGetAlertConfigHandler(),
   createPutAlertConfigHandler(),
 ]
