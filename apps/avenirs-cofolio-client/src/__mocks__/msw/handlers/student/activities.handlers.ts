@@ -15,6 +15,7 @@ import {
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getGetSubActivityDetailsUrl,
   getSubmitForAssessmentUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
@@ -22,7 +23,7 @@ import {
   getUpdateReflectionUrl
 
 } from '@avenirs-esr/shared/api/avenir-esr'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import { createEmptyPaginatedDatasetResponse, internalServerError, isEmptyDataSetRequest, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
@@ -30,6 +31,7 @@ import {
   createMockedDeclaredActivitiesViewResponse,
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedSubActivityContent,
   mockedActivityDetail,
   mockedDeclaredActivitiesOverview,
   mockedDeclaredActivityDetails,
@@ -209,6 +211,23 @@ export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredAc
       }
     }
   )
+})
+
+export const subActivityDetailsHandler = http.get(`*${getGetSubActivityDetailsUrl(':declaredActivityId', ':subActivityId')}`, ({ params }) => {
+  if (params.subActivityId === 'INTERNAL_ERROR_ID') {
+    return internalServerError()
+  }
+
+  const subActivityContent = createMockedSubActivityContent(params.declaredActivityId as string, params.subActivityId as string)
+
+  if (!subActivityContent) {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Sub-activity not found' },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return successJsonResponse(subActivityContent)
 })
 
 export const activitiesViewHandler = http.get(
@@ -565,6 +584,7 @@ export const activitiesHandlers = [
   latestActivitiesHandler,
   activityDetailHandler,
   declaredActivityDetailsHandler,
+  subActivityDetailsHandler,
   subscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
   submitForAssessmentHandler,

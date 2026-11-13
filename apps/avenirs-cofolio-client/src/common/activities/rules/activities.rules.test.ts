@@ -15,6 +15,7 @@ import {
   isDeclaredActivityUnsubscribed,
   isDeletableDeclaredActivityAssociation,
   isPerspectiveEditingDisabled,
+  isSubActivity,
   shouldDisplayTraceLimit
 } from '@/common/activities/rules/activities.rules'
 
@@ -322,6 +323,21 @@ BddTest().given('isAssessmentEnabled', () => {
       expect(isAssessmentEnabled(buildActivity({ comment: true }))).toBe(true)
       expect(isAssessmentEnabled(buildActivity({ grade: 0 }))).toBe(true)
       expect(isAssessmentEnabled(buildActivity({ validation: true }))).toBe(true)
+    })
+  })
+})
+
+BddTest().given('isSubActivity', () => {
+  BddTest().when('the activity has no main activity', () => {
+    BddTest().then('it should return false', () => {
+      expect(isSubActivity({ mainActivityId: undefined })).toBe(false)
+      expect(isSubActivity({})).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity is attached to a main activity', () => {
+    BddTest().then('it should return true', () => {
+      expect(isSubActivity({ mainActivityId: 'main-activity-id' })).toBe(true)
     })
   })
 })

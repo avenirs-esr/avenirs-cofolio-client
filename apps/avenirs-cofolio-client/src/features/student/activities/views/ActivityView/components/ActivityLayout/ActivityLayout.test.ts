@@ -297,7 +297,7 @@ BddTest().given('a project activity layout component', () => {
       expect(componentBySection['sub-activity-2']).toBe(SubActivityDetails)
     })
 
-    BddTest().then('it should pass each sub-activity in props by section', () => {
+    BddTest().then('it should pass the declared activity and each sub-activity in props by section', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
 
       expect(sectionNavigationLayout.props('propsBySection')).toEqual({
@@ -308,9 +308,17 @@ BddTest().given('a project activity layout component', () => {
           },
         },
         'sub-activity-1': {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
           subActivity: subActivities[0],
         },
         'sub-activity-2': {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            subActivities,
+          },
           subActivity: subActivities[1],
         },
         [ActivitySections.MY_PERSPECTIVE]: {
