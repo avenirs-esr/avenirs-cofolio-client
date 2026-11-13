@@ -10,6 +10,7 @@ export const ROUTES = {
     CGU: { name: 'auth-cgu', path: 'cgu' },
     COOKIES: { name: 'auth-cookies', path: 'cookies' },
     LOGIN: { name: 'auth-login', path: 'login' },
+    NO_ACCOUNT: { name: 'auth-no-account', path: 'no-account' },
     PERSONAL_DATA: { name: 'auth-personal-data', path: 'personal-data' },
   },
 

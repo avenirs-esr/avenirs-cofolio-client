@@ -56,7 +56,11 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => { // Cf. https://github.com/vueuse/head pour des transformations avancées de Head
-  const { ensureSession, isLoggedIn } = useAuthStore()
+  const { ensureSession, isLoggedIn, noAccount } = useAuthStore()
+
+  if (to.name === ROUTES.AUTH.NO_ACCOUNT.name && !noAccount) {
+    return { name: 'home' }
+  }
 
   if (to.name === ROUTES.AUTH.LOGIN.name && isLoggedIn) {
     const redirect = to.query.redirect

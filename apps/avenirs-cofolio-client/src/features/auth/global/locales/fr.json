@@ -10,6 +10,13 @@
             }
           },
           "title": "Connexion à Cofolio"
+        },
+        "NoAccountView": {
+          "description": "Vous êtes bien connecté, mais votre identifiant n'est rattaché à aucun compte Cofolio connu. Un super administrateur doit vous attribuer manuellement un compte : merci de patienter.",
+          "hint": "Une fois votre compte attribué, reconnectez-vous pour accéder à Cofolio.",
+          "identifier": "Identifiant de connexion",
+          "logout": "Me déconnecter",
+          "title": "Compte en attente d'attribution"
         }
       }
     }

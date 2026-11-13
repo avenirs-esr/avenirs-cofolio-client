@@ -3,7 +3,7 @@ import type { EUserCategory, LoggedInUserDTO } from '@avenirs-esr/shared/api/ave
 import type { DeepReadonly } from 'vue'
 import type { LocationQueryValueRaw, RouteLocationRaw } from 'vue-router'
 import { HttpStatusCode } from '@avenirs-esr/shared'
-import { getMe } from '@avenirs-esr/shared/api/avenir-esr'
+import { EErrorCode, getMe } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { defineStore } from 'pinia'
 import { onScopeDispose } from 'vue'
@@ -22,6 +22,7 @@ import { useToasterStore } from '@/store'
  * `/me` is then called to confirm before deciding whether the user must log in again:
  * - valid: the session is refreshed and the request is replayed.
  * - unauthorized: the session is invalidated and the user is redirected to login.
+ * - no account: the user is authenticated but not linked to any external user, they are redirected to a waiting page.
  * - any other failure: the error is displayed and the current session is kept.
  */
 export const useAuthStore = defineStore('auth', () => {
@@ -30,6 +31,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const session = ref<LoggedInUserDTO>()
   const selectedUserCategory = ref<EUserCategory>()
+
+  const noAccount = ref<{ identifier?: string }>()
 
   const isLoggedIn = computed(() => !!session.value)
 
@@ -56,12 +59,19 @@ export const useAuthStore = defineStore('auth', () => {
     revalidation ??= (async (): Promise<SessionCheck> => {
       try {
         session.value = await getMe(fetchOptions)
+        noAccount.value = undefined
         redirecting = false // A session is back: any earlier redirect to login is over
 
         return SessionCheck.VALID
       }
       catch (error) {
-        const { status, message } = error as BaseApiException
+        const { status, message, code, details } = error as BaseApiException
+
+        if (code === EErrorCode.EXTERNAL_USER_NOT_FOUND) {
+          noAccount.value = { identifier: details?.uniqueSecurityName as string | undefined }
+
+          return SessionCheck.NO_ACCOUNT
+        }
 
         if (status === HttpStatusCode.UNAUTHORIZED) {
           return SessionCheck.UNAUTHORIZED
@@ -104,6 +114,8 @@ export const useAuthStore = defineStore('auth', () => {
     switch (await revalidateSession()) {
       case SessionCheck.UNAUTHORIZED:
         return redirectToLogin(to) ?? false
+      case SessionCheck.NO_ACCOUNT:
+        return { name: ROUTES.AUTH.NO_ACCOUNT.name }
       case SessionCheck.ERROR:
         return hadSession ? undefined : false
     }
@@ -258,7 +270,8 @@ export const useAuthStore = defineStore('auth', () => {
     session: session as DeepReadonly<typeof session>, // A runtime readonly() would break the restoration of the persisted state
     patchSession,
     invalidateSession,
-    selectedUserCategory
+    selectedUserCategory,
+    noAccount
   }
 }, {
   persist: [

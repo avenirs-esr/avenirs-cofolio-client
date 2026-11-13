@@ -6,7 +6,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { meServerErrorHandler, meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
+import { meExternalUserNotFoundHandler, meServerErrorHandler, meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
@@ -160,6 +160,23 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
     BddTest().then('it should invalidate the session and clear the cached queries', () => {
       expect(mockClear).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  BddTest().when('ensureSession is called without a session and the api answers external user not found', () => {
+    beforeEach(async () => {
+      server.use(meExternalUserNotFoundHandler)
+      route = await store.ensureSession(TARGET)
+    })
+
+    BddTest().then('it should return the no account route without displaying any error', () => {
+      expect(route).toEqual({ name: ROUTES.AUTH.NO_ACCOUNT.name })
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should keep the identifier of the unknown account and stay without a session', () => {
+      expect(store.noAccount).toEqual({ identifier: 'lucas.tessier@university.com' })
+      expect(store.isLoggedIn).toBe(false)
     })
   })
 

@@ -1,7 +1,7 @@
 import type { LoggedInUserDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PathParams } from 'msw'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
-import { ERole, EUniverse, getGetMeUrl } from '@avenirs-esr/shared/api/avenir-esr'
+import { EErrorCode, ERole, EUniverse, getGetMeUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 
@@ -22,6 +22,18 @@ export const meUnauthorizedHandler = http.get(`*${getGetMeUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Unauthorized' },
     { status: HttpStatusCode.UNAUTHORIZED }
+  )
+})
+
+export const meExternalUserNotFoundHandler = http.get(`*${getGetMeUrl()}`, () => {
+  return HttpResponse.json(
+    {
+      message: 'External user not found',
+      status: HttpStatusCode.NOT_FOUND,
+      code: EErrorCode.EXTERNAL_USER_NOT_FOUND,
+      details: { uniqueSecurityName: 'lucas.tessier@university.com' }
+    },
+    { status: HttpStatusCode.NOT_FOUND }
   )
 })
 
