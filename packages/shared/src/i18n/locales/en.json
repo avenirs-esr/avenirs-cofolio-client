@@ -87,6 +87,15 @@
             "unsetLink": "Remove link"
           }
         },
+        "lists": {
+          "SortableList": {
+            "dragLabel": "Move",
+            "moveUpLabel": "Move up",
+            "moveUpDisabledTooltip": "This item is already in the first position",
+            "moveDownLabel": "Move down",
+            "moveDownDisabledTooltip": "This item is already in the last position"
+          }
+        },
         "toggles": {
           "Toggle": {
             "activeText": "On",

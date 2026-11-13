@@ -87,6 +87,15 @@
             "unsetLink": "Supprimer le lien"
           }
         },
+        "lists": {
+          "SortableList": {
+            "dragLabel": "Déplacer",
+            "moveUpLabel": "Monter",
+            "moveUpDisabledTooltip": "Cet élément est déjà en première position",
+            "moveDownLabel": "Descendre",
+            "moveDownDisabledTooltip": "Cet élément est déjà en dernière position"
+          }
+        },
         "toggles": {
           "Toggle": {
             "activeText": "Oui",
