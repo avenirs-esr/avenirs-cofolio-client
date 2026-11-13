@@ -8,9 +8,9 @@ import type {
   FileDTO,
   InactiveStudentDTO,
   PagedResponseActivityStaffOverviewDTO,
-  StaffInfoDTO
+  StaffInfoDTO,
+  SubActivityOverviewDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
-import type { SubActivityOverviewDTO } from '@/api/avenir-esr'
 import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'

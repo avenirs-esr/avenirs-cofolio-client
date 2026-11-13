@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
-import type { SubActivityOverviewDTO } from '@/api/avenir-esr'
+import type { EActivityStatus, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvList, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'

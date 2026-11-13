@@ -1,1 +1,1 @@
-export * from '#shared/api/generated'
+export * from '#shared/api/generated/index'
