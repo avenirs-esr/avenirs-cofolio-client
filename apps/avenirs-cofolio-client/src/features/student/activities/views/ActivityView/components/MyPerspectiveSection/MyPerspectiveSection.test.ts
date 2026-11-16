@@ -1,6 +1,6 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import type { MyPerspectiveSectionProps } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
-import type { ElementAssociationsProps } from '@/features/student/associations'
+import type { ElementAssociationsCardsProps } from '@/features/student/associations'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ErrorCodes, LoaderStub } from '@avenirs-esr/shared'
@@ -18,7 +18,7 @@ import { TraceAssociationLimitCardStub } from '@/features/student/activities/vie
 import { MyPerspectiveSectionTab } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.types'
 import MyPerspectiveSection from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
 import { MyPerspectiveTabStub } from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.stub'
-import { createElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { createElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 
 const TITLE = 'Mes éléments associés ({count})'
@@ -40,7 +40,7 @@ vi.mock('@vueuse/router', () => ({
 
 const stubbedLimits = ref<Partial<Record<EAssociationContextType, AssociationLimitState>>>({})
 
-const ElementAssociationsWithLimitsStub = createElementAssociationsStub(associatedContextType => stubbedLimits.value[associatedContextType] ?? UNKNOWN_ASSOCIATION_LIMIT)
+const ElementAssociationsCardsWithLimitsStub = createElementAssociationsCardsStub(associatedContextType => stubbedLimits.value[associatedContextType] ?? UNKNOWN_ASSOCIATION_LIMIT)
 
 BddTest().given('a my perspective section', () => {
   let wrapper: VueWrapper<InstanceType<typeof MyPerspectiveSection>>
@@ -50,7 +50,7 @@ BddTest().given('a my perspective section', () => {
     AvTab: AvTabStub,
     Loader: LoaderStub,
     MyPerspectiveTab: MyPerspectiveTabStub,
-    ElementAssociations: ElementAssociationsWithLimitsStub,
+    ElementAssociationsCards: ElementAssociationsCardsWithLimitsStub,
     TraceAssociationLimitCard: TraceAssociationLimitCardStub,
   }
 
@@ -69,7 +69,7 @@ BddTest().given('a my perspective section', () => {
   const getTabs = () => wrapper.findComponent(AvTabsStub)
   const getActiveTab = () => wrapper.findComponent(AvTabStub)
   const getMyPerspectiveTab = () => wrapper.findComponent(MyPerspectiveTabStub)
-  const getElementAssociations = () => wrapper.findComponent(ElementAssociationsWithLimitsStub)
+  const getElementAssociationsCards = () => wrapper.findComponent(ElementAssociationsCardsWithLimitsStub)
   const getTraceLimitCard = () => wrapper.findComponent(TraceAssociationLimitCardStub)
   const getSection = () => wrapper.find('[data-testid="my-perspective-section"]')
 
@@ -101,9 +101,9 @@ BddTest().given('a my perspective section', () => {
     expect(getActiveTab().props('title')).toBe(TITLE.replace('{count}', String(count)))
   }
 
-  const expectActions = async (props: Partial<ElementAssociationsProps>) => {
+  const expectActions = async (props: Partial<ElementAssociationsCardsProps>) => {
     await vi.waitFor(() => {
-      const element = getElementAssociations()
+      const element = getElementAssociationsCards()
 
       expect(element.exists()).toBe(true)
       Object.entries(props).forEach(([key, value]) => {
@@ -111,7 +111,7 @@ BddTest().given('a my perspective section', () => {
           return
         }
 
-        const prop = element.props(key as keyof ElementAssociationsProps)
+        const prop = element.props(key as keyof ElementAssociationsCardsProps)
 
         if (Array.isArray(value)) {
           expect(prop).toEqual(value)
@@ -158,7 +158,7 @@ BddTest().given('a my perspective section', () => {
     })
 
     BddTest().then('it should not render the element associations before switching tabs', () => {
-      expect(getElementAssociations().exists()).toBe(false)
+      expect(getElementAssociationsCards().exists()).toBe(false)
     })
 
     BddTest().and('the user switches tabs to the associated elements tab', () => {

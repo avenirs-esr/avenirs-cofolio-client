@@ -1,4 +1,4 @@
-export { default as ElementAssociations, type ElementAssociationsProps } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
+export { default as ElementAssociationsCards, type ElementAssociationsCardsProps } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.vue'
 export { default as AssociateModal, type AssociateModalProps } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 export { default as DeleteAssociationsModal, type DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 export { default as AssociationSelectionSection, type AssociationSelectionSectionProps } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.vue'

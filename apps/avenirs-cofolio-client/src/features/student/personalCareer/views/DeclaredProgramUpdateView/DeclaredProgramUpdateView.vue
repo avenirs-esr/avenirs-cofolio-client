@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations, ElementAssociationsCards } from '@/features/student/associations'
 import DeclaredProgramUpdateForm
   from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
 import { DeclaredProgramUpdateViewTabs } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.types'
@@ -89,7 +89,7 @@ function onProgramUpdated () {
           :icon="ICONS.ASSOCIATIONS"
           data-testid="update-declared-program-associations-tab"
         >
-          <ElementAssociations
+          <ElementAssociationsCards
             :context-type="EAssociationContextType.DECLARED_PROGRAM"
             :element-id="selectedProgramId"
             :associations="declaredProgramAssociations"

@@ -12,7 +12,7 @@ import {
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
@@ -47,7 +47,7 @@ const stubs = {
   DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
@@ -69,7 +69,7 @@ BddTest().given('a student declared skill view', () => {
   }
   const getActiveTab = () => wrapper.findAllComponents(AvTabStub)[0]
   const getDetails = () => wrapper.findComponent(DeclaredSkillDetailsStub)
-  const getAssociations = () => wrapper.findComponent(ElementAssociationsStub)
+  const getAssociations = () => wrapper.findComponent(ElementAssociationsCardsStub)
   const getDeleteModal = () => wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
   const getErrorMessage = () => wrapper.findComponent(ErrorMessageStub)
 

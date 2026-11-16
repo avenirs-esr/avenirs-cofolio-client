@@ -13,7 +13,7 @@ import {
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { DeleteDeclaredExperienceConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
 import { DeclaredExperienceDetailsDropdownStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
@@ -59,7 +59,7 @@ const stubs = {
   DetailPageTitle: DetailPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailsStub,
-  ElementAssociations: ElementAssociationsStub,
+  ElementAssociationsCards: ElementAssociationsCardsStub,
   Loader: LoaderStub,
   DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub,
   DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
@@ -86,7 +86,7 @@ BddTest().given('a declared experience view component', () => {
   const getTabs = () => wrapper.findComponent(AvTabsStub)
   const getActiveTab = () => wrapper.findComponent(AvTabStub)
   const getDetails = () => wrapper.findComponent(DeclaredExperienceDetailsStub)
-  const getAssociations = () => wrapper.findComponent(ElementAssociationsStub)
+  const getAssociations = () => wrapper.findComponent(ElementAssociationsCardsStub)
   const getDeleteModal = () => wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
 
   beforeEach(() => {
