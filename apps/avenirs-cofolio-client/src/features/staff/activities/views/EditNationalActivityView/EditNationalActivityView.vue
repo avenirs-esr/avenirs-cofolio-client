@@ -25,6 +25,7 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
+import { useSaveState } from '@/common/composables/use-save-state/use-save-state'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
@@ -34,6 +35,7 @@ import { EditActivityFormDataBannerAction } from '@/features/staff/activities/ty
 import { toActivityAssessmentRequest } from '@/features/staff/activities/utils/activity-assessment'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
+import { useSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
 
@@ -61,7 +63,7 @@ const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTab
 const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { navigateToStaffActivities } = useNavigation()
-const { isLoading, withTaskLoading } = useTaskLoading()
+const { isLoading: isSavingForm, withTaskLoading } = useTaskLoading()
 
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
@@ -127,6 +129,7 @@ const {
   cancelAutoSave,
   pendingAutoSaveData
 } = useQueueAutoSave<ActivityDraftUpdateRequest>(save, ACTIVITY_AUTO_SAVE_DEBOUNCE)
+const subActivitiesOrder = useSubActivitiesOrder(() => id, () => content.value?.subActivities ?? [])
 
 const form = useForm({
   defaultValues,
@@ -175,9 +178,20 @@ const form = useForm({
   },
 })
 
-const isFormDirty = form.useStore(s => s.isDirty)
-const isUpdating = computed(() => contentIsLoading.value || presentationIsLoading.value || isLoading.value)
-const savePending = computed(() => isFormDirty.value || isUpdating.value)
+const {
+  isSaving,
+  isBusy,
+  canSave,
+  saveNow
+} = useSaveState([
+  {
+    hasPendingChanges: form.useStore(state => state.isDirty),
+    isSaving: isSavingForm,
+    canSave: form.useStore(state => state.isDirty && state.isValid && !state.isValidating),
+    saveNow: () => form.handleSubmit(),
+  },
+  subActivitiesOrder,
+])
 
 function normalizeError (error: unknown): string {
   if (error instanceof BaseApiException) {
@@ -255,19 +269,23 @@ async function save (data?: ActivityDraftUpdateRequest) {
     return
   }
 
-  const results = await withTaskLoading(() => Promise.allSettled(promises))
+  const results = await withTaskLoading(async () => {
+    const settledResults = await Promise.allSettled(promises)
+
+    if (settledResults.some(r => r.status === 'fulfilled')) {
+      await invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
+      await invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
+
+      form.reset({
+        ...form.state.values,
+        files: remoteFiles.value,
+        bannerAction: EditActivityFormDataBannerAction.NONE,
+      })
+    }
+
+    return settledResults
+  })
   const someFulfilled = results.some(r => r.status === 'fulfilled')
-
-  if (someFulfilled) {
-    await invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
-    await invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
-
-    form.reset({
-      ...form.state.values,
-      files: remoteFiles.value,
-      bannerAction: EditActivityFormDataBannerAction.NONE,
-    })
-  }
 
   if (results.every(r => r.status === 'fulfilled')) {
     addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
@@ -303,10 +321,14 @@ function onPublished () {
 
 provideEditNationalActivityViewContext({
   form,
-  isUpdating,
+  isSaving,
+  isBusy,
+  canSave,
+  saveNow,
   isExecutionPeriodEnabled,
   isAssessmentEnabled,
   isAssessmentGradeEnabled,
+  subActivitiesOrder,
   save,
   queueAutoSave
 })
@@ -337,8 +359,8 @@ provideEditNationalActivityViewContext({
             <AvTab
               :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
-              :disabled="activeTab !== EditActivityTabIndex.CONTENT && savePending"
-              :is-loading="activeTab === EditActivityTabIndex.CONTENT && savePending"
+              :disabled="activeTab !== EditActivityTabIndex.CONTENT && isBusy"
+              :is-loading="activeTab === EditActivityTabIndex.CONTENT && isBusy"
               data-testid="activity-content-tab-item"
             >
               <ActivityContentTab
@@ -349,8 +371,8 @@ provideEditNationalActivityViewContext({
             <AvTab
               :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
               :icon="RI_ICONS.SEND_PLANE_LINE"
-              :disabled="activeTab !== EditActivityTabIndex.PUBLICATION && savePending"
-              :is-loading="activeTab === EditActivityTabIndex.PUBLICATION && savePending"
+              :disabled="activeTab !== EditActivityTabIndex.PUBLICATION && isBusy"
+              :is-loading="activeTab === EditActivityTabIndex.PUBLICATION && isBusy"
               data-testid="activity-publication-tab-item"
             >
               <ActivityPublicationTab

@@ -215,6 +215,7 @@
         "SKILL_NOT_FOUND": "Skill not found",
         "STUDENT_DECLARED_ALREADY_EXIST": "This declared skill is already assigned to the learner",
         "STUDENT_PROGRESS_NOT_FOUND": "Learner progress not found",
+        "SUB_ACTIVITY_ORDER_MISMATCH": "The order of sub-activities is not valid",
         "TITLE_TOO_LONG": "The length of the title is too long",
         "TOO_LONG": "The field {0} exceeds the maximum allowed length",
         "TRACE_NOT_FOUND": "Trace not found",

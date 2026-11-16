@@ -290,6 +290,11 @@
             "label": "Maximum number of trace associations?",
             "title": "Trace association"
           },
+          "composables": {
+            "useSubActivitiesOrder": {
+              "error": "An error occurred while saving the sub-activity order"
+            }
+          },
           "EditNationalActivityViewTabActions": {
             "saveDisabledTooltip": "Edit a field before saving",
             "saveLabel": "Save for later"
@@ -302,6 +307,7 @@
             "entityName": "sub-activities"
           },
           "SubActivitiesSortableList": {
+            "announcement": "Sub-activity {subActivityName} moved from position {fromPos} to position {toPos} of {subActivitiesLength}",
             "emptyState": "No sub-activities yet"
           },
           "success": {

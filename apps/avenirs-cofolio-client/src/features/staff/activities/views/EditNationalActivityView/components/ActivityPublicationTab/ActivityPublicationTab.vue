@@ -36,7 +36,7 @@ const PUBLISH_REQUIRED_FIELDS: Array<keyof EditActivityFormData> = ['title', 'th
 const bannerFile = defineModel<File | null>()
 
 const { t } = useI18n()
-const { form, isUpdating, queueAutoSave } = useEditNationalActivityViewContext()
+const { form, isBusy, queueAutoSave } = useEditNationalActivityViewContext()
 const { modalOpened, openModal, closeModal } = useModal()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
@@ -45,7 +45,6 @@ const queryClient = useQueryClient()
 
 const { mutate: mutatePublishActivityDraft, isPending } = usePublishActivityDraft()
 
-const isFormDirty = form.useStore(state => state.isDirty)
 const isFormValid = form.useStore(state => state.isValid)
 const values = form.useStore(state => state.values)
 
@@ -169,7 +168,7 @@ async function publishActivityDraft () {
           variant="FLAT"
           :icon="RI_ICONS.SEND_PLANE_LINE"
           :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
-          :is-loading="isFormDirty || isUpdating || isPending || isLoading"
+          :is-loading="isBusy || isPending || isLoading"
           :disabled="!hasPublishRight || !canPublish"
           :disabled-tooltip="publishDisabledTooltip"
           @click="openModal"
@@ -192,7 +191,7 @@ async function publishActivityDraft () {
     :opened="modalOpened"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmTitle')"
     :description="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmDescription')"
-    :is-loading="isUpdating || isPending || isLoading"
+    :is-loading="isBusy || isPending || isLoading"
     @confirm="publishActivityDraft"
     @close="closeModal"
   />

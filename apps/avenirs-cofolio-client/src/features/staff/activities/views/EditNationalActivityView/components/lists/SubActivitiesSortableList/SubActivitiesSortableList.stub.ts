@@ -4,10 +4,15 @@ import type { PropType } from 'vue'
 export const SubActivitiesSortableListStub = defineComponent({
   name: 'SubActivitiesSortableList',
   props: {
-    subActivities: {
+    modelValue: {
       type: Array as PropType<SubActivityOverviewDTO[]>,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['update:modelValue'],
   template: '<div data-testid="sub-activities-sortable-list-stub" />',
 })

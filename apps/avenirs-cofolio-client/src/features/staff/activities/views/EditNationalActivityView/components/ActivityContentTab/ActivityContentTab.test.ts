@@ -3,7 +3,8 @@ import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
-import { mockedActivityContent, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
@@ -20,7 +21,15 @@ import ActivityContentTab from '@/features/staff/activities/views/EditNationalAc
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { ManageSubActivitiesDropdownStub } from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.stub'
 import { SubActivitiesSortableListStub } from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.stub'
-import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+import {
+  EditNationalActivityViewFormWrapper,
+  EditNationalActivityViewFormWrapperDirty,
+  mockIsBusy,
+  mockIsSaving,
+  mockSubActivitiesOrder,
+  resetMockSaveState,
+  resetMockSubActivitiesOrder,
+} from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 
 BddTest().given('an ActivityContentTab component', () => {
   let wrapper: ReturnType<typeof mount>
@@ -78,6 +87,8 @@ BddTest().given('an ActivityContentTab component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    resetMockSaveState()
+    resetMockSubActivitiesOrder()
     mountTab(EditNationalActivityViewFormWrapper)
   })
 
@@ -141,7 +152,11 @@ BddTest().given('an ActivityContentTab component', () => {
     })
 
     BddTest().then('it should pass an empty list to SubActivitiesSortableList', () => {
-      expect(getSubActivitiesList().props('subActivities')).toEqual([])
+      expect(getSubActivitiesList().props('modelValue')).toEqual([])
+    })
+
+    BddTest().then('it should not show the sub-activities as being saved', () => {
+      expect(getSubActivitiesList().props('isLoading')).toBe(false)
     })
 
     BddTest().then('it should render ActivityCreationModal closed', () => {
@@ -159,12 +174,30 @@ BddTest().given('an ActivityContentTab component', () => {
       await wrapper.vm.$nextTick()
     })
 
+    BddTest().then('it should pass dirty state to ActivityResourcesListEditable', () => {
+      expect(getResourcesList().props('isFormDirty')).toBe(true)
+    })
+  })
+
+  BddTest().when('the view is busy', () => {
+    beforeEach(async () => {
+      mockIsBusy.value = true
+      await wrapper.vm.$nextTick()
+    })
+
     BddTest().then('it should show the next step button as loading', () => {
       expect(getNextStepButton().props('isLoading')).toBe(true)
     })
+  })
 
-    BddTest().then('it should pass dirty state to ActivityResourcesListEditable', () => {
-      expect(getResourcesList().props('isFormDirty')).toBe(true)
+  BddTest().when('a save is in flight', () => {
+    beforeEach(async () => {
+      mockIsSaving.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should pass the updating state to ActivityResourcesListEditable', () => {
+      expect(getResourcesList().props('isUpdating')).toBe(true)
     })
   })
 
@@ -219,12 +252,48 @@ BddTest().given('an ActivityContentTab component', () => {
   })
 
   BddTest().when('the activity has sub-activities', () => {
-    beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContentWithSubActivities)
+    beforeEach(async () => {
+      mockSubActivitiesOrder.orderedSubActivities.value = mockedSubActivitiesOverviewDTO
+      await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should pass the sub-activities to SubActivitiesSortableList', () => {
-      expect(getSubActivitiesList().props('subActivities')).toEqual(mockedActivityContentWithSubActivities.subActivities)
+    BddTest().then('it should pass the ordered sub-activities to SubActivitiesSortableList', () => {
+      expect(getSubActivitiesList().props('modelValue')).toEqual(mockedSubActivitiesOverviewDTO)
+    })
+
+    BddTest().and('they are reordered', () => {
+      const reversedSubActivities = [...mockedSubActivitiesOverviewDTO].reverse()
+
+      beforeEach(async () => {
+        getSubActivitiesList().vm.$emit('update:modelValue', reversedSubActivities)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should hand the new order over to the sub-activities order', () => {
+        expect(mockSubActivitiesOrder.orderedSubActivities.value).toEqual(reversedSubActivities)
+      })
+    })
+  })
+
+  BddTest().when('the sub-activities order is waiting for the autosave', () => {
+    beforeEach(async () => {
+      mockSubActivitiesOrder.hasPendingChanges.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should not show the sub-activities as being saved yet', () => {
+      expect(getSubActivitiesList().props('isLoading')).toBe(false)
+    })
+  })
+
+  BddTest().when('the sub-activities order is being saved', () => {
+    beforeEach(async () => {
+      mockSubActivitiesOrder.isSaving.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should show the sub-activities as being saved', () => {
+      expect(getSubActivitiesList().props('isLoading')).toBe(true)
     })
   })
 

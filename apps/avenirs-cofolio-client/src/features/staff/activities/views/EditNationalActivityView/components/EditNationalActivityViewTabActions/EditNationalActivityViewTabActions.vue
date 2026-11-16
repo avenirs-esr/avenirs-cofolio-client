@@ -6,9 +6,12 @@ import { useEditNationalActivityViewContext } from '@/features/staff/activities/
 
 const { t } = useI18n()
 
-const { form, isUpdating } = useEditNationalActivityViewContext()
-const isFormDirty = form.useStore(s => s.isDirty)
-const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty)
+const {
+  isSaving,
+  isBusy,
+  canSave,
+  saveNow,
+} = useEditNationalActivityViewContext()
 </script>
 
 <template>
@@ -17,17 +20,17 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       data-testid="exit-button"
       :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :label="t('global.buttons.exit')"
-      :is-loading="isUpdating || isFormDirty"
+      :is-loading="isBusy"
       :to="ROUTES.STAFF.ACTIVITIES"
     />
     <AvButton
       data-testid="save-button"
       :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
       :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveLabel')"
-      :disabled="!isFormValid"
+      :disabled="!canSave"
       :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveDisabledTooltip')"
-      :is-loading="isUpdating"
-      @click="form.handleSubmit()"
+      :is-loading="isSaving"
+      @click="saveNow"
     />
   </div>
 </template>
