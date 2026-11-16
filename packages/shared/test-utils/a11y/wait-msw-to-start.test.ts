@@ -54,7 +54,7 @@ BddTest().given('the shared MSW wait helper', () => {
 
   BddTest().when('network idle times out', () => {
     let completed = false
-    let error: unknown
+    let error: Error
 
     beforeEach(async () => {
       let finishDomLoaded: () => void = () => {}
@@ -97,7 +97,7 @@ BddTest().given('the shared MSW wait helper', () => {
 
   BddTest().when('DOM load fails', () => {
     const failure = new Error('DOM load failed')
-    let error: unknown
+    let error: Error
 
     beforeEach(async () => {
       const waitForLoadState = vi.fn<Page['waitForLoadState']>()
