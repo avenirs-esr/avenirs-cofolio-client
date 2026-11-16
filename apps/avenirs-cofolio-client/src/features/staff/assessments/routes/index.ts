@@ -10,7 +10,7 @@ export const staffActivityAssessmentRoute: AvRoute = {
   component: () =>
     import('@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STAFF.HOME.BASE]
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.STUDENT_TRACKING.ASSESSMENTS]
   }
 }
 
