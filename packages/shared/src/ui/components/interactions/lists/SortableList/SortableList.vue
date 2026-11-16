@@ -15,6 +15,8 @@ defineSlots<{
   default?: (props: AvSortableListSlotProps<T>) => VNode[]
 }>()
 
+const items = defineModel<T[]>({ default: () => [] })
+
 const { t } = useI18n()
 const attrs = useAttrs()
 
@@ -30,7 +32,10 @@ const avSortableListProps: ComputedRef<AvSortableListProps<T>> = computed(() => 
 </script>
 
 <template>
-  <AvSortableList v-bind="avSortableListProps">
+  <AvSortableList
+    v-bind="avSortableListProps"
+    v-model="items"
+  >
     <template #default="{ element, index }">
       <slot
         :element="element"
