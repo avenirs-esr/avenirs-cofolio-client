@@ -3379,6 +3379,46 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/sub-activities/{subActivityId}": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getSubActivityDetails",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityContentDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/feedbacks": {
       "get": {
         "tags": [
@@ -10196,6 +10236,7 @@
           "CGU_NOT_FOUND",
           "ACCESS_DENIED",
           "USER_NOT_AUTHORIZED",
+          "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
           "EXTERNAL_USER_BLOCKED",
