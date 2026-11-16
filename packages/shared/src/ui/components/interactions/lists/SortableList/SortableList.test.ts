@@ -47,6 +47,20 @@ BddTest().given('a SortableList component', () => {
     })
   })
 
+  BddTest().when('the items are reordered', () => {
+    const reorderedItems = [...items].reverse()
+
+    beforeEach(async () => {
+      mountDefault()
+      getSortableList().vm.$emit('update:modelValue', reorderedItems)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should emit the new order', () => {
+      expect(wrapper.emitted('update:modelValue')).toEqual([[reorderedItems]])
+    })
+  })
+
   BddTest().when('the component is mounted with additional attributes', () => {
     beforeEach(() => {
       wrapper = mount(SortableList, {
