@@ -36,20 +36,10 @@ const emit = defineEmits<{
 type AllowedActions = Omit<Action, Action.ASSOCIATE | Action.DISSOCIATE>
 
 const { t } = useI18n()
-const associableContextTypes = computed(() => getAssociableContextTypes(contextType).filter(type => type !== contextType))
 const { getAssociateState } = useAssociationLimits({ contextType, elementId: () => elementId })
 const { data: associations } = useGetAssociations(contextType, computed(() => elementId), undefined, {
   query: { enabled: computed(() => !!elementId) }
 })
-
-const allLimitsReached = computed(() =>
-  associableContextTypes.value.length > 0
-  && associableContextTypes.value.every(type => getAssociateState(type).disabled)
-)
-const hasNoAssociations = computed(() =>
-  associations.value !== undefined && countAssociations(associations.value, associableContextTypes.value) === 0
-)
-
 const {
   modalOpened: associateModalOpened,
   openModal: openAssociateModal,
@@ -61,14 +51,26 @@ const {
   closeModal: closeDissociateModal
 } = useModal()
 
+const associableContextTypes = computed(() => getAssociableContextTypes(contextType)
+  .filter(type => type !== contextType))
+const allLimitsReached = computed(() =>
+  associableContextTypes.value.length > 0
+  && associableContextTypes.value.every(type => getAssociateState(type).disabled)
+)
+const hasNoAssociations = computed(() =>
+  associations.value !== undefined && countAssociations(associations.value, associableContextTypes.value) === 0
+)
+
+const disableTooltipsKey = 'student.associations.overlays.dropdowns.ManageAssociableEntityDropdown.disabledTooltips'
+
 const associateActionDisabledTooltip = computed(() => {
   if (associationInteractiveProps.disabled) {
     return associationInteractiveProps.disabledTooltip
   }
 
   if (allLimitsReached.value) {
-    return t('student.associations.overlays.dropdowns.ManageAssociableEntityDropdown.disabledTooltips.fullAssociations', {
-      entityName: t(`student.associations.overlays.dropdowns.ManageAssociableEntityDropdown.disabledTooltips.entityName.${contextType}`)
+    return t(`${disableTooltipsKey}.fullAssociations`, {
+      entityName: t(`${disableTooltipsKey}.entityName.${contextType}`)
     })
   }
 
@@ -88,8 +90,8 @@ const dissociateActionDisabledTooltip = computed(() => {
   }
 
   if (hasNoAssociations.value) {
-    return t('student.associations.overlays.dropdowns.ManageAssociableEntityDropdown.disabledTooltips.emptyAssociations', {
-      entityName: t(`student.associations.overlays.dropdowns.ManageAssociableEntityDropdown.disabledTooltips.entityName.${contextType}`)
+    return t(`${disableTooltipsKey}.emptyAssociations`, {
+      entityName: t(`${disableTooltipsKey}.entityName.${contextType}`)
     })
   }
 
@@ -103,7 +105,11 @@ const dissociateAction = computed<ActionItem>(() => ({
   disabledTooltip: dissociateActionDisabledTooltip.value
 }))
 
-const actions = computed<(Action | ActionItem)[]>(() => [...propsActions, associateAction.value, dissociateAction.value])
+const actions = computed<(Action | ActionItem)[]>(() => [
+  ...propsActions,
+  associateAction.value,
+  dissociateAction.value
+])
 
 function onActionSelected (action: Action) {
   switch (action) {

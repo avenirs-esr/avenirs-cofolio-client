@@ -23,11 +23,7 @@ BddTest().given('an alert status badge', () => {
   }> = [
     {
       description: 'an explicitly active alert, regardless of its dates',
-      props: {
-        active: true,
-        startDate: '2026-11-13T12:00:00',
-        endDate: '2026-11-14T12:00:00'
-      },
+      props: { active: true, startDate: '2026-11-13T12:00:00', endDate: '2026-11-14T12:00:00' },
       label: 'Active',
       icon: MDI_ICONS.CHECK_CIRCLE_OUTLINE,
       color: 'var(--light-foreground-success)',
@@ -35,11 +31,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert scheduled for a future period',
-      props: {
-        active: false,
-        startDate: '2026-11-13T12:00:00',
-        endDate: '2026-11-14T12:00:00'
-      },
+      props: { active: false, startDate: '2026-11-13T12:00:00', endDate: '2026-11-14T12:00:00' },
       label: 'Programmée',
       icon: MDI_ICONS.CALENDAR_CLOCK_OUTLINE,
       color: 'var(--light-foreground-info)',
@@ -47,11 +39,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert within its scheduled period',
-      props: {
-        active: false,
-        startDate: '2026-11-11T12:00:00',
-        endDate: '2026-11-13T12:00:00'
-      },
+      props: { active: false, startDate: '2026-11-11T12:00:00', endDate: '2026-11-13T12:00:00' },
       label: 'Active',
       icon: MDI_ICONS.CHECK_CIRCLE_OUTLINE,
       color: 'var(--light-foreground-success)',
@@ -59,11 +47,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert whose scheduled period has expired',
-      props: {
-        active: false,
-        startDate: '2026-11-10T12:00:00',
-        endDate: '2026-11-11T12:00:00'
-      },
+      props: { active: false, startDate: '2026-11-10T12:00:00', endDate: '2026-11-11T12:00:00' },
       label: 'Inactive',
       icon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
       color: 'var(--light-foreground-error)',
@@ -71,11 +55,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert without scheduled dates',
-      props: {
-        active: false,
-        startDate: undefined,
-        endDate: undefined
-      },
+      props: { active: false, startDate: undefined, endDate: undefined },
       label: 'Inactive',
       icon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
       color: 'var(--light-foreground-error)',
@@ -83,11 +63,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert with an undefined active state and a future period',
-      props: {
-        active: undefined,
-        startDate: '2026-11-13T12:00:00',
-        endDate: '2026-11-14T12:00:00'
-      },
+      props: { active: undefined, startDate: '2026-11-13T12:00:00', endDate: '2026-11-14T12:00:00' },
       label: 'Programmée',
       icon: MDI_ICONS.CALENDAR_CLOCK_OUTLINE,
       color: 'var(--light-foreground-info)',
@@ -95,11 +71,7 @@ BddTest().given('an alert status badge', () => {
     },
     {
       description: 'an alert with an undefined active state and no dates',
-      props: {
-        active: undefined,
-        startDate: undefined,
-        endDate: undefined
-      },
+      props: { active: undefined, startDate: undefined, endDate: undefined },
       label: 'Inactive',
       icon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
       color: 'var(--light-foreground-error)',
