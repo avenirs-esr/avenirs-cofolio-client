@@ -200,7 +200,21 @@ watch(
             :key="activity.id"
             :activity="activity"
             :with-status="withStatus"
-          />
+          >
+            <template #actions>
+              <MoreActionsDropdown
+                :activity-status="activity.status"
+                :data-activity-id="activity.id"
+                :data-activity-status="activity.status"
+                :is-leader="isLeaderOfActivity(activity)"
+                trigger-size="LG"
+                @unpublish="() => onUnpublishSelected(activity.id)"
+                @clone="() => onDuplicateSelected(activity.id, activity.title)"
+                @delete="() => onDeleteSelected(activity.id, activity.status)"
+                @navigate-to-feedbacks="() => navigateToFeedbacks({ activityId: activity.id })"
+              />
+            </template>
+          </ActivityCard>
         </div>
 
         <AvTable

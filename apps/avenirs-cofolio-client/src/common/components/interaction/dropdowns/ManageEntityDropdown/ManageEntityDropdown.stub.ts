@@ -1,3 +1,4 @@
+import type { AvDropdownProps } from '@avenirs-esr/avenirs-dsav'
 import type { PropType } from 'vue'
 import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 
@@ -10,7 +11,8 @@ export const ManageEntityDropdownStub = defineComponent({
       required: true,
     },
     icon: String,
-    iconOnly: Boolean
+    iconOnly: Boolean,
+    triggerSize: String as PropType<AvDropdownProps['triggerSize']>,
   },
   emits: ['actionSelected'],
   computed: {

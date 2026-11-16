@@ -15,7 +15,8 @@ const UNPUBLISH_DISABLED_TOOLTIP = 'Vous pouvez uniquement dépublier une activi
 
 const defaultProps: MoreActionsDropdownProps = {
   activityStatus: EActivityStatus.DRAFT,
-  isLeader: true
+  isLeader: true,
+  triggerSize: 'MD'
 }
 
 const STAFF_ROLES = [ERole.ROLE_STAFF]

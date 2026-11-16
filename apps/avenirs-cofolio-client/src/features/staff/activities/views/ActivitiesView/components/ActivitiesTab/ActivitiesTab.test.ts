@@ -491,6 +491,16 @@ BddTest().given('a ActivitiesTab component', () => {
         expect(card.props('withStatus')).toBe(false)
       })
     })
+
+    BddTest().then('it should render a MoreActionsDropdown inside each ActivityCard', () => {
+      expect(getMoreActionsDropdowns()).toHaveLength(7)
+    })
+
+    BddTest().then('it should pass triggerSize LG to the mobile MoreActionsDropdown', () => {
+      getMoreActionsDropdowns().forEach((dropdown) => {
+        expect(dropdown.props('triggerSize')).toBe('LG')
+      })
+    })
   })
 
   BddTest().when('the component is mounted in mobile view with withStatus enabled', () => {
