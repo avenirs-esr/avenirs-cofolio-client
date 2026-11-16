@@ -1,5 +1,4 @@
 <script lang="ts" setup generic="U extends IdTitle = IdTitle">
-import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
 import type { IdTitle } from '@/types'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
@@ -7,7 +6,6 @@ import DeleteOverlay from '@/features/student/global/components/interaction/Dele
 
 export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
   items: U[]
-  buttonTheme?: AvButtonProps['theme']
   isItemDisabled?: (item: U) => boolean
   horizontal?: boolean
   disabledTooltip?: string
@@ -35,7 +33,7 @@ const { t } = useI18n()
     </span>
 
     <Card
-      class="av-flex-fill"
+      class="av-flex-fill selected-associate-items-container"
       title-background="var(--card2)"
       background-color="var(--surface-background)"
       border-color="transparent"
@@ -47,7 +45,7 @@ const { t } = useI18n()
         <DeleteOverlay
           v-for="item in items"
           :key="item.id"
-          :button-theme="buttonTheme"
+          button-theme="PRIMARY"
           :disabled="isItemDisabled?.(item) ?? false"
           :disabled-tooltip="disabledTooltip"
           :class="{ 'av-w-full': !horizontal }"
@@ -62,9 +60,3 @@ const { t } = useI18n()
     </Card>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.selected-associate-items-container__list {
-  overflow-y: auto;
-}
-</style>

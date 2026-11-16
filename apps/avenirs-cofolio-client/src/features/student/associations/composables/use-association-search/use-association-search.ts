@@ -46,7 +46,8 @@ export function useAssociationSearchResults () {
       category: searchResult.category,
       description: searchResult.description ?? (categoryLabelKeyPrefix && searchResult.category
         ? t(`${categoryLabelKeyPrefix}.${searchResult.category}`)
-        : searchResult.category)
+        : searchResult.category),
+      contextType
     }
   }
 
@@ -78,7 +79,7 @@ export function useAssociationSearch ({
   const { toAssociations } = useAssociationSearchResults()
 
   const currentAssociatedContextType = computed(() => toValue(associatedContextType))
-  const isFilterable = computed(() => !!ASSOCIATION_CONTEXT_CONFIGS[currentAssociatedContextType.value].filterable)
+  const isFilterable = computed(() => toValue(enabled) && !!ASSOCIATION_CONTEXT_CONFIGS[currentAssociatedContextType.value].filterable)
 
   const { remaining } = useAssociationLimit({
     contextType,
@@ -139,6 +140,7 @@ export function useAssociationSearch ({
 
       return {
         ...association,
+        contextType: currentAssociatedContextType.value,
         disabled: association.disabled || isBlockedBySelection,
         disabledTooltip: getDisabledTooltip(association, isBlockedBySelection)
       }
