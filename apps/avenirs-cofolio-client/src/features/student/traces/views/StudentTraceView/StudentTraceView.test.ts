@@ -11,7 +11,7 @@ import { createTraceDetailedHandler, downloadTraceAttachmentErrorHandler } from 
 import { server } from '@/__mocks__/msw/server'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
-import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { ElementAssociationsCardsStub } from '@/features/student/associations/components/cards/ElementAssociationsCards/ElementAssociationsCards.stub'
 import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
@@ -77,7 +77,7 @@ BddTest().given('a student trace view', () => {
     TraceSettingsDropdown: TraceSettingsDropdownStub,
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
-    ElementAssociations: ElementAssociationsStub,
+    ElementAssociationsCards: ElementAssociationsCardsStub,
   }
 
   const associationsCount
@@ -108,6 +108,7 @@ BddTest().given('a student trace view', () => {
 
   const getSettingsDropdown = () => wrapper.findComponent(TraceSettingsDropdownStub)
   const getDeletionModal = () => wrapper.findComponent(TraceDeletionConfirmationModalStub)
+  const getElementAssociationsCards = () => wrapper.findComponent(ElementAssociationsCardsStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -162,8 +163,8 @@ BddTest().given('a student trace view', () => {
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
     })
 
-    BddTest().then('it should not render ElementAssociations in the inactive tab', () => {
-      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+    BddTest().then('it should not render ElementAssociationsCards in the inactive tab', () => {
+      expect(wrapper.findComponent(ElementAssociationsCardsStub).exists()).toBe(false)
     })
   })
 
@@ -272,16 +273,16 @@ BddTest().given('a student trace view', () => {
       expect(tab.props('title')).toBe(`Mes éléments associés (${associationsCount})`)
     })
 
-    BddTest().then('it should render ElementAssociations for the trace', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+    BddTest().then('it should render ElementAssociationsCards for the trace', () => {
+      const elementAssociations = getElementAssociationsCards()
 
       expect(elementAssociations.exists()).toBe(true)
       expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.TRACE)
       expect(elementAssociations.props('elementId')).toBe(mockedTraceDetailed.id)
     })
 
-    BddTest().then('it should pass the fetched associations to ElementAssociations', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+    BddTest().then('it should pass the fetched associations to ElementAssociationsCards', () => {
+      const elementAssociations = getElementAssociationsCards()
 
       expect(elementAssociations.props('associations')).toEqual(mockedTraceAssociations)
       expect(elementAssociations.props('error')).toBeNull()
@@ -301,9 +302,9 @@ BddTest().given('a student trace view', () => {
       expect(tab.props('title')).toBe('Mes éléments associés (0)')
     })
 
-    BddTest().then('it should pass the error to ElementAssociations', async () => {
+    BddTest().then('it should pass the error to ElementAssociationsCards', async () => {
       await vi.waitFor(() => {
-        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        const elementAssociations = getElementAssociationsCards()
 
         expect(elementAssociations.props('error')).toEqual(
           expect.objectContaining({ code: ErrorCodes.SERVER }),

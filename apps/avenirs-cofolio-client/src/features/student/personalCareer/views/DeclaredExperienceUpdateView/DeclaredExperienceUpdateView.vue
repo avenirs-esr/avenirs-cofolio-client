@@ -5,7 +5,7 @@ import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience }
 import { useI18n } from 'vue-i18n'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { ROUTES } from '@/common/constants/route-names'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations, ElementAssociationsCards } from '@/features/student/associations'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
 
@@ -82,7 +82,7 @@ function onExperienceUpdated () {
         :icon="ICONS.ASSOCIATIONS"
         data-testid="update-declared-experience-associations-tab"
       >
-        <ElementAssociations
+        <ElementAssociationsCards
           :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
           :element-id="selectedExperienceId"
           :associations="declaredExperienceAssociations"

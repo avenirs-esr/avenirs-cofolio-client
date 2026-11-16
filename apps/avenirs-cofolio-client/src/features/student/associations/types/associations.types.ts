@@ -1,6 +1,11 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { AssociationsDTO, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, EAssociationContextType, SkillProgressAssociationDTO, TraceAssociationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { QueryKey } from '@tanstack/vue-query'
+import type { AssociatedActivityCardProps } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
+import type { AssociatedDeclaredExperienceCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
+import type { AssociatedDeclaredProgramCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
+import type { AssociatedSkillCardProps } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
+import type { AssociatedTraceCardProps } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import type { IdTitle } from '@/types'
 
 /**
@@ -47,3 +52,23 @@ export interface AssociationContextConfig {
 export interface ElementAssociation extends IdTitle {
   associationId: string
 }
+
+/**
+ * Union type of all possible association DTOs.
+ */
+export type AllAssociationsType
+  = | TraceAssociationDTO
+    | DeclaredActivityAssociationDTO
+    | SkillProgressAssociationDTO
+    | DeclaredExperienceAssociationDTO
+    | DeclaredProgramAssociationDTO
+
+/**
+ * Union type of all possible card props for the association cards.
+ */
+export type AllCardsProps
+  = | { associatedTrace: AssociatedTraceCardProps['associatedTrace'] }
+    | { declaredActivity: AssociatedActivityCardProps['declaredActivity'] }
+    | { declaredSkill: AssociatedSkillCardProps['declaredSkill'] }
+    | { declaredExperience: AssociatedDeclaredExperienceCardProps['declaredExperience'] }
+    | { declaredProgram: AssociatedDeclaredProgramCardProps['declaredProgram'] }

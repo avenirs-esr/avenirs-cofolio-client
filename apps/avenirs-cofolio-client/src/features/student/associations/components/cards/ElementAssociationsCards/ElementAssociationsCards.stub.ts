@@ -3,9 +3,9 @@ import type { PropType } from 'vue'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 
-export function createElementAssociationsStub (getLimit: (associatedContextType: EAssociationContextType) => AssociationLimitState) {
+export function createElementAssociationsCardsStub (getLimit: (associatedContextType: EAssociationContextType) => AssociationLimitState) {
   return defineComponent({
-    name: 'ElementAssociations',
+    name: 'ElementAssociationsCards',
     props: {
       contextType: { type: String as PropType<EAssociationContextType>, required: true },
       elementId: { type: String, required: true },
@@ -15,11 +15,11 @@ export function createElementAssociationsStub (getLimit: (associatedContextType:
     },
     setup: () => ({ getLimit }),
     template: `
-    <div data-testid="element-associations-stub">
+    <div data-testid="element-associations-cards-stub">
        <slot name="header" :getLimit="getLimit" />
     </div>
   `
   })
 }
 
-export const ElementAssociationsStub = createElementAssociationsStub(() => UNKNOWN_ASSOCIATION_LIMIT)
+export const ElementAssociationsCardsStub = createElementAssociationsCardsStub(() => UNKNOWN_ASSOCIATION_LIMIT)

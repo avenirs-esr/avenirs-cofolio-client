@@ -5,7 +5,7 @@ import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience }
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations, ElementAssociationsCards } from '@/features/student/associations'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
@@ -105,7 +105,7 @@ function handleConfirmDelete () {
           :icon="ICONS.ASSOCIATIONS"
           data-testid="declared-experience-associations-tab-item"
         >
-          <ElementAssociations
+          <ElementAssociationsCards
             :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
             :element-id="experienceId"
             :associations="associations"

@@ -6,7 +6,7 @@ import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import { countElementAssociations, ElementAssociationsCards } from '@/features/student/associations'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
@@ -102,7 +102,7 @@ function handleConfirmDelete () {
           :icon="ICONS.ASSOCIATIONS"
           data-testid="declared-program-associations-tab-item"
         >
-          <ElementAssociations
+          <ElementAssociationsCards
             :context-type="EAssociationContextType.DECLARED_PROGRAM"
             :element-id="declaredProgramDetailed.id"
             :associations="associations"
