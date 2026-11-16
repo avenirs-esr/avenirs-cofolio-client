@@ -8,10 +8,10 @@ import type {
   FileDTO,
   InactiveStudentDTO,
   PagedResponseActivityStaffOverviewDTO,
-  StaffInfoDTO,
-  SubActivityOverviewDTO
+  StaffInfoDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
+import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
@@ -220,12 +220,6 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   ],
   links: ['http://example.com/resource1', 'https://example.com/definir-ses-valeurs']
 }
-
-export const mockedSubActivitiesOverviewDTO: SubActivityOverviewDTO[] = [
-  { id: 'sub-activity-1', title: 'Analyser la situation' },
-  { id: 'sub-activity-2', title: 'Mettre en œuvre une solution' },
-  { id: 'sub-activity-3', title: 'Évaluer les résultats' },
-]
 
 export const mockedActivityContentWithSubActivities: ActivityContentDTO = {
   ...mockedActivityContent,

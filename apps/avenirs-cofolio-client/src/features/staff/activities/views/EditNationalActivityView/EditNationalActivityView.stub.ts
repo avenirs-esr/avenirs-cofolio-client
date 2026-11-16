@@ -1,6 +1,8 @@
+import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Mock } from 'vitest'
 import type { SlotsType } from 'vue'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import type { SubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
 import { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { vi } from 'vitest'
@@ -16,10 +18,32 @@ export const mockHandleSubmit: Mock = vi.fn()
 export const mockIsExecutionPeriodEnabled = ref(false)
 export const mockIsAssessmentEnabled = ref(false)
 export const mockIsAssessmentGradeEnabled = ref(false)
-export const mockIsUpdating = ref(false)
+export const mockIsSaving = ref(false)
+export const mockIsBusy = ref(false)
+export const mockCanSave = ref(false)
+export const mockSaveNow: Mock = vi.fn()
 export const mockSave: Mock = vi.fn()
 export const mockQueueAutoSave: Mock = vi.fn()
 export const mockCancel: Mock = vi.fn()
+export const mockSubActivitiesOrder = {
+  orderedSubActivities: ref<SubActivityOverviewDTO[]>([]),
+  hasPendingChanges: ref(false),
+  isSaving: ref(false),
+  saveNow: vi.fn(async () => {}),
+} satisfies SubActivitiesOrder
+
+export function resetMockSaveState () {
+  mockIsSaving.value = false
+  mockIsBusy.value = false
+  mockCanSave.value = false
+}
+
+export function resetMockSubActivitiesOrder () {
+  mockSubActivitiesOrder.orderedSubActivities.value = []
+  mockSubActivitiesOrder.hasPendingChanges.value = false
+  mockSubActivitiesOrder.isSaving.value = false
+  mockSubActivitiesOrder.saveNow.mockClear()
+}
 
 export const EditNationalActivityViewFormWrapper = defineComponent({
   name,
@@ -53,10 +77,14 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
 
     provideEditNationalActivityViewContext({
       form,
-      isUpdating: mockIsUpdating,
+      isSaving: mockIsSaving,
+      isBusy: mockIsBusy,
+      canSave: mockCanSave,
+      saveNow: mockSaveNow,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       isAssessmentEnabled: mockIsAssessmentEnabled,
       isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
+      subActivitiesOrder: mockSubActivitiesOrder,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -95,10 +123,14 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
 
     provideEditNationalActivityViewContext({
       form,
-      isUpdating: mockIsUpdating,
+      isSaving: mockIsSaving,
+      isBusy: mockIsBusy,
+      canSave: mockCanSave,
+      saveNow: mockSaveNow,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       isAssessmentEnabled: mockIsAssessmentEnabled,
       isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
+      subActivitiesOrder: mockSubActivitiesOrder,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -138,10 +170,14 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
 
     provideEditNationalActivityViewContext({
       form,
-      isUpdating: mockIsUpdating,
+      isSaving: mockIsSaving,
+      isBusy: mockIsBusy,
+      canSave: mockCanSave,
+      saveNow: mockSaveNow,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       isAssessmentEnabled: mockIsAssessmentEnabled,
       isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
+      subActivitiesOrder: mockSubActivitiesOrder,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })

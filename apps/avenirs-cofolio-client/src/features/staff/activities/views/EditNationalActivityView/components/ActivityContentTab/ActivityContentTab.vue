@@ -39,11 +39,16 @@ const emit = defineEmits<{
 
 const {
   form,
-  queueAutoSave,
+  isSaving,
+  isBusy,
   isExecutionPeriodEnabled,
   isAssessmentEnabled,
   isAssessmentGradeEnabled,
-  isUpdating
+  subActivitiesOrder: {
+    orderedSubActivities,
+    isSaving: isSavingSubActivitiesOrder,
+  },
+  queueAutoSave,
 } = useEditNationalActivityViewContext()
 const { t } = useI18n()
 const {
@@ -165,7 +170,7 @@ function deleteSelectedResources (
           :files="files"
           :links="links"
           :is-form-dirty="isFormDirty"
-          :is-updating="isUpdating"
+          :is-updating="isSaving"
           @add="addResource"
           @delete="deleteSelectedResources"
         />
@@ -217,7 +222,10 @@ function deleteSelectedResources (
           <ManageSubActivitiesDropdown @add="displayAddSubActivityModal" />
         </template>
 
-        <SubActivitiesSortableList :sub-activities="activity.subActivities" />
+        <SubActivitiesSortableList
+          v-model="orderedSubActivities"
+          :is-loading="isSavingSubActivitiesOrder"
+        />
       </IconTitleCardContainer>
     </div>
 
@@ -228,7 +236,7 @@ function deleteSelectedResources (
         variant="FLAT"
         :icon="MDI_ICONS.ARROW_RIGHT"
         :label="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.nextStepLabel')"
-        :is-loading="isFormDirty || isUpdating"
+        :is-loading="isBusy"
         @click="emit('nextStep')"
       />
     </div>

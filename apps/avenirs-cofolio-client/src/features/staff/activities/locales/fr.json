@@ -290,6 +290,11 @@
             "label": "Combien d'associations de traces maximum\u00A0?",
             "title": "Association de traces"
           },
+          "composables": {
+            "useSubActivitiesOrder": {
+              "error": "Une erreur est survenue lors de l'enregistrement de l'ordre des sous-activités"
+            }
+          },
           "EditNationalActivityViewTabActions": {
             "saveDisabledTooltip": "Modifiez un champ avant d'enregistrer",
             "saveLabel": "Enregistrer pour plus tard"
@@ -302,6 +307,7 @@
             "entityName": "les sous-activités"
           },
           "SubActivitiesSortableList": {
+            "announcement": "Sous-activité {subActivityName} déplacée de la position {fromPos} à la position {toPos} sur {subActivitiesLength}",
             "emptyState": "Aucune sous-activité pour le moment"
           },
           "success": {

@@ -4,13 +4,17 @@ import type { ExposedComponentInstance } from 'tests/utils'
 import type { EditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EActivityStatus, getGetActivityContentUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
+import { http, HttpResponse } from 'msw'
 import { vi } from 'vitest'
+import { toValue } from 'vue'
 import {
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithoutEnrolledStudent,
+  mockedActivityContentWithSubActivities,
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedDevStudentGroupNode, mockedPrimaryInstitutionNode, mockedProgramNode } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
 import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
@@ -21,6 +25,8 @@ import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.c
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.stub'
 import { ActivityPublicationTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.stub'
+import { useSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
+import { mockSubActivitiesOrder, resetMockSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
 import {
 
@@ -68,6 +74,10 @@ vi.mock('@/store', async () => {
     })),
   }
 })
+
+vi.mock('@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order', () => ({
+  useSubActivitiesOrder: vi.fn(() => mockSubActivitiesOrder),
+}))
 
 export const mockIsMobile = ref(false)
 
@@ -123,6 +133,8 @@ BddTest().given('a national activity view', () => {
   }
 
   const getAvTabs = () => wrapper.findComponent(AvTabsStub) as VueWrapper<InstanceType<typeof AvTabsStub>>
+  const getContentTabItem = () => wrapper.findComponent(AvTabStub)
+
   const getActiveTab = (): EditActivityTabIndex => getAvTabs().props('modelValue') as EditActivityTabIndex
   const switchTab = async (tab: EditActivityTabIndex) => {
     getAvTabs().vm.$emit('update:modelValue', tab)
@@ -158,6 +170,7 @@ BddTest().given('a national activity view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    resetMockSubActivitiesOrder()
     mockIsMobile.value = false
     mockMode.value = 'edit'
   })
@@ -608,6 +621,161 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should navigate back to staff activities', () => {
       expect(mockNavigateToStaffActivities).toHaveBeenCalledWith(true)
+    })
+  })
+
+  BddTest().when('the form is submitted after local changes', () => {
+    let isRefetching: boolean
+    let releaseRefetch: () => void
+    let submission: Promise<void>
+
+    beforeEach(async () => {
+      isRefetching = false
+      await mountView()
+
+      const refetchReleased = new Promise<void>((resolve) => {
+        releaseRefetch = resolve
+      })
+      server.use(http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, async () => {
+        isRefetching = true
+        await refetchReleased
+        return HttpResponse.json<ActivityContentDTO>(mockedActivityContent)
+      }))
+
+      const context = getContext(wrapper)
+      await context.form.setFieldValue('title', 'Updated title')
+      submission = context.form.handleSubmit()
+
+      await vi.waitFor(() => {
+        expect(isRefetching).toBe(true)
+      })
+    })
+
+    afterEach(async () => {
+      releaseRefetch()
+      await submission
+    })
+
+    BddTest().then('it should still be saving while the saved activity is refetched', () => {
+      expect(getContext(wrapper).isSaving.value).toBe(true)
+    })
+
+    BddTest().and('the saved activity is refetched', () => {
+      beforeEach(async () => {
+        releaseRefetch()
+        await submission
+      })
+
+      BddTest().then('it should no longer be saving', () => {
+        expect(getContext(wrapper).isSaving.value).toBe(false)
+      })
+
+      BddTest().then('it should reset the dirty state', () => {
+        expect(getContext(wrapper).form.state.isDirty).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the form has local changes', () => {
+    let patchedTitles: (string | undefined)[]
+
+    beforeEach(async () => {
+      patchedTitles = []
+      server.use(createUpdateActivityDraftHandler((body) => {
+        patchedTitles.push(body.title)
+      }))
+
+      await mountView()
+      await getContext(wrapper).form.setFieldValue('title', 'Updated title')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('the view should be busy', () => {
+      expect(getContext(wrapper).isBusy.value).toBe(true)
+      expect(getContentTabItem().props('isLoading')).toBe(true)
+    })
+
+    BddTest().then('it should be savable manually', () => {
+      expect(getContext(wrapper).canSave.value).toBe(true)
+    })
+
+    BddTest().and('the manual save is triggered', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).saveNow()
+        await flushPromises()
+      })
+
+      BddTest().then('it should submit the form', () => {
+        expect(patchedTitles).toEqual(['Updated title'])
+      })
+
+      BddTest().then('the view should no longer be busy', () => {
+        expect(getContext(wrapper).isBusy.value).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the activity has sub-activities', () => {
+    beforeEach(async () => {
+      server.use(createGetActivityContentDraftHandler(() => mockedActivityContentWithSubActivities))
+      await mountView()
+    })
+
+    BddTest().then('it should give the activity id and its sub-activities to the sub-activities order', () => {
+      const [activityDraftId, subActivities] = vi.mocked(useSubActivitiesOrder).mock.calls[0]!
+
+      expect(toValue(activityDraftId)).toBe(mockedActivityContent.id)
+      expect(toValue(subActivities)).toEqual(mockedActivityContentWithSubActivities.subActivities)
+    })
+
+    BddTest().then('it should share the sub-activities order with the tabs', () => {
+      expect(getContext(wrapper).subActivitiesOrder).toBe(mockSubActivitiesOrder)
+    })
+  })
+
+  BddTest().when('the sub-activities order is waiting for the autosave', () => {
+    beforeEach(async () => {
+      await mountView()
+      mockSubActivitiesOrder.hasPendingChanges.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('the view should be busy', () => {
+      expect(getContext(wrapper).isBusy.value).toBe(true)
+      expect(getContentTabItem().props('isLoading')).toBe(true)
+    })
+
+    BddTest().then('it should be savable manually, even if the form is pristine', () => {
+      expect(getContext(wrapper).form.state.isDirty).toBe(false)
+      expect(getContext(wrapper).canSave.value).toBe(true)
+    })
+
+    BddTest().and('the manual save is triggered', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).saveNow()
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the sub-activities order', () => {
+        expect(mockSubActivitiesOrder.saveNow).toHaveBeenCalledOnce()
+      })
+
+      BddTest().then('it should not save the pristine form', () => {
+        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().when('the sub-activities order is being saved', () => {
+    beforeEach(async () => {
+      await mountView()
+      mockSubActivitiesOrder.isSaving.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('the view should be saving and busy', () => {
+      expect(getContext(wrapper).isSaving.value).toBe(true)
+      expect(getContext(wrapper).isBusy.value).toBe(true)
     })
   })
 })

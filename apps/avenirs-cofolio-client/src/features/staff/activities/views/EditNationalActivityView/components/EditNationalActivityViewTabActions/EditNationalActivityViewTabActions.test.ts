@@ -6,13 +6,20 @@ import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { ROUTES } from '@/common/constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
-import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockHandleSubmit } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+import {
+  EditNationalActivityViewFormWrapper,
+  mockCanSave,
+  mockIsBusy,
+  mockIsSaving,
+  mockSaveNow,
+  resetMockSaveState,
+} from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 
 BddTest().given('an EditNationalActivityViewTabActions component', () => {
   const stubs = { AvButton: AvButtonStub }
 
-  const mountWith = (FormWrapper: typeof EditNationalActivityViewFormWrapper): VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>> => {
-    const wrapper = mount(FormWrapper, {
+  const mountActions = (): VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>> => {
+    const wrapper = mount(EditNationalActivityViewFormWrapper, {
       slots: { default: h(EditNationalActivityViewTabActions) },
       global: { stubs },
     })
@@ -24,13 +31,14 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    resetMockSaveState()
   })
 
-  BddTest().when('the form is pristine', () => {
+  BddTest().when('there is nothing to save', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
     beforeEach(() => {
-      actions = mountWith(EditNationalActivityViewFormWrapper)
+      actions = mountActions()
     })
 
     BddTest().then('it should render the exit button', () => {
@@ -58,30 +66,52 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     })
   })
 
-  BddTest().when('the form is dirty', () => {
+  BddTest().when('the view is busy', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
     beforeEach(() => {
-      actions = mountWith(EditNationalActivityViewFormWrapperDirty)
+      mockIsBusy.value = true
+      actions = mountActions()
     })
 
-    BddTest().then('the exit button should be loading', async () => {
-      await vi.waitFor(() => {
-        expect(getExitButton(actions).props('isLoading')).toBe(true)
-      })
+    BddTest().then('the exit button should be loading', () => {
+      expect(getExitButton(actions).props('isLoading')).toBe(true)
+    })
+  })
+
+  BddTest().when('changes can be saved', () => {
+    let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
+
+    beforeEach(() => {
+      mockCanSave.value = true
+      actions = mountActions()
+    })
+
+    BddTest().then('the save button should be enabled', () => {
+      expect(actions.find('[data-testid="save-button"]').attributes()).not.toHaveProperty('disabled')
     })
 
     BddTest().and('the save button is clicked', () => {
       beforeEach(async () => {
-        await vi.waitFor(() => {
-          expect(actions.find('[data-testid="save-button"]').attributes()).not.toHaveProperty('disabled')
-        })
         await actions.find('[data-testid="save-button"]').trigger('click')
       })
 
-      BddTest().then('it should call handleSubmit', () => {
-        expect(mockHandleSubmit).toHaveBeenCalledTimes(1)
+      BddTest().then('it should save the changes right away', () => {
+        expect(mockSaveNow).toHaveBeenCalledOnce()
       })
+    })
+  })
+
+  BddTest().when('a save is in flight', () => {
+    let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
+
+    beforeEach(() => {
+      mockIsSaving.value = true
+      actions = mountActions()
+    })
+
+    BddTest().then('the save button should be loading', () => {
+      expect(getSaveButton(actions).props('isLoading')).toBe(true)
     })
   })
 
@@ -89,12 +119,12 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
     beforeEach(async () => {
-      actions = await mountWith(EditNationalActivityViewFormWrapper)
+      actions = mountActions()
       await actions.find('[data-testid="save-button"]').trigger('click')
     })
 
-    BddTest().then('it should not handleSubmit save', () => {
-      expect(mockHandleSubmit).not.toHaveBeenCalled()
+    BddTest().then('it should not save', () => {
+      expect(mockSaveNow).not.toHaveBeenCalled()
     })
   })
 })

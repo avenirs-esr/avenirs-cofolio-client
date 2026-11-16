@@ -23,11 +23,12 @@ import {
   getPublishActivityDraftUrl,
   getUnpublishActivityUrl,
   getUpdateActivityDraftUrl,
+  getUpdateSubActivityDraftsOrderUrl,
   getUploadDraftBannerUrl
 
 } from '@avenirs-esr/shared/api/avenir-esr'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
-import { http, HttpResponse } from 'msw'
+import { createEmptyPaginatedDatasetResponse, internalServerError, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import { delay, http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
   ACTIVITY_WITH_AUTHORIZATIONS_ID,
@@ -408,6 +409,26 @@ export const staffsActivitiesHandlers = [
       status: HttpStatusCode.CREATED,
       headers: { 'Content-Type': 'application/json' },
     })
+  }),
+  http.put(`*${getUpdateSubActivityDraftsOrderUrl(':activityDraftId')}`, async ({ params }) => {
+    const activityDraftId: string | undefined = params.activityDraftId as string | undefined
+
+    if (!activityDraftId) {
+      return HttpResponse.json(
+        { error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK },
+        { status: HttpStatusCode.BAD_REQUEST }
+      )
+    }
+
+    if (activityDraftId === 'INVALID_ACTIVITY_DRAFT_ID') {
+      return internalServerError()
+    }
+
+    if (activityDraftId === 'LOADING_ACTIVITY_DRAFT_ID') {
+      await delay('infinite')
+    }
+
+    return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
   }),
   deleteActivityDraftHandler,
   deleteActivityDefinitivelyHandler,

@@ -15,8 +15,9 @@ import ActivityPublicationTab from '@/features/staff/activities/views/EditNation
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import {
   EditNationalActivityViewFormWrapper,
-  EditNationalActivityViewFormWrapperDirty,
   EditNationalActivityViewFormWrapperValid,
+  mockIsBusy,
+  resetMockSaveState,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 
 const mockAddSuccessMessage = vi.fn()
@@ -46,7 +47,6 @@ vi.mock('@avenirs-esr/shared', async () => {
 
 type FormWrapperComponent
   = | typeof EditNationalActivityViewFormWrapper
-    | typeof EditNationalActivityViewFormWrapperDirty
     | typeof EditNationalActivityViewFormWrapperValid
 
 BddTest().given('an ActivityPublicationTab component', () => {
@@ -84,6 +84,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    resetMockSaveState()
     mountTab(EditNationalActivityViewFormWrapper)
   })
 
@@ -185,9 +186,9 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
   })
 
-  BddTest().when('the form is dirty', () => {
+  BddTest().when('the view is busy', () => {
     beforeEach(async () => {
-      mountTab(EditNationalActivityViewFormWrapperDirty)
+      mockIsBusy.value = true
       await wrapper.vm.$nextTick()
     })
 

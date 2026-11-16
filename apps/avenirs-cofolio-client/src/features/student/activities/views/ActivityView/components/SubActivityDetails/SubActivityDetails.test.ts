@@ -8,7 +8,6 @@ import { beforeEach, expect, vi } from 'vitest'
 import {
   createMockedDeclaredActivityDetails,
   createMockedSubActivityContent,
-  mockedSubActivities,
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { ActivityErrorMessageStub } from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.stub'
 import { ActivityDetailsStub } from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.stub'
@@ -19,7 +18,7 @@ BddTest().given('a sub-activity details component', () => {
 
   const declaredActivityId = 'declared-activity-4'
   const declaredActivityDetails = createMockedDeclaredActivityDetails(declaredActivityId)
-  const subActivity = mockedSubActivities[0]!
+  const subActivity = declaredActivityDetails.subActivities[0]!
   const INTERNAL_ERROR_ID = 'INTERNAL_ERROR_ID'
 
   const stubs = {
