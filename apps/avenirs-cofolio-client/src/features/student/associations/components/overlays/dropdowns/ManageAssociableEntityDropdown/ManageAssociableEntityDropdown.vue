@@ -7,8 +7,7 @@ import { useGetAssociations } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
-import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
-import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import ManageAssociationModal from '@/features/student/associations/components/overlays/modals/ManageAssociationModal/ManageAssociationModal.vue'
 import { useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { countAssociations, getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 
@@ -40,16 +39,9 @@ const { getAssociateState } = useAssociationLimits({ contextType, elementId: () 
 const { data: associations } = useGetAssociations(contextType, computed(() => elementId), undefined, {
   query: { enabled: computed(() => !!elementId) }
 })
-const {
-  modalOpened: associateModalOpened,
-  openModal: openAssociateModal,
-  closeModal: closeAssociateModal
-} = useModal()
-const {
-  modalOpened: dissociateModalOpened,
-  openModal: openDissociateModal,
-  closeModal: closeDissociateModal
-} = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
+
+const mode = ref<Action.ASSOCIATE | Action.DISSOCIATE>(Action.ASSOCIATE)
 
 const associableContextTypes = computed(() => getAssociableContextTypes(contextType)
   .filter(type => type !== contextType))
@@ -114,10 +106,12 @@ const actions = computed<(Action | ActionItem)[]>(() => [
 function onActionSelected (action: Action) {
   switch (action) {
     case Action.ASSOCIATE:
-      openAssociateModal()
+      mode.value = Action.ASSOCIATE
+      openModal()
       break
     case Action.DISSOCIATE:
-      openDissociateModal()
+      mode.value = Action.DISSOCIATE
+      openModal()
       break
     default:
       emit(action as AllowedActions)
@@ -134,19 +128,13 @@ function onActionSelected (action: Action) {
     @action-selected="onActionSelected"
   />
 
-  <AssociateModal
-    :opened="associateModalOpened"
+  <ManageAssociationModal
+    :opened="modalOpened"
     :context-type="contextType"
     :element-id="elementId"
-    @cancel="closeAssociateModal"
-    @associated="closeAssociateModal"
-  />
-
-  <DeleteAssociationsModal
-    :opened="dissociateModalOpened"
-    :context-type="contextType"
-    :element-id="elementId"
-    @cancel="closeDissociateModal"
-    @deleted="closeDissociateModal"
+    :mode="mode"
+    @cancel="closeModal"
+    @associated="closeModal"
+    @dissociated="closeModal"
   />
 </template>

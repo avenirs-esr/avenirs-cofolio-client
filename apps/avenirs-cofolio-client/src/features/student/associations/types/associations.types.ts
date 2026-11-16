@@ -14,6 +14,8 @@ import type { IdTitle } from '@/types'
 export type Association = IdTitle & AvInteractiveProps & {
   /** Raw category returned by the API (activity thematic, skill type, experience type...). */
   category?: string
+  /** The context type of the association. */
+  contextType?: EAssociationContextType
   /** The element cannot be associated because it reached its own limit of associations. */
   limitReached?: boolean
 }
@@ -49,7 +51,7 @@ export interface AssociationContextConfig {
 /**
  * An association of an element, whatever the context type of the associated element.
  */
-export interface ElementAssociation extends IdTitle {
+export interface ElementAssociation extends Association {
   associationId: string
 }
 

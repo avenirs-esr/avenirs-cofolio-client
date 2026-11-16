@@ -1,6 +1,5 @@
 import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import type { AssociationLimits, ElementAssociation } from '@/features/student/associations/types/associations.types'
-import type { IdTitle } from '@/types'
+import type { Association, AssociationLimits, ElementAssociation } from '@/features/student/associations/types/associations.types'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_PAIRS } from '@/features/student/associations/constants/associations.constants'
 
@@ -20,20 +19,20 @@ export function getAssociableContextTypes (contextType: EAssociationContextType)
   return Object.values(EAssociationContextType).filter(associatedContextType => isAssociable(contextType, associatedContextType))
 }
 
-function getAssociatedElement (association: AssociationDTO): IdTitle {
+function getAssociatedElement (association: AssociationDTO): Association {
   if ('trace' in association) {
-    return association.trace
+    return { ...association.trace, contextType: EAssociationContextType.TRACE }
   }
   if ('declaredActivity' in association) {
-    return association.declaredActivity
+    return { ...association.declaredActivity, contextType: EAssociationContextType.DECLARED_ACTIVITY }
   }
   if ('skillProgress' in association) {
-    return association.skillProgress
+    return { ...association.skillProgress, contextType: EAssociationContextType.DECLARED_SKILL }
   }
   if ('declaredExperience' in association) {
-    return association.declaredExperience
+    return { ...association.declaredExperience, contextType: EAssociationContextType.DECLARED_EXPERIENCE }
   }
-  return association.declaredProgram
+  return { ...association.declaredProgram, contextType: EAssociationContextType.DECLARED_PROGRAM }
 }
 
 /**
@@ -41,22 +40,29 @@ function getAssociatedElement (association: AssociationDTO): IdTitle {
  */
 export function getElementAssociations (
   associations: AssociationsDTO | undefined,
-  associatedContextType?: EAssociationContextType,
+  associatedContextType?: EAssociationContextType | EAssociationContextType[],
 ): ElementAssociation[] {
   if (!associatedContextType) {
     return []
   }
 
-  const config = ASSOCIATION_CONTEXT_CONFIGS[associatedContextType]
-  if (!config) {
+  const contextTypes = Array.isArray(associatedContextType) ? associatedContextType : [associatedContextType]
+  const configs = contextTypes.map(type => ASSOCIATION_CONTEXT_CONFIGS[type]).filter(Boolean)
+  if (configs.length === 0) {
     return []
   }
 
-  const elementAssociations: AssociationDTO[] = associations?.[config.associationsKey] ?? []
+  const elementAssociations = configs.reduce<AssociationDTO[]>(
+    (result, config) => {
+      result.push(...(associations?.[config.associationsKey] ?? []))
+      return result
+    },
+    []
+  )
 
   return elementAssociations.map((association) => {
-    const { id, title } = getAssociatedElement(association)
-    return { associationId: association.associationId, id, title }
+    const { id, title, contextType } = getAssociatedElement(association)
+    return { associationId: association.associationId, id, title, contextType }
   })
 }
 
@@ -94,8 +100,8 @@ export function isAssociationLimitReached (
 /**
  * Returns the kebab case slug of a context type, used to build test ids (e.g. `declared-skill` or `declared-skills`).
  */
-export function getContextTypeSlug (contextType: EAssociationContextType, plural = false): string {
-  const slug = contextType.toLowerCase().replace(/_/g, '-')
+export function getContextTypeSlug (contextType: EAssociationContextType | undefined, plural = false): string {
+  const slug = (contextType ?? '').toLowerCase().replace(/_/g, '-')
 
   if (!plural) {
     return slug

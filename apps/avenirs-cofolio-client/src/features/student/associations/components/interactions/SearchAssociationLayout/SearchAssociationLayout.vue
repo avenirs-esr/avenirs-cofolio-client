@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
-import type { AvAutocompleteOption, AvButtonProps, AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvAutocompleteOption, AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import type { IdTitle } from '@/types'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
@@ -13,7 +13,6 @@ export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U 
   getOptionKey?: (option: T) => string | number
   getOptionLabel?: (option: T) => string
   loading?: boolean
-  buttonTheme?: AvButtonProps['theme']
   layout?: 'vertical' | 'horizontal'
 }
 
@@ -80,7 +79,6 @@ const { isMobile } = useAvBreakpoints()
     >
       <SelectedAssociateItemsContainer
         :items="items"
-        :button-theme="buttonTheme"
         @delete="emit('delete', $event)"
       >
         <template #item="{ item }">

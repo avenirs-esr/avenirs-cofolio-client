@@ -11,6 +11,7 @@ interface AssociationMutationVariables {
   contextType: EAssociationContextType
   elementId: string
   associatedContextType: EAssociationContextType
+  withToasts?: boolean
 }
 
 export interface AssociateVariables extends AssociationMutationVariables {
@@ -34,11 +35,13 @@ export function useAssociationMutations () {
   const { mutate: mutateAssociate, isPending: isAssociatePending } = useAssociate()
   const { mutate: mutateUnassociate, isPending: isUnassociatePending } = useUnassociate()
 
-  function onError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('global.error.generic'),
-      description: getErrorMessage(error),
-    })
+  function onError (error: BaseApiException, withToasts = true) {
+    if (withToasts) {
+      addErrorMessage({
+        title: t('global.error.generic'),
+        description: getErrorMessage(error),
+      })
+    }
   }
 
   function refresh ({ contextType, associatedContextType }: AssociationMutationVariables) {
@@ -46,17 +49,19 @@ export function useAssociationMutations () {
   }
 
   function associate (variables: AssociateVariables, onSuccess?: () => void) {
-    const { contextType, elementId, associatedContextType, idsToAssociate } = variables
+    const { contextType, elementId, associatedContextType, idsToAssociate, withToasts = true } = variables
 
     mutateAssociate({ contextType, elementId, associatedContextType, data: { idsToAssociate } }, {
-      onError,
+      onError: error => onError(error, withToasts),
       onSuccess: async () => {
         await refresh(variables)
 
-        addSuccessMessage({
-          timeout: 2000,
-          description: t(`student.associations.contextTypes.${associatedContextType}.associateSuccess`, { count: idsToAssociate.length }),
-        })
+        if (withToasts) {
+          addSuccessMessage({
+            timeout: 2000,
+            description: t(`student.associations.contextTypes.${associatedContextType}.associateSuccess`, { count: idsToAssociate.length }),
+          })
+        }
 
         onSuccess?.()
       }
@@ -64,17 +69,12 @@ export function useAssociationMutations () {
   }
 
   function unassociate (variables: UnassociateVariables, onSuccess?: () => void) {
-    const { contextType, elementId, associationIds } = variables
+    const { contextType, elementId, associationIds, withToasts = true } = variables
 
     mutateUnassociate({ contextType, elementId, data: { idsToDelete: associationIds } }, {
-      onError,
+      onError: error => onError(error, withToasts),
       onSuccess: async () => {
         await refresh(variables)
-
-        addSuccessMessage({
-          timeout: 2000,
-          description: t('student.associations.overlays.modals.DeleteAssociationsModal.success', { count: associationIds.length }),
-        })
 
         onSuccess?.()
       }

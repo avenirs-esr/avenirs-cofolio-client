@@ -29,9 +29,9 @@ const {
 const selections = defineModel<AssociationSelections>('selections', { default: () => ({}) })
 
 const { t } = useI18n()
-const selectableContextTypes = getAssociableContextTypes(contextType)
+const selectableContextTypes = computed(() => getAssociableContextTypes(contextType).map(type => ({ type })))
 
-const activeContextType = ref<EAssociationContextType>(selectableContextTypes[0]!)
+const activeContextType = ref<EAssociationContextType>(selectableContextTypes.value[0]!.type)
 
 const activeAssociations = computed<Association[]>(() => selections.value[activeContextType.value] ?? [])
 
