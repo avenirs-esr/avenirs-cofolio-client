@@ -66,6 +66,9 @@ BddTest().given('an ActivityCard component', () => {
         activity: baseActivity,
         ...props
       },
+      slots: {
+        actions: '<button data-testid="slot-action-button">Action</button>',
+      },
       global: { stubs },
     })
   }
@@ -91,6 +94,8 @@ BddTest().given('an ActivityCard component', () => {
       expect(card.exists()).toBe(true)
       expect(card.props('backgroundColor')).toBe('var(--card)')
       expect(card.props('titleBackground')).toBe('var(--card)')
+      expect(card.attributes('data-activity-id')).toBe(baseActivity.id)
+      expect(card.attributes('data-activity-status')).toBe(baseActivity.status)
     })
 
     BddTest().then('it should render the title link to the activity details route', () => {
@@ -127,6 +132,12 @@ BddTest().given('an ActivityCard component', () => {
       expect(iconTexts[1].props('icon')).toBe(MDI_ICONS.CLOCK_ARROW)
       expect(iconTexts[1].props('text')).toContain(`formatted-${baseActivity.updatedAt}`)
       expect(mockFormatLastModified).toHaveBeenCalledWith(baseActivity.updatedAt)
+    })
+  })
+
+  BddTest().when('the component is mounted with an actions slot', () => {
+    BddTest().then('it should render the actions slot content', () => {
+      expect(wrapper.find('[data-testid="slot-action-button"]').exists()).toBe(true)
     })
   })
 
@@ -202,7 +213,10 @@ BddTest().given('an ActivityCard component', () => {
     BddTest().then('it should update route and badges accordingly', () => {
       const link = getRouterLink()
       const thematic = getThematicBadge()
+      const card = getCard()
 
+      expect(card.attributes('data-activity-id')).toBe(otherActivity.id)
+      expect(card.attributes('data-activity-status')).toBe(otherActivity.status)
       expect(link.props('to')).toEqual({
         name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { id: otherActivity.id, status: otherActivity.status },

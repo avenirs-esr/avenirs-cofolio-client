@@ -1,3 +1,4 @@
+import type { AvDropdownProps } from '@avenirs-esr/avenirs-dsav'
 import type { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
 
@@ -10,6 +11,7 @@ export const MoreActionsDropdownStub = defineComponent({
       required: true,
     },
     isLeader: Boolean,
+    triggerSize: String as PropType<AvDropdownProps['triggerSize']>
   },
   emits: ['delete', 'unpublish', 'navigateToFeedbacks', 'clone'],
 })

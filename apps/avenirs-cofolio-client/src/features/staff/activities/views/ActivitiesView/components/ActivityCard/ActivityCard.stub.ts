@@ -3,7 +3,7 @@ import type { ActivityTableRow } from '@/features/staff/activities/views/Activit
 
 export const ActivityCardStub = defineComponent({
   name: 'ActivityCard',
-  template: '<div data-testid="activity-card-stub"></div>',
+  template: '<div data-testid="activity-card-stub"><slot name="actions" /></div>',
   props: {
     activity: {
       type: Object as PropType<ActivityTableRow>,

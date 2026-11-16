@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
+import type { AvDropdownItem, AvDropdownProps } from '@avenirs-esr/avenirs-dsav'
 import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { AvDropdown } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -10,9 +10,10 @@ export interface ManageEntityDropdownProps {
   actions: (Action | ActionItem)[]
   icon?: string
   iconOnly?: boolean
+  triggerSize?: AvDropdownProps['triggerSize']
 }
 
-const { entityName, actions, icon, iconOnly = false } = defineProps<ManageEntityDropdownProps>()
+const { entityName, actions, icon, iconOnly = false, triggerSize = 'MD' } = defineProps<ManageEntityDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'actionSelected', action: Action): void
@@ -71,6 +72,7 @@ const triggerLabel = computed(() => iconOnly ? undefined : label.value)
     :trigger-aria-label="label"
     :trigger-label="triggerLabel"
     :trigger-icon="icon"
+    :trigger-size="triggerSize"
     width="max-content"
     data-testid="manage-entity-dropdown"
     @item-selected="(itemName) => emit('actionSelected', itemName as Action)"

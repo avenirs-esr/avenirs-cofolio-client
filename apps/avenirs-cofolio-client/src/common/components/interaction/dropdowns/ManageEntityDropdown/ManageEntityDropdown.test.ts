@@ -216,6 +216,26 @@ BddTest().given('a ManageEntityDropdown', () => {
     })
   })
 
+  BddTest().when('the dropdown is rendered by default', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should pass the default trigger size to AvDropdown', () => {
+      expect(getDropdown().props('triggerSize')).toBe('MD')
+    })
+  })
+
+  BddTest().when('a custom trigger size is provided', () => {
+    beforeEach(() => {
+      mountWith({ triggerSize: 'LG' })
+    })
+
+    BddTest().then('it should pass the trigger size to AvDropdown', () => {
+      expect(getDropdown().props('triggerSize')).toBe('LG')
+    })
+  })
+
   BddTest().when('actions configured without separatorBefore and actions configured with separatorBefore are passed', () => {
     beforeEach(() => {
       mountWith({

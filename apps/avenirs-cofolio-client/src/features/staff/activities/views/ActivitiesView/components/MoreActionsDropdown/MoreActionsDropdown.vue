@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { AvDropdownProps } from '@avenirs-esr/avenirs-dsav'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { EActivityStatus, ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
@@ -9,9 +10,10 @@ import { useCurrentUser } from '@/features/auth/global/composables/use-current-u
 export interface MoreActionsDropdownProps {
   isLeader: boolean
   activityStatus: EActivityStatus
+  triggerSize?: AvDropdownProps['triggerSize']
 }
 
-const { activityStatus, isLeader } = defineProps<MoreActionsDropdownProps>()
+const { activityStatus, isLeader, triggerSize } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
   (e: AllowedActions): void
@@ -67,6 +69,7 @@ const actions = computed<(Action | ActionItem)[]>(() => ([
     :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
     data-testid="more-actions-dropdown"
     :actions="actions"
+    :trigger-size="triggerSize"
     width="max-content"
     icon-only
     @action-selected="(action) => emit(action as AllowedActions)"

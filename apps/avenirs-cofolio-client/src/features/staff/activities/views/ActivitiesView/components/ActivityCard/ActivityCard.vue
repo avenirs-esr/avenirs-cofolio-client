@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import { AvIcon, AvIconText, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS, useDateUtils } from '@avenirs-esr/shared'
@@ -14,6 +15,9 @@ export interface ActivityCardProps {
 
 const { activity } = defineProps<ActivityCardProps>()
 
+defineSlots<{
+  actions?: Slot
+}>()
 const titleRef = ref<HTMLElement | null>(null)
 const { isTruncated } = useTextTruncation(titleRef)
 
@@ -30,71 +34,72 @@ const to = computed(() => ({
 </script>
 
 <template>
-  <RouterLink
-    :to="to"
-    :title="activity.title"
-    class="av-max-lines b1-regular av-text-text1"
+  <Card
+    background-color="var(--card)"
+    title-background="var(--card)"
+    class="activity-card"
+    data-testid="activity-card-title"
+    :data-activity-id="activity.id"
+    :data-activity-status="activity.status"
   >
-    <Card
-      background-color="var(--card)"
-      title-background="var(--card)"
-      class="activity-card"
-      data-testid="activity-card-title"
-      :data-activity-id="activity.id"
-      :data-activity-status="activity.status"
-    >
-      <template #title>
-        <div class="av-row av-w-full av-gap-sm av-align-center">
-          <div class="av-flex-fill">
-            <AvTooltip
-              :disabled="!isTruncated"
-              :content="activity.title"
-              force-focusable
+    <template #title>
+      <div class="av-row av-w-full av-gap-sm av-align-center">
+        <div class="av-flex-fill">
+          <AvTooltip
+            :disabled="!isTruncated"
+            :content="activity.title"
+            force-focusable
+          >
+            <RouterLink
+              :to="to"
+              :title="activity.title"
+              class="av-max-lines"
             >
               <span
                 ref="titleRef"
-                class="av-max-lines b1-regular av-text-text1"
+                class="av-max-lines b1-bold av-link"
               >
                 {{ activity.title }}
               </span>
-            </AvTooltip>
-          </div>
-          <div class="icon-container av-col av-align-center av-justify-center av-p-xs av-radius-lg">
-            <AvIcon
-              :size="2.1875"
-              :name="ICONS.ACTIVITY"
-              color="var(--icon)"
-            />
-          </div>
+            </RouterLink>
+          </AvTooltip>
         </div>
-      </template>
-
-      <div class="details av-col av-gap-sm av-pb-xs av--mt-sm">
-        <div
-          v-if="activity.thematic || withStatus"
-          class="av-row av-w-full av-gap-xs av-wrap av-align-center"
-          data-testid="activity-card-badges"
-        >
-          <ActivityThematicBadge
-            v-if="activity.thematic"
-            :thematic="activity.thematic"
-          />
-          <ActivityStatusBadge
-            v-if="withStatus"
-            :status="activity.status"
+        <div class="icon-container av-col av-align-center av-justify-center av-p-xs av-radius-lg">
+          <AvIcon
+            :size="2.1875"
+            :name="ICONS.ACTIVITY"
+            color="var(--icon)"
           />
         </div>
+      </div>
+    </template>
 
-        <AvIconText
-          :icon="MDI_ICONS.PERSON_OUTLINE"
-          icon-color="var(--icon)"
-          :text="ownerLabel"
-          text-color="var(--text2)"
-          typography-class="b2-regular"
+    <div class="details av-col av-gap-sm av-pb-xs av--mt-sm">
+      <div
+        v-if="activity.thematic || withStatus"
+        class="av-row av-w-full av-gap-xs av-wrap av-align-center"
+        data-testid="activity-card-badges"
+      >
+        <ActivityThematicBadge
+          v-if="activity.thematic"
+          :thematic="activity.thematic"
+        />
+        <ActivityStatusBadge
+          v-if="withStatus"
+          :status="activity.status"
         />
       </div>
 
-      <div class="av-row av-w-full">
+      <AvIconText
+        :icon="MDI_ICONS.PERSON_OUTLINE"
+        icon-color="var(--icon)"
+        :text="ownerLabel"
+        text-color="var(--text2)"
+        typography-class="b2-regular"
+      />
+    </div>
+    <div class="av-row av-justify-between av-align-center">
+      <div class="av-col av-row--md av-gap-xs av-w-full av-justify-between--md">
         <AvIconText
           :icon="MDI_ICONS.CLOCK_ARROW"
           icon-color="var(--icon)"
@@ -103,8 +108,14 @@ const to = computed(() => ({
           typography-class="b2-regular"
         />
       </div>
-    </Card>
-  </RouterLink>
+      <div
+        v-if="$slots.actions"
+        class="av-align-center"
+      >
+        <slot name="actions" />
+      </div>
+    </div>
+  </Card>
 </template>
 
 <style lang="scss" scoped>
