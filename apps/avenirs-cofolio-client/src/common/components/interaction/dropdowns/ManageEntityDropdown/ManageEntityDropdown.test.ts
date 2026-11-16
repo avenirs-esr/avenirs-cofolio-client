@@ -32,6 +32,8 @@ BddTest().given('a ManageEntityDropdown', () => {
     icon: moreActionConfig[type].icon,
     label: expect.any(String),
     separatorBefore: separatorBefore ?? expect.any(Boolean),
+    disabled: false,
+    isLoading: false,
   })
 
   const expectRenderedActions = (types: Action[]) => {
@@ -43,12 +45,12 @@ BddTest().given('a ManageEntityDropdown', () => {
 
   const expectActionDisabled = (type: Action, disabled: boolean) => {
     const item = getDropdownItems().find(item => item.name === type)
-    expect(Boolean(item?.disabled)).toBe(disabled)
+    expect(item?.disabled).toBe(disabled)
   }
 
   const expectActionDisabledTooltip = (type: Action, disabledTooltip: string) => {
     const item = getDropdownItems().find(item => item.name === type)
-    expect(String(item?.disabledTooltip)).toBe(disabledTooltip)
+    expect(item?.disabledTooltip).toBe(disabledTooltip)
   }
 
   const expectDefaultLabel = () => {
@@ -135,6 +137,16 @@ BddTest().given('a ManageEntityDropdown', () => {
 
     BddTest().then('it should leave the other requested actions enabled', () => {
       expectActionDisabled(Action.DELETE, false)
+    })
+  })
+
+  BddTest().when('an action is requested with isLoading set to true', () => {
+    beforeEach(() => {
+      mountWith({ actions: [{ type: Action.UPDATE, isLoading: true }, Action.DELETE] })
+    })
+
+    BddTest().then('it should show only that action as loading', () => {
+      expect(getDropdownItems().map(({ isLoading }) => isLoading)).toEqual([true, false])
     })
   })
 
@@ -275,6 +287,68 @@ BddTest().given('a ManageEntityDropdown', () => {
         toExpectedItem(Action.UNSUBSCRIBE, false),
         toExpectedItem(Action.DELETE, false),
       ])
+    })
+  })
+
+  BddTest().when('the dropdown is neither loading nor disabled', () => {
+    beforeEach(() => {
+      mountWith({
+        actions: [Action.UPDATE, Action.DELETE],
+      })
+    })
+
+    BddTest().then('it should let the menu be opened', () => {
+      expect(getDropdown().props('triggerIsLoading')).toBe(false)
+      expect(getDropdown().props('triggerDisabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the dropdown is loading', () => {
+    beforeEach(() => {
+      mountWith({
+        actions: [{ type: Action.UPDATE, disabled: true }, Action.DELETE],
+        isLoading: true,
+      })
+    })
+
+    BddTest().then('it should show the trigger as loading', () => {
+      expect(getDropdown().props('triggerIsLoading')).toBe(true)
+    })
+
+    BddTest().then('it should show every action as loading', () => {
+      expect(getDropdownItems().map(({ isLoading }) => isLoading)).toEqual([true, true])
+    })
+
+    BddTest().then('it should keep the own state of each action', () => {
+      expectActionDisabled(Action.UPDATE, true)
+      expectActionDisabled(Action.DELETE, false)
+    })
+  })
+
+  BddTest().when('the dropdown is disabled', () => {
+    const disabledTooltip = 'Action indisponible'
+
+    beforeEach(() => {
+      mountWith({
+        actions: [{ type: Action.UPDATE, disabledTooltip: 'Raison propre à l\'action' }, Action.DELETE],
+        disabled: true,
+        disabledTooltip,
+      })
+    })
+
+    BddTest().then('it should disable the trigger with the dropdown tooltip', () => {
+      expect(getDropdown().props('triggerDisabled')).toBe(true)
+      expect(getDropdown().props('triggerDisabledTooltip')).toBe(disabledTooltip)
+    })
+
+    BddTest().then('it should disable every action', () => {
+      expectActionDisabled(Action.UPDATE, true)
+      expectActionDisabled(Action.DELETE, true)
+    })
+
+    BddTest().then('it should show the dropdown tooltip on every action', () => {
+      expectActionDisabledTooltip(Action.UPDATE, disabledTooltip)
+      expectActionDisabledTooltip(Action.DELETE, disabledTooltip)
     })
   })
 })

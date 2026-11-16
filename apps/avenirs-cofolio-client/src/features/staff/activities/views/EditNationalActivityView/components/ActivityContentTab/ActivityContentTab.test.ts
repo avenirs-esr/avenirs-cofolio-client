@@ -151,6 +151,10 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
+    BddTest().then('it should let the sub-activities menu be used', () => {
+      expect(getManageSubActivitiesDropdown().props('isLoading')).toBe(false)
+    })
+
     BddTest().then('it should pass an empty list to SubActivitiesSortableList', () => {
       expect(getSubActivitiesList().props('modelValue')).toEqual([])
     })
@@ -284,6 +288,10 @@ BddTest().given('an ActivityContentTab component', () => {
     BddTest().then('it should not show the sub-activities as being saved yet', () => {
       expect(getSubActivitiesList().props('isLoading')).toBe(false)
     })
+
+    BddTest().then('it should lock the sub-activities menu', () => {
+      expect(getManageSubActivitiesDropdown().props('isLoading')).toBe(true)
+    })
   })
 
   BddTest().when('the sub-activities order is being saved', () => {
@@ -294,6 +302,10 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should show the sub-activities as being saved', () => {
       expect(getSubActivitiesList().props('isLoading')).toBe(true)
+    })
+
+    BddTest().then('it should lock the sub-activities menu', () => {
+      expect(getManageSubActivitiesDropdown().props('isLoading')).toBe(true)
     })
   })
 

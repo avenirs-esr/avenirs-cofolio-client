@@ -46,6 +46,7 @@ const {
   isAssessmentGradeEnabled,
   subActivitiesOrder: {
     orderedSubActivities,
+    hasPendingChanges: hasPendingSubActivitiesOrder,
     isSaving: isSavingSubActivitiesOrder,
   },
   queueAutoSave,
@@ -58,6 +59,7 @@ const {
 } = useModal()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
+const isUpdatingSubActivitiesOrder = computed(() => hasPendingSubActivitiesOrder.value || isSavingSubActivitiesOrder.value)
 const isFormDirty = form.useStore(state => state.isDirty)
 const files = form.useStore(state => state.values.files)
 const links = form.useStore(state => state.values.links)
@@ -219,7 +221,10 @@ function deleteSelectedResources (
         collapsible
       >
         <template #title>
-          <ManageSubActivitiesDropdown @add="displayAddSubActivityModal" />
+          <ManageSubActivitiesDropdown
+            :is-loading="isUpdatingSubActivitiesOrder"
+            @add="displayAddSubActivityModal"
+          />
         </template>
 
         <SubActivitiesSortableList
