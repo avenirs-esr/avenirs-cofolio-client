@@ -160,6 +160,10 @@ BddTest().given('the useAssociationSearchResults composable', () => {
       BddTest().then('it should keep the id, the title, the category and the flags of every result, in order', () => {
         expect(composable.toAssociations(results, contextType).map(pickMapped)).toEqual(results.map(pickMapped))
       })
+
+      BddTest().then('it should include the requested context type in every association', () => {
+        expect(composable.toAssociations(results, contextType).map(item => item.contextType)).toEqual(results.map(() => contextType))
+      })
     })
   })
 
@@ -310,6 +314,12 @@ BddTest().given('the useAssociationSearch composable', () => {
           expectAssociations(associatedContextType)
         })
 
+        BddTest().then('it should include the associated context type in every result', () => {
+          expect(getAssociations().map(item => item.contextType)).toEqual(
+            getSearchResults(associatedContextType).map(() => associatedContextType)
+          )
+        })
+
         BddTest().then('it should be filterable only when this context type can be filtered on its association status', () => {
           expect(composable.isFilterable.value).toBe(!!ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].filterable)
         })
@@ -363,6 +373,7 @@ BddTest().given('the useAssociationSearch composable', () => {
         elementId: ELEMENT_ID,
         enabled: () => enabled.value
       })
+
       await flushPromises()
     })
 
@@ -379,6 +390,22 @@ BddTest().given('the useAssociationSearch composable', () => {
       BddTest().then('it should search the elements', async () => {
         await waitForAssociations(EAssociationContextType.TRACE)
       })
+    })
+  })
+
+  BddTest().when('a filterable search is disabled and then enabled', () => {
+    const enabled = ref(false)
+
+    beforeEach(() => {
+      enabled.value = false
+      mountWith({ associatedContextType: FILTERABLE_TYPE, enabled })
+    })
+
+    BddTest().then('filtering is unavailable until the search is enabled', async () => {
+      expect(composable.isFilterable.value).toBe(false)
+      enabled.value = true
+      await nextTick()
+      expect(composable.isFilterable.value).toBe(true)
     })
   })
 

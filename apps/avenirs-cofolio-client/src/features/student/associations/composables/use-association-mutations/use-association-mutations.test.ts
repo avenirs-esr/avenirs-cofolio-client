@@ -337,12 +337,8 @@ BddTest().given('the useAssociationMutations composable', () => {
       )
     })
 
-    BddTest().then('it should display the plural deletion success message', () => {
-      expect(mockAddSuccessMessage).toHaveBeenCalledOnce()
-      expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-        timeout: 2000,
-        description: 'Les associations sélectionnées ont été supprimées avec succès'
-      })
+    BddTest().then('it should NOT display a deletion success message', () => {
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
     })
 
     BddTest().then('it should call the success callback once without displaying any error', () => {
@@ -361,15 +357,12 @@ BddTest().given('the useAssociationMutations composable', () => {
       })
 
       await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalled()
+        expect(mockInvalidateAssociationQueries).toHaveBeenCalled()
       })
     })
 
-    BddTest().then('it should display the singular deletion success message', () => {
-      expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-        timeout: 2000,
-        description: 'L\'association sélectionnée a été supprimée avec succès'
-      })
+    BddTest().then('it should NOT display a deletion success message', () => {
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
     })
   })
 
@@ -436,7 +429,7 @@ BddTest().given('the useAssociationMutations composable', () => {
       await vi.waitFor(() => {
         expect(mockOnSuccess).toHaveBeenCalled()
       })
-      expect(mockAddSuccessMessage).toHaveBeenCalledOnce()
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
       expect(composable.isPending.value).toBe(false)
     })
   })
