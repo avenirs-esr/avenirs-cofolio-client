@@ -4,7 +4,7 @@ import type { IconOptions } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { RouterLink } from 'vue-router'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 
@@ -27,7 +27,7 @@ defineSlots<{
 
 const iconOptions: IconOptions = {
   name: ASSOCIATION_TYPE_ICONS[contextType],
-  color: 'var(--icon)',
+  color: ICON_COLORS[contextType],
   borderColor: 'var(--stroke)',
   bottom: '-2.5rem',
 }
@@ -45,8 +45,8 @@ const iconOptions: IconOptions = {
       v-bind="$attrs"
       :title="title"
       :icon-options="iconOptions"
-      :color="COLORS[contextType]"
-      title-color="var(--text1)"
+      :color="BG_COLORS[contextType]"
+      :title-color="TEXT_COLORS[contextType]"
       border-color="var(--other-border-skill-card)"
       :border-color-on-hover="disabled ? 'transparent' : 'var(--dark-background-primary1)'"
       title-typography-classes="s2-regular"

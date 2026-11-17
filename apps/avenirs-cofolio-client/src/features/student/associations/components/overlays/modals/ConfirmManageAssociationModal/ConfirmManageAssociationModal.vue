@@ -17,12 +17,6 @@ const emit = defineEmits<{
   (e: 'confirm'): void
 }>()
 
-const tracesItems = computed(() => items.filter(item => item.contextType === EAssociationContextType.TRACE))
-const activitiesItems = computed(() => items.filter(item => item.contextType === EAssociationContextType.DECLARED_ACTIVITY))
-const skillsItems = computed(() => items.filter(item => item.contextType === EAssociationContextType.DECLARED_SKILL))
-const experiencesItems = computed(() => items.filter(item => item.contextType === EAssociationContextType.DECLARED_EXPERIENCE))
-const programItems = computed(() => items.filter(item => item.contextType === EAssociationContextType.DECLARED_PROGRAM))
-
 function onConfirm () {
   emit('confirm')
 }
@@ -47,11 +41,12 @@ function onConfirm () {
     </template>
 
     <div class="av-col av-gap-sm pending-items">
-      <PendingItemsList :items="tracesItems" />
-      <PendingItemsList :items="activitiesItems" />
-      <PendingItemsList :items="skillsItems" />
-      <PendingItemsList :items="experiencesItems" />
-      <PendingItemsList :items="programItems" />
+      <template
+        v-for="contextType in Object.values(EAssociationContextType)"
+        :key="contextType"
+      >
+        <PendingItemsList :items="items.filter(item => item.contextType === contextType)" />
+      </template>
     </div>
   </ConfirmationModal>
 </template>

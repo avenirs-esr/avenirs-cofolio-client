@@ -3,7 +3,7 @@ import type { IconOptions } from '@avenirs-esr/shared'
 import type { EActivityThematic } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Association } from '@/features/student/associations/types/associations.types'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
@@ -15,11 +15,12 @@ export interface AssociationCompactCardProps {
 
 const { contextType, association } = defineProps<AssociationCompactCardProps>()
 
-const color = computed(() => COLORS[contextType])
+const color = computed(() => BG_COLORS[contextType])
+const titleColor = computed(() => TEXT_COLORS[contextType])
 
 const iconOptions = computed<IconOptions>(() => ({
   name: ASSOCIATION_TYPE_ICONS[contextType],
-  color: 'var(--icon)',
+  color: ICON_COLORS[contextType],
   bottom: '-2.5rem',
   borderColor: 'var(--stroke)'
 }))
@@ -28,7 +29,7 @@ const iconOptions = computed<IconOptions>(() => ({
 <template>
   <FloatingIconCard
     :title="association.title"
-    title-color="var(--text1)"
+    :title-color="titleColor"
     :color="color"
     :icon-options="iconOptions"
     border-color="var(--other-border-skill-card)"

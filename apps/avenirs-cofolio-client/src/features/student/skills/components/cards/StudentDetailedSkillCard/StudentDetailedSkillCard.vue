@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@avenirs-esr/shared'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import { FloatingIconCard, ICON_COLORS } from '@avenirs-esr/shared'
 
 export interface StudentDetailedSkillCardProps {
   id: string
@@ -15,7 +15,7 @@ const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSki
 
 const iconOptions: IconOptions = {
   name: icon,
-  color: 'var(--icon)',
+  color: ICON_COLORS.SELF_KNOWLEDGE,
   bottom: 'calc(-1 * var(--spacing-lg))',
   right: '0.75rem',
   borderColor: 'var(--stroke)',

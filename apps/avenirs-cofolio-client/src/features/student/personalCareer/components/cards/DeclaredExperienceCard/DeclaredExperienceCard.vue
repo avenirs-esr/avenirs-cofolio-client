@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
@@ -18,7 +18,7 @@ const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const iconOptions: IconOptions = {
   name: MDI_ICONS.HUB_OUTLINE,
-  color: 'var(--icon)',
+  color: ICON_COLORS.DECLARED_EXPERIENCE,
   right: '0.4rem',
   bottom: 'calc(-1 * 3.3rem)',
   borderColor: 'var(--stroke)'
@@ -38,12 +38,12 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="declaredExperience.title"
       :icon-options="iconOptions"
-      :color="COLORS.DECLARED_EXPERIENCE"
+      :color="BG_COLORS.DECLARED_EXPERIENCE"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"
       title-typography-classes="n6"
-      title-color="var(--text1)"
+      :title-color="TEXT_COLORS.DECLARED_EXPERIENCE"
       height="fit-content"
     >
       <template #body>

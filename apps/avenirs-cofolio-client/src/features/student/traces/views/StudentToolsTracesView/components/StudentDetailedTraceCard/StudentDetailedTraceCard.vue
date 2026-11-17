@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, FloatingIconCard, getDaysUntil, parseDate } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, getDaysUntil, ICON_COLORS, parseDate, TEXT_COLORS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
@@ -23,7 +23,7 @@ const { t } = useI18n()
 
 const iconOptions: IconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
-  color: 'var(--icon)',
+  color: ICON_COLORS.TRACE,
   bottom: 'var(--spacing-xl-neg)',
   right: '0.75rem',
   borderColor: 'var(--stroke)',
@@ -39,12 +39,12 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="title"
       :icon-options="iconOptions"
-      :color="COLORS.TRACE"
+      :color="BG_COLORS.TRACE"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"
       title-typography-classes="b1-bold"
-      title-color="var(--text1)"
+      :title-color="TEXT_COLORS.TRACE"
       height="fit-content"
     >
       <template #body>

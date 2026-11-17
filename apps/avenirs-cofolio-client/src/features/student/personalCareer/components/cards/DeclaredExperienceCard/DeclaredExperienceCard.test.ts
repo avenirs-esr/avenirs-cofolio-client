@@ -2,7 +2,7 @@ import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-e
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCardStub, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EExperienceType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -88,7 +88,9 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().then('it should have experience background color', () => {
-      expect(floatingCard.props('color')).toBe(COLORS.DECLARED_EXPERIENCE)
+      expect(floatingCard.props('color')).toBe(BG_COLORS.DECLARED_EXPERIENCE)
+      expect(floatingCard.props('titleColor')).toBe(TEXT_COLORS.DECLARED_EXPERIENCE)
+      expect(floatingCard.props('iconOptions').color).toBe(ICON_COLORS.DECLARED_EXPERIENCE)
     })
 
     BddTest().then('it should have correct border color', () => {

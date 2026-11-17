@@ -1,7 +1,7 @@
 import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCardStub, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EActivityThematic, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -81,7 +81,9 @@ BddTest().given('an ActivityLibraryCard', () => {
     })
 
     BddTest().then('it should pass activity color to FloatingIconCard', () => {
-      expect(floatingCard.props('color')).toBe(COLORS.DECLARED_ACTIVITY)
+      expect(floatingCard.props('color')).toBe(BG_COLORS.DECLARED_ACTIVITY)
+      expect(floatingCard.props('titleColor')).toBe(TEXT_COLORS.DECLARED_ACTIVITY)
+      expect(floatingCard.props('iconOptions').color).toBe(ICON_COLORS.DECLARED_ACTIVITY)
     })
 
     BddTest().then('it should pass headerRows 2 to FloatingIconCard', () => {

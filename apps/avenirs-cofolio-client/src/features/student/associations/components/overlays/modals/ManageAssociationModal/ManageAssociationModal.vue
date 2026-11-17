@@ -22,11 +22,8 @@ type AssociationOption = AvAutocompleteOption & Pick<Association, 'category' | '
 
 export interface ManageAssociationModalProps {
   opened: boolean
-  /** Context type of the element to associate or dissociate. */
   contextType: EAssociationContextType
-  /** Id of the element to associate or dissociate. */
   elementId: string
-  /** Mode of the association action. */
   mode: Action.ASSOCIATE | Action.DISSOCIATE
 }
 
@@ -44,16 +41,18 @@ const { withTaskLoading, isLoading: isTaskLoading } = useTaskLoading()
 const { associateAsync, unassociateAsync, isPending } = useAssociationMutations()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
+const isAssociate = computed(() => mode === Action.ASSOCIATE)
+
 const { getAssociateState } = useAssociationLimits({
   contextType,
   elementId: () => elementId,
-  enabled: computed(() => mode === Action.ASSOCIATE)
+  enabled: isAssociate
 })
 const { getDissociationState } = useDissociationState()
 
 const { data: dissociableAssociations, isLoading: isAssociationsLoading, error: associationsError } = useGetAssociations(contextType, computed(() => elementId), undefined, {
   query: {
-    enabled: computed(() => !!elementId && mode === Action.DISSOCIATE)
+    enabled: computed(() => !!elementId && !isAssociate.value)
   }
 })
 
@@ -71,7 +70,7 @@ const {
   elementId: () => elementId,
   associatedContextType: () => selectedType.value as EAssociationContextType,
   selectedIds: () => selectedOptions.value.map(({ value }) => value.toString()),
-  enabled: () => opened && !!selectedType.value && mode === Action.ASSOCIATE
+  enabled: () => opened && !!selectedType.value && isAssociate.value
 })
 
 const currentTypeDissociableAssociations = computed(() => getElementAssociations(
@@ -85,7 +84,7 @@ const modeContextTypes = computed(() => getAssociableContextTypes(contextType))
 
 const typeOptions = computed(() =>
   modeContextTypes.value.map((type) => {
-    const state = mode === Action.ASSOCIATE
+    const state = isAssociate.value
       ? getAssociateState(type)
       : getDissociationState(type, dissociableAssociations.value)
 
@@ -106,7 +105,7 @@ const associableOptions = computed<AssociationOption[]>(() =>
   }))
 )
 
-const selectedAssociations = computed<Association[]>(() => mode === Action.ASSOCIATE
+const selectedAssociations = computed<Association[]>(() => isAssociate.value
   ? selectedOptions.value.map(option => ({
       id: option.value.toString(),
       title: option.label,
@@ -156,9 +155,14 @@ async function onConfirm () {
     .map(contextType => selectedAssociations.value.filter(association => association.contextType === contextType))
     .filter(associations => associations.length > 0)
     .map((associations) => {
-      const commonParams = { contextType, elementId, associatedContextType: associations[0].contextType!, withToasts: false }
+      const commonParams = {
+        contextType,
+        elementId,
+        associatedContextType: associations[0].contextType!,
+        withToasts: false
+      }
 
-      if (mode === Action.ASSOCIATE) {
+      if (isAssociate.value) {
         return associateAsync({ ...commonParams, idsToAssociate: associations.map(({ id }) => id) })
       }
       else {
@@ -179,7 +183,7 @@ async function onConfirm () {
   if (someFulfilled) {
     addSuccessMessage(t(`${modalKey}.success.${allFulfilled ? 'all' : 'some'}.${mode}`))
 
-    if (mode === Action.ASSOCIATE) {
+    if (isAssociate.value) {
       emit('associated')
     }
     else {
@@ -207,10 +211,10 @@ watchEffect(() => {
     :is-loading="isLoading"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t(`${modalKey}.confirm.label.${mode}`, { count: selectedAssociations.length })"
-    :confirm-button-icon="mode === Action.ASSOCIATE ? ICONS.ASSOCIATE : ICONS.DISSOCIATE"
+    :confirm-button-icon="isAssociate ? ICONS.ASSOCIATE : ICONS.DISSOCIATE"
     :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-disabled-tooltip="t(`${modalKey}.confirm.disabledTooltip.${mode}`)"
-    :data-testid="`${mode === Action.ASSOCIATE ? 'associate' : 'dissociate'}-${getContextTypeSlug(selectedType as EAssociationContextType, true)}-modal`"
+    :data-testid="`${isAssociate ? 'associate' : 'dissociate'}-${getContextTypeSlug(selectedType as EAssociationContextType, true)}-modal`"
     @close="onCancel"
     @confirm="openModal"
   >
@@ -227,13 +231,13 @@ watchEffect(() => {
         />
       </div>
       <QuerySuspense
-        :is-loading="mode === Action.DISSOCIATE && isAssociationsLoading"
-        :error="mode === Action.DISSOCIATE ? associationsError : null"
+        :is-loading="!isAssociate && isAssociationsLoading"
+        :error="!isAssociate ? associationsError : null"
         :error-title="t(`student.associations.contextTypes.${contextType}.fetchAssociationsError`)"
-        :is-empty="mode === Action.DISSOCIATE && !!dissociableAssociations && dissociableAssociationsCount === 0"
+        :is-empty="!isAssociate && !!dissociableAssociations && dissociableAssociationsCount === 0"
         preserve-content
       >
-        <template v-if="mode === Action.ASSOCIATE">
+        <template v-if="isAssociate">
           <SearchAssociationLayout
             v-model="selectedOptions"
             v-model:search="searchQuery"

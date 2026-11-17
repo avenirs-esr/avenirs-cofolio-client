@@ -2,7 +2,7 @@
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
 import type { ExternalSkillDTO, SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, ICONS } from '@avenirs-esr/shared'
+import { BG_COLORS, ICONS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
@@ -35,10 +35,10 @@ const valorized = computed(() =>
   <StudentDetailedSkillCard
     :id="declaredSkill.id"
     :name="declaredSkill.title"
-    :skill-color="COLORS.DECLARED_SKILL"
+    :skill-color="BG_COLORS.DECLARED_SKILL"
     :icon="ICONS.SKILLS"
     :to="isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_SKILL.name : ROUTES.STUDENT.DECLARED_SKILL.name"
-    color="var(--text1)"
+    :color="TEXT_COLORS.DECLARED_SKILL"
   >
     <div class="av-col av-justify-between av--mt-xs av-gap-xxs">
       <div class="av-pr-5xl">

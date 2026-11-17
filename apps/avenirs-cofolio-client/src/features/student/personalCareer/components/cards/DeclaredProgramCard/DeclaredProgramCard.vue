@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredProgramViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
@@ -19,7 +19,7 @@ const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const iconOptions: IconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
-  color: 'var(--icon)',
+  color: ICON_COLORS.DECLARED_PROGRAM,
   right: '0.75rem',
   bottom: 'calc(-1 * 3.3rem)',
   borderColor: 'var(--stroke)'
@@ -37,12 +37,12 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="declaredProgram.title"
       :icon-options="iconOptions"
-      :color="COLORS.DECLARED_PROGRAM"
+      :color="BG_COLORS.DECLARED_PROGRAM"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"
       title-typography-classes="n6"
-      title-color="var(--text1)"
+      :title-color="TEXT_COLORS.DECLARED_PROGRAM"
       height="fit-content"
     >
       <template #body>
