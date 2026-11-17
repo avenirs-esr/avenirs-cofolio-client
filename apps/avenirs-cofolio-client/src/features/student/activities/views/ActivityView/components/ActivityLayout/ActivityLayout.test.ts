@@ -1,4 +1,4 @@
-import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type {
   SectionNavigationItem,
@@ -95,9 +95,9 @@ BddTest().given('a project activity layout component', () => {
     SubActivityDetails: SubActivityDetailsStub,
   }
 
-  const subActivities = [
-    { id: 'sub-activity-1', title: 'Première sous-activité' },
-    { id: 'sub-activity-2', title: 'Deuxième sous-activité' },
+  const subActivities: SubActivityOverviewDTO[] = [
+    { id: 'sub-activity-1', title: 'Première sous-activité', publishable: true },
+    { id: 'sub-activity-2', title: 'Deuxième sous-activité', publishable: true },
   ]
 
   BddTest().when('the component is mounted', () => {
