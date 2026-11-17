@@ -308,7 +308,8 @@
           },
           "SubActivitiesSortableList": {
             "announcement": "Sub-activity {subActivityName} moved from position {fromPos} to position {toPos} of {subActivitiesLength}",
-            "emptyState": "No sub-activities yet"
+            "emptyState": "No sub-activities yet",
+            "unpublishable": "Not publishable"
           },
           "success": {
             "saveActivityContent": "Activity saved successfully",

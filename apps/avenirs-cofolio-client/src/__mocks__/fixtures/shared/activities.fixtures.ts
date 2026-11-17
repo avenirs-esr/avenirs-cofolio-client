@@ -5,3 +5,8 @@ export const mockedSubActivitiesOverviewDTO: SubActivityOverviewDTO[] = [
   { id: 'sub-activity-2', title: 'Mettre en œuvre une solution', publishable: true },
   { id: 'sub-activity-3', title: 'Évaluer les résultats', publishable: true },
 ]
+
+export const mockedSubActivitiesOverviewDTOWithUnpublishable: SubActivityOverviewDTO[] = [
+  ...mockedSubActivitiesOverviewDTO,
+  { id: 'sub-activity-4', title: 'Présenter le bilan', publishable: false },
+]

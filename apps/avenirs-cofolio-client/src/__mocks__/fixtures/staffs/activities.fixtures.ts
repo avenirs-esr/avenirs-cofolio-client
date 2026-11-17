@@ -11,7 +11,7 @@ import type {
   StaffInfoDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
-import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithUnpublishable } from '@/__mocks__/fixtures/shared/activities.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
@@ -29,6 +29,9 @@ export const ACTIVITY_WITH_AUTHORIZATIONS_ID
 
 export const ACTIVITY_WITH_SUB_ACTIVITIES_ID
   = '7a1b5f22-4a1e-1f34-b8d0-0a7c3f2d6b03'
+
+export const ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID
+  = 'c8e3f91a-6b42-4d75-9a1c-f0e7b35d82a6'
 
 export const mockedStaff1: StaffInfoDTO = {
   id: 'user-1',
@@ -225,6 +228,12 @@ export const mockedActivityContentWithSubActivities: ActivityContentDTO = {
   ...mockedActivityContent,
   id: ACTIVITY_WITH_SUB_ACTIVITIES_ID,
   subActivities: mockedSubActivitiesOverviewDTO
+}
+
+export const mockedActivityContentWithUnpublishableSubActivities: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID,
+  subActivities: mockedSubActivitiesOverviewDTOWithUnpublishable
 }
 
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
