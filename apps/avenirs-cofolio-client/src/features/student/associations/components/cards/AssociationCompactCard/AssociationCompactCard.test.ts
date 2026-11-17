@@ -1,11 +1,12 @@
 import type { AssociationCompactCardProps } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
 import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 
 const stubs = {
@@ -22,11 +23,42 @@ BddTest().given('an association compact card', () => {
   let wrapper: ReturnType<typeof mountCard>
 
   const findFloatingIconCard = () => wrapper.findComponent(FloatingIconCardStub)
+  const getCompactCardInfo = () => wrapper.find('[data-testid="association-compact-card-info"]')
 
   const expectNoBadge = () => {
     expect(wrapper.findComponent(ActivityThematicBadgeStub).exists()).toBe(false)
     expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
   }
+
+  const scenarios = [
+    { contextType: EAssociationContextType.TRACE, association: { id: 'trace-1', title: 'Ma super trace' } },
+    { contextType: EAssociationContextType.DECLARED_ACTIVITY, association: { id: 'activity-1', title: 'Ma super activité' } },
+    { contextType: EAssociationContextType.DECLARED_SKILL, association: { id: 'skill-1', title: 'Ma super compétence' } },
+    { contextType: EAssociationContextType.DECLARED_EXPERIENCE, association: { id: 'experience-1', title: 'Ma super expérience' } },
+    { contextType: EAssociationContextType.DECLARED_PROGRAM, association: { id: 'activity-2', title: 'Ma super activité 2' } }
+  ]
+
+  scenarios.forEach(({ contextType, association }) => {
+    BddTest().when(`it is mounted with a ${contextType} contextType`, () => {
+      beforeEach(() => {
+        wrapper = mountCard({ contextType, association })
+      })
+
+      BddTest().then('it should render the floating icon card with correct props', () => {
+        expect(findFloatingIconCard().exists()).toBe(true)
+        expect(findFloatingIconCard().props('title')).toBe(association.title)
+        expect(findFloatingIconCard().props('titleColor')).toBe('var(--text1)')
+        expect(findFloatingIconCard().props('borderColor')).toBe('var(--other-border-skill-card)')
+        expect(findFloatingIconCard().props('color')).toBe(COLORS[contextType])
+        expect(findFloatingIconCard().props('iconOptions')).toMatchObject({
+          name: ASSOCIATION_TYPE_ICONS[contextType],
+          color: 'var(--icon)',
+          bottom: '-2.5rem',
+          borderColor: 'var(--stroke)'
+        })
+      })
+    })
+  })
 
   BddTest().when('it is mounted with a trace', () => {
     const props: AssociationCompactCardProps = {
@@ -39,34 +71,7 @@ BddTest().given('an association compact card', () => {
     })
 
     BddTest().then('it should render the floating icon card', () => {
-      expect(wrapper.find('[data-testid="association-compact-card"]').exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass the title and the light colors to the card', () => {
-      expect(findFloatingIconCard().props()).toMatchObject({
-        title: props.association.title,
-        titleColor: 'var(--text1)',
-        color: 'var(--light-background-neutral)',
-        borderColor: 'var(--other-border-skill-card)'
-      })
-    })
-
-    BddTest().then('it should pass the trace icon to the card', () => {
-      expect(findFloatingIconCard().props('iconOptions')).toEqual({
-        name: ICONS.TRACES,
-        color: 'var(--icon)',
-        bottom: '-2.5rem',
-        borderColor: 'var(--other-border-skill-card)'
-      })
-    })
-
-    BddTest().then('it should pass the compact layout props to the card', () => {
-      expect(findFloatingIconCard().props()).toMatchObject({
-        headerRows: 2,
-        height: '7.5rem',
-        customTitleHeight: '4rem',
-        titleTypographyClasses: 'caption-regular'
-      })
+      expect(findFloatingIconCard().exists()).toBe(true)
     })
 
     BddTest().then('it should not render any badge', () => {
@@ -83,7 +88,7 @@ BddTest().given('an association compact card', () => {
     })
 
     BddTest().then('it should render the description as complementary info', () => {
-      expect(wrapper.find('[data-testid="association-compact-card-info"]').text()).toBe('cv.pdf')
+      expect(getCompactCardInfo().text()).toBe('cv.pdf')
     })
 
     BddTest().then('it should not render any badge', () => {
@@ -102,11 +107,6 @@ BddTest().given('an association compact card', () => {
           description: 'Connaissance de soi'
         }
       })
-    })
-
-    BddTest().then('it should use the light colors and the activity icon', () => {
-      expect(findFloatingIconCard().props('color')).toBe('var(--light-background-neutral)')
-      expect(findFloatingIconCard().props('iconOptions')).toMatchObject({ name: ICONS.ACTIVITY, color: 'var(--icon)' })
     })
 
     BddTest().then('it should render a small thematic badge with the category', () => {
@@ -148,18 +148,6 @@ BddTest().given('an association compact card', () => {
 
     beforeEach(() => {
       wrapper = mountCard(props)
-    })
-
-    BddTest().then('it should use the dark colors', () => {
-      expect(findFloatingIconCard().props()).toMatchObject({
-        title: props.association.title,
-        titleColor: 'var(--card)',
-        color: 'var(--dark-background-primary1)'
-      })
-    })
-
-    BddTest().then('it should pass the skill icon with the dark icon color to the card', () => {
-      expect(findFloatingIconCard().props('iconOptions')).toMatchObject({ name: ICONS.SKILLS, color: 'var(--card)' })
     })
 
     BddTest().then('it should render the type badge with the category description', () => {
@@ -206,11 +194,6 @@ BddTest().given('an association compact card', () => {
           description: 'Professionnelle'
         }
       })
-    })
-
-    BddTest().then('it should use the light colors and the experience icon', () => {
-      expect(findFloatingIconCard().props('color')).toBe('var(--light-background-neutral)')
-      expect(findFloatingIconCard().props('iconOptions')).toMatchObject({ name: ICONS.EXPERIENCES, color: 'var(--icon)' })
     })
 
     BddTest().then('it should not render any badge', () => {

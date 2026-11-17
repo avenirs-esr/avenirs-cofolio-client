@@ -25,8 +25,8 @@ BddTest().given('an association context type select', () => {
     beforeEach(() => {
       wrapper = mountSelect({
         contextTypes: [
-          EAssociationContextType.DECLARED_SKILL,
-          EAssociationContextType.DECLARED_ACTIVITY,
+          { type: EAssociationContextType.DECLARED_SKILL },
+          { type: EAssociationContextType.DECLARED_ACTIVITY },
         ],
         modelValue: EAssociationContextType.DECLARED_SKILL,
       })
@@ -102,10 +102,10 @@ BddTest().given('an association context type select', () => {
     beforeEach(() => {
       wrapper = mountSelect({
         contextTypes: [
-          EAssociationContextType.TRACE,
-          EAssociationContextType.DECLARED_ACTIVITY,
-          EAssociationContextType.DECLARED_SKILL,
-          EAssociationContextType.DECLARED_EXPERIENCE,
+          { type: EAssociationContextType.TRACE },
+          { type: EAssociationContextType.DECLARED_ACTIVITY },
+          { type: EAssociationContextType.DECLARED_SKILL },
+          { type: EAssociationContextType.DECLARED_EXPERIENCE },
         ],
         modelValue: EAssociationContextType.TRACE,
       })

@@ -60,3 +60,9 @@ const { t } = useI18n()
     </Card>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.selected-associate-items-container__list {
+  overflow-y: auto;
+}
+</style>

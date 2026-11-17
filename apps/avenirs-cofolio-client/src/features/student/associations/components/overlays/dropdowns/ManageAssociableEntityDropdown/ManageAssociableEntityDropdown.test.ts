@@ -18,8 +18,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageAssociableEntityDropdown from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
+import { ManageAssociationModalStub } from '@/features/student/associations/components/overlays/modals/ManageAssociationModal/ManageAssociationModal.stub'
 import { getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 
 BddTest().given('a ManageAssociableEntityDropdown', () => {
@@ -48,8 +47,7 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
 
   const stubs = {
     ManageEntityDropdown: ManageEntityDropdownStub,
-    AssociateModal: AssociateModalStub,
-    DeleteAssociationsModal: DeleteAssociationsModalStub
+    ManageAssociationModal: ManageAssociationModalStub
   }
 
   const mountWith = (props: Partial<ManageAssociableEntityDropdownProps> = {}) => {
@@ -62,8 +60,7 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
   afterEach(() => wrapper?.unmount())
 
   const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
-  const getAssociateModal = () => wrapper.findComponent(AssociateModalStub)
-  const getDeleteAssociationsModal = () => wrapper.findComponent(DeleteAssociationsModalStub)
+  const getManageAssociationModal = () => wrapper.findComponent(ManageAssociationModalStub)
 
   const getDropdownActions = () =>
     getDropdown().props('actions') as Array<Action | ActionItem>
@@ -115,9 +112,8 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
       ])
     })
 
-    BddTest().then('it should render both modals closed', () => {
-      expect(getAssociateModal().props('opened')).toBe(false)
-      expect(getDeleteAssociationsModal().props('opened')).toBe(false)
+    BddTest().then('it should render the modal closed', () => {
+      expect(getManageAssociationModal().props('opened')).toBe(false)
     })
 
     BddTest().then('it should pass the entity name to the dropdown', () => {
@@ -185,14 +181,9 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
       mountWith()
     })
 
-    BddTest().then('it should pass the context and element id to the associate modal', () => {
-      expect(getAssociateModal().props('contextType')).toBe(contextType)
-      expect(getAssociateModal().props('elementId')).toBe(defaultProps.elementId)
-    })
-
-    BddTest().then('it should pass the context and element id to the delete associations modal', () => {
-      expect(getDeleteAssociationsModal().props('contextType')).toBe(contextType)
-      expect(getDeleteAssociationsModal().props('elementId')).toBe(defaultProps.elementId)
+    BddTest().then('it should pass the context and element id to the manage association modal', () => {
+      expect(getManageAssociationModal().props('contextType')).toBe(contextType)
+      expect(getManageAssociationModal().props('elementId')).toBe(defaultProps.elementId)
     })
   })
 
@@ -202,33 +193,30 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
       await emitActionSelected(Action.ASSOCIATE)
     })
 
-    BddTest().then('it should open the associate modal', () => {
-      expect(getAssociateModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('it should keep the delete associations modal closed', () => {
-      expect(getDeleteAssociationsModal().props('opened')).toBe(false)
+    BddTest().then('it should open the manage association modal in associate mode', () => {
+      expect(getManageAssociationModal().props('opened')).toBe(true)
+      expect(getManageAssociationModal().props('mode')).toBe(Action.ASSOCIATE)
     })
 
     BddTest().and('the user cancels the association', () => {
       beforeEach(async () => {
-        getAssociateModal().vm.$emit('cancel')
+        getManageAssociationModal().vm.$emit('cancel')
         await nextTick()
       })
 
-      BddTest().then('it should close the associate modal', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
+      BddTest().then('it should close the manage association modal', () => {
+        expect(getManageAssociationModal().props('opened')).toBe(false)
       })
     })
 
     BddTest().and('the association is completed', () => {
       beforeEach(async () => {
-        getAssociateModal().vm.$emit('associated')
+        getManageAssociationModal().vm.$emit('associated')
         await nextTick()
       })
 
-      BddTest().then('it should close the associate modal', () => {
-        expect(getAssociateModal().props('opened')).toBe(false)
+      BddTest().then('it should close the manage association modal', () => {
+        expect(getManageAssociationModal().props('opened')).toBe(false)
       })
     })
   })
@@ -239,33 +227,30 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
       await emitActionSelected(Action.DISSOCIATE)
     })
 
-    BddTest().then('it should open the delete associations modal', () => {
-      expect(getDeleteAssociationsModal().props('opened')).toBe(true)
-    })
-
-    BddTest().then('it should keep the associate modal closed', () => {
-      expect(getAssociateModal().props('opened')).toBe(false)
+    BddTest().then('it should open the manage association modal in dissociate mode', () => {
+      expect(getManageAssociationModal().props('opened')).toBe(true)
+      expect(getManageAssociationModal().props('mode')).toBe(Action.DISSOCIATE)
     })
 
     BddTest().and('the user cancels the dissociation', () => {
       beforeEach(async () => {
-        getDeleteAssociationsModal().vm.$emit('cancel')
+        getManageAssociationModal().vm.$emit('cancel')
         await nextTick()
       })
 
-      BddTest().then('it should close the delete associations modal', () => {
-        expect(getDeleteAssociationsModal().props('opened')).toBe(false)
+      BddTest().then('it should close the manage association modal', () => {
+        expect(getManageAssociationModal().props('opened')).toBe(false)
       })
     })
 
     BddTest().and('the associations are deleted', () => {
       beforeEach(async () => {
-        getDeleteAssociationsModal().vm.$emit('deleted')
+        getManageAssociationModal().vm.$emit('dissociated')
         await nextTick()
       })
 
-      BddTest().then('it should close the delete associations modal', () => {
-        expect(getDeleteAssociationsModal().props('opened')).toBe(false)
+      BddTest().then('it should close the manage association modal', () => {
+        expect(getManageAssociationModal().props('opened')).toBe(false)
       })
     })
   })
@@ -280,9 +265,8 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
       expect(wrapper.emitted(Action.UPDATE)).toEqual([[]])
     })
 
-    BddTest().then('it should keep both modals closed', () => {
-      expect(getAssociateModal().props('opened')).toBe(false)
-      expect(getDeleteAssociationsModal().props('opened')).toBe(false)
+    BddTest().then('it should keep the manage association modal closed', () => {
+      expect(getManageAssociationModal().props('opened')).toBe(false)
     })
   })
 
@@ -465,9 +449,8 @@ BddTest().given('a ManageAssociableEntityDropdown', () => {
         expect(getAction(Action.DISSOCIATE).disabled).toBe(false)
       })
 
-      BddTest().then('it should pass the new element id to both modals', () => {
-        expect(getAssociateModal().props('elementId')).toBe('declared-activity-2')
-        expect(getDeleteAssociationsModal().props('elementId')).toBe('declared-activity-2')
+      BddTest().then('it should pass the new element id to the manage association modal', () => {
+        expect(getManageAssociationModal().props('elementId')).toBe('declared-activity-2')
       })
     })
   })

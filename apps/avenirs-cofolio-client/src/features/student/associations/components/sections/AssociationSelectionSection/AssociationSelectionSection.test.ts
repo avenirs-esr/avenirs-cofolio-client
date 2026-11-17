@@ -116,7 +116,7 @@ BddTest().given('an association selection section', () => {
   const expectTypeSelect = (activeContextType: EAssociationContextType) => {
     const typeSelect = getTypeSelect()
     expect(typeSelect.attributes('data-testid')).toBe('associate-elements-type-select')
-    expect(typeSelect.props('contextTypes')).toEqual(getAssociableTypes())
+    expect(typeSelect.props('contextTypes')).toEqual(getAssociableTypes().map(type => ({ type })))
     expect(typeSelect.props('modelValue')).toBe(activeContextType)
   }
 
