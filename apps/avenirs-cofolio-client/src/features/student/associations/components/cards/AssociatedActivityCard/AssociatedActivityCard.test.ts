@@ -2,8 +2,7 @@ import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociatedActivityCardProps } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ICONS } from '@avenirs-esr/shared'
-import { EActivityThematic, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
+import { EActivityThematic, EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import {
@@ -51,11 +50,7 @@ BddTest().given('an associated activity card', () => {
       expect(associationCard.exists()).toBe(true)
       expect(associationCard.props()).toMatchObject({
         title: mockedDeclaredActivity.title,
-        icon: ICONS.ACTIVITY,
-        color: 'var(--icon)',
-        hoverBorderColor: 'var(--dark-background-neutral)',
-        iconBorderColor: 'var(--other-border-skill-card)',
-        backgroundColor: 'var(--surface-background)',
+        contextType: EAssociationContextType.DECLARED_ACTIVITY,
         to: {
           name: ROUTES.STUDENT.ACTIVITY.name,
           params: {
@@ -82,16 +77,18 @@ BddTest().given('an associated activity card', () => {
   BddTest().when('the component is mounted with disabled=true', () => {
     const props: AssociatedActivityCardProps = {
       declaredActivity: mockedDeclaredActivity,
-      disabled: true
+      disabled: true,
+      disabledTooltip: 'Indisponible'
     }
 
     beforeEach(() => {
       wrapper = mount(AssociatedActivityCard, { props, global: { stubs } })
     })
 
-    BddTest().then('it should pass disabled=true to the AssociationCard', () => {
+    BddTest().then('it should pass the disabled state and tooltip to the AssociationCard', () => {
       const associationCard = wrapper.findComponent(AssociationCardStub)
       expect(associationCard.props('disabled')).toBe(true)
+      expect(associationCard.props('disabledTooltip')).toBe('Indisponible')
     })
   })
 })

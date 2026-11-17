@@ -1,6 +1,7 @@
 import type { ExternalSkillDTO, SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { COLORS } from '@avenirs-esr/shared'
 import { ESkillLevel, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -70,8 +71,8 @@ BddTest().given('a student detailed declared skill card', () => {
       expect(card.props('id')).toBe(mockSkill.id)
       expect(card.props('name')).toBe(mockSkill.title)
       expect(card.props('icon')).toBe('mdi:stars')
-      expect(card.props('skillColor')).toBe('var(--dark-background-primary1)')
-      expect(card.props('color')).toBe('var(--card2)')
+      expect(card.props('skillColor')).toBe(COLORS.DECLARED_SKILL)
+      expect(card.props('color')).toBe('var(--text1)')
       expect(card.props('to')).toBe('student-project-declared-skill')
     })
 

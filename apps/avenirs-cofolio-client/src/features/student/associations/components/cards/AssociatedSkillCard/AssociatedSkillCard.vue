@@ -3,6 +3,7 @@ import type { AvBadgeProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav
 import type { SkillProgressDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
@@ -34,9 +35,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
 <template>
   <AssociationCard
     :title="declaredSkill.title"
-    :icon="ICONS.SKILLS"
-    color="var(--card)"
-    background-color="var(--dark-background-primary1)"
+    :context-type="EAssociationContextType.DECLARED_SKILL"
     :to="{ name: ROUTES.STUDENT.DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
     :disabled="disabled"
     :disabled-tooltip

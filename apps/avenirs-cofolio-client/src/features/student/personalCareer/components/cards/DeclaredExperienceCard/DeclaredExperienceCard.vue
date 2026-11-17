@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
@@ -21,7 +21,7 @@ const iconOptions: IconOptions = {
   color: 'var(--icon)',
   right: '0.4rem',
   bottom: 'calc(-1 * 3.3rem)',
-  borderColor: 'var(--other-border-skill-card)'
+  borderColor: 'var(--stroke)'
 }
 </script>
 
@@ -38,7 +38,7 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="declaredExperience.title"
       :icon-options="iconOptions"
-      color="var(--surface-background)"
+      :color="COLORS.DECLARED_EXPERIENCE"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"

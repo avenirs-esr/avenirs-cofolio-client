@@ -1,3 +1,5 @@
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
+import type { PropType } from 'vue'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const AssociationCardStub = defineComponent({
@@ -8,25 +10,9 @@ export const AssociationCardStub = defineComponent({
       type: String,
       required: true
     },
-    icon: {
-      type: String,
+    contextType: {
+      type: String as PropType<EAssociationContextType>,
       required: true
-    },
-    color: {
-      type: String,
-      required: true
-    },
-    backgroundColor: {
-      type: String,
-      required: true
-    },
-    hoverBorderColor: {
-      type: String,
-      required: false
-    },
-    iconBorderColor: {
-      type: String,
-      required: false
     },
     to: {
       type: [String, Object],

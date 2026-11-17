@@ -15,10 +15,10 @@ const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSki
 
 const iconOptions: IconOptions = {
   name: icon,
-  color,
+  color: 'var(--icon)',
   bottom: 'calc(-1 * var(--spacing-lg))',
   right: '0.75rem',
-  borderColor: 'var(--other-background-base)',
+  borderColor: 'var(--stroke)',
 }
 </script>
 
@@ -33,7 +33,7 @@ const iconOptions: IconOptions = {
       :icon-options="iconOptions"
       :color="skillColor"
       border-color="var(--other-border-skill-card)"
-      :border-color-on-hover="skillColor"
+      border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"
       title-typography-classes="n5"
       height="fit-content"

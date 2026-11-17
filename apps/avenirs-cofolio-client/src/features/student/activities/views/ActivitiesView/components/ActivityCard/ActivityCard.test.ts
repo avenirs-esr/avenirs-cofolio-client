@@ -1,7 +1,7 @@
 import type { ActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
 import { EActivityThematic, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -66,8 +66,8 @@ BddTest().given('an activity card', () => {
       expect(floatingCard.props('title')).toBe('Atelier CV')
     })
 
-    BddTest().then('it should have surface background color', () => {
-      expect(floatingCard.props('color')).toBe('var(--surface-background)')
+    BddTest().then('it should have activity background color', () => {
+      expect(floatingCard.props('color')).toBe(COLORS.DECLARED_ACTIVITY)
     })
 
     BddTest().then('it should pass target arrow icon in icon options', () => {

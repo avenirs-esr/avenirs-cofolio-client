@@ -2,7 +2,7 @@ import type { DeclaredProgramViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
 import { EProgramStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -74,8 +74,8 @@ BddTest().given('a declared program card', () => {
       expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should have surface background color', () => {
-      expect(floatingCard.props('color')).toBe('var(--surface-background)')
+    BddTest().then('it should have program background color', () => {
+      expect(floatingCard.props('color')).toBe(COLORS.DECLARED_PROGRAM)
     })
 
     BddTest().then('it should have correct border colors', () => {
@@ -104,7 +104,7 @@ BddTest().given('a declared program card', () => {
     BddTest().then('it should have correct icon colors', () => {
       const iconOptions = floatingCard.props('iconOptions')
       expect(iconOptions.color).toBe('var(--icon)')
-      expect(iconOptions.borderColor).toBe('var(--other-border-skill-card)')
+      expect(iconOptions.borderColor).toBe('var(--stroke)')
     })
 
     BddTest().then('it should have correct icon position', () => {

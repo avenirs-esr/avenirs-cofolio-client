@@ -1,18 +1,16 @@
 <script lang="ts" setup>
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { IconOptions } from '@avenirs-esr/shared'
+import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
 import { RouterLink } from 'vue-router'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 
 export interface AssociationCardProps extends AvInteractiveProps {
   title: string
-  icon: string
-  color: string
-  backgroundColor: string
-  hoverBorderColor?: string
-  iconBorderColor?: string
+  contextType: EAssociationContextType
   to: RouteLocationRaw
 }
 
@@ -20,7 +18,7 @@ defineOptions({
   inheritAttrs: false
 })
 
-const { title, icon, color, backgroundColor, hoverBorderColor, iconBorderColor, to, disabled } = defineProps<AssociationCardProps>()
+const { title, contextType, to, disabled } = defineProps<AssociationCardProps>()
 
 defineSlots<{
   body?: Slot
@@ -28,9 +26,9 @@ defineSlots<{
 }>()
 
 const iconOptions: IconOptions = {
-  name: icon,
-  color,
-  borderColor: iconBorderColor ?? color,
+  name: ASSOCIATION_TYPE_ICONS[contextType],
+  color: 'var(--icon)',
+  borderColor: 'var(--stroke)',
   bottom: '-2.5rem',
 }
 </script>
@@ -47,10 +45,10 @@ const iconOptions: IconOptions = {
       v-bind="$attrs"
       :title="title"
       :icon-options="iconOptions"
-      :color="backgroundColor"
-      :title-color="color"
+      :color="COLORS[contextType]"
+      title-color="var(--text1)"
       border-color="var(--other-border-skill-card)"
-      :border-color-on-hover="disabled ? 'transparent' : (hoverBorderColor ?? backgroundColor)"
+      :border-color-on-hover="disabled ? 'transparent' : 'var(--dark-background-primary1)'"
       title-typography-classes="s2-regular"
       :header-rows="3"
       height="21.625rem"

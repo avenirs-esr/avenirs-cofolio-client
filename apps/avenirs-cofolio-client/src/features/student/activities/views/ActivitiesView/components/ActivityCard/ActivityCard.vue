@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { ActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import { FloatingIconCard, ICONS } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCard, ICONS } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { ROUTES } from '@/common/constants'
@@ -15,7 +15,7 @@ const iconOptions: IconOptions = {
   color: 'var(--icon)',
   right: '0.4rem',
   bottom: 'calc(-1 * 3.3rem)',
-  borderColor: 'var(--other-border-skill-card)'
+  borderColor: 'var(--stroke)'
 }
 </script>
 
@@ -28,11 +28,11 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="activity.title"
       :icon-options="iconOptions"
-      color="var(--surface-background)"
+      :color="COLORS.DECLARED_ACTIVITY"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"
-      title-typography-classes="b1-light"
+      title-typography-classes="b1-regular"
       title-color="var(--text1)"
       height="100%"
     >
