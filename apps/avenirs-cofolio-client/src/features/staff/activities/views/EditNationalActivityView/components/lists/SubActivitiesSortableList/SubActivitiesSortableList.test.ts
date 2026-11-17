@@ -1,20 +1,31 @@
+import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QuerySuspenseStub, SortableListStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithUnpublishable } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { WarningBadgeStub } from '@/common/components/badges/WarningBadge/WarningBadge.stub'
 import { ROUTES } from '@/common/constants'
 import SubActivitiesSortableList from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.vue'
 
 const ANNOUNCEMENT_MESSAGE = 'Sous-activité {subActivityName} déplacée de la position {fromPos} à la position {toPos} sur {subActivitiesLength}'
 const EMPTY_STATE_MESSAGE = 'Aucune sous-activité pour le moment'
+const UNPUBLISHABLE_LABEL = 'Non publiable'
 
 type MountProps = InstanceType<typeof SubActivitiesSortableList>['$props']
 
 const defaultProps: MountProps = {
   modelValue: [],
+}
+
+function toItems (subActivities: SubActivityOverviewDTO[]) {
+  return subActivities.map(({ id, title, publishable }) => ({
+    id,
+    label: title,
+    publishable
+  }))
 }
 
 BddTest().given('a SubActivitiesSortableList component', () => {
@@ -24,6 +35,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
     QuerySuspense: QuerySuspenseStub,
     RouterLink: RouterLinkStub,
     SortableList: SortableListStub,
+    WarningBadge: WarningBadgeStub,
   }
 
   const mountWith = (props: Partial<MountProps> = {}) => {
@@ -39,6 +51,15 @@ BddTest().given('a SubActivitiesSortableList component', () => {
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getSortableList = () => wrapper.findComponent(SortableListStub)
   const getLinks = () => wrapper.findAllComponents(RouterLinkStub)
+  const getBadges = () => wrapper.findAllComponents(WarningBadgeStub)
+  const getRenderedSubActivities = () => wrapper.findAll('.sortable-list-stub__item').map((item) => {
+    const badge = item.findComponent(WarningBadgeStub)
+
+    return {
+      title: item.findComponent(RouterLinkStub).text(),
+      badgeLabel: badge.exists() ? badge.props('label') : undefined
+    }
+  })
 
   const getAnnouncementMessage = (
     subActivityName: string,
@@ -86,8 +107,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
     })
 
     BddTest().then('it should give the sub-activities to the sortable list', () => {
-      const expectedSubActivities = mockedSubActivitiesOverviewDTO.map(({ id, title }) => ({ id, label: title }))
-      expect(getSortableList().props('modelValue')).toEqual(expectedSubActivities)
+      expect(getSortableList().props('modelValue')).toEqual(toItems(mockedSubActivitiesOverviewDTO))
     })
 
     BddTest().then('it should not be loading', () => {
@@ -107,6 +127,10 @@ BddTest().given('a SubActivitiesSortableList component', () => {
       expect(getLinks().map(link => link.props('to'))).toEqual(expectedLinks)
     })
 
+    BddTest().then('it should not flag any sub-activity as unpublishable', () => {
+      expect(getBadges()).toHaveLength(0)
+    })
+
     BddTest().then('it should announce moves with the sub-activity name and positions', () => {
       const { id, title } = mockedSubActivitiesOverviewDTO[0]!
       const lastIndex = mockedSubActivitiesOverviewDTO.length - 1
@@ -121,13 +145,29 @@ BddTest().given('a SubActivitiesSortableList component', () => {
       const reversedSubActivities = [...mockedSubActivitiesOverviewDTO].reverse()
 
       beforeEach(async () => {
-        getSortableList().vm.$emit('update:modelValue', reversedSubActivities.map(({ id, title }) => ({ id, label: title })))
+        getSortableList().vm.$emit('update:modelValue', toItems(reversedSubActivities))
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should emit the sub-activities in the new order', () => {
         expect(wrapper.emitted('update:modelValue')).toEqual([[reversedSubActivities]])
       })
+    })
+  })
+
+  BddTest().when('some sub-activities are not publishable', () => {
+    beforeEach(() => {
+      mountWith({
+        modelValue: mockedSubActivitiesOverviewDTOWithUnpublishable
+      })
+    })
+
+    BddTest().then('it should flag only the unpublishable sub-activities', () => {
+      const expectedSubActivities = mockedSubActivitiesOverviewDTOWithUnpublishable.map(({ title, publishable }) => ({
+        title,
+        badgeLabel: publishable ? undefined : UNPUBLISHABLE_LABEL
+      }))
+      expect(getRenderedSubActivities()).toEqual(expectedSubActivities)
     })
   })
 

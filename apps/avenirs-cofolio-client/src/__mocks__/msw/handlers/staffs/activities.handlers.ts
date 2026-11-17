@@ -42,6 +42,7 @@ import {
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityContentWithSubActivities,
+  mockedActivityContentWithUnpublishableSubActivities,
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse,
@@ -291,6 +292,9 @@ export const staffsActivitiesHandlers = [
       }
       else if (activityId === mockedActivityContentWithSubActivities.id) {
         response = mockedActivityContentWithSubActivities
+      }
+      else if (activityId === mockedActivityContentWithUnpublishableSubActivities.id) {
+        response = mockedActivityContentWithUnpublishableSubActivities
       }
       else if (activityId === WITHOUT_RIGHTS_ID) {
         response = {
