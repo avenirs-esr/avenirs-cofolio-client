@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { FloatingIconCard, getDaysUntil, parseDate } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCard, getDaysUntil, parseDate } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
@@ -26,7 +26,7 @@ const iconOptions: IconOptions = {
   color: 'var(--icon)',
   bottom: 'var(--spacing-xl-neg)',
   right: '0.75rem',
-  borderColor: 'var(--other-border-skill-card)',
+  borderColor: 'var(--stroke)',
 }
 </script>
 
@@ -39,7 +39,7 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="title"
       :icon-options="iconOptions"
-      color="var(--light-background-neutral)"
+      :color="COLORS.TRACE"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"

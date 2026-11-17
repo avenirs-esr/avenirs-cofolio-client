@@ -1,10 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociationCardProps } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub, ICONS } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
 BddTest().given('an association card', () => {
@@ -22,9 +24,7 @@ BddTest().given('an association card', () => {
   BddTest().when('the component is mounted with base props', () => {
     const props: AssociationCardProps = {
       title: 'Skill',
-      icon: ICONS.SKILLS,
-      color: 'var(--color)',
-      backgroundColor: 'var(--background-color)',
+      contextType: EAssociationContextType.DECLARED_SKILL,
       to: '/test'
     }
 
@@ -37,22 +37,22 @@ BddTest().given('an association card', () => {
       expect(floatingIconCard.exists()).toBe(true)
       expect(floatingIconCard.props()).toMatchObject({
         title: props.title,
-        titleColor: props.color,
-        iconOptions: { name: props.icon, color: props.color, borderColor: props.color },
-        color: props.backgroundColor,
-        borderColorOnHover: props.backgroundColor,
+        titleColor: 'var(--text1)',
+        iconOptions: { name: ASSOCIATION_TYPE_ICONS[props.contextType], color: 'var(--icon)', borderColor: 'var(--stroke)', bottom: '-2.5rem' },
+        color: COLORS[props.contextType],
+        borderColor: 'var(--other-border-skill-card)',
+        borderColorOnHover: 'var(--dark-background-primary1)',
+        titleTypographyClasses: 's2-regular',
+        headerRows: 3,
+        height: '21.625rem'
       })
     })
   })
 
-  BddTest().when('the component is mounted with all props and all slots', () => {
+  BddTest().when('the component is mounted with body and footer slots', () => {
     const props: AssociationCardProps = {
       title: 'Skill',
-      icon: ICONS.SKILLS,
-      color: 'var(--color)',
-      backgroundColor: 'var(--background-color)',
-      hoverBorderColor: 'var(--hover-border-color)',
-      iconBorderColor: 'var(--icon-border-color)',
+      contextType: EAssociationContextType.DECLARED_SKILL,
       to: '/test'
     }
 
@@ -63,18 +63,6 @@ BddTest().given('an association card', () => {
 
     beforeEach(async () => {
       wrapper = await mountWithRouter<typeof AssociationCard>(AssociationCard, { props, slots, global: { stubs } })
-    })
-
-    BddTest().then('it should render the FloatingIconCard with the correct props', () => {
-      const floatingIconCard = wrapper.findComponent(FloatingIconCardStub)
-      expect(floatingIconCard.exists()).toBe(true)
-      expect(floatingIconCard.props()).toMatchObject({
-        title: props.title,
-        titleColor: props.color,
-        iconOptions: { name: props.icon, color: props.color, borderColor: props.iconBorderColor },
-        color: props.backgroundColor,
-        borderColorOnHover: props.hoverBorderColor,
-      })
     })
 
     BddTest().then('it should render the body and footer slots', () => {
@@ -96,10 +84,7 @@ BddTest().given('an association card', () => {
   BddTest().when('the component is mounted disabled', () => {
     const props: AssociationCardProps = {
       title: 'Skill',
-      icon: ICONS.SKILLS,
-      color: 'var(--color)',
-      backgroundColor: 'var(--background-color)',
-      hoverBorderColor: 'var(--hover-border-color)',
+      contextType: EAssociationContextType.DECLARED_SKILL,
       to: '/test',
       disabled: true
     }
@@ -119,6 +104,23 @@ BddTest().given('an association card', () => {
 
     BddTest().then('it should not highlight the card border on hover', () => {
       expect(wrapper.findComponent(FloatingIconCardStub).props('borderColorOnHover')).toBe('transparent')
+    })
+  })
+
+  Object.values(EAssociationContextType).forEach((contextType) => {
+    BddTest().when(`the component is mounted for ${contextType}`, () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof AssociationCard>(AssociationCard, {
+          props: { title: 'Element', contextType, to: '/test' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should use the icon and background color for this context type', () => {
+        const card = wrapper.findComponent(FloatingIconCardStub)
+        expect(card.props('iconOptions').name).toBe(ASSOCIATION_TYPE_ICONS[contextType])
+        expect(card.props('color')).toBe(COLORS[contextType])
+      })
     })
   })
 })

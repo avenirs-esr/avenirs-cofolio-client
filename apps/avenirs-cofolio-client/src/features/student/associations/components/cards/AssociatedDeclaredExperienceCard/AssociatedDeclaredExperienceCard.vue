@@ -2,7 +2,7 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { DeclaredExperienceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredExperienceTypeBadge
@@ -18,11 +18,7 @@ const { declaredExperience, disabled } = defineProps<AssociatedDeclaredExperienc
 <template>
   <AssociationCard
     :title="declaredExperience.title"
-    :icon="ICONS.EXPERIENCES"
-    color="var(--icon)"
-    hover-border-color="var(--dark-background-neutral)"
-    icon-border-color="var(--other-border-skill-card)"
-    background-color="var(--surface-background)"
+    :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
     :to="{ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
     :disabled="disabled"
     :disabled-tooltip

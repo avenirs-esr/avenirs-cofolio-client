@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredProgramViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
@@ -22,7 +22,7 @@ const iconOptions: IconOptions = {
   color: 'var(--icon)',
   right: '0.75rem',
   bottom: 'calc(-1 * 3.3rem)',
-  borderColor: 'var(--other-border-skill-card)'
+  borderColor: 'var(--stroke)'
 }
 </script>
 
@@ -37,7 +37,7 @@ const iconOptions: IconOptions = {
     <FloatingIconCard
       :title="declaredProgram.title"
       :icon-options="iconOptions"
-      color="var(--surface-background)"
+      :color="COLORS.DECLARED_PROGRAM"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"

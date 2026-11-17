@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { TraceAssociationDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
@@ -18,11 +18,7 @@ const complementaryInfo = computed(() => getTraceComplementaryInfo(associatedTra
 <template>
   <AssociationCard
     :title="associatedTrace.trace.title"
-    :icon="ICONS.TRACES"
-    color="var(--text1)"
-    background-color="var(--light-background-neutral)"
-    hover-border-color="var(--dark-background-primary1)"
-    icon-border-color="var(--other-border-skill-card)"
+    :context-type="EAssociationContextType.TRACE"
     :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: associatedTrace.trace.id } }"
     :disabled="disabled"
     :disabled-tooltip

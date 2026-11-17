@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociatedTraceCardProps } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
@@ -9,7 +9,7 @@ import { ROUTES } from '@/common/constants'
 import AssociatedTraceCard from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import { AssociationCardStub } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.stub'
 
-BddTest().given('an associatied trace card', () => {
+BddTest().given('an associated trace card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedTraceCard>>
 
   const stubs = { AssociationCard: AssociationCardStub }
@@ -32,11 +32,7 @@ BddTest().given('an associatied trace card', () => {
       expect(associationCard.exists()).toBe(true)
       expect(associationCard.props()).toMatchObject({
         title: props.associatedTrace.trace.title,
-        icon: ICONS.TRACES,
-        color: 'var(--text1)',
-        backgroundColor: 'var(--light-background-neutral)',
-        hoverBorderColor: 'var(--dark-background-primary1)',
-        iconBorderColor: 'var(--other-border-skill-card)',
+        contextType: EAssociationContextType.TRACE,
         to: { name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: props.associatedTrace.trace.id } }
       })
     })
@@ -54,16 +50,18 @@ BddTest().given('an associatied trace card', () => {
   BddTest().when('the component is mounted with disabled=true', () => {
     const props: AssociatedTraceCardProps = {
       associatedTrace: mockedDeclaredActivityAssociations.traceAssociations[0],
-      disabled: true
+      disabled: true,
+      disabledTooltip: 'Indisponible'
     }
 
     beforeEach(() => {
       wrapper = mount(AssociatedTraceCard, { props, global: { stubs } })
     })
 
-    BddTest().then('it should pass disabled=true to the AssociationCard', () => {
+    BddTest().then('it should pass the disabled state and tooltip to the AssociationCard', () => {
       const associationCard = wrapper.findComponent(AssociationCardStub)
       expect(associationCard.props('disabled')).toBe(true)
+      expect(associationCard.props('disabledTooltip')).toBe('Indisponible')
     })
   })
 })

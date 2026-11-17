@@ -2,7 +2,7 @@ import type { SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FloatingIconCardStub } from '@avenirs-esr/shared'
+import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
 import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
@@ -74,9 +74,9 @@ BddTest().given('a self knowledge element card', () => {
       expect(description.text()).toBe('This is a test description for the element')
     })
 
-    BddTest().then('it should apply default category color', () => {
+    BddTest().then('it should apply the self knowledge color', () => {
       const floatingCard = wrapper.findComponent(FloatingIconCardStub)
-      expect(floatingCard.props('color')).toBe('var(--light-foreground-primary1)')
+      expect(floatingCard.props('color')).toBe(COLORS.SELF_KNOWLEDGE)
     })
   })
 
@@ -112,24 +112,6 @@ BddTest().given('a self knowledge element card', () => {
       await flushPromises()
       const icon = wrapper.find('.card-icon')
       expect(icon.text()).toBe(RI_ICONS.HAND_HEART_LINE)
-    })
-  })
-
-  BddTest().when('the component is mounted with a custom category color', () => {
-    beforeEach(() => {
-      wrapper = mountComponent(SelfKnowledgeElementCard, {
-        props: {
-          element: baseElement,
-          categoryType: ESelfKnowledgeCategory.VALUES,
-          categoryColor: 'var(--custom-color)'
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should pass the custom color to FloatingIconCard', () => {
-      const floatingCard = wrapper.findComponent(FloatingIconCardStub)
-      expect(floatingCard.props('color')).toBe('var(--custom-color)')
     })
   })
 
@@ -239,7 +221,6 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: completeElement,
           categoryType: ESelfKnowledgeCategory.STRENGTHS,
-          categoryColor: 'var(--strength-color)'
         },
         global: { stubs }
       })
@@ -250,9 +231,11 @@ BddTest().given('a self knowledge element card', () => {
       expect(floatingCard.props('title')).toBe('Complete Element')
       expect(floatingCard.props('iconOptions')).toEqual({
         name: MDI_ICONS.WEIGHTS,
-        bottom: 'var(--spacing-lg-neg)'
+        bottom: 'var(--spacing-lg-neg)',
+        borderColor: 'var(--stroke)',
+        color: 'var(--icon)'
       })
-      expect(floatingCard.props('color')).toBe('var(--strength-color)')
+      expect(floatingCard.props('color')).toBe(COLORS.SELF_KNOWLEDGE)
     })
 
     BddTest().then('it should render both body and footer slots', () => {

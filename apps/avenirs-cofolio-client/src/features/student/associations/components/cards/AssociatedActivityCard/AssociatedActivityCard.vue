@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import { ICONS } from '@avenirs-esr/shared'
+import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { ROUTES } from '@/common/constants'
@@ -17,11 +17,7 @@ const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>(
 <template>
   <AssociationCard
     :title="declaredActivity.title"
-    :icon="ICONS.ACTIVITY"
-    color="var(--icon)"
-    hover-border-color="var(--dark-background-neutral)"
-    icon-border-color="var(--other-border-skill-card)"
-    background-color="var(--surface-background)"
+    :context-type="EAssociationContextType.DECLARED_ACTIVITY"
     :to="{ name: ROUTES.STUDENT.ACTIVITY.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
     :disabled="disabled"
     :disabled-tooltip
