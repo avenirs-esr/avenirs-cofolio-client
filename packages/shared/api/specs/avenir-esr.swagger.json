@@ -8356,11 +8356,15 @@
           },
           "title": {
             "type": "string"
+          },
+          "publishable": {
+            "type": "boolean"
           }
         },
         "required": [
           "id",
-          "title"
+          "title",
+          "publishable"
         ]
       },
       "UserInfoDTO": {

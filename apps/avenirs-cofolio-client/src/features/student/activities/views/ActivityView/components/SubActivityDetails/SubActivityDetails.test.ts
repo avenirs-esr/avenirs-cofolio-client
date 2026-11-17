@@ -61,7 +61,11 @@ BddTest().given('a sub-activity details component', () => {
     beforeEach(async () => {
       mountSubActivityDetails({
         declaredActivityDetails,
-        subActivity: { id: 'unknown-sub-activity', title: 'Sous-activité inconnue' },
+        subActivity: {
+          id: 'unknown-sub-activity',
+          title: 'Sous-activité inconnue',
+          publishable: true,
+        },
       })
 
       await vi.waitFor(() => expect(wrapper.findComponent(ActivityErrorMessageStub).exists()).toBe(true))
@@ -80,7 +84,11 @@ BddTest().given('a sub-activity details component', () => {
     beforeEach(async () => {
       mountSubActivityDetails({
         declaredActivityDetails,
-        subActivity: { id: INTERNAL_ERROR_ID, title: 'Sous-activité en erreur' },
+        subActivity: {
+          id: INTERNAL_ERROR_ID,
+          title: 'Sous-activité en erreur',
+          publishable: true,
+        },
       })
 
       await vi.waitFor(() => expect(wrapper.findComponent(ActivityErrorMessageStub).exists()).toBe(true))

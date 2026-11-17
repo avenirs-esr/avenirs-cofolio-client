@@ -112,8 +112,8 @@ BddTest().given('a useSubActivitiesOrder composable', () => {
 
     BddTest().and('the sub-activities are refetched before the save', () => {
       const addedSubActivity: SubActivityOverviewDTO = {
-        id: 'added-sub-activity',
-        title: 'Nouvelle sous-activité',
+        ...serverSubActivities.value[0],
+        id: 'added-sub-activity'
       }
       let refetchedSubActivities: SubActivityOverviewDTO[]
 
