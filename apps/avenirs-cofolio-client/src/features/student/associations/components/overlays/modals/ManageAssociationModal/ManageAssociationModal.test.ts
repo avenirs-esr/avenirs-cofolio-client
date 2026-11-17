@@ -2,14 +2,14 @@ import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ManageAssociationModalProps } from '@/features/student/associations/components/overlays/modals/ManageAssociationModal/ManageAssociationModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub, ICONS, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, ICONS, QuerySuspenseStub, useToasterStore } from '@avenirs-esr/shared'
 import { EAssociationContextType, getUnassociateUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { createMockedDeclaredSkillAssociations, createMockedTraceAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { createAssociateHandler, createGetAssociationLimitsHandler, createGetAssociationsHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { createAssociateHandler, createGetAssociationLimitsHandler, createGetAssociationsHandler, getAssociationsErrorHandler, unassociateErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { AssociationCompactCardStub } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.stub'
@@ -160,6 +160,8 @@ BddTest().given('a manage association modal', () => {
           { idsToAssociate: ['skill-1'] }
         )
         expect(onUnassociate).not.toHaveBeenCalled()
+        await vi.waitFor(() => expect(wrapper.emitted('associated')).toEqual([[]]))
+        expect(wrapper.emitted('dissociated')).toBeUndefined()
       })
     })
 
@@ -215,6 +217,86 @@ BddTest().given('a manage association modal', () => {
         expect(onUnassociate).toHaveBeenCalledWith({ idsToDelete: [traces[0]!.associationId] })
         expect(onUnassociate).toHaveBeenCalledWith({ idsToDelete: [skills[0]!.associationId] })
         expect(onAssociate).not.toHaveBeenCalled()
+        await vi.waitFor(() => expect(wrapper.emitted('dissociated')).toEqual([[]]))
+        expect(wrapper.emitted('associated')).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the dissociation request has not yet finished', () => {
+      let releaseRequest: () => void
+      const requestStarted = vi.fn()
+
+      beforeEach(async () => {
+        const responseReady = new Promise<void>((resolve) => {
+          releaseRequest = resolve
+        })
+        server.use(http.delete(`*${getUnassociateUrl(props.contextType, props.elementId)}`, async () => {
+          requestStarted()
+          await responseReady
+          return new HttpResponse(null, { status: 204 })
+        }))
+        wrapper.findComponent(AssociationsSelectorStub).vm.$emit('update:modelValue', [traces[0]!.associationId])
+        await nextTick()
+        modal().vm.$emit('confirm')
+        await nextTick()
+        confirmModal().vm.$emit('confirm')
+        await vi.waitFor(() => expect(requestStarted).toHaveBeenCalledOnce())
+      })
+
+      afterEach(() => releaseRequest())
+
+      BddTest().then('it should wait for the response before emitting dissociated', async () => {
+        expect(modal().props('isLoading')).toBe(true)
+        expect(wrapper.emitted('dissociated')).toBeUndefined()
+        expect(useToasterStore().messages.some(message => message.type === 'success')).toBe(false)
+        releaseRequest()
+        await vi.waitFor(() => expect(wrapper.emitted('dissociated')).toEqual([[]]))
+      })
+    })
+
+    BddTest().and('the dissociation request fails', () => {
+      beforeEach(async () => {
+        server.use(unassociateErrorHandler)
+        wrapper.findComponent(AssociationsSelectorStub).vm.$emit('update:modelValue', [traces[0]!.associationId])
+        await nextTick()
+        modal().vm.$emit('confirm')
+        await nextTick()
+        confirmModal().vm.$emit('confirm')
+      })
+
+      BddTest().then('it should report the failure without emitting success or clearing the selection', async () => {
+        await vi.waitFor(() => expect(useToasterStore().messages).toEqual(expect.arrayContaining([
+          expect.objectContaining({ type: 'error', description: 'Échec de la dissociation de tous les éléments' })
+        ])))
+        expect(useToasterStore().messages.some(message => message.type === 'success')).toBe(false)
+        expect(wrapper.emitted('dissociated')).toBeUndefined()
+        expect(wrapper.emitted('associated')).toBeUndefined()
+        expect(wrapper.findComponent(AssociationsSelectorStub).props('modelValue')).toEqual([traces[0]!.associationId])
+      })
+    })
+
+    BddTest().and('one of the selected types cannot be dissociated', () => {
+      beforeEach(async () => {
+        server.use(http.delete(`*${getUnassociateUrl(props.contextType, props.elementId)}`, async ({ request }) => {
+          const body = await request.json() as { idsToDelete: string[] }
+          return body.idsToDelete.includes(skills[0]!.associationId)
+            ? HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 })
+            : new HttpResponse(null, { status: 204 })
+        }))
+        wrapper.findComponent(AssociationsSelectorStub).vm.$emit('update:modelValue', [traces[0]!.associationId, skills[0]!.associationId])
+        await nextTick()
+        modal().vm.$emit('confirm')
+        await nextTick()
+        confirmModal().vm.$emit('confirm')
+      })
+
+      BddTest().then('it should report partial success and emit dissociated', async () => {
+        await vi.waitFor(() => expect(wrapper.emitted('dissociated')).toEqual([[]]))
+        expect(useToasterStore().messages).toEqual(expect.arrayContaining([
+          expect.objectContaining({ type: 'error', description: 'Échec de la dissociation de certains éléments' }),
+          expect.objectContaining({ type: 'success', description: 'Dissociation de certains éléments réussie' })
+        ]))
+        expect(wrapper.emitted('associated')).toBeUndefined()
       })
     })
   })
@@ -223,12 +305,25 @@ BddTest().given('a manage association modal', () => {
     beforeEach(async () => {
       server.use(createGetAssociationsHandler(mockedEmptyAssociations))
       mountModal({ mode: Action.DISSOCIATE })
-      await vi.waitFor(() => expect(select().props('modelValue')).toBe(null))
+      await vi.waitFor(() => expect(wrapper.findComponent(QuerySuspenseStub).props('isEmpty')).toBe(true))
     })
 
     BddTest().then('it should show an empty state and disable confirmation', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('isEmpty')).toBe(true)
       expect(modal().props('confirmButtonDisabled')).toBe(true)
+    })
+
+    BddTest().when('the associations cannot be loaded for dissociation', () => {
+      beforeEach(async () => {
+        server.use(getAssociationsErrorHandler)
+        mountModal({ mode: Action.DISSOCIATE })
+        await vi.waitFor(() => expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toBeTruthy())
+      })
+
+      BddTest().then('it should show the loading error rather than an empty state', () => {
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isEmpty')).toBe(false)
+        expect(modal().props('confirmButtonDisabled')).toBe(true)
+      })
     })
   })
 })

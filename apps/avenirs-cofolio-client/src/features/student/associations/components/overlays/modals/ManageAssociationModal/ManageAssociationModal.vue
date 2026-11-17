@@ -41,7 +41,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal } = useModal()
 const { withTaskLoading, isLoading: isTaskLoading } = useTaskLoading()
-const { associate, unassociate, isPending } = useAssociationMutations()
+const { associateAsync, unassociateAsync, isPending } = useAssociationMutations()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const { getAssociateState } = useAssociationLimits({
@@ -51,7 +51,7 @@ const { getAssociateState } = useAssociationLimits({
 })
 const { getDissociationState } = useDissociationState()
 
-const { data: dissociableAssociations } = useGetAssociations(contextType, elementId, undefined, {
+const { data: dissociableAssociations, isLoading: isAssociationsLoading, error: associationsError } = useGetAssociations(contextType, computed(() => elementId), undefined, {
   query: {
     enabled: computed(() => !!elementId && mode === Action.DISSOCIATE)
   }
@@ -159,10 +159,10 @@ async function onConfirm () {
       const commonParams = { contextType, elementId, associatedContextType: associations[0].contextType!, withToasts: false }
 
       if (mode === Action.ASSOCIATE) {
-        return associate({ ...commonParams, idsToAssociate: associations.map(({ id }) => id) })
+        return associateAsync({ ...commonParams, idsToAssociate: associations.map(({ id }) => id) })
       }
       else {
-        return unassociate({ ...commonParams, associationIds: associations.map(({ id }) => id) })
+        return unassociateAsync({ ...commonParams, associationIds: associations.map(({ id }) => id) })
       }
     })
 
@@ -179,7 +179,12 @@ async function onConfirm () {
   if (someFulfilled) {
     addSuccessMessage(t(`${modalKey}.success.${allFulfilled ? 'all' : 'some'}.${mode}`))
 
-    emit('associated')
+    if (mode === Action.ASSOCIATE) {
+      emit('associated')
+    }
+    else {
+      emit('dissociated')
+    }
     clear()
   }
 }
@@ -199,6 +204,7 @@ watchEffect(() => {
 <template>
   <ConfirmationModal
     :opened="opened"
+    :is-loading="isLoading"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t(`${modalKey}.confirm.label.${mode}`, { count: selectedAssociations.length })"
     :confirm-button-icon="mode === Action.ASSOCIATE ? ICONS.ASSOCIATE : ICONS.DISSOCIATE"
@@ -221,7 +227,10 @@ watchEffect(() => {
         />
       </div>
       <QuerySuspense
-        :is-empty="mode === Action.DISSOCIATE && dissociableAssociationsCount === 0"
+        :is-loading="mode === Action.DISSOCIATE && isAssociationsLoading"
+        :error="mode === Action.DISSOCIATE ? associationsError : null"
+        :error-title="t(`student.associations.contextTypes.${contextType}.fetchAssociationsError`)"
+        :is-empty="mode === Action.DISSOCIATE && !!dissociableAssociations && dissociableAssociationsCount === 0"
         preserve-content
       >
         <template v-if="mode === Action.ASSOCIATE">

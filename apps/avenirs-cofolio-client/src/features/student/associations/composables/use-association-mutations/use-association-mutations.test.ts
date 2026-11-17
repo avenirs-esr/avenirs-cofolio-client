@@ -111,16 +111,12 @@ BddTest().given('the useAssociationMutations composable', () => {
     beforeEach(async () => {
       server.use(createAssociateHandler(mockOnAssociateRequest))
 
-      composable.associate({
+      await composable.associateAsync({
         contextType: EAssociationContextType.DECLARED_ACTIVITY,
         elementId: 'activity-1',
         associatedContextType: EAssociationContextType.TRACE,
         idsToAssociate: ['trace-1', 'trace-2']
-      }, mockOnSuccess)
-
-      await vi.waitFor(() => {
-        expect(mockOnSuccess).toHaveBeenCalled()
-      })
+      }).then(mockOnSuccess)
     })
 
     BddTest().then('it should send a POST request to the associate endpoint of the element', () => {
@@ -162,7 +158,7 @@ BddTest().given('the useAssociationMutations composable', () => {
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should call the success callback once', () => {
+    BddTest().then('it should resolve once', () => {
       expect(mockOnSuccess).toHaveBeenCalledOnce()
     })
 
@@ -171,17 +167,13 @@ BddTest().given('the useAssociationMutations composable', () => {
     })
   })
 
-  BddTest().when('a single element is associated without success callback', () => {
+  BddTest().when('a single element is associated', () => {
     beforeEach(async () => {
-      composable.associate({
+      await composable.associateAsync({
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
         idsToAssociate: ['skill-1']
-      })
-
-      await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalled()
       })
     })
 
@@ -204,16 +196,12 @@ BddTest().given('the useAssociationMutations composable', () => {
     beforeEach(async () => {
       server.use(associateErrorHandler)
 
-      composable.associate({
+      await expect(composable.associateAsync({
         contextType: EAssociationContextType.DECLARED_ACTIVITY,
         elementId: 'activity-1',
         associatedContextType: EAssociationContextType.TRACE,
         idsToAssociate: ['trace-1']
-      }, mockOnSuccess)
-
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
+      }).then(mockOnSuccess)).rejects.toThrow()
     })
 
     BddTest().then('it should display an error message', () => {
@@ -229,7 +217,7 @@ BddTest().given('the useAssociationMutations composable', () => {
       expect(mockAddSuccessMessage).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should not call the success callback', () => {
+    BddTest().then('it should not resolve successfully', () => {
       expect(mockOnSuccess).not.toHaveBeenCalled()
     })
 
@@ -242,16 +230,12 @@ BddTest().given('the useAssociationMutations composable', () => {
 
   BddTest().when('the element to associate is not found', () => {
     beforeEach(async () => {
-      composable.associate({
+      await expect(composable.associateAsync({
         contextType: EAssociationContextType.DECLARED_ACTIVITY,
         elementId: 'INVALID_ACTIVITY_ID',
         associatedContextType: EAssociationContextType.TRACE,
         idsToAssociate: ['trace-1']
-      }, mockOnSuccess)
-
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
+      }).then(mockOnSuccess)).rejects.toThrow()
     })
 
     BddTest().then('it should display the translated API error message', () => {
@@ -272,12 +256,12 @@ BddTest().given('the useAssociationMutations composable', () => {
         return HttpResponse.json(mockedEmptyAssociations)
       }))
 
-      composable.associate({
+      void composable.associateAsync({
         contextType: EAssociationContextType.DECLARED_ACTIVITY,
         elementId: 'activity-1',
         associatedContextType: EAssociationContextType.TRACE,
         idsToAssociate: ['trace-1']
-      }, mockOnSuccess)
+      }).then(mockOnSuccess)
     })
 
     afterEach(() => {
@@ -305,16 +289,12 @@ BddTest().given('the useAssociationMutations composable', () => {
     beforeEach(async () => {
       server.use(createUnassociateHandler(mockOnUnassociateRequest))
 
-      composable.unassociate({
+      await composable.unassociateAsync({
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
         associationIds: ['association-1', 'association-2']
-      }, mockOnSuccess)
-
-      await vi.waitFor(() => {
-        expect(mockOnSuccess).toHaveBeenCalled()
-      })
+      }).then(mockOnSuccess)
     })
 
     BddTest().then('it should send a DELETE request to the unassociate endpoint of the element', () => {
@@ -341,23 +321,19 @@ BddTest().given('the useAssociationMutations composable', () => {
       expect(mockAddSuccessMessage).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should call the success callback once without displaying any error', () => {
+    BddTest().then('it should resolve once without displaying any error', () => {
       expect(mockOnSuccess).toHaveBeenCalledOnce()
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
   })
 
-  BddTest().when('a single association is deleted without success callback', () => {
+  BddTest().when('a single association is deleted', () => {
     beforeEach(async () => {
-      composable.unassociate({
+      await composable.unassociateAsync({
         contextType: EAssociationContextType.DECLARED_EXPERIENCE,
         elementId: 'experience-1',
         associatedContextType: EAssociationContextType.TRACE,
         associationIds: ['association-1']
-      })
-
-      await vi.waitFor(() => {
-        expect(mockInvalidateAssociationQueries).toHaveBeenCalled()
       })
     })
 
@@ -370,16 +346,12 @@ BddTest().given('the useAssociationMutations composable', () => {
     beforeEach(async () => {
       server.use(unassociateErrorHandler)
 
-      composable.unassociate({
+      await expect(composable.unassociateAsync({
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
         associationIds: ['association-1']
-      }, mockOnSuccess)
-
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
+      }).then(mockOnSuccess)).rejects.toThrow()
     })
 
     BddTest().then('it should display an error message', () => {
@@ -390,7 +362,7 @@ BddTest().given('the useAssociationMutations composable', () => {
       })
     })
 
-    BddTest().then('it should neither refresh the queries, display a success message nor call the success callback', () => {
+    BddTest().then('it should neither refresh the queries, display a success message nor resolve successfully', () => {
       expect(mockInvalidateAssociationQueries).not.toHaveBeenCalled()
       expect(mockAddSuccessMessage).not.toHaveBeenCalled()
       expect(mockOnSuccess).not.toHaveBeenCalled()
@@ -403,12 +375,12 @@ BddTest().given('the useAssociationMutations composable', () => {
     beforeEach(async () => {
       mockInvalidateAssociationQueries.mockReturnValue(refresh.promise)
 
-      composable.unassociate({
+      void composable.unassociateAsync({
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
         associationIds: ['association-1']
-      }, mockOnSuccess)
+      }).then(mockOnSuccess)
 
       await vi.waitFor(() => {
         expect(mockInvalidateAssociationQueries).toHaveBeenCalled()
@@ -429,6 +401,76 @@ BddTest().given('the useAssociationMutations composable', () => {
       await vi.waitFor(() => {
         expect(mockOnSuccess).toHaveBeenCalled()
       })
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+      expect(composable.isPending.value).toBe(false)
+    })
+  })
+
+  BddTest().when('an association is made with toasts disabled', () => {
+    beforeEach(async () => {
+      await composable.associateAsync({
+        contextType: EAssociationContextType.DECLARED_ACTIVITY,
+        elementId: 'activity-1',
+        associatedContextType: EAssociationContextType.TRACE,
+        idsToAssociate: ['trace-1'],
+        withToasts: false
+      })
+    })
+
+    BddTest().then('it should refresh the queries without displaying a success message', () => {
+      expect(mockInvalidateAssociationQueries).toHaveBeenCalledOnce()
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('an association fails with toasts disabled', () => {
+    beforeEach(async () => {
+      server.use(associateErrorHandler)
+      await expect(composable.associateAsync({
+        contextType: EAssociationContextType.DECLARED_ACTIVITY,
+        elementId: 'activity-1',
+        associatedContextType: EAssociationContextType.TRACE,
+        idsToAssociate: ['trace-1'],
+        withToasts: false
+      })).rejects.toThrow()
+    })
+
+    BddTest().then('it should reject without displaying an error or refreshing the queries', () => {
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      expect(mockInvalidateAssociationQueries).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('a dissociation fails with toasts disabled', () => {
+    beforeEach(async () => {
+      server.use(unassociateErrorHandler)
+      await expect(composable.unassociateAsync({
+        contextType: EAssociationContextType.TRACE,
+        elementId: 'trace-1',
+        associatedContextType: EAssociationContextType.DECLARED_SKILL,
+        associationIds: ['association-1'],
+        withToasts: false
+      })).rejects.toThrow()
+    })
+
+    BddTest().then('it should reject without displaying an error or refreshing the queries', () => {
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      expect(mockInvalidateAssociationQueries).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('refreshing the queries after a dissociation fails', () => {
+    beforeEach(async () => {
+      mockInvalidateAssociationQueries.mockRejectedValue(new Error('Refresh failed'))
+      await expect(composable.unassociateAsync({
+        contextType: EAssociationContextType.TRACE,
+        elementId: 'trace-1',
+        associatedContextType: EAssociationContextType.DECLARED_SKILL,
+        associationIds: ['association-1']
+      })).rejects.toThrow('Refresh failed')
+    })
+
+    BddTest().then('it should reject without displaying a success message', () => {
       expect(mockAddSuccessMessage).not.toHaveBeenCalled()
       expect(composable.isPending.value).toBe(false)
     })
