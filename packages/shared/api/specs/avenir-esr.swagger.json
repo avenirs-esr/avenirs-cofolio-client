@@ -8354,6 +8354,14 @@
             "type": "string",
             "format": "uuid"
           },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
           "title": {
             "type": "string"
           },
