@@ -94,24 +94,24 @@ BddTest().given('getAssociableContextTypes', () => {
 })
 
 BddTest().given('getElementAssociations', () => {
-  const toElementAssociation = (associationId: string, { id, title }: IdTitle): ElementAssociation => ({ associationId, id, title })
+  const toElementAssociation = (associationId: string, { id, title }: IdTitle, contextType: EAssociationContextType): ElementAssociation => ({ associationId, id, title, contextType })
 
   BddTest().then('it should return the associations to the elements of the given context type', () => {
     const expectedElementAssociations: Record<EAssociationContextType, ElementAssociation[]> = {
       [EAssociationContextType.TRACE]: associations.traceAssociations.map(({ associationId, trace }) =>
-        toElementAssociation(associationId, trace),
+        toElementAssociation(associationId, trace, EAssociationContextType.TRACE),
       ),
       [EAssociationContextType.DECLARED_ACTIVITY]: associations.declaredActivityAssociations.map(({ associationId, declaredActivity }) =>
-        toElementAssociation(associationId, declaredActivity),
+        toElementAssociation(associationId, declaredActivity, EAssociationContextType.DECLARED_ACTIVITY),
       ),
       [EAssociationContextType.DECLARED_SKILL]: associations.skillProgressAssociations.map(({ associationId, skillProgress }) =>
-        toElementAssociation(associationId, skillProgress),
+        toElementAssociation(associationId, skillProgress, EAssociationContextType.DECLARED_SKILL),
       ),
       [EAssociationContextType.DECLARED_EXPERIENCE]: associations.declaredExperienceAssociations.map(
-        ({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience),
+        ({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience, EAssociationContextType.DECLARED_EXPERIENCE),
       ),
       [EAssociationContextType.DECLARED_PROGRAM]: associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) =>
-        toElementAssociation(associationId, declaredProgram),
+        toElementAssociation(associationId, declaredProgram, EAssociationContextType.DECLARED_PROGRAM),
       ),
     }
 
