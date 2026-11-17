@@ -4,7 +4,7 @@ import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { mockedActivityDetail, mockedActivityPresentationWithUnpublishableSubActivities } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
 import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
@@ -19,6 +19,9 @@ import {
   mockIsBusy,
   resetMockSaveState,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+
+const REQUIRED_FIELDS_WITH_TARGETS_ERROR = 'Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l\'activité'
+const UNPUBLISHABLE_SUB_ACTIVITIES_ERROR = 'Veuillez compléter les sous-activités pour publier l\'activité'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -149,7 +152,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
 
     BddTest().then('it should explain why the publish button is disabled', () => {
-      expect(getPublishButton().props('disabledTooltip')).toBe('Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l\'activité')
+      expect(getPublishButton().props('disabledTooltip')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
     })
 
     BddTest().then('it should display the required fields warning', () => {
@@ -168,6 +171,32 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should not display the required fields warning', () => {
       expect(tab.findComponent(AvMessageStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('a sub-activity is not publishable while a required publish field is missing', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityPresentationWithUnpublishableSubActivities)
+    })
+
+    BddTest().then('it should explain the missing fields first', () => {
+      expect(getPublishButton().props('disabledTooltip')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
+      expect(tab.findComponent(AvMessageStub).props('message')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
+    })
+  })
+
+  BddTest().when('a sub-activity is not publishable while all required publish fields are provided', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityPresentationWithUnpublishableSubActivities)
+    })
+
+    BddTest().then('it should disable the publish button', () => {
+      expect(getPublishButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain that some sub-activities are not publishable', () => {
+      expect(getPublishButton().props('disabledTooltip')).toBe(UNPUBLISHABLE_SUB_ACTIVITIES_ERROR)
+      expect(tab.findComponent(AvMessageStub).props('message')).toBe(UNPUBLISHABLE_SUB_ACTIVITIES_ERROR)
     })
   })
 

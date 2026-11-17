@@ -248,6 +248,7 @@
             "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction, a summary and one/many recommended completion context(s) to publish the activity",
             "publishRequiredFieldsWithTargetsError": "Please provide a title, a thematic, an instruction, a summary, one/many recommended completion context(s) and at least one target to publish the activity",
             "publishSuccess": "Activity published successfully",
+            "publishUnpublishableSubActivitiesError": "Please complete the sub-activities to publish the activity",
             "title": "Prepare publication"
           },
           "ActivityReflectionFormField": {

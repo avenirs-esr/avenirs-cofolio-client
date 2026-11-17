@@ -48,17 +48,29 @@ const { mutate: mutatePublishActivityDraft, isPending } = usePublishActivityDraf
 const isFormValid = form.useStore(state => state.isValid)
 const values = form.useStore(state => state.values)
 
-const canPublish = computed(() => {
+const isFormPublishable = computed(() => {
   const hasTargets = values.value.isNational
     || !isEmpty(values.value.targetInstitutionIds)
     || !isEmpty(values.value.targetGroupIds)
 
   return isFormValid.value && hasTargets && PUBLISH_REQUIRED_FIELDS.every(field => !isEmpty(values.value[field]))
 })
+const hasUnpublishableSubActivities = computed(() => activity.subActivities.some(({ publishable }) => !publishable))
+const canPublish = computed(() => isFormPublishable.value && !hasUnpublishableSubActivities.value)
 
-const publishBlockedMessage = computed(() => t(values.value.isNational
-  ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
-  : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError'))
+const publishBlockedMessage = computed(() => {
+  if (!isFormPublishable.value) {
+    return t(values.value.isNational
+      ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
+      : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError')
+  }
+
+  if (hasUnpublishableSubActivities.value) {
+    return t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishUnpublishableSubActivitiesError')
+  }
+
+  return undefined
+})
 
 const publishDisabledTooltip = computed(() => hasPublishRight
   ? publishBlockedMessage.value

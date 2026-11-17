@@ -248,6 +248,7 @@
             "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l'activité",
             "publishRequiredFieldsWithTargetsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l'activité",
             "publishSuccess": "L'activité a été publiée avec succès",
+            "publishUnpublishableSubActivitiesError": "Veuillez compléter les sous-activités pour publier l'activité",
             "title": "Préparer la publication"
           },
           "ActivityReflectionFormField": {

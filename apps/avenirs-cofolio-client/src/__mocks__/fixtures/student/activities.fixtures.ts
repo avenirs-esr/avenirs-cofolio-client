@@ -8,7 +8,7 @@ import {
   ESortField,
   ESortOrder
 } from '@avenirs-esr/shared/api/avenir-esr'
-import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithUnpublishable } from '@/__mocks__/fixtures/shared/activities.fixtures'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
 export const mockedActivityOverview: ActivityOverviewDTO = {
@@ -538,6 +538,12 @@ export const mockedActivityPresentationWithSubActivities: ActivityPresentationDT
   ...mockedActivityDetail,
   id: 'a7e29c54-6f31-4b82-9d05-c8a14e7632fb',
   subActivities: mockedSubActivitiesOverviewDTO
+}
+
+export const mockedActivityPresentationWithUnpublishableSubActivities: ActivityPresentationDTO = {
+  ...mockedActivityPresentationWithSubActivities,
+  id: 'f83b1d62-9a47-4e0c-b625-7d31a8f942ce',
+  subActivities: mockedSubActivitiesOverviewDTOWithUnpublishable
 }
 
 export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
