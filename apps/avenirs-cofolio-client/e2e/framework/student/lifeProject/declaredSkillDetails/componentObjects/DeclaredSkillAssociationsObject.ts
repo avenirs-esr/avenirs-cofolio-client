@@ -98,31 +98,31 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
   }
 
   getDeleteAssociationsModal () {
-    return this.root.page().getByTestId('delete-associations-modal')
+    return this.root.page().getByTestId(/^dissociate-.*-modal$/)
   }
 
   getDeleteAssociationsModalItems () {
-    return this.root.page().getByTestId('compact-card-selector-item')
+    return this.getDeleteAssociationsModal().getByTestId('compact-card-selector-item')
   }
 
   getDeleteAssociationsModalItemSelectors () {
-    return this.root.page().getByTestId('selector-overlay')
+    return this.getDeleteAssociationsModal().getByTestId('selector-overlay')
   }
 
   getDeleteAssociationsModalConfirmButton () {
-    return this.root.page().getByTestId('confirm-button')
+    return this.getDeleteAssociationsModal().getByTestId('confirm-button')
   }
 
   getDeleteAssociationsModalCancelButton () {
-    return this.root.page().getByTestId('cancel-button')
+    return this.getDeleteAssociationsModal().getByTestId('cancel-button')
   }
 
   getDeleteAssociationsConfirmModal () {
-    return this.root.page().getByTestId('delete-associations-confirm-modal__header')
+    return this.root.page().getByTestId('confirm-associate-modal')
   }
 
   getDeleteAssociationsConfirmModalContainer () {
-    return this.root.page().locator('dialog').filter({ has: this.getDeleteAssociationsConfirmModal() })
+    return this.getDeleteAssociationsConfirmModal()
   }
 
   getDeleteAssociationsConfirmModalCancelButton () {
@@ -151,7 +151,7 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
   }
 
   async selectFirstDeleteAssociationsModalItem () {
-    await clickOnElement(this.getDeleteAssociationsModalItemSelectors().first())
+    await clickOnElement(this.getDeleteAssociationsModal().locator('[data-testid="selector-overlay"][aria-disabled="false"]').first())
   }
 
   async confirmDeleteAssociationsModal () {

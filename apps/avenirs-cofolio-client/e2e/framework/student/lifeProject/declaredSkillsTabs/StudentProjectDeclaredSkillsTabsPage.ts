@@ -54,7 +54,7 @@ class StudentProjectDeclaredSkillsTabsPage extends BasePage {
   }
 
   getDeleteAssociationsModal () {
-    return this.page.getByTestId('delete-associations-modal')
+    return this.page.getByTestId(/^dissociate-.*-modal$/)
   }
 
   @Then('the add declared skill button is visible')

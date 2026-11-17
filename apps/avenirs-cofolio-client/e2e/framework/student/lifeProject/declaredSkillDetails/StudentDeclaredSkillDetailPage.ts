@@ -28,7 +28,7 @@ class StudentDeclaredSkillDetailPage extends BasePage {
   }
 
   getAssociationTypeSelect () {
-    return this.page.getByTestId('association-type-select')
+    return this.page.getByTestId('dissociate-elements-type-select')
   }
 
   getTypeOption (type: string) {
@@ -40,7 +40,7 @@ class StudentDeclaredSkillDetailPage extends BasePage {
   }
 
   getDeleteAssociationsModal () {
-    return this.page.getByTestId('delete-associations-modal')
+    return this.getDeclaredSkillAssociations().getDeleteAssociationsModal()
   }
 
   @When('the student opens the declared skill associations tab')
