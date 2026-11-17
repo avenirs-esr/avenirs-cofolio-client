@@ -1,3 +1,4 @@
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { AssociationsDTO, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { countAssociations } from '@/features/student/associations/utils/associations.utils'
@@ -18,7 +19,7 @@ export function useDissociationState () {
   function getDissociationState (
     associatedContextType: EAssociationContextType,
     associations: AssociationsDTO | undefined
-  ): { disabled: boolean, disabledTooltip?: string } {
+  ): AvInteractiveProps {
     const disabledTooltipsKey = `student.associations.composables.useDissociationState.disabledTooltips`
 
     const disabled = countAssociations(associations, [associatedContextType]) === 0

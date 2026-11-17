@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import { COLORS, FloatingIconCard } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { Rating } from '@/common/components'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
@@ -18,7 +18,7 @@ const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const iconOptions = computed<IconOptions>(() => ({
   name: getSelfKnowledgeCategoryIcon(categoryType),
-  color: 'var(--icon)',
+  color: ICON_COLORS.SELF_KNOWLEDGE,
   bottom: 'var(--spacing-lg-neg)',
   borderColor: 'var(--stroke)',
 }))
@@ -37,8 +37,8 @@ const iconOptions = computed<IconOptions>(() => ({
       :title="element.title"
       :header-rows="2"
       :icon-options="iconOptions"
-      :color="COLORS.SELF_KNOWLEDGE"
-      title-color="var(--text1)"
+      :color="BG_COLORS.SELF_KNOWLEDGE"
+      :title-color="TEXT_COLORS.SELF_KNOWLEDGE"
       border-color-on-hover="var(--dark-background-primary1)"
       class="self-knowledge-element-card"
       height="13rem"

@@ -48,7 +48,14 @@ export function useAssociationMutations () {
   }
 
   async function associateAsync (variables: AssociateVariables) {
-    const { contextType, elementId, associatedContextType, idsToAssociate, withToasts } = variables
+    const {
+      contextType,
+      elementId,
+      associatedContextType,
+      idsToAssociate,
+      withToasts = true
+    } = variables
+
     try {
       await mutateAssociateAsync({ contextType, elementId, associatedContextType, data: { idsToAssociate } })
     }
@@ -58,8 +65,10 @@ export function useAssociationMutations () {
       }
       throw error
     }
+
     await refresh(variables)
-    if (withToasts !== false) {
+
+    if (withToasts) {
       addSuccessMessage({
         timeout: 2000,
         description: t(`student.associations.contextTypes.${associatedContextType}.associateSuccess`, { count: idsToAssociate.length }),

@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociationCardProps } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCardStub, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
@@ -37,9 +37,14 @@ BddTest().given('an association card', () => {
       expect(floatingIconCard.exists()).toBe(true)
       expect(floatingIconCard.props()).toMatchObject({
         title: props.title,
-        titleColor: 'var(--text1)',
-        iconOptions: { name: ASSOCIATION_TYPE_ICONS[props.contextType], color: 'var(--icon)', borderColor: 'var(--stroke)', bottom: '-2.5rem' },
-        color: COLORS[props.contextType],
+        titleColor: TEXT_COLORS[props.contextType],
+        iconOptions: {
+          name: ASSOCIATION_TYPE_ICONS[props.contextType],
+          color: ICON_COLORS[props.contextType],
+          borderColor: 'var(--stroke)',
+          bottom: '-2.5rem'
+        },
+        color: BG_COLORS[props.contextType],
         borderColor: 'var(--other-border-skill-card)',
         borderColorOnHover: 'var(--dark-background-primary1)',
         titleTypographyClasses: 's2-regular',
@@ -119,7 +124,7 @@ BddTest().given('an association card', () => {
       BddTest().then('it should use the icon and background color for this context type', () => {
         const card = wrapper.findComponent(FloatingIconCardStub)
         expect(card.props('iconOptions').name).toBe(ASSOCIATION_TYPE_ICONS[contextType])
-        expect(card.props('color')).toBe(COLORS[contextType])
+        expect(card.props('color')).toBe(BG_COLORS[contextType])
       })
     })
   })

@@ -2,7 +2,7 @@
 import type { IconOptions } from '@avenirs-esr/shared'
 import type { DeclaredActivityViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { COLORS, FloatingIconCard, ICONS } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCard, ICON_COLORS, ICONS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
@@ -20,13 +20,11 @@ const { isMobile } = useAvBreakpoints()
 
 const iconOptions: IconOptions = {
   name: ICONS.ACTIVITY,
-  color: 'var(--icon)',
+  color: ICON_COLORS.DECLARED_ACTIVITY,
   borderColor: 'var(--stroke)'
 }
 
-const titleClasses = computed(() => isMobile.value
-  ? 'caption-regular av-text-text1'
-  : 'n6 av-text-text1')
+const titleClasses = computed(() => isMobile.value ? 'caption-regular' : 'n6')
 
 const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStatus.SUBSCRIBED)
 </script>
@@ -43,14 +41,14 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
     <FloatingIconCard
       :title="activity.title"
       :icon-options="iconOptions"
-      :color="COLORS.DECLARED_ACTIVITY"
+      :color="BG_COLORS.DECLARED_ACTIVITY"
       border-color="var(--other-border-skill-card)"
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"
       custom-title-height="auto"
       :title-typography-classes="titleClasses"
       height="fit-content"
-      title-color="var(--text1)"
+      :title-color="TEXT_COLORS.DECLARED_ACTIVITY"
     >
       <template #body>
         <div class="av-col av-pr-4xl--md">

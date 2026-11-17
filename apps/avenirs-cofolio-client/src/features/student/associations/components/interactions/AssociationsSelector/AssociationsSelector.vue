@@ -2,7 +2,7 @@
 import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, SkillProgressDTO, TraceOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { COLORS } from '@avenirs-esr/shared'
+import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
@@ -80,9 +80,10 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
     v-model="selectedAssociationIds"
     :elements="selectableElements"
     :icon="ASSOCIATION_TYPE_ICONS[associatedContextType]"
-    icon-color="var(--icon)"
+    :icon-color="ICON_COLORS[associatedContextType]"
     icon-border-color="var(--stroke)"
-    :background-color="COLORS[associatedContextType]"
+    :color="TEXT_COLORS[associatedContextType]"
+    :background-color="BG_COLORS[associatedContextType]"
     :readonly="readonly"
     data-testid="associations-selector"
   >

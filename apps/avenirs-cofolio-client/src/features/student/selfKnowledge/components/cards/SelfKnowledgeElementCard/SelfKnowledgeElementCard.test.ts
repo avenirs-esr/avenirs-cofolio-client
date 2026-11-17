@@ -2,7 +2,7 @@ import type { SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCardStub, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
@@ -76,7 +76,9 @@ BddTest().given('a self knowledge element card', () => {
 
     BddTest().then('it should apply the self knowledge color', () => {
       const floatingCard = wrapper.findComponent(FloatingIconCardStub)
-      expect(floatingCard.props('color')).toBe(COLORS.SELF_KNOWLEDGE)
+      expect(floatingCard.props('color')).toBe(BG_COLORS.SELF_KNOWLEDGE)
+      expect(floatingCard.props('titleColor')).toBe(TEXT_COLORS.SELF_KNOWLEDGE)
+      expect(floatingCard.props('iconOptions').color).toBe(ICON_COLORS.SELF_KNOWLEDGE)
     })
   })
 
@@ -235,7 +237,7 @@ BddTest().given('a self knowledge element card', () => {
         borderColor: 'var(--stroke)',
         color: 'var(--icon)'
       })
-      expect(floatingCard.props('color')).toBe(COLORS.SELF_KNOWLEDGE)
+      expect(floatingCard.props('color')).toBe(BG_COLORS.SELF_KNOWLEDGE)
     })
 
     BddTest().then('it should render both body and footer slots', () => {

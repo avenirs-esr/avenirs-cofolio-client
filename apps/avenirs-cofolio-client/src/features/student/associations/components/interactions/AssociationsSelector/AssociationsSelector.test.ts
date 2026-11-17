@@ -2,7 +2,7 @@ import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationsSelectorProps } from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, ICONS } from '@avenirs-esr/shared'
+import { BG_COLORS, ICON_COLORS, ICONS } from '@avenirs-esr/shared'
 import { EAssociationContextType, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
@@ -61,8 +61,8 @@ BddTest().given('an associations selector', () => {
 
     BddTest().then('it should use the trace icon and the default colors', () => {
       expect(findSelector().props('icon')).toBe(ICONS.TRACES)
-      expect(findSelector().props('iconColor')).toBe('var(--icon)')
-      expect(findSelector().props('backgroundColor')).toBe(COLORS[EAssociationContextType.TRACE])
+      expect(findSelector().props('iconColor')).toBe(ICON_COLORS[EAssociationContextType.TRACE])
+      expect(findSelector().props('backgroundColor')).toBe(BG_COLORS[EAssociationContextType.TRACE])
       expect(findSelector().props('iconBorderColor')).toBe('var(--stroke)')
     })
 
@@ -104,8 +104,8 @@ BddTest().given('an associations selector', () => {
 
     BddTest().then('it should use the activity icon and colors', () => {
       expect(findSelector().props('icon')).toBe(ICONS.ACTIVITY)
-      expect(findSelector().props('iconColor')).toBe('var(--icon)')
-      expect(findSelector().props('backgroundColor')).toBe(COLORS[EAssociationContextType.DECLARED_ACTIVITY])
+      expect(findSelector().props('iconColor')).toBe(ICON_COLORS[EAssociationContextType.DECLARED_ACTIVITY])
+      expect(findSelector().props('backgroundColor')).toBe(BG_COLORS[EAssociationContextType.DECLARED_ACTIVITY])
       expect(findSelector().props('iconBorderColor')).toBe('var(--stroke)')
     })
 

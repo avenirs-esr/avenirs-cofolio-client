@@ -1,7 +1,7 @@
 import type { AssociationCompactCardProps } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { COLORS, FloatingIconCardStub } from '@avenirs-esr/shared'
+import { BG_COLORS, FloatingIconCardStub, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
@@ -47,12 +47,12 @@ BddTest().given('an association compact card', () => {
       BddTest().then('it should render the floating icon card with correct props', () => {
         expect(findFloatingIconCard().exists()).toBe(true)
         expect(findFloatingIconCard().props('title')).toBe(association.title)
-        expect(findFloatingIconCard().props('titleColor')).toBe('var(--text1)')
+        expect(findFloatingIconCard().props('titleColor')).toBe(TEXT_COLORS[contextType])
         expect(findFloatingIconCard().props('borderColor')).toBe('var(--other-border-skill-card)')
-        expect(findFloatingIconCard().props('color')).toBe(COLORS[contextType])
+        expect(findFloatingIconCard().props('color')).toBe(BG_COLORS[contextType])
         expect(findFloatingIconCard().props('iconOptions')).toMatchObject({
           name: ASSOCIATION_TYPE_ICONS[contextType],
-          color: 'var(--icon)',
+          color: ICON_COLORS[contextType],
           bottom: '-2.5rem',
           borderColor: 'var(--stroke)'
         })
