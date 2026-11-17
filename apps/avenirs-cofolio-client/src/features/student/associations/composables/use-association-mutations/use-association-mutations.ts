@@ -1,6 +1,5 @@
-import type { BaseApiException } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
-import { useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
+import { BaseApiException, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import { useAssociate, useUnassociate } from '@avenirs-esr/shared/api/avenir-esr'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -32,8 +31,8 @@ export function useAssociationMutations () {
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const { isLoading: isRefreshing, withTaskLoading } = useTaskLoading()
 
-  const { mutate: mutateAssociate, isPending: isAssociatePending } = useAssociate()
-  const { mutate: mutateUnassociate, isPending: isUnassociatePending } = useUnassociate()
+  const { mutateAsync: mutateAssociateAsync, isPending: isAssociatePending } = useAssociate()
+  const { mutateAsync: mutateUnassociateAsync, isPending: isUnassociatePending } = useUnassociate()
 
   function onError (error: BaseApiException, withToasts = true) {
     if (withToasts) {
@@ -48,44 +47,45 @@ export function useAssociationMutations () {
     return withTaskLoading(() => invalidateAssociationQueries(queryClient, [contextType, associatedContextType]))
   }
 
-  function associate (variables: AssociateVariables, onSuccess?: () => void) {
-    const { contextType, elementId, associatedContextType, idsToAssociate, withToasts = true } = variables
-
-    mutateAssociate({ contextType, elementId, associatedContextType, data: { idsToAssociate } }, {
-      onError: error => onError(error, withToasts),
-      onSuccess: async () => {
-        await refresh(variables)
-
-        if (withToasts) {
-          addSuccessMessage({
-            timeout: 2000,
-            description: t(`student.associations.contextTypes.${associatedContextType}.associateSuccess`, { count: idsToAssociate.length }),
-          })
-        }
-
-        onSuccess?.()
+  async function associateAsync (variables: AssociateVariables) {
+    const { contextType, elementId, associatedContextType, idsToAssociate, withToasts } = variables
+    try {
+      await mutateAssociateAsync({ contextType, elementId, associatedContextType, data: { idsToAssociate } })
+    }
+    catch (error) {
+      if (error instanceof BaseApiException) {
+        onError(error, withToasts)
       }
-    })
+      throw error
+    }
+    await refresh(variables)
+    if (withToasts !== false) {
+      addSuccessMessage({
+        timeout: 2000,
+        description: t(`student.associations.contextTypes.${associatedContextType}.associateSuccess`, { count: idsToAssociate.length }),
+      })
+    }
   }
 
-  function unassociate (variables: UnassociateVariables, onSuccess?: () => void) {
-    const { contextType, elementId, associationIds, withToasts = true } = variables
-
-    mutateUnassociate({ contextType, elementId, data: { idsToDelete: associationIds } }, {
-      onError: error => onError(error, withToasts),
-      onSuccess: async () => {
-        await refresh(variables)
-
-        onSuccess?.()
+  async function unassociateAsync (variables: UnassociateVariables) {
+    const { contextType, elementId, associationIds, withToasts } = variables
+    try {
+      await mutateUnassociateAsync({ contextType, elementId, data: { idsToDelete: associationIds } })
+    }
+    catch (error) {
+      if (error instanceof BaseApiException) {
+        onError(error, withToasts)
       }
-    })
+      throw error
+    }
+    await refresh(variables)
   }
 
   const isPending = computed(() => isAssociatePending.value || isUnassociatePending.value || isRefreshing.value)
 
   return {
-    associate,
-    unassociate,
+    associateAsync,
+    unassociateAsync,
     isPending
   }
 }
