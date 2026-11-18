@@ -32,8 +32,8 @@ catalogs:
       specifier: ^6.5.1
       version: 6.7.3
     '@avenirs-esr/avenirs-dsav':
-      specifier: ^0.1.387
-      version: 0.1.387
+      specifier: ^0.1.389
+      version: 0.1.389
     '@axe-core/playwright':
       specifier: ^4.10.2
       version: 4.13.0
@@ -258,7 +258,7 @@ importers:
     dependencies:
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
-        version: 0.1.387(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.5)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+        version: 0.1.389(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.5)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@avenirs-esr/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -430,7 +430,7 @@ importers:
     dependencies:
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
-        version: 0.1.387(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+        version: 0.1.389(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@avenirs-esr/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -641,7 +641,7 @@ importers:
         version: 6.7.3(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3)(vitest@5.0.3)
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
-        version: 0.1.387(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+        version: 0.1.389(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.61.1
@@ -802,8 +802,8 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@avenirs-esr/avenirs-dsav@0.1.387':
-    resolution: {integrity: sha512-3ziQh2htgoysWhiIbO9GODP+S4FiVDYt3W6ZK9pDMXXIV0t2TlLJbERMLVgeTD8w/olaFTkfPeWdy3h2bergEA==}
+  '@avenirs-esr/avenirs-dsav@0.1.389':
+    resolution: {integrity: sha512-UiRDA8pBcSGYUVjoZ3HCd9efZZxd800qehz/p2eHmZdZRM21xuEgAaJ7lD6MH1sFluTqGDZfoPyEuhIXCcsmSA==}
     engines: {node: '>=26.0.0'}
     peerDependencies:
       '@vue/test-utils': ^2.0.0
@@ -2128,6 +2128,11 @@ packages:
   '@teppeis/multimaps@3.0.0':
     resolution: {integrity: sha512-ID7fosbc50TbT0MK0EG12O+gAP3W3Aa/Pz4DaTtQtEvlc9Odaqi0de+xuZ7Li2GtK4HzEX7IuRWS/JmZLksR3Q==}
     engines: {node: '>=14'}
+
+  '@tiptap/core@3.32.0':
+    resolution: {integrity: sha512-Ghh2h02GKSqzytQGcLV4espYOG4EHxjj0MsrUB2Vnr47xmlZYRf6r7k2J09H+JpBdaGrWwrTkyBEi5i3c3yy2Q==}
+    peerDependencies:
+      '@tiptap/pm': 3.32.0
 
   '@tiptap/core@3.34.0':
     resolution: {integrity: sha512-PwpE5MAXt586AxIO5bW2RyJ3OUXdPfG5M1M5v/LIMCkDwIgRKegx8uERlABoI6575mWqaH/P6Xm+tequJ5UUnw==}
@@ -6312,49 +6317,18 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@avenirs-esr/avenirs-dsav@0.1.387(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
+  '@avenirs-esr/avenirs-dsav@0.1.389(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.5)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       '@tanstack/vue-table': 8.21.3(vue@3.5.44(typescript@6.0.3))
-      '@tiptap/extension-character-count': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
-      '@tiptap/extension-image': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
-      '@tiptap/extension-link': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
-      '@tiptap/extension-table': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
-      '@tiptap/extension-text-align': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
+      '@tiptap/extension-character-count': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
+      '@tiptap/extension-image': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))
+      '@tiptap/extension-link': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-table': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-text-align': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))
       '@tiptap/pm': 3.34.0
       '@tiptap/starter-kit': 3.34.0
-      '@tiptap/vue-3': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))
-      '@vuepic/vue-datepicker': 14.0.0(vue@3.5.44(typescript@6.0.3))
-      '@vueuse/core': 13.9.0(vue@3.5.44(typescript@6.0.3))
-      date-fns: 4.4.0
-      dompurify: 3.4.17
-      focus-trap: 7.6.4
-      focus-trap-vue: 4.0.3(focus-trap@7.6.4)(vue@3.5.44(typescript@6.0.3))
-      lodash-es: 4.18.1
-      vue: 3.5.44(typescript@6.0.3)
-      vue-draggable-plus: 0.6.1(@types/sortablejs@1.15.9)
-      vue-router: 4.5.1(vue@3.5.44(typescript@6.0.3))
-      vuedraggable: 4.1.0(vue@3.5.44(typescript@6.0.3))
-    optionalDependencies:
-      '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3))
-      vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@28.1.0)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
-    transitivePeerDependencies:
-      - '@floating-ui/dom'
-      - '@tiptap/core'
-      - '@tiptap/extensions'
-      - '@types/sortablejs'
-      - '@vue/composition-api'
-
-  '@avenirs-esr/avenirs-dsav@0.1.387(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.5)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      '@tanstack/vue-table': 8.21.3(vue@3.5.44(typescript@6.0.3))
-      '@tiptap/extension-character-count': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
-      '@tiptap/extension-image': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
-      '@tiptap/extension-link': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
-      '@tiptap/extension-table': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
-      '@tiptap/extension-text-align': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
-      '@tiptap/pm': 3.34.0
-      '@tiptap/starter-kit': 3.34.0
-      '@tiptap/vue-3': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))
+      '@tiptap/vue-3': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))
       '@vuepic/vue-datepicker': 14.0.0(vue@3.5.44(typescript@6.0.3))
       '@vueuse/core': 13.9.0(vue@3.5.44(typescript@6.0.3))
       date-fns: 4.4.0
@@ -6371,7 +6345,38 @@ snapshots:
       vitest: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(jsdom@25.0.1)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
     transitivePeerDependencies:
       - '@floating-ui/dom'
-      - '@tiptap/core'
+      - '@tiptap/extensions'
+      - '@types/sortablejs'
+      - '@vue/composition-api'
+
+  '@avenirs-esr/avenirs-dsav@0.1.389(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))(@types/sortablejs@1.15.9)(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
+    dependencies:
+      '@tanstack/vue-table': 8.21.3(vue@3.5.44(typescript@6.0.3))
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
+      '@tiptap/extension-character-count': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
+      '@tiptap/extension-image': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))
+      '@tiptap/extension-link': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-table': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-text-align': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))
+      '@tiptap/pm': 3.34.0
+      '@tiptap/starter-kit': 3.34.0
+      '@tiptap/vue-3': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))
+      '@vuepic/vue-datepicker': 14.0.0(vue@3.5.44(typescript@6.0.3))
+      '@vueuse/core': 13.9.0(vue@3.5.44(typescript@6.0.3))
+      date-fns: 4.4.0
+      dompurify: 3.4.17
+      focus-trap: 7.6.4
+      focus-trap-vue: 4.0.3(focus-trap@7.6.4)(vue@3.5.44(typescript@6.0.3))
+      lodash-es: 4.18.1
+      vue: 3.5.44(typescript@6.0.3)
+      vue-draggable-plus: 0.6.1(@types/sortablejs@1.15.9)
+      vue-router: 4.5.1(vue@3.5.44(typescript@6.0.3))
+      vuedraggable: 4.1.0(vue@3.5.44(typescript@6.0.3))
+    optionalDependencies:
+      '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3))
+      vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@28.1.0)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
+    transitivePeerDependencies:
+      - '@floating-ui/dom'
       - '@tiptap/extensions'
       - '@types/sortablejs'
       - '@vue/composition-api'
@@ -7640,6 +7645,10 @@ snapshots:
 
   '@teppeis/multimaps@3.0.0': {}
 
+  '@tiptap/core@3.32.0(@tiptap/pm@3.34.0)':
+    dependencies:
+      '@tiptap/pm': 3.34.0
+
   '@tiptap/core@3.34.0(@tiptap/pm@3.34.0)':
     dependencies:
       '@tiptap/pm': 3.34.0
@@ -7653,16 +7662,20 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
 
-  '@tiptap/extension-bubble-menu@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
+  '@tiptap/extension-bubble-menu@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
     optional: true
 
   '@tiptap/extension-bullet-list@3.34.0(@tiptap/extension-list@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
     dependencies:
       '@tiptap/extension-list': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+
+  '@tiptap/extension-character-count@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
+    dependencies:
+      '@tiptap/extensions': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
 
   '@tiptap/extension-character-count@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
     dependencies:
@@ -7681,20 +7694,20 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
 
-  '@tiptap/extension-dropcursor@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
+  '@tiptap/extension-dropcursor@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
     dependencies:
-      '@tiptap/extensions': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extensions': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
 
-  '@tiptap/extension-floating-menu@3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
+  '@tiptap/extension-floating-menu@3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
     optional: true
 
-  '@tiptap/extension-gapcursor@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
+  '@tiptap/extension-gapcursor@3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))':
     dependencies:
-      '@tiptap/extensions': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extensions': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
 
   '@tiptap/extension-hard-break@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
     dependencies:
@@ -7709,13 +7722,19 @@ snapshots:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
 
-  '@tiptap/extension-image@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
+  '@tiptap/extension-image@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))':
     dependencies:
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
 
   '@tiptap/extension-italic@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
     dependencies:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+
+  '@tiptap/extension-link@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
+    dependencies:
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
+      '@tiptap/pm': 3.34.0
+      linkifyjs: 4.4.0
 
   '@tiptap/extension-link@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
     dependencies:
@@ -7748,14 +7767,14 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
 
-  '@tiptap/extension-table@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
+  '@tiptap/extension-table@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
     dependencies:
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
 
-  '@tiptap/extension-text-align@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
+  '@tiptap/extension-text-align@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))':
     dependencies:
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
 
   '@tiptap/extension-text@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
     dependencies:
@@ -7764,6 +7783,11 @@ snapshots:
   '@tiptap/extension-underline@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))':
     dependencies:
       '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+
+  '@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
+    dependencies:
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
+      '@tiptap/pm': 3.34.0
 
   '@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)':
     dependencies:
@@ -7795,8 +7819,8 @@ snapshots:
       '@tiptap/extension-code': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
       '@tiptap/extension-code-block': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
       '@tiptap/extension-document': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
-      '@tiptap/extension-dropcursor': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
-      '@tiptap/extension-gapcursor': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
+      '@tiptap/extension-dropcursor': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
+      '@tiptap/extension-gapcursor': 3.34.0(@tiptap/extensions@3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0))
       '@tiptap/extension-hard-break': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
       '@tiptap/extension-heading': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))
       '@tiptap/extension-horizontal-rule': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
@@ -7813,15 +7837,15 @@ snapshots:
       '@tiptap/extensions': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
 
-  '@tiptap/vue-3@3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))':
+  '@tiptap/vue-3@3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@tiptap/core': 3.34.0(@tiptap/pm@3.34.0)
+      '@tiptap/core': 3.32.0(@tiptap/pm@3.34.0)
       '@tiptap/pm': 3.34.0
       vue: 3.5.44(typescript@6.0.3)
     optionalDependencies:
-      '@tiptap/extension-bubble-menu': 3.34.0(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
-      '@tiptap/extension-floating-menu': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.34.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-bubble-menu': 3.34.0(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
+      '@tiptap/extension-floating-menu': 3.34.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.34.0))(@tiptap/pm@3.34.0)
 
   '@ts-graphviz/adapter@2.0.6':
     dependencies:

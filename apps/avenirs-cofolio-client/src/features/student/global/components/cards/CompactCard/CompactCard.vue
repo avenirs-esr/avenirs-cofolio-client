@@ -47,7 +47,9 @@ const iconOptions = computed<IconOptions>(() => ({
     data-testid="compact-card"
   >
     <template #body>
-      <slot />
+      <div class="compact-card-body">
+        <slot />
+      </div>
     </template>
   </FloatingIconCard>
 </template>
@@ -57,6 +59,10 @@ const iconOptions = computed<IconOptions>(() => ({
   min-width: 13.4375rem !important;
   max-width: 13.4375rem !important;
   overflow: hidden;
+}
+
+.compact-card-body {
+  width: 80%;
 }
 
 :deep() {
