@@ -7,11 +7,13 @@ import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EActivityStatus, getGetActivityContentUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
+import { addDays, format, parseISO } from 'date-fns'
 import { http, HttpResponse } from 'msw'
 import { vi } from 'vitest'
 import { toValue } from 'vue'
 import {
   mockedActivityContent,
+  mockedActivityContentWithDatedSubActivities,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityContentWithSubActivities,
@@ -28,16 +30,25 @@ import { ActivityPublicationTabStub } from '@/features/staff/activities/views/Ed
 import { useSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
 import { mockSubActivitiesOrder, resetMockSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
-import {
-
-  editNationalActivityViewContextKey
-} from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
+import { editNationalActivityViewContextKey } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
 const ADD_ACTIVITY_TITLE = 'Créer mon activité'
 const EDIT_ACTIVITY_TITLE = 'Modifier l\'activité'
 const OPTION_REQUIRED_ERROR = 'Activez au moins une option\u00A0: commentaire, note ou validation'
 const REQUIRED_ERROR = 'Ce champ est requis.'
 const SAVE_SUCCESS_MESSAGE = 'Activité enregistrée avec succès'
+
+const DATED_ACTIVITY = mockedActivityContentWithDatedSubActivities
+const SUB_ACTIVITY_START_DATE = DATED_ACTIVITY.subActivities.find(({ startDate }) => startDate)!.startDate!
+const COVERING_PERIOD: ActivityDraftUpdateRequest = {
+  startDate: DATED_ACTIVITY.startDate,
+  endDate: DATED_ACTIVITY.endDate,
+  enableCompletionPeriod: true
+}
+const UNCOVERING_PERIOD: ActivityDraftUpdateRequest = {
+  ...COVERING_PERIOD,
+  startDate: format(addDays(parseISO(SUB_ACTIVITY_START_DATE), 1), 'yyyy-MM-dd')
+}
 
 const mockMode = ref('edit')
 
@@ -123,9 +134,9 @@ BddTest().given('a national activity view', () => {
     AvTab: AvTabStub,
   }
 
-  const mountView = async () => {
+  const mountView = async (id = mockedActivityContent.id) => {
     wrapper = mountComponent(EditNationalActivityView, {
-      props: { id: mockedActivityContent.id },
+      props: { id },
       global: { stubs },
     })
     await flushPromises()
@@ -730,6 +741,98 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should share the sub-activities order with the tabs', () => {
       expect(getContext(wrapper).subActivitiesOrder).toBe(mockSubActivitiesOrder)
+    })
+  })
+
+  BddTest().when('the activity has sub-activities with a period', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+      server.use(createUpdateActivityDraftHandler((body) => {
+        capturedPatchBody = body
+      }))
+      await mountView(DATED_ACTIVITY.id)
+    })
+
+    BddTest().and('a period not covering the sub-activities is entered', () => {
+      beforeEach(async () => {
+        const { form } = getContext(wrapper)
+        form.setFieldValue('startDate', UNCOVERING_PERIOD.startDate)
+        form.setFieldValue('endDate', UNCOVERING_PERIOD.endDate)
+        await form.validate('change')
+      })
+
+      BddTest().then('it should flag the end date', () => {
+        expect(getContext(wrapper).form.getFieldMeta('endDate')?.errors).toHaveLength(1)
+      })
+
+      BddTest().and('another change is autosaved', () => {
+        beforeEach(async () => {
+          await getContext(wrapper).save({
+            title: 'Updated title'
+          })
+          await flushPromises()
+        })
+
+        BddTest().then('it should still flag the end date', () => {
+          expect(getContext(wrapper).form.getFieldMeta('endDate')?.errors).toHaveLength(1)
+        })
+      })
+    })
+
+    BddTest().and('a period not covering the sub-activities is autosaved', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save(UNCOVERING_PERIOD)
+        await flushPromises()
+      })
+
+      BddTest().then('it should not save the activity', () => {
+        expect(capturedPatchBody).toBeUndefined()
+      })
+    })
+
+    BddTest().and('a period not covering the sub-activities is autosaved with another change', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save({
+          ...UNCOVERING_PERIOD,
+          title: 'Updated title'
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the other change without the period', () => {
+        expect(capturedPatchBody).toEqual({
+          title: 'Updated title'
+        })
+      })
+    })
+
+    BddTest().and('a period covering the sub-activities is autosaved', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save(COVERING_PERIOD)
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the period', () => {
+        expect(capturedPatchBody).toEqual(COVERING_PERIOD)
+      })
+    })
+
+    BddTest().and('the period is disabled while a period not covering the sub-activities is pending', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save({
+          ...UNCOVERING_PERIOD,
+          enableCompletionPeriod: false
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the disabling', () => {
+        expect(capturedPatchBody).toMatchObject({
+          enableCompletionPeriod: false
+        })
+      })
     })
   })
 
