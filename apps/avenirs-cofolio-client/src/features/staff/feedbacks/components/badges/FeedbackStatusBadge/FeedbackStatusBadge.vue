@@ -67,5 +67,6 @@ const backgroundColor = computed(() => {
     :color="color"
     :background-color="backgroundColor"
     border-color="transparent"
+    ellipsis
   />
 </template>
