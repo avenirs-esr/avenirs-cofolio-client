@@ -313,6 +313,7 @@
           "SubActivitiesSortableList": {
             "announcement": "Sous-activité {subActivityName} déplacée de la position {fromPos} à la position {toPos} sur {subActivitiesLength}",
             "emptyState": "Aucune sous-activité pour le moment",
+            "periodToCover": "Période à couvrir",
             "unpublishable": "Non publiable"
           },
           "success": {

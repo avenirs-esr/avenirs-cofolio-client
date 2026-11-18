@@ -279,6 +279,25 @@ BddTest().given('an ActivityContentTab component', () => {
     })
   })
 
+  BddTest().when('a period is entered', () => {
+    const startDate = '2026-03-01'
+    const endDate = '2026-03-31'
+
+    beforeEach(async () => {
+      const form = tab.findComponent(ActivityExecutionPeriodFormFieldStub).props('form')!
+      form.setFieldValue('startDate', startDate)
+      form.setFieldValue('endDate', endDate)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should pass the period to SubActivitiesSortableList', () => {
+      expect(getSubActivitiesList().props()).toMatchObject({
+        activityStartDate: startDate,
+        activityEndDate: endDate
+      })
+    })
+  })
+
   BddTest().when('the sub-activities order is waiting for the autosave', () => {
     beforeEach(async () => {
       mockSubActivitiesOrder.hasPendingChanges.value = true
