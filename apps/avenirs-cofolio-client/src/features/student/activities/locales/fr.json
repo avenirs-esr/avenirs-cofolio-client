@@ -42,14 +42,14 @@
       "modals": {
         "SubscribeActivityConfirmModal": {
           "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
-          "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
+          "success": "Vous êtes inscrit(e) avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
           "title": "Êtes-vous certain(e) de vouloir vous inscrire à l'activité\u00A0: {title}\u00A0?"
         },
         "UnsubscribeActivitiesConfirmModal": {
           "description": "Vos contenus déjà renseignés pour cette activité seront conservés.",
           "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
           "feedbackWarning": "Attention, vos demandes de feedback n'ayant pas encore reçu de réponse seront définitivement supprimées et ne seront plus visibles par l'enseignant",
-          "success": "Vous avez été désinscrit.e avec succès.",
+          "success": "Vous avez été désinscrit(e) avec succès.",
           "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité\u00A0? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités\u00A0?"
         }
       },

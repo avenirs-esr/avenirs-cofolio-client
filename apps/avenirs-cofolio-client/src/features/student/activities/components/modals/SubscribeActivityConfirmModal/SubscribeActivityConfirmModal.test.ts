@@ -80,7 +80,7 @@ BddTest().given('a subscribe activity confirm modal', () => {
 
       BddTest().then('it should add a success message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d\'activités.')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous êtes inscrit(e) avec succès. Retrouvez cette activité dans votre bibliothèque d\'activités.')
         })
       })
 
