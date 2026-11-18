@@ -8,6 +8,14 @@ export const SubActivitiesSortableListStub = defineComponent({
       type: Array as PropType<SubActivityOverviewDTO[]>,
       required: true,
     },
+    activityStartDate: {
+      type: String,
+      default: undefined,
+    },
+    activityEndDate: {
+      type: String,
+      default: undefined,
+    },
     isLoading: {
       type: Boolean,
       default: false,

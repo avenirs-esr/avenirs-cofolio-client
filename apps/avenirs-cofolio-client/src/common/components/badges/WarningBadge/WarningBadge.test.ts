@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { ComponentProps } from 'vue-component-type-helpers'
+import type { WarningBadgeProps } from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
@@ -13,51 +13,57 @@ BddTest().given('a warning badge component', () => {
     AvBadge: AvBadgeStub,
   }
 
-  const mountWith = (props: ComponentProps<typeof WarningBadge>) => {
+  const mountWith = (props: WarningBadgeProps) => {
     wrapper = mount(WarningBadge, {
       props,
-      global: { stubs },
+      global: { stubs }
     })
   }
 
-  const findBadge = () => wrapper.findComponent(AvBadgeStub)
+  const getBadge = () => wrapper.findComponent(AvBadgeStub)
 
-  BddTest().when('rendered with standard badge props', () => {
+  BddTest().when('rendered with only a label', () => {
     beforeEach(() => {
       mountWith({
-        label: 'Attention',
-        icon: MDI_ICONS.ALERT_OUTLINE,
+        label: 'Attention'
       })
     })
 
-    BddTest().then('it should forward the label and icon to AvBadge', () => {
-      const badge = findBadge()
+    BddTest().then('it should forward the label to AvBadge', () => {
+      const badge = getBadge()
       expect(badge.exists()).toBe(true)
       expect(badge.props('label')).toBe('Attention')
-      expect(badge.props('icon')).toBe(MDI_ICONS.ALERT_OUTLINE)
     })
 
     BddTest().then('it should enforce the warning colors', () => {
-      const badge = findBadge()
+      const badge = getBadge()
       expect(badge.props('color')).toBe('var(--dark-background-warn)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-warn)')
+      expect(badge.props('borderColor')).toBe('var(--dark-background-warn)')
+    })
+
+    BddTest().then('it should use the warning icon by default', () => {
+      expect(getBadge().props('icon')).toBe(MDI_ICONS.WARNING_OUTLINE)
     })
   })
 
-  BddTest().when('rendered with additional badge props', () => {
+  BddTest().when('rendered with other props', () => {
     beforeEach(() => {
       mountWith({
         label: 'Attention',
-        icon: MDI_ICONS.ALERT_OUTLINE,
-        borderColor: 'transparent',
-        small: true
+        icon: MDI_ICONS.PENCIL_OUTLINE,
+        small: true,
+        ellipsis: true,
+        noSentenceCase: true,
       })
     })
 
-    BddTest().then('it should forward the remaining props to AvBadge', () => {
-      const badge = findBadge()
-      expect(badge.props('borderColor')).toBe('transparent')
+    BddTest().then('it should forward them to AvBadge', () => {
+      const badge = getBadge()
+      expect(badge.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
       expect(badge.props('small')).toBe(true)
+      expect(badge.props('ellipsis')).toBe(true)
+      expect(badge.props('noSentenceCase')).toBe(true)
     })
   })
 })

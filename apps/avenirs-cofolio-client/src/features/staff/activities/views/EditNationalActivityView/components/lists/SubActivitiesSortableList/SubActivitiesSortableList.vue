@@ -3,14 +3,23 @@ import type { AvInteractiveProps, AvSortableListItem } from '@avenirs-esr/avenir
 import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { QuerySuspense, SortableList } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
+import { getUncoveredSubActivityPeriod } from '@/common/activities/utils/activity-period'
+import ErrorBadge from '@/common/components/badges/ErrorBadge/ErrorBadge.vue'
 import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 import { ROUTES } from '@/common/constants'
 
-type SubActivityItem = AvSortableListItem & Pick<SubActivityOverviewDTO, 'publishable'>
+interface SubActivityItem extends AvSortableListItem, Pick<SubActivityOverviewDTO, 'publishable'> {
+  isOutsideActivityPeriod: boolean
+}
 
-export type SubActivitiesSortableListProps = Pick<AvInteractiveProps, 'isLoading'>
+export interface SubActivitiesSortableListProps extends Pick<AvInteractiveProps, 'isLoading'> {
+  activityStartDate?: string
+  activityEndDate?: string
+}
 
 const {
+  activityStartDate,
+  activityEndDate,
   isLoading = false,
 } = defineProps<SubActivitiesSortableListProps>()
 
@@ -19,10 +28,13 @@ const subActivities = defineModel<SubActivityOverviewDTO[]>({ required: true })
 const { t } = useI18n()
 
 const items = computed<SubActivityItem[]>({
-  get: () => subActivities.value.map(({ id, title, publishable }) => ({
-    id,
-    label: title,
-    publishable
+  get: () => subActivities.value.map(subActivity => ({
+    id: subActivity.id,
+    label: subActivity.title,
+    isOutsideActivityPeriod: !!activityStartDate
+      && !!activityEndDate
+      && !!getUncoveredSubActivityPeriod(subActivity, activityStartDate, activityEndDate),
+    publishable: subActivity.publishable,
   })),
   set: (reorderedItems) => {
     const subActivitiesById = new Map(subActivities.value.map(subActivity => [subActivity.id, subActivity]))
@@ -62,11 +74,18 @@ function formatAnnouncement (element: AvSortableListItem, index: number, targetI
             {{ element.label }}
           </RouterLink>
 
-          <WarningBadge
-            v-if="!element.publishable"
-            :label="t('staff.activities.views.EditNationalActivityView.SubActivitiesSortableList.unpublishable')"
-            small
-          />
+          <div class="av-row av-align-center av-gap-xs">
+            <ErrorBadge
+              v-if="element.isOutsideActivityPeriod"
+              :label="t('staff.activities.views.EditNationalActivityView.SubActivitiesSortableList.periodToCover')"
+              small
+            />
+            <WarningBadge
+              v-if="!element.publishable"
+              :label="t('staff.activities.views.EditNationalActivityView.SubActivitiesSortableList.unpublishable')"
+              small
+            />
+          </div>
         </div>
       </template>
     </SortableList>

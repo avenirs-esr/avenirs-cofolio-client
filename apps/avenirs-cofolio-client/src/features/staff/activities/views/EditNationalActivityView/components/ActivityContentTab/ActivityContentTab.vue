@@ -63,6 +63,8 @@ const isUpdatingSubActivitiesOrder = computed(() => hasPendingSubActivitiesOrder
 const isFormDirty = form.useStore(state => state.isDirty)
 const files = form.useStore(state => state.values.files)
 const links = form.useStore(state => state.values.links)
+const startDate = form.useStore(state => state.values.startDate)
+const endDate = form.useStore(state => state.values.endDate)
 
 function addResource (payload: AddActivityResourceFormData) {
   let newLinks: string[] | undefined
@@ -229,6 +231,8 @@ function deleteSelectedResources (
 
         <SubActivitiesSortableList
           v-model="orderedSubActivities"
+          :activity-start-date="startDate"
+          :activity-end-date="endDate"
           :is-loading="isSavingSubActivitiesOrder"
         />
       </IconTitleCardContainer>
