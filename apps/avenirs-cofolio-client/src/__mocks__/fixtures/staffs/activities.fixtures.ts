@@ -11,7 +11,7 @@ import type {
   StaffInfoDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@avenirs-esr/shared/api/avenir-esr'
-import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithUnpublishable } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithPeriod, mockedSubActivitiesOverviewDTOWithUnpublishable } from '@/__mocks__/fixtures/shared/activities.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
@@ -32,6 +32,9 @@ export const ACTIVITY_WITH_SUB_ACTIVITIES_ID
 
 export const ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID
   = 'c8e3f91a-6b42-4d75-9a1c-f0e7b35d82a6'
+
+export const ACTIVITY_WITH_DATED_SUB_ACTIVITIES_ID
+  = 'e4b7c2a9-3d61-4f8e-b5a0-9c2d7e1f6a48'
 
 export const mockedStaff1: StaffInfoDTO = {
   id: 'user-1',
@@ -234,6 +237,14 @@ export const mockedActivityContentWithUnpublishableSubActivities: ActivityConten
   ...mockedActivityContent,
   id: ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID,
   subActivities: mockedSubActivitiesOverviewDTOWithUnpublishable
+}
+
+export const mockedActivityContentWithDatedSubActivities: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: ACTIVITY_WITH_DATED_SUB_ACTIVITIES_ID,
+  startDate: '2026-03-01',
+  endDate: '2026-03-31',
+  subActivities: mockedSubActivitiesOverviewDTOWithPeriod
 }
 
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {

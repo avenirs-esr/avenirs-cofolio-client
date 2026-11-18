@@ -21,6 +21,7 @@ import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
+import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
@@ -56,6 +57,7 @@ const {
   validateFeedbackAllowedIterations,
   validateStartDate,
   validateEndDate,
+  validatePeriodCoversSubActivities,
   validateAssessmentGrade,
   validateAssessmentOptions,
 } = useEditNationalActivityFormValidators()
@@ -91,6 +93,7 @@ const hasPublishRight = computed(() => content.value?.rights.includes(EActivityR
 
 const remoteFiles = computed(() => content.value?.files ?? [])
 const persistedTargetIds = computed(() => [...(content.value?.targetInstitutionIds ?? []), ...(content.value?.targetGroupIds ?? [])])
+const subActivities = computed(() => content.value?.subActivities ?? [])
 
 const defaultValues: EditActivityFormData = reactive({
   title: computed(() => content.value?.title ?? ''),
@@ -129,11 +132,18 @@ const {
   cancelAutoSave,
   pendingAutoSaveData
 } = useQueueAutoSave<ActivityDraftUpdateRequest>(save, ACTIVITY_AUTO_SAVE_DEBOUNCE)
-const subActivitiesOrder = useSubActivitiesOrder(() => id, () => content.value?.subActivities ?? [])
+const subActivitiesOrder = useSubActivitiesOrder(() => id, subActivities)
 
 const form = useForm({
   defaultValues,
   validators: {
+    onChange ({ value }: { value: EditActivityFormData }) {
+      return {
+        fields: {
+          endDate: validatePeriodCoversSubActivities(value, subActivities.value),
+        }
+      }
+    },
     onSubmit ({ value }: { value: EditActivityFormData }) {
       return {
         fields: {
@@ -206,6 +216,19 @@ function normalizeError (error: unknown): string {
   return 'Unknown'
 }
 
+function withoutRejectedPeriod (data: ActivityDraftUpdateRequest): ActivityDraftUpdateRequest | undefined {
+  const uncoveredPeriod = data.enableCompletionPeriod && data.startDate && data.endDate
+    ? getUncoveredSubActivitiesPeriod(subActivities.value, data.startDate, data.endDate)
+    : undefined
+
+  if (!uncoveredPeriod) {
+    return data
+  }
+
+  const { startDate, endDate, enableCompletionPeriod, ...otherData } = data
+  return Object.keys(otherData).length > 0 ? otherData : undefined
+}
+
 const bannerFile = ref<File | null>(null)
 
 async function saveBanner (action: EditActivityFormDataBannerAction) {
@@ -244,6 +267,7 @@ async function saveActivity (data: ActivityDraftUpdateRequest) {
 }
 
 async function save (data?: ActivityDraftUpdateRequest) {
+  const activityData = data && withoutRejectedPeriod(data)
   const promises: Promise<void>[] = []
   const bannerAction = form.getFieldValue('bannerAction')
   const files = form.getFieldValue('files')
@@ -261,8 +285,8 @@ async function save (data?: ActivityDraftUpdateRequest) {
     form.setFieldValue('files', defaultValues.files)
   }
 
-  if (data) {
-    promises.push(saveActivity(data))
+  if (activityData) {
+    promises.push(saveActivity(activityData))
   }
 
   if (promises.length === 0) {
@@ -281,6 +305,7 @@ async function save (data?: ActivityDraftUpdateRequest) {
         files: remoteFiles.value,
         bannerAction: EditActivityFormDataBannerAction.NONE,
       })
+      void form.validate('change')
     }
 
     return settledResults

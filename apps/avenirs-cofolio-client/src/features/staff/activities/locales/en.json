@@ -12,6 +12,9 @@
         "useEditNationalActivityFormValidators": {
           "assessment": {
             "optionRequired": "Enable at least one option: comment, grade or validation"
+          },
+          "period": {
+            "subActivitiesNotCovered": "The period must cover the sub-activities' period, from {startDate} to {endDate}. To choose another period, first change the dates of the affected sub-activities."
           }
         }
       },

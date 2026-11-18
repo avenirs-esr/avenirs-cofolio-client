@@ -10,3 +10,8 @@ export const mockedSubActivitiesOverviewDTOWithUnpublishable: SubActivityOvervie
   ...mockedSubActivitiesOverviewDTO,
   { id: 'sub-activity-4', title: 'Présenter le bilan', publishable: false },
 ]
+
+export const mockedSubActivitiesOverviewDTOWithPeriod: SubActivityOverviewDTO[] = [
+  ...mockedSubActivitiesOverviewDTO,
+  { id: 'sub-activity-5', title: 'Rédiger la synthèse', startDate: '2026-03-02', endDate: '2026-03-20', publishable: true },
+]

@@ -1,6 +1,9 @@
+import type { AvLocale } from '@avenirs-esr/shared'
+import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityAssessmentFormData, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
-import { useFormValidators } from '@avenirs-esr/shared'
+import { formatDateLocalized, useFormValidators } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
+import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import {
   ACTIVITY_ASSESSMENT_GRADE_MIN,
   ACTIVITY_CONSIGN_MAX_LENGTH,
@@ -18,7 +21,7 @@ import {
  * @returns An object containing validation functions for each form field.
  */
 export function useEditNationalActivityFormValidators () {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { validateRequired, validateMaxLength, validateMin, validateDateInterval } = useFormValidators()
 
   function validateTitle (title: EditActivityFormData['title']) {
@@ -57,12 +60,31 @@ export function useEditNationalActivityFormValidators () {
     return validateRequired(startDate)
   }
 
-  function validateEndDate ({ startDate, endDate }: { startDate: EditActivityFormData['startDate'], endDate: EditActivityFormData['endDate'] }) {
+  function validateEndDate ({ startDate, endDate }: Pick<EditActivityFormData, 'startDate' | 'endDate'>) {
     if (!startDate && !endDate) {
       return undefined
     }
 
     return validateRequired(endDate) ?? validateDateInterval({ startDate, endDate })
+  }
+
+  function validatePeriodCoversSubActivities (
+    { startDate, endDate }: Pick<EditActivityFormData, 'startDate' | 'endDate'>,
+    subActivities: SubActivityOverviewDTO[]
+  ) {
+    if (!startDate || !endDate) {
+      return undefined
+    }
+
+    const uncoveredPeriod = getUncoveredSubActivitiesPeriod(subActivities, startDate, endDate)
+    if (!uncoveredPeriod) {
+      return undefined
+    }
+
+    return t('staff.activities.composables.useEditNationalActivityFormValidators.period.subActivitiesNotCovered', {
+      startDate: formatDateLocalized(uncoveredPeriod.startDate, locale.value as AvLocale, true),
+      endDate: formatDateLocalized(uncoveredPeriod.endDate, locale.value as AvLocale, true),
+    })
   }
 
   function validateAssessmentGrade (grade: number | undefined, isRequired = false) {
@@ -91,6 +113,7 @@ export function useEditNationalActivityFormValidators () {
     validateTitle,
     validateStartDate,
     validateEndDate,
+    validatePeriodCoversSubActivities,
     validateAssessmentGrade,
     validateAssessmentOptions,
   }

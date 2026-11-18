@@ -38,6 +38,7 @@ import {
   getMockedActivityDashboard,
   mockedActivityAuthorizations,
   mockedActivityContent,
+  mockedActivityContentWithDatedSubActivities,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
@@ -295,6 +296,9 @@ export const staffsActivitiesHandlers = [
       }
       else if (activityId === mockedActivityContentWithUnpublishableSubActivities.id) {
         response = mockedActivityContentWithUnpublishableSubActivities
+      }
+      else if (activityId === mockedActivityContentWithDatedSubActivities.id) {
+        response = mockedActivityContentWithDatedSubActivities
       }
       else if (activityId === WITHOUT_RIGHTS_ID) {
         response = {
