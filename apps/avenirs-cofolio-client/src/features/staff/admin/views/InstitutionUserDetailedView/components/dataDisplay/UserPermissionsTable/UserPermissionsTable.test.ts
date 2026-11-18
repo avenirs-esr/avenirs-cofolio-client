@@ -7,6 +7,7 @@ import { ERole } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { UserRoleBadgeStub } from '@/features/staff/admin/components/badges/UserRoleBadge/UserRoleBadge.stub'
 import UserRoleBadge from '@/features/staff/admin/components/badges/UserRoleBadge/UserRoleBadge.vue'
 import UserPermissionsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserPermissionsTable/UserPermissionsTable.vue'
 
@@ -29,6 +30,7 @@ BddTest().given('a user permissions table', () => {
   const stubs = {
     AvTable: AvTableStub,
     Card: CardStub,
+    UserRoleBadge: UserRoleBadgeStub,
   }
 
   const mountWith = async (options: {

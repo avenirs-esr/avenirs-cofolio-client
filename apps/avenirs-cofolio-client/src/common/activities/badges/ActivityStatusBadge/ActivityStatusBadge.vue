@@ -55,5 +55,6 @@ const icon = computed(() => {
     :color="badgeColors.color"
     :background-color="badgeColors.backgroundColor"
     border-color="var(--stroke)"
+    ellipsis
   />
 </template>

@@ -44,5 +44,6 @@ const icon = computed(() => {
     color="var(--light-foreground-accent)"
     background-color="var(--light-background-accent)"
     border-color="transparent"
+    ellipsis
   />
 </template>
