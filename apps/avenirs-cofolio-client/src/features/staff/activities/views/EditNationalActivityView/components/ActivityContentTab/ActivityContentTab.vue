@@ -25,6 +25,7 @@ import { isActivityResourceFileType, isActivityResourceLinkType } from '@/featur
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import ManageSubActivitiesDropdown from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.vue'
 import SubActivitiesSortableList from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.vue'
+import DeleteSubActivitiesModal from '@/features/staff/activities/views/EditNationalActivityView/components/modals/DeleteSubActivitiesModal/DeleteSubActivitiesModal.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
 interface ActivityContentTabProps {
@@ -56,6 +57,11 @@ const {
   modalOpened: showAddSubActivityModal,
   openModal: displayAddSubActivityModal,
   closeModal: hideAddSubActivityModal,
+} = useModal()
+const {
+  modalOpened: showDeleteSubActivitiesModal,
+  openModal: displayDeleteSubActivitiesModal,
+  closeModal: hideDeleteSubActivitiesModal,
 } = useModal()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
@@ -223,7 +229,10 @@ function deleteSelectedResources (
         <template #title>
           <ManageSubActivitiesDropdown
             :is-loading="isUpdatingSubActivitiesOrder"
+            :has-sub-activities="orderedSubActivities.length > 0"
+            :has-enrolled-student="hasEnrolledStudent"
             @add="displayAddSubActivityModal"
+            @delete="displayDeleteSubActivitiesModal"
           />
         </template>
 
@@ -251,5 +260,13 @@ function deleteSelectedResources (
     :activity-draft-id="activity.id"
     :opened="showAddSubActivityModal"
     @close="hideAddSubActivityModal"
+  />
+
+  <DeleteSubActivitiesModal
+    :opened="showDeleteSubActivitiesModal"
+    :activity-draft-id="activity.id"
+    :sub-activities="orderedSubActivities"
+    @cancel="hideDeleteSubActivitiesModal"
+    @deleted="hideDeleteSubActivitiesModal"
   />
 </template>

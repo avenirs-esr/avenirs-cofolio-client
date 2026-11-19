@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
@@ -21,6 +21,7 @@ import ActivityContentTab from '@/features/staff/activities/views/EditNationalAc
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { ManageSubActivitiesDropdownStub } from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.stub'
 import { SubActivitiesSortableListStub } from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.stub'
+import { DeleteSubActivitiesModalStub } from '@/features/staff/activities/views/EditNationalActivityView/components/modals/DeleteSubActivitiesModal/DeleteSubActivitiesModal.stub'
 import {
   EditNationalActivityViewFormWrapper,
   EditNationalActivityViewFormWrapperDirty,
@@ -46,6 +47,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
     AvButton: AvButtonStub,
+    DeleteSubActivitiesModal: DeleteSubActivitiesModalStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     ManageSubActivitiesDropdown: ManageSubActivitiesDropdownStub,
@@ -84,6 +86,9 @@ BddTest().given('an ActivityContentTab component', () => {
 
   const getActivityCreationModal = () =>
     tab.findComponent(ActivityCreationModalStub)
+
+  const getDeleteSubActivitiesModal = () =>
+    tab.findComponent(DeleteSubActivitiesModalStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -169,6 +174,16 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should pass the activity id to ActivityCreationModal', () => {
       expect(getActivityCreationModal().props('activityDraftId')).toBe(mockedActivityContent.id)
+    })
+
+    BddTest().then('it should tell ManageSubActivitiesDropdown there is no sub-activity and no enrolled student', () => {
+      expect(getManageSubActivitiesDropdown().props('hasSubActivities')).toBe(false)
+      expect(getManageSubActivitiesDropdown().props('hasEnrolledStudent')).toBe(false)
+    })
+
+    BddTest().then('it should render DeleteSubActivitiesModal closed, for the activity', () => {
+      expect(getDeleteSubActivitiesModal().props('opened')).toBe(false)
+      expect(getDeleteSubActivitiesModal().props('activityDraftId')).toBe(mockedActivityContent.id)
     })
   })
 
@@ -265,6 +280,14 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(getSubActivitiesList().props('modelValue')).toEqual(mockedSubActivitiesOverviewDTO)
     })
 
+    BddTest().then('it should tell ManageSubActivitiesDropdown there are sub-activities', () => {
+      expect(getManageSubActivitiesDropdown().props('hasSubActivities')).toBe(true)
+    })
+
+    BddTest().then('it should pass the ordered sub-activities to DeleteSubActivitiesModal', () => {
+      expect(getDeleteSubActivitiesModal().props('subActivities')).toEqual(mockedSubActivitiesOverviewDTO)
+    })
+
     BddTest().and('they are reordered', () => {
       const reversedSubActivities = [...mockedSubActivitiesOverviewDTO].reverse()
 
@@ -331,6 +354,49 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should close ActivityCreationModal', () => {
       expect(getActivityCreationModal().props('opened')).toBe(false)
+    })
+  })
+
+  BddTest().when('students are enrolled in the activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContentWithEnrolledStudent1)
+    })
+
+    BddTest().then('it should tell ManageSubActivitiesDropdown', () => {
+      expect(getManageSubActivitiesDropdown().props('hasEnrolledStudent')).toBe(true)
+    })
+  })
+
+  BddTest().when('ManageSubActivitiesDropdown emits delete', () => {
+    beforeEach(async () => {
+      getManageSubActivitiesDropdown().vm.$emit('delete')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should open DeleteSubActivitiesModal', () => {
+      expect(getDeleteSubActivitiesModal().props('opened')).toBe(true)
+    })
+
+    BddTest().and('DeleteSubActivitiesModal emits cancel', () => {
+      beforeEach(async () => {
+        getDeleteSubActivitiesModal().vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should close DeleteSubActivitiesModal', () => {
+        expect(getDeleteSubActivitiesModal().props('opened')).toBe(false)
+      })
+    })
+
+    BddTest().and('DeleteSubActivitiesModal emits deleted', () => {
+      beforeEach(async () => {
+        getDeleteSubActivitiesModal().vm.$emit('deleted')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should close DeleteSubActivitiesModal', () => {
+        expect(getDeleteSubActivitiesModal().props('opened')).toBe(false)
+      })
     })
   })
 })

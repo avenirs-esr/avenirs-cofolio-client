@@ -11,6 +11,7 @@ import {
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
   getDeleteDraftFileUrl,
+  getDeleteSubActivityDraftUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityAuthorizationsUrl,
@@ -178,6 +179,21 @@ export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraft
     return HttpResponse.json(
       { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
       { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+})
+
+export const deleteSubActivityDraftHandler = http.delete(`*${getDeleteSubActivityDraftUrl(':activityDraftId', ':subActivityId')}`, ({ params }) => {
+  if (params.subActivityId === 'INTERNAL_ERROR_ID') {
+    return internalServerError()
+  }
+
+  if (params.activityDraftId === mockedActivityContentWithEnrolledStudent1.id) {
+    return HttpResponse.json(
+      { code: EErrorCode.SUB_ACTIVITY_DELETION_NOT_ALLOWED, message: 'A sub-activity cannot be deleted from an activity with enrolled students' },
+      { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
     )
   }
 
@@ -435,6 +451,7 @@ export const staffsActivitiesHandlers = [
     return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
   }),
   deleteActivityDraftHandler,
+  deleteSubActivityDraftHandler,
   deleteActivityDefinitivelyHandler,
   publishActivityDraftHandler,
   unpublishActivityDraftHandler,

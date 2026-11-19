@@ -296,6 +296,16 @@
               "error": "Une erreur est survenue lors de l'enregistrement de l'ordre des sous-activités"
             }
           },
+          "ConfirmDeleteSubActivitiesModal": {
+            "error": "Une erreur est survenue lors de la suppression de la sous-activité | Une erreur est survenue lors de la suppression des sous-activités",
+            "success": "{count} sous-activité supprimée avec succès | {count} sous-activités supprimées avec succès",
+            "title": "Êtes-vous certain(e) de vouloir supprimer la sous-activité sélectionnée\u00A0? | Êtes-vous certain(e) de vouloir supprimer les sous-activités sélectionnées\u00A0?"
+          },
+          "DeleteSubActivitiesModal": {
+            "confirmButton": "Supprimer les sous-activités sélectionnées (0) | Supprimer la sous-activité sélectionnée (1) | Supprimer les sous-activités sélectionnées ({count})",
+            "confirmButtonDisabledTooltip": "Sélectionnez au moins une sous-activité à supprimer",
+            "title": "Quelle sous-activité souhaitez-vous supprimer\u00A0? | Quelles sous-activités souhaitez-vous supprimer\u00A0?"
+          },
           "EditNationalActivityViewTabActions": {
             "saveDisabledTooltip": "Modifiez un champ avant d'enregistrer",
             "saveLabel": "Enregistrer pour plus tard"
@@ -305,6 +315,8 @@
             "saveActivityContent": "Une erreur est survenue lors de l'enregistrement de l'activité | Des erreurs sont survenues lors de l'enregistrement de l'activité"
           },
           "ManageSubActivitiesDropdown": {
+            "deleteEmptyTooltip": "Aucune sous-activité à supprimer",
+            "deleteEnrolledStudentTooltip": "Les sous-activités ne peuvent plus être supprimées car des apprenant(e)s sont inscrit(e)s à cette activité",
             "entityName": "les sous-activités"
           },
           "SubActivitiesSortableList": {

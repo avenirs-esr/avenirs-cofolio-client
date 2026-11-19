@@ -296,6 +296,16 @@
               "error": "An error occurred while saving the sub-activity order"
             }
           },
+          "ConfirmDeleteSubActivitiesModal": {
+            "error": "An error occurred while deleting the sub-activity | An error occurred while deleting the sub-activities",
+            "success": "{count} sub-activity deleted successfully | {count} sub-activities deleted successfully",
+            "title": "Are you sure you want to delete the selected sub-activity? | Are you sure you want to delete the selected sub-activities?"
+          },
+          "DeleteSubActivitiesModal": {
+            "confirmButton": "Delete selected sub-activities (0) | Delete selected sub-activity (1) | Delete selected sub-activities ({count})",
+            "confirmButtonDisabledTooltip": "Select at least one sub-activity to delete",
+            "title": "Which sub-activity do you want to delete? | Which sub-activities do you want to delete?"
+          },
           "EditNationalActivityViewTabActions": {
             "saveDisabledTooltip": "Edit a field before saving",
             "saveLabel": "Save for later"
@@ -305,6 +315,8 @@
             "saveActivityContent": "An error occurred while saving the activity | Errors occurred while saving the activity"
           },
           "ManageSubActivitiesDropdown": {
+            "deleteEmptyTooltip": "No sub-activity to delete",
+            "deleteEnrolledStudentTooltip": "Sub-activities can no longer be deleted because learners are enrolled in this activity",
             "entityName": "sub-activities"
           },
           "SubActivitiesSortableList": {
