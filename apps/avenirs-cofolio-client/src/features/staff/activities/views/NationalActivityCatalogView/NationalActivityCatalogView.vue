@@ -27,7 +27,7 @@ const { status, id } = defineProps<NationalActivityCatalogViewProps>()
 
 const { t } = useI18n()
 
-const { data: activity, isLoading, error } = useGetActivityContent(status, id)
+const { data: activity, isLoading, error } = useGetActivityContent(status, computed(() => id))
 
 const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
 

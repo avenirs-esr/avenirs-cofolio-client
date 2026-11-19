@@ -77,12 +77,12 @@ const {
   data: content,
   isLoading: contentIsLoading,
   error: contentError
-} = useGetActivityContent(EActivityStatus.DRAFT, id)
+} = useGetActivityContent(EActivityStatus.DRAFT, computed(() => id))
 const {
   data: presentation,
   isLoading: presentationIsLoading,
   error: presentationError
-} = useGetActivityPresentation(EActivityStatus.DRAFT, id)
+} = useGetActivityPresentation(EActivityStatus.DRAFT, computed(() => id))
 
 const trailingLinks = computed(() => [
   { text: content.value?.title ?? '' },
@@ -132,7 +132,7 @@ const {
   cancelAutoSave,
   pendingAutoSaveData
 } = useQueueAutoSave<ActivityDraftUpdateRequest>(save, ACTIVITY_AUTO_SAVE_DEBOUNCE)
-const subActivitiesOrder = useSubActivitiesOrder(() => id, subActivities)
+const subActivitiesOrder = useSubActivitiesOrder(computed(() => id), subActivities)
 
 const form = useForm({
   defaultValues,
