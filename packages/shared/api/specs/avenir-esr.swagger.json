@@ -4577,6 +4577,39 @@
         }
       }
     },
+    "/me/activities/draft/{activityDraftId}/sub-activities/{subActivityId}": {
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "deleteSubActivityDraft",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activities/draft/{activityDraftId}/files/{fileId}": {
       "delete": {
         "tags": [
@@ -10273,6 +10306,7 @@
           "ACTIVITY_TARGET_REMOVAL_NOT_ALLOWED",
           "SUB_ACTIVITY_OPERATION_NOT_ALLOWED",
           "SUB_ACTIVITY_ADDITION_NOT_ALLOWED",
+          "SUB_ACTIVITY_DELETION_NOT_ALLOWED",
           "MAX_FILE_SIZE_EXCEEDED",
           "UNEXPECTED_ERROR",
           "FILE_STORAGE_ERROR",
