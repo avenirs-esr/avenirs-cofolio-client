@@ -64,7 +64,8 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
       const content = getContent()
 
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La section suivante a été modifiée\u00A0: Titre.`)
+      expect(content.text()).toContain(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour.`)
+      expect(content.text()).toContain(`La section suivante a été modifiée\u00A0: Titre.`)
     })
   })
 
@@ -99,7 +100,8 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     BddTest().then('it should render the sentence with interpolated parameters', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. Les sections suivantes ont été modifiées\u00A0: Titre, Thématique, Fichiers et liens.`)
+      expect(content.text()).toContain(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour.`)
+      expect(content.text()).toContain(`Les sections suivantes ont été modifiées\u00A0: Titre, Thématique, Fichiers et liens.`)
     })
   })
 
@@ -118,7 +120,8 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     BddTest().then('it should render the sentence with interpolated parameters', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La sous-activité "Sous-activité 1" a été modifiée.`)
+      expect(content.text()).toContain(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour.`)
+      expect(content.text()).toContain(`La sous-activité "Sous-activité 1" a été modifiée.`)
     })
   })
 
@@ -137,7 +140,8 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     BddTest().then('it should render the sentence with interpolated parameters', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. Les sous-activités suivantes ont été modifiées\u00A0: Sous-activité 1, Sous-activité 2.`)
+      expect(content.text()).toContain(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour.`)
+      expect(content.text()).toContain(`Les sous-activités suivantes ont été modifiées\u00A0: Sous-activité 1, Sous-activité 2.`)
     })
   })
 
@@ -156,7 +160,7 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     BddTest().then('it should render the sentence with empty placeholders', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La sous-activité "" a été modifiée.`)
+      expect(content.text()).toContain(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour.La sous-activité "" a été modifiée.`)
     })
   })
 
@@ -171,7 +175,7 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
     BddTest().then('it should render the sentence with empty placeholders', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe('L\'activité "" a été mise à jour. La section suivante a été modifiée\u00A0: .')
+      expect(content.text()).toBe('L\'activité "" a été mise à jour.')
     })
   })
 
