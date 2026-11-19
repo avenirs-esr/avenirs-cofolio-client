@@ -233,6 +233,13 @@ export const mockedActivityContentWithSubActivities: ActivityContentDTO = {
   subActivities: mockedSubActivitiesOverviewDTO
 }
 
+export const mockedSubActivityContent: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: mockedSubActivitiesOverviewDTO[0].id,
+  title: mockedSubActivitiesOverviewDTO[0].title,
+  mainActivityId: ACTIVITY_WITH_SUB_ACTIVITIES_ID,
+}
+
 export const mockedActivityContentWithUnpublishableSubActivities: ActivityContentDTO = {
   ...mockedActivityContent,
   id: ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID,

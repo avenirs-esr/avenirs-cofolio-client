@@ -19,8 +19,15 @@
           "activities": {
             "header": "Bibliothèque des activités",
             "items": {
-              "addNationalActivity": "Créer mon activité",
-              "editNationalActivity": "Modifier l'activité"
+              "add": {
+                "nationalActivity": "Créer mon activité",
+                "subActivity": "Créer ma sous-activité"
+              },
+              "edit": {
+                "nationalActivity": "Modifier l'activité",
+                "subActivity": "Modifier la sous-activité"
+              },
+              "subActivities": "Sous-activités"
             }
           },
           "admin": {

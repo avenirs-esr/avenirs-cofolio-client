@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { PageTitleProps } from '@avenirs-esr/shared'
 import type { ActivityDraftUpdateRequest, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import type { Ref } from 'vue'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, PageTitle, QuerySuspense, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
@@ -19,7 +19,6 @@ import {
 } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
-import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
 import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -27,6 +26,8 @@ import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useSaveState } from '@/common/composables/use-save-state/use-save-state'
+import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
@@ -66,28 +67,61 @@ const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { navigateToStaffActivities } = useNavigation()
 const { isLoading: isSavingForm, withTaskLoading } = useTaskLoading()
-
-const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
 
-const isEditMode = computed(() => mode.value !== 'add')
-const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${mode.value === 'add' ? 'addNationalActivity' : 'editNationalActivity'}`))
-
+const activityId = computed(() => id)
 const {
   data: content,
   isLoading: contentIsLoading,
   error: contentError
-} = useGetActivityContent(EActivityStatus.DRAFT, computed(() => id))
+} = useGetActivityContent(EActivityStatus.DRAFT, activityId)
 const {
   data: presentation,
   isLoading: presentationIsLoading,
   error: presentationError
-} = useGetActivityPresentation(EActivityStatus.DRAFT, computed(() => id))
+} = useGetActivityPresentation(EActivityStatus.DRAFT, activityId)
 
-const trailingLinks = computed(() => [
-  { text: content.value?.title ?? '' },
-  { text: title.value }
-])
+const parentActivityId = computed(() => content.value?.mainActivityId ?? '')
+const isSubActivity = computed(() => !!parentActivityId.value)
+const {
+  data: parentActivity,
+  isLoading: isParentActivityLoading,
+  error: parentActivityError
+} = useGetActivityContent(EActivityStatus.DRAFT, parentActivityId, {
+  query: {
+    enabled: isSubActivity
+  }
+})
+
+const isLoading = computed(() => contentIsLoading.value || presentationIsLoading.value || isParentActivityLoading.value)
+const error = computed(() => contentError.value ?? presentationError.value ?? parentActivityError.value)
+
+const isEditMode = computed(() => content.value?.createdAt !== content.value?.updatedAt)
+const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${isEditMode.value ? 'edit' : 'add'}.${isSubActivity.value ? 'subActivity' : 'nationalActivity'}`))
+
+const trailingLinks = computed(() => {
+  const links: PageTitleProps['trailingLinks'] = []
+
+  if (parentActivity.value) {
+    links.push(
+      {
+        text: parentActivity.value.title,
+        to: {
+          name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+          params: { id: parentActivity.value.id }
+        }
+      },
+      { text: t(META_BREADCRUMBS.STAFF.ACTIVITIES.SUB_ACTIVITIES.textKey) }
+    )
+  }
+
+  links.push(
+    { text: content.value?.title ?? '' },
+    { text: title.value }
+  )
+
+  return links
+})
 
 const hasPublishRight = computed(() => content.value?.rights.includes(EActivityRight.PUBLISH) ?? false)
 
@@ -367,8 +401,8 @@ provideEditNationalActivityViewContext({
   <div class="av-col av-gap-sm">
     <UpdateInProgressBadge :show="isEditMode" />
     <QuerySuspense
-      :is-loading="contentIsLoading || presentationIsLoading"
-      :error="contentError ?? presentationError"
+      :is-loading
+      :error
       :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
     >
       <div class="av-row av-w-full av-gap-xl">

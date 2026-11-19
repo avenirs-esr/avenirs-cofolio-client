@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import type { PageTitleProps } from '@avenirs-esr/shared'
 import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { PageTitle, QuerySuspense, useModal } from '@avenirs-esr/shared'
 import { EActivityRight, EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
+import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import DeleteDraftActivityConfirmationModal
   from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import ActivityDashboardSection
@@ -27,9 +30,49 @@ const { status, id } = defineProps<NationalActivityCatalogViewProps>()
 
 const { t } = useI18n()
 
-const { data: activity, isLoading, error } = useGetActivityContent(status, computed(() => id))
+const activityId = computed(() => id)
+const activityStatus = computed(() => status)
+const {
+  data: activity,
+  isLoading: isActivityLoading,
+  error: activityError
+} = useGetActivityContent(activityStatus, activityId)
 
-const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
+const parentActivityId = computed(() => activity.value?.mainActivityId ?? '')
+const isSubActivity = computed(() => !!parentActivityId.value)
+const {
+  data: parentActivity,
+  isLoading: isParentActivityLoading,
+  error: parentActivityError
+} = useGetActivityContent(activityStatus, parentActivityId, {
+  query: {
+    enabled: isSubActivity
+  }
+})
+
+const isLoading = computed(() => isActivityLoading.value || isParentActivityLoading.value)
+const error = computed(() => activityError.value ?? parentActivityError.value)
+
+const trailingLinks = computed(() => {
+  const links: PageTitleProps['trailingLinks'] = []
+
+  if (parentActivity.value) {
+    links.push(
+      {
+        text: parentActivity.value.title,
+        to: {
+          name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
+          params: { status, id: parentActivity.value.id }
+        }
+      },
+      { text: t(META_BREADCRUMBS.STAFF.ACTIVITIES.SUB_ACTIVITIES.textKey) }
+    )
+  }
+
+  links.push({ text: activity.value?.title ?? '' })
+
+  return links
+})
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
@@ -107,9 +150,9 @@ function updateActivity (id: string) {
   </PageTitle>
 
   <QuerySuspense
-    :error="error"
+    :error
     :error-title="t('staff.activities.views.NationalActivityCatalogView.errors.fetchActivityContent')"
-    :is-loading="isLoading"
+    :is-loading
   >
     <AvTabs
       v-if="activity"
