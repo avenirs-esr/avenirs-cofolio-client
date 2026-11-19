@@ -207,7 +207,6 @@ BddTest().given('an ActivityCreationModal component', () => {
     BddTest().then('it should navigate to the edit page of the created draft', async () => {
       await vi.waitFor(() => expect(mockNavigateToEditNationalActivity).toHaveBeenCalledWith({
         id: mockedActivityDraftCreationResponse.draftId,
-        mode: 'add',
       }))
     })
   })

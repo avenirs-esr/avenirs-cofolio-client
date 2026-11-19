@@ -17,11 +17,13 @@ import {
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityContentWithSubActivities,
+  mockedSubActivityContent,
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedDevStudentGroupNode, mockedPrimaryInstitutionNode, mockedProgramNode } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
-import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
+import { createGetActivityContentDraftHandler, createGetActivityContentErrorHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
+import { ROUTES } from '@/common/constants'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
@@ -33,7 +35,9 @@ import EditNationalActivityView from '@/features/staff/activities/views/EditNati
 import { editNationalActivityViewContextKey } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
 const ADD_ACTIVITY_TITLE = 'Créer mon activité'
+const ADD_SUB_ACTIVITY_TITLE = 'Créer ma sous-activité'
 const EDIT_ACTIVITY_TITLE = 'Modifier l\'activité'
+const EDIT_SUB_ACTIVITY_TITLE = 'Modifier la sous-activité'
 const OPTION_REQUIRED_ERROR = 'Activez au moins une option\u00A0: commentaire, note ou validation'
 const REQUIRED_ERROR = 'Ce champ est requis.'
 const SAVE_SUCCESS_MESSAGE = 'Activité enregistrée avec succès'
@@ -50,15 +54,8 @@ const UNCOVERING_PERIOD: ActivityDraftUpdateRequest = {
   startDate: format(addDays(parseISO(SUB_ACTIVITY_START_DATE), 1), 'yyyy-MM-dd')
 }
 
-const mockMode = ref('edit')
-
 vi.mock('@vueuse/router', () => ({
-  useRouteQuery: vi.fn((key: string, defaultValue: string) => {
-    if (key === 'mode') {
-      return mockMode
-    }
-    return ref(defaultValue)
-  }),
+  useRouteQuery: vi.fn((_key: string, defaultValue: string) => ref(defaultValue)),
 }))
 
 const mockAddSuccessMessage = vi.fn()
@@ -183,12 +180,10 @@ BddTest().given('a national activity view', () => {
     vi.clearAllMocks()
     resetMockSubActivitiesOrder()
     mockIsMobile.value = false
-    mockMode.value = 'edit'
   })
 
   BddTest().when('the view is mounted in add mode', () => {
     beforeEach(async () => {
-      mockMode.value = 'add'
       await mountView()
     })
 
@@ -211,6 +206,10 @@ BddTest().given('a national activity view', () => {
 
   BddTest().when('the view is mounted in edit mode', () => {
     beforeEach(async () => {
+      server.use(createGetActivityContentDraftHandler(() => ({
+        ...mockedActivityContent,
+        updatedAt: addDays(parseISO(mockedActivityContent.createdAt), 1).toISOString(),
+      })))
       await mountView()
     })
 
@@ -228,6 +227,59 @@ BddTest().given('a national activity view', () => {
       const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
       expect(badge.exists()).toBe(true)
       expect(badge.props('show')).toBe(true)
+    })
+  })
+
+  BddTest().when('the view is mounted for a sub-activity in add mode', () => {
+    beforeEach(async () => {
+      await mountView(mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should render PageTitle with the add sub-activity title', () => {
+      expect(wrapper.findComponent(PageTitleStub).props('title')).toBe(ADD_SUB_ACTIVITY_TITLE)
+    })
+  })
+
+  BddTest().when('the view is mounted for a sub-activity in edit mode', () => {
+    beforeEach(async () => {
+      server.use(createGetActivityContentDraftHandler(() => ({
+        ...mockedSubActivityContent,
+        updatedAt: addDays(parseISO(mockedSubActivityContent.createdAt), 1).toISOString(),
+      }), undefined, mockedSubActivityContent.id))
+      await mountView(mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should render PageTitle with sub-activity props', async () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+
+      await vi.waitFor(() => {
+        expect(pageTitle.props('trailingLinks')).toEqual([
+          {
+            text: mockedActivityContentWithSubActivities.title,
+            to: {
+              name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+              params: { id: mockedActivityContentWithSubActivities.id },
+            },
+          },
+          { text: expect.any(String) },
+          { text: mockedSubActivityContent.title },
+          { text: EDIT_SUB_ACTIVITY_TITLE },
+        ])
+      })
+      expect(pageTitle.props('title')).toBe(EDIT_SUB_ACTIVITY_TITLE)
+    })
+  })
+
+  BddTest().when('the parent activity of a sub-activity fails to load', () => {
+    beforeEach(async () => {
+      server.use(createGetActivityContentErrorHandler(EActivityStatus.DRAFT, mockedActivityContentWithSubActivities.id))
+      await mountView(mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should render QuerySuspense with an error', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toBeTruthy()
+      })
     })
   })
 
