@@ -3,7 +3,7 @@
     "global": {
       "cards": {
         "ActivityModifiedNotificationCard": {
-          "content": "L'activité \"{activityName}\" a été mise à jour. ",
+          "content": "L'activité \"{activityName}\" a été mise à jour.",
           "updatedFields": {
             "content": "La section suivante a été modifiée\u00A0: {sectionTypes}. | Les sections suivantes ont été modifiées\u00A0: {sectionTypes}.",
             "types": {

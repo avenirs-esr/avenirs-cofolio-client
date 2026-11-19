@@ -24,11 +24,11 @@ const to = computed(() => notification.elementId
 const parameters = computed(() => notification.parameters as ActivityModifiedParameters | undefined)
 
 const isSubActivityEdit = computed(() => parameters.value?.updatedFields?.includes(ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES))
-const isSectionEdit = computed(() => !isSubActivityEdit.value)
 
 const activityName = computed(() => parameters.value?.activityTitle ?? '')
 
 const sectionTypes = computed(() => (parameters.value?.updatedFields ?? []).filter(field => field !== ActivityModifiedParametersUpdatedFieldsItem.SUB_ACTIVITIES))
+const isSectionEdit = computed(() => sectionTypes.value.length > 0)
 const sectionCount = computed(() => Math.max(sectionTypes.value.length, 1))
 
 const subActivitiesTitles = computed(() => parameters.value?.updatedSubActivityTitles ?? [])
@@ -63,6 +63,7 @@ const subActivitiesCount = computed(() => Math.max(subActivitiesTitles.value.len
         :plural="sectionCount"
         scope="global"
         tag="span"
+        class="modified-content"
       >
         <template #sectionTypes>
           <template
@@ -75,11 +76,12 @@ const subActivitiesCount = computed(() => Math.max(subActivitiesTitles.value.len
         </template>
       </I18nT>
       <I18nT
-        v-else-if="isSubActivityEdit"
+        v-if="isSubActivityEdit"
         keypath="student.global.cards.ActivityModifiedNotificationCard.updatedSubActivityTitles.content"
         :plural="subActivitiesCount"
         scope="global"
         tag="span"
+        class="modified-content"
       >
         <template #subActivitiesTitles>
           <template
@@ -94,3 +96,9 @@ const subActivitiesCount = computed(() => Math.max(subActivitiesTitles.value.len
     </span>
   </NotificationCard>
 </template>
+
+<style>
+.modified-content::before {
+  content: ' ';
+}
+</style>
