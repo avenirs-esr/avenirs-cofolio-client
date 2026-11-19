@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { AvInteractiveProps, AvSortableListItem } from '@avenirs-esr/avenirs-dsav'
 import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense, SortableList } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { getUncoveredSubActivityPeriod } from '@/common/activities/utils/activity-period'
@@ -67,12 +68,12 @@ function formatAnnouncement (element: AvSortableListItem, index: number, targetI
     >
       <template #default="{ element }">
         <div class="av-row av-align-center av-justify-between av-gap-xs">
-          <RouterLink
+          <span
             class="b2-regular"
-            :to="{ name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name, params: { id: element.id } }"
+            data-testid="sub-activity-title"
           >
             {{ element.label }}
-          </RouterLink>
+          </span>
 
           <div class="av-row av-align-center av-gap-xs">
             <ErrorBadge
@@ -84,6 +85,13 @@ function formatAnnouncement (element: AvSortableListItem, index: number, targetI
               v-if="!element.publishable"
               :label="t('staff.activities.views.EditNationalActivityView.SubActivitiesSortableList.unpublishable')"
               small
+            />
+            <AvButton
+              :icon="MDI_ICONS.EXTERNAL_LINK"
+              :label="t('global.buttons.update')"
+              :to="{ name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name, params: { id: element.id } }"
+              target="_blank"
+              rel="noopener noreferrer"
             />
           </div>
         </div>

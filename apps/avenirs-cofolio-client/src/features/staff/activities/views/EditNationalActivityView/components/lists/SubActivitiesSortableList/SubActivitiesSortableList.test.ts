@@ -1,9 +1,8 @@
 import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QuerySuspenseStub, SortableListStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import { RouterLinkStub } from '@vue/test-utils'
 import { addDays, format, parseISO } from 'date-fns'
 import { beforeEach, expect } from 'vitest'
 import {
@@ -31,9 +30,9 @@ BddTest().given('a SubActivitiesSortableList component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SubActivitiesSortableList>>
 
   const stubs = {
+    AvButton: AvButtonStub,
     ErrorBadge: ErrorBadgeStub,
     QuerySuspense: QuerySuspenseStub,
-    RouterLink: RouterLinkStub,
     SortableList: SortableListStub,
     WarningBadge: WarningBadgeStub,
   }
@@ -44,14 +43,16 @@ BddTest().given('a SubActivitiesSortableList component', () => {
         ...defaultProps,
         ...props,
       },
-      global: { stubs }
+      global: { stubs },
     })
   }
 
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getSortableList = () => wrapper.findComponent(SortableListStub)
+
   const getRenderedSubActivities = () => wrapper.findAll('.sortable-list-stub__item').map(item => ({
-    link: item.findComponent(RouterLinkStub),
+    title: item.find('[data-testid="sub-activity-title"]'),
+    button: item.findComponent(AvButtonStub),
     errorBadge: item.findComponent(ErrorBadgeStub),
     warningBadge: item.findComponent(WarningBadgeStub),
   }))
@@ -78,7 +79,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
         fromPos,
         toPos,
         subActivitiesLength,
-      }[key])
+      }[key]),
     )
   }
 
@@ -94,7 +95,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
     BddTest().then('it should display the empty state message', () => {
       expect(getQuerySuspense().props()).toMatchObject({
         isEmpty: true,
-        emptyStateMessage: EMPTY_STATE_MESSAGE
+        emptyStateMessage: EMPTY_STATE_MESSAGE,
       })
     })
 
@@ -108,7 +109,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
 
     beforeEach(() => {
       mountWith({
-        modelValue: subActivities
+        modelValue: subActivities,
       })
     })
 
@@ -124,17 +125,28 @@ BddTest().given('a SubActivitiesSortableList component', () => {
       expect(getSortableList().props('isLoading')).toBe(false)
     })
 
-    BddTest().then('it should render each sub-activity title as a link', () => {
+    BddTest().then('it should render each sub-activity title', () => {
       const expectedTitles = subActivities.map(({ title }) => title)
-      expect(getRenderedSubActivities().map(({ link }) => link.text())).toEqual(expectedTitles)
+      expect(getRenderedSubActivities().map(({ title }) => title.text())).toEqual(expectedTitles)
     })
 
     BddTest().then('it should link each sub-activity to its edit page', () => {
       const expectedLinks = subActivities.map(({ id }) => ({
-        name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
-        params: { id }
+        to: {
+          name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+          params: { id },
+        },
+        target: '_blank',
+        rel: 'noopener noreferrer',
       }))
-      expect(getRenderedSubActivities().map(({ link }) => link.props('to'))).toEqual(expectedLinks)
+
+      const actualLinks = getRenderedSubActivities().map(({ button }) => ({
+        to: button.props('to'),
+        target: button.attributes('target'),
+        rel: button.attributes('rel'),
+      }))
+
+      expect(actualLinks).toEqual(expectedLinks)
     })
 
     BddTest().then('it should not flag any sub-activity as unpublishable', () => {
@@ -148,6 +160,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
 
       const formattedAnnouncement = formatAnnouncement({ id, label: title }, 0, lastIndex)
       const expectedAnnouncement = getAnnouncementMessage(title, 1, lastIndex + 1, subActivities.length)
+
       expect(formattedAnnouncement).toBe(expectedAnnouncement)
     })
 
@@ -170,7 +183,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
 
     beforeEach(() => {
       mountWith({
-        modelValue: subActivities
+        modelValue: subActivities,
       })
     })
 
@@ -178,9 +191,11 @@ BddTest().given('a SubActivitiesSortableList component', () => {
       const expectedLabels = subActivities.map(({ publishable }) => publishable
         ? undefined
         : UNPUBLISHABLE_LABEL)
+
       const labels = getRenderedSubActivities().map(({ warningBadge }) => warningBadge.exists()
         ? warningBadge.props('label')
         : undefined)
+
       expect(labels).toEqual(expectedLabels)
     })
   })
@@ -204,9 +219,11 @@ BddTest().given('a SubActivitiesSortableList component', () => {
         const expectedLabels = subActivities.map(({ id }) => id === subActivityWithPeriod.id
           ? OUTSIDE_ACTIVITY_PERIOD_LABEL
           : undefined)
+
         const labels = getRenderedSubActivities().map(({ errorBadge }) => errorBadge.exists()
           ? errorBadge.props('label')
           : undefined)
+
         expect(labels).toEqual(expectedLabels)
       })
     })
@@ -245,7 +262,7 @@ BddTest().given('a SubActivitiesSortableList component', () => {
     beforeEach(() => {
       mountWith({
         modelValue: subActivities,
-        isLoading: true
+        isLoading: true,
       })
     })
 
