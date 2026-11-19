@@ -20,6 +20,7 @@ export const META_BREADCRUMBS = {
      */
     ACTIVITIES: {
       DEFAULT: { textKey: 'staff.global.navigation.tabs.activities.header', to: ROUTES.STAFF.ACTIVITIES },
+      SUB_ACTIVITIES: { textKey: 'staff.global.navigation.tabs.activities.items.subActivities' },
     },
 
     /**
