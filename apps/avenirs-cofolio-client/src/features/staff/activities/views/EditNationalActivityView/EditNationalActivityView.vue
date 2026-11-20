@@ -19,7 +19,7 @@ import {
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
+import { getOverflowedParentActivityPeriod, getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
@@ -57,6 +57,7 @@ const {
   validateFeedbackAllowedIterations,
   validateStartDate,
   validateEndDate,
+  validatePeriodWithinParentActivity,
   validatePeriodCoversSubActivities,
   validateAssessmentGrade,
   validateAssessmentOptions,
@@ -168,7 +169,9 @@ const form = useForm({
     onChange ({ value }: { value: EditActivityFormData }) {
       return {
         fields: {
-          endDate: validatePeriodCoversSubActivities(value, subActivities.value),
+          endDate: isSubActivity.value
+            ? parentActivity.value && validatePeriodWithinParentActivity(value, parentActivity.value)
+            : validatePeriodCoversSubActivities(value, subActivities.value),
         }
       }
     },
@@ -245,11 +248,15 @@ function normalizeError (error: unknown): string {
 }
 
 function withoutRejectedPeriod (data: ActivityDraftUpdateRequest): ActivityDraftUpdateRequest | undefined {
-  const uncoveredPeriod = data.enableCompletionPeriod && data.startDate && data.endDate
-    ? getUncoveredSubActivitiesPeriod(subActivities.value, data.startDate, data.endDate)
-    : undefined
+  if (!data.enableCompletionPeriod || !data.startDate || !data.endDate) {
+    return data
+  }
 
-  if (!uncoveredPeriod) {
+  const rejectedPeriod = isSubActivity.value
+    ? parentActivity.value && getOverflowedParentActivityPeriod(parentActivity.value, data.startDate, data.endDate)
+    : getUncoveredSubActivitiesPeriod(subActivities.value, data.startDate, data.endDate)
+
+  if (!rejectedPeriod) {
     return data
   }
 

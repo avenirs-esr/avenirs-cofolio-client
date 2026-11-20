@@ -34,22 +34,19 @@ import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/
 import {
   ACTIVITY_WITH_AUTHORIZATIONS_ID,
   ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
+  allMockedActivityContentDTO,
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
   getMockedActivityDashboard,
   mockedActivityAuthorizations,
   mockedActivityContent,
-  mockedActivityContentWithDatedSubActivities,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
-  mockedActivityContentWithSubActivities,
-  mockedActivityContentWithUnpublishableSubActivities,
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse,
-  mockedInactiveStudents,
-  mockedSubActivityContent
+  mockedInactiveStudents
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -295,30 +292,9 @@ export const staffsActivitiesHandlers = [
       const activityId = pathnameParts.at(-2)
       const WITHOUT_RIGHTS_ID = 'WITHOUT_RIGHTS_ID'
 
-      let response = mockedActivityContent
+      let response = allMockedActivityContentDTO.find(({ id }: ActivityContentDTO) => id === activityId) ?? mockedActivityContent
 
-      if (activityId === mockedActivityContentWithEnrolledStudent1.id) {
-        response = mockedActivityContentWithEnrolledStudent1
-      }
-      else if (activityId === mockedActivityContentWithoutEnrolledStudent.id) {
-        response = mockedActivityContentWithoutEnrolledStudent
-      }
-      else if (activityId === mockedActivityContentWithFileAndLink.id) {
-        response = mockedActivityContentWithFileAndLink
-      }
-      else if (activityId === mockedActivityContentWithSubActivities.id) {
-        response = mockedActivityContentWithSubActivities
-      }
-      else if (activityId === mockedSubActivityContent.id) {
-        response = mockedSubActivityContent
-      }
-      else if (activityId === mockedActivityContentWithUnpublishableSubActivities.id) {
-        response = mockedActivityContentWithUnpublishableSubActivities
-      }
-      else if (activityId === mockedActivityContentWithDatedSubActivities.id) {
-        response = mockedActivityContentWithDatedSubActivities
-      }
-      else if (activityId === WITHOUT_RIGHTS_ID) {
+      if (activityId === WITHOUT_RIGHTS_ID) {
         response = {
           ...response,
           rights: []
