@@ -2,6 +2,7 @@ import type { AvLocale } from '@avenirs-esr/shared'
 import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
 import { createGetAlertConfigHandler } from '@/__mocks__/msw/handlers/global-alert.handlers'
@@ -76,6 +77,21 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
 
     BddTest().then('it returns the response through the Backoffice response interceptor', () => {
       expect(result).toEqual(mockedAlertConfigurationDTO)
+    })
+  })
+
+  BddTest().when('the API responds with 403 Forbidden', () => {
+    beforeEach(async () => {
+      vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
+      server.use(http.get('*', () => new HttpResponse(null, { status: 403 })))
+      await api.getAlertConfig().catch(() => undefined)
+    })
+
+    BddTest().then('it navigates to the forbidden page', async () => {
+      const { default: router } = await import('@/router')
+      const { ROUTES } = await import('@/constants')
+
+      expect(router.currentRoute.value.name).toBe(ROUTES.FORBIDDEN.name)
     })
   })
 

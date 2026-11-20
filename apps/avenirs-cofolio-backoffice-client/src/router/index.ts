@@ -10,6 +10,10 @@ const routes = [
   ...termsOfServiceRoutes,
   ...nationalToolsRoutes,
   {
+    ...ROUTES.FORBIDDEN,
+    component: () => import('@/views/ForbiddenView/ForbiddenView.vue'),
+  },
+  {
     ...ROUTES.HOME,
     component: { render: () => null },
   },
