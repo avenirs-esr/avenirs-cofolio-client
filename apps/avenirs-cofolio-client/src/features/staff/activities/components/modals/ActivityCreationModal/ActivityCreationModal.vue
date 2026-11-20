@@ -87,7 +87,7 @@ async function onSuccess (response: ActivityDraftCreationResponse) {
   onClose()
 
   if (!activityDraftId) {
-    navigateToStaffActivitiesEditNationalActivity({ id: response.draftId, mode: 'add' })
+    navigateToStaffActivitiesEditNationalActivity({ id: response.draftId })
   }
 }
 

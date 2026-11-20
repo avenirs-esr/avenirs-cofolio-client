@@ -5,10 +5,11 @@ import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
+import { mockedActivityContent, mockedActivityContentWithSubActivities, mockedActivityDraftCreationResponse, mockedSubActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { createGetActivityContentErrorHandler, getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
+import { ROUTES } from '@/common/constants'
 import {
   DeleteDraftActivityConfirmationModalStub
 } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
@@ -308,6 +309,44 @@ BddTest().given('a national activity catalog view', () => {
 
       expect(editButton!.props('disabled')).toBe(true)
       expect(deleteButton!.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      wrapper = mountView(EActivityStatus.PUBLISHED, mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should prefix the breadcrumb with a link to the parent activity', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent(PageTitleStub).props('trailingLinks')).toEqual([
+          {
+            text: mockedActivityContentWithSubActivities.title,
+            to: {
+              name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
+              params: {
+                status: EActivityStatus.PUBLISHED,
+                id: mockedActivityContentWithSubActivities.id,
+              },
+            },
+          },
+          { text: expect.any(String) },
+          { text: mockedSubActivityContent.title }
+        ])
+      })
+    })
+
+    BddTest().and('the parent activity fails to load', () => {
+      beforeEach(() => {
+        server.use(createGetActivityContentErrorHandler(EActivityStatus.PUBLISHED, mockedActivityContentWithSubActivities.id))
+        wrapper = mountView(EActivityStatus.PUBLISHED, mockedSubActivityContent.id)
+      })
+
+      BddTest().then('it should render QuerySuspense with an error', async () => {
+        await vi.waitFor(() => {
+          expect(getQuerySuspense().props('error')).toBeTruthy()
+        })
+      })
     })
   })
 })

@@ -235,11 +235,10 @@ export function useNavigation () {
     return navigate(ROUTES.STAFF.ACTIVITIES, replace)
   }
 
-  const navigateToStaffActivitiesEditNationalActivity = ({ id, mode, replace }: { id: string, mode?: string, replace?: boolean }) => {
+  const navigateToStaffActivitiesEditNationalActivity = ({ id, replace }: { id: string, replace?: boolean }) => {
     const to = {
       name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
       params: { id },
-      query: mode ? { mode } : undefined,
     }
     return navigate(to, replace)
   }

@@ -48,7 +48,8 @@ import {
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse,
-  mockedInactiveStudents
+  mockedInactiveStudents,
+  mockedSubActivityContent
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -60,22 +61,20 @@ export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDr
   )
 })
 
-export const getActivityContentErrorHandler = http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
-  return HttpResponse.json(
-    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
-    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
-  )
-})
+export function createGetActivityContentErrorHandler (status: EActivityStatus, activityId = ':activityId') {
+  return http.get(`*${getGetActivityContentUrl(status, activityId)}`, internalServerError)
+}
 
-export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivityContentUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
-  return HttpResponse.json(
-    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
-    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
-  )
-})
+export const getActivityContentErrorHandler = createGetActivityContentErrorHandler(EActivityStatus.DRAFT)
 
-export function createGetActivityContentDraftHandler (getActivityContent: () => ActivityContentDTO, onCalled?: () => void) {
-  return http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
+export const getPublishedActivityContentErrorHandler = createGetActivityContentErrorHandler(EActivityStatus.PUBLISHED)
+
+export function createGetActivityContentDraftHandler (
+  getActivityContent: () => ActivityContentDTO,
+  onCalled?: () => void,
+  activityId: string = ':activityId'
+) {
+  return http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, activityId)}`, () => {
     onCalled?.()
 
     return HttpResponse.json<ActivityContentDTO>(getActivityContent(), {
@@ -309,6 +308,9 @@ export const staffsActivitiesHandlers = [
       }
       else if (activityId === mockedActivityContentWithSubActivities.id) {
         response = mockedActivityContentWithSubActivities
+      }
+      else if (activityId === mockedSubActivityContent.id) {
+        response = mockedSubActivityContent
       }
       else if (activityId === mockedActivityContentWithUnpublishableSubActivities.id) {
         response = mockedActivityContentWithUnpublishableSubActivities

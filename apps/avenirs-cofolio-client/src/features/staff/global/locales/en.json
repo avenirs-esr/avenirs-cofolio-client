@@ -19,8 +19,15 @@
           "activities": {
             "header": "Activity library",
             "items": {
-              "addNationalActivity": "Create my activity",
-              "editNationalActivity": "Edit activity"
+              "add": {
+                "nationalActivity": "Create my activity",
+                "subActivity": "Create my sub-activity"
+              },
+              "edit": {
+                "nationalActivity": "Edit activity",
+                "subActivity": "Edit sub-activity"
+              },
+              "subActivities": "Sub-activities"
             }
           },
           "admin": {
