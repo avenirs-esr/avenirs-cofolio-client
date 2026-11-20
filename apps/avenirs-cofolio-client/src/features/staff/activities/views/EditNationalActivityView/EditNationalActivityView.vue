@@ -21,7 +21,7 @@ import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
-import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
+import { getOverflowedParentActivityPeriod, getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
@@ -57,6 +57,7 @@ const {
   validateFeedbackAllowedIterations,
   validateStartDate,
   validateEndDate,
+  validatePeriodWithinParentActivity,
   validatePeriodCoversSubActivities,
   validateAssessmentGrade,
   validateAssessmentOptions,
@@ -73,16 +74,32 @@ const queryClient = useQueryClient()
 const isEditMode = computed(() => mode.value !== 'add')
 const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${mode.value === 'add' ? 'addNationalActivity' : 'editNationalActivity'}`))
 
+const activityId = computed(() => id)
 const {
   data: content,
   isLoading: contentIsLoading,
   error: contentError
-} = useGetActivityContent(EActivityStatus.DRAFT, computed(() => id))
+} = useGetActivityContent(EActivityStatus.DRAFT, activityId)
 const {
   data: presentation,
   isLoading: presentationIsLoading,
   error: presentationError
-} = useGetActivityPresentation(EActivityStatus.DRAFT, computed(() => id))
+} = useGetActivityPresentation(EActivityStatus.DRAFT, activityId)
+
+const parentActivityId = computed(() => content.value?.mainActivityId ?? '')
+const isSubActivity = computed(() => !!parentActivityId.value)
+const {
+  data: parentActivity,
+  isLoading: isParentActivityLoading,
+  error: parentActivityError
+} = useGetActivityContent(EActivityStatus.DRAFT, parentActivityId, {
+  query: {
+    enabled: isSubActivity
+  }
+})
+
+const isLoading = computed(() => contentIsLoading.value || presentationIsLoading.value || isParentActivityLoading.value)
+const error = computed(() => contentError.value ?? presentationError.value ?? parentActivityError.value)
 
 const trailingLinks = computed(() => [
   { text: content.value?.title ?? '' },
@@ -140,7 +157,9 @@ const form = useForm({
     onChange ({ value }: { value: EditActivityFormData }) {
       return {
         fields: {
-          endDate: validatePeriodCoversSubActivities(value, subActivities.value),
+          endDate: isSubActivity.value
+            ? parentActivity.value && validatePeriodWithinParentActivity(value, parentActivity.value)
+            : validatePeriodCoversSubActivities(value, subActivities.value),
         }
       }
     },
@@ -217,11 +236,15 @@ function normalizeError (error: unknown): string {
 }
 
 function withoutRejectedPeriod (data: ActivityDraftUpdateRequest): ActivityDraftUpdateRequest | undefined {
-  const uncoveredPeriod = data.enableCompletionPeriod && data.startDate && data.endDate
-    ? getUncoveredSubActivitiesPeriod(subActivities.value, data.startDate, data.endDate)
-    : undefined
+  if (!data.enableCompletionPeriod || !data.startDate || !data.endDate) {
+    return data
+  }
 
-  if (!uncoveredPeriod) {
+  const rejectedPeriod = isSubActivity.value
+    ? parentActivity.value && getOverflowedParentActivityPeriod(parentActivity.value, data.startDate, data.endDate)
+    : getUncoveredSubActivitiesPeriod(subActivities.value, data.startDate, data.endDate)
+
+  if (!rejectedPeriod) {
     return data
   }
 
@@ -367,8 +390,8 @@ provideEditNationalActivityViewContext({
   <div class="av-col av-gap-sm">
     <UpdateInProgressBadge :show="isEditMode" />
     <QuerySuspense
-      :is-loading="contentIsLoading || presentationIsLoading"
-      :error="contentError ?? presentationError"
+      :is-loading
+      :error
       :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
     >
       <div class="av-row av-w-full av-gap-xl">

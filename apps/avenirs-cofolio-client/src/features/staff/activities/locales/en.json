@@ -14,7 +14,8 @@
             "optionRequired": "Enable at least one option: comment, grade or validation"
           },
           "period": {
-            "subActivitiesNotCovered": "The period must cover the sub-activities' period, from {startDate} to {endDate}. To choose another period, first change the dates of the affected sub-activities."
+            "subActivitiesNotCovered": "The period must cover the sub-activities' period, from {startDate} to {endDate}. To choose another period, first change the dates of the affected sub-activities.",
+            "parentActivityOverflowed": "The period must be within the parent activity's period, from {startDate} to {endDate}. To choose another period, first change the dates of the parent activity."
           }
         }
       },

@@ -48,7 +48,8 @@ import {
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse,
-  mockedInactiveStudents
+  mockedInactiveStudents,
+  mockedSubActivityContentWithPeriod
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -315,6 +316,9 @@ export const staffsActivitiesHandlers = [
       }
       else if (activityId === mockedActivityContentWithDatedSubActivities.id) {
         response = mockedActivityContentWithDatedSubActivities
+      }
+      else if (activityId === mockedSubActivityContentWithPeriod.id) {
+        response = mockedSubActivityContentWithPeriod
       }
       else if (activityId === WITHOUT_RIGHTS_ID) {
         response = {

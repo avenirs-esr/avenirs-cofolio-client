@@ -1,4 +1,23 @@
-import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+
+export function getOverflowedParentActivityPeriod (
+  parentActivity: ActivityContentDTO,
+  startDate: string,
+  endDate: string
+): Required<Pick<ActivityContentDTO, 'startDate' | 'endDate'>> | undefined {
+  if (!parentActivity.startDate || !parentActivity.endDate) {
+    return undefined
+  }
+
+  if (parentActivity.startDate > startDate || parentActivity.endDate < endDate) {
+    return {
+      startDate: parentActivity.startDate,
+      endDate: parentActivity.endDate
+    }
+  }
+
+  return undefined
+}
 
 export function getUncoveredSubActivityPeriod (
   subActivity: SubActivityOverviewDTO,

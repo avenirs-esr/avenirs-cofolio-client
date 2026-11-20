@@ -247,6 +247,17 @@ export const mockedActivityContentWithDatedSubActivities: ActivityContentDTO = {
   subActivities: mockedSubActivitiesOverviewDTOWithPeriod
 }
 
+const datedSubActivity = mockedActivityContentWithDatedSubActivities.subActivities.find(({ startDate, endDate }) => startDate && endDate)!
+
+export const mockedSubActivityContentWithPeriod: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: datedSubActivity.id,
+  title: datedSubActivity.title,
+  mainActivityId: ACTIVITY_WITH_DATED_SUB_ACTIVITIES_ID,
+  startDate: datedSubActivity.startDate,
+  endDate: datedSubActivity.endDate
+}
+
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',
 }

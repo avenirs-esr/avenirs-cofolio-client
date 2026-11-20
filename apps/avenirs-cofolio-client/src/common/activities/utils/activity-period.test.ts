@@ -3,7 +3,14 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { addDays, format, parseISO } from 'date-fns'
 import { expect } from 'vitest'
 import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithPeriod } from '@/__mocks__/fixtures/shared/activities.fixtures'
-import { getUncoveredSubActivitiesPeriod, getUncoveredSubActivityPeriod } from '@/common/activities/utils/activity-period'
+import { mockedActivityContentWithDatedSubActivities, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { getOverflowedParentActivityPeriod, getUncoveredSubActivitiesPeriod, getUncoveredSubActivityPeriod } from '@/common/activities/utils/activity-period'
+
+const PARENT_ACTIVITY = mockedActivityContentWithSubActivities
+const PARENT_ACTIVITY_WITH_PERIOD = mockedActivityContentWithDatedSubActivities
+const PARENT_ACTIVITY_START_DATE = PARENT_ACTIVITY_WITH_PERIOD.startDate!
+const PARENT_ACTIVITY_END_DATE = PARENT_ACTIVITY_WITH_PERIOD.endDate!
+const PARENT_ACTIVITY_PERIOD = { startDate: PARENT_ACTIVITY_START_DATE, endDate: PARENT_ACTIVITY_END_DATE }
 
 const SUB_ACTIVITIES_WITH_PERIOD = mockedSubActivitiesOverviewDTOWithPeriod
 const SUB_ACTIVITY_WITH_PERIOD = SUB_ACTIVITIES_WITH_PERIOD.find(({ startDate, endDate }) => startDate && endDate)!
@@ -16,6 +23,42 @@ BddTest().given('an activity period util', () => {
   const shiftDate = (date: string, days: number) => {
     return format(addDays(parseISO(date), days), 'yyyy-MM-dd')
   }
+
+  BddTest().when('looking for the overflowed period of a parent activity', () => {
+    BddTest().then('it should return nothing when the parent activity period contains the period', () => {
+      const startDate = shiftDate(PARENT_ACTIVITY_START_DATE, 1)
+      const endDate = shiftDate(PARENT_ACTIVITY_END_DATE, -1)
+
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY_WITH_PERIOD, startDate, endDate)).toBeUndefined()
+    })
+
+    BddTest().then('it should include the bounds, so that a period equal to the parent activity period does not overflow it', () => {
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY_WITH_PERIOD, PARENT_ACTIVITY_START_DATE, PARENT_ACTIVITY_END_DATE)).toBeUndefined()
+    })
+
+    BddTest().then('it should return the parent activity period when it starts after the period', () => {
+      const startDate = shiftDate(PARENT_ACTIVITY_START_DATE, -1)
+
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY_WITH_PERIOD, startDate, PARENT_ACTIVITY_END_DATE)).toEqual(PARENT_ACTIVITY_PERIOD)
+    })
+
+    BddTest().then('it should return the parent activity period when it ends before the period', () => {
+      const endDate = shiftDate(PARENT_ACTIVITY_END_DATE, 1)
+
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY_WITH_PERIOD, PARENT_ACTIVITY_START_DATE, endDate)).toEqual(PARENT_ACTIVITY_PERIOD)
+    })
+
+    BddTest().then('it should return the parent activity period when it starts after and ends before the period', () => {
+      const startDate = shiftDate(PARENT_ACTIVITY_START_DATE, -1)
+      const endDate = shiftDate(PARENT_ACTIVITY_END_DATE, 1)
+
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY_WITH_PERIOD, startDate, endDate)).toEqual(PARENT_ACTIVITY_PERIOD)
+    })
+
+    BddTest().then('it should ignore a parent activity without a staff-defined period', () => {
+      expect(getOverflowedParentActivityPeriod(PARENT_ACTIVITY, PARENT_ACTIVITY_START_DATE, PARENT_ACTIVITY_START_DATE)).toBeUndefined()
+    })
+  })
 
   BddTest().when('looking for the uncovered period of a sub-activity', () => {
     BddTest().then('it should return nothing when the period contains the sub-activity period', () => {
