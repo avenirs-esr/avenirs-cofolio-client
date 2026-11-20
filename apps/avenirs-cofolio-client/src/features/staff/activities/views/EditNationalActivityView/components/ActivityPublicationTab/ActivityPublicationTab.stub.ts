@@ -12,11 +12,6 @@ export const ActivityPublicationTabStub = defineComponent({
       type: Object as PropType<ActivityPresentationDTO>,
       required: true
     },
-    persistedTargetIds: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-    },
-    lockPersistedTargets: Boolean,
     hasPublishRight: Boolean,
   },
   emits: ['published', 'update:modelValue'],
