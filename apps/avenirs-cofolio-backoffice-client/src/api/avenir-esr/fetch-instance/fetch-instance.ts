@@ -18,6 +18,11 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
 })
 
 interceptorManager.addResponseInterceptor(async (response: Response): Promise<Response> => {
+  if (response.status === 403) {
+    const { default: router } = await import('@/router')
+    const { ROUTES } = await import('@/constants')
+    await router.replace(ROUTES.FORBIDDEN)
+  }
   return response
 })
 

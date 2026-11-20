@@ -11,6 +11,11 @@ export const ROUTES = {
   },
 
   /**
+   * Route name and path of the access forbidden page.
+   */
+  FORBIDDEN: { name: 'forbidden', path: '/forbidden' },
+
+  /**
    * Route names and paths for the home module.
    */
   HOME: { name: 'home', path: '/' },

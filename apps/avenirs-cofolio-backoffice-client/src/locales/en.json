@@ -14,6 +14,10 @@
     },
     "text": "Text",
     "views": {
+      "ForbiddenView": {
+        "description": "You do not have the required permissions to access this page.",
+        "title": "Access forbidden"
+      },
       "NotFoundView": {
         "buttonLabel": "Back to Home",
         "pageNotFound": {
