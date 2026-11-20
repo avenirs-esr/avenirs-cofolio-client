@@ -17,8 +17,8 @@ const FormField = markRaw(form.Field)
       <TraceNameInput
         v-bind="$attrs"
         id="trace-name"
-        v-model="field.state.value"
-        :error-message="field.state.meta.errors?.join(', ')"
+        :model-value="field.state.value"
+        :error-message="field.state.meta.isTouched ? field.state.meta.errors?.join(', ') : undefined"
         required
         @blur="field.handleBlur"
         @update:model-value="(value) => typeof value == 'string' && field.handleChange(value)"
