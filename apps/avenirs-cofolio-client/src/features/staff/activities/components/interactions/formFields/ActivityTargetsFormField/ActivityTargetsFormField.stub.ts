@@ -7,11 +7,6 @@ export const ActivityTargetsFormFieldStub = defineComponent({
     form: {
       type: Object as PropType<EditActivityForm>,
     },
-    persistedIds: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-    },
-    lockPersisted: Boolean,
   },
   template: '<div data-testid="activity-targets-form-field-stub"></div>',
 })

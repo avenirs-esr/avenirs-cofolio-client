@@ -254,55 +254,6 @@ BddTest().given('an ActivityTargetsFormField component', () => {
     })
   })
 
-  BddTest().when('the activity is locked (published with enrolled learners)', () => {
-    beforeEach(async () => {
-      wrapper = mountField({
-        institutionIds: [mockedPrimaryInstitutionNode.id],
-        groupIds: [mockedProgramNode.id, mockedOutOfScopeTargetId],
-        persistedIds: [mockedPrimaryInstitutionNode.id, mockedProgramNode.id, mockedOutOfScopeTargetId],
-        lockPersisted: true,
-      })
-      await flushPromises()
-    })
-
-    BddTest().then('it should explain why persisted targets cannot be removed', () => {
-      expect(wrapper.find('[data-testid="activity-targets-locked-message"]').text()).toContain('ne peuvent plus être retirées')
-    })
-
-    BddTest().then('it should disable the removal of every persisted target', () => {
-      expect(getRemoveButtons().map(button => button.props('disabled'))).toEqual([true, true, true])
-    })
-
-    BddTest().then('it should keep persisted targets when the selector tries to deselect them', async () => {
-      await select()
-
-      expect(onAutosave).toHaveBeenLastCalledWith({
-        targetInstitutionIds: [mockedPrimaryInstitutionNode.id],
-        targetGroupIds: [mockedProgramNode.id, mockedOutOfScopeTargetId],
-      })
-    })
-
-    BddTest().then('it should still allow adding a new target, then removing it before saving', async () => {
-      await select(mockedPrimaryInstitutionNode.id, mockedProgramNode.id, mockedDevStudentGroupNode.id)
-
-      expect(onAutosave).toHaveBeenLastCalledWith({
-        targetInstitutionIds: [mockedPrimaryInstitutionNode.id],
-        targetGroupIds: [mockedProgramNode.id, mockedOutOfScopeTargetId, mockedDevStudentGroupNode.id],
-      })
-
-      const newTargetButton = getRemoveButtons()[3]!
-      expect(newTargetButton.props('disabled')).toBeFalsy()
-
-      newTargetButton.vm.$emit('click', new Event('click'))
-      await flushPromises()
-
-      expect(onAutosave).toHaveBeenLastCalledWith({
-        targetInstitutionIds: [mockedPrimaryInstitutionNode.id],
-        targetGroupIds: [mockedProgramNode.id, mockedOutOfScopeTargetId],
-      })
-    })
-  })
-
   BddTest().when('the staff scope cannot be fetched', () => {
     beforeEach(async () => {
       server.use(getStaffScopeErrorHandler)

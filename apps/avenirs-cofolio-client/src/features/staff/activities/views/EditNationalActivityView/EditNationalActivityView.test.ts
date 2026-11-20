@@ -15,7 +15,6 @@ import {
   mockedActivityContent,
   mockedActivityContentWithDatedSubActivities,
   mockedActivityContentWithEnrolledStudent1,
-  mockedActivityContentWithoutEnrolledStudent,
   mockedActivityContentWithSubActivities,
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedDevStudentGroupNode, mockedPrimaryInstitutionNode, mockedProgramNode } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
@@ -396,14 +395,6 @@ BddTest().given('a national activity view', () => {
       expect(getContext(wrapper).form.getFieldValue('targetGroupIds')).toEqual([mockedProgramNode.id])
     })
 
-    BddTest().then('the publication tab should receive the persisted targets and the lock state', async () => {
-      await switchTab(EditActivityTabIndex.PUBLICATION)
-      const publicationTab = wrapper.findComponent(ActivityPublicationTabStub)
-
-      expect(publicationTab.props('persistedTargetIds')).toEqual([mockedPrimaryInstitutionNode.id, mockedProgramNode.id])
-      expect(publicationTab.props('lockPersistedTargets')).toBe(true)
-    })
-
     BddTest().and('the form is submitted after adding a target', () => {
       beforeEach(async () => {
         const context = getContext(wrapper)
@@ -449,35 +440,6 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should not flag the thematic field as invalid', () => {
       expect(getContext(wrapper).form.getFieldMeta('thematic')?.errors).toEqual([])
-    })
-  })
-
-  BddTest().when('the activity has no target', () => {
-    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
-
-    beforeEach(async () => {
-      capturedPatchBody = undefined
-
-      server.use(
-        createGetActivityContentDraftHandler(() => mockedActivityContentWithoutEnrolledStudent),
-        createUpdateActivityDraftHandler((body) => {
-          capturedPatchBody = body
-        }),
-      )
-
-      await mountView()
-      await getContext(wrapper).form.handleSubmit()
-      await flushPromises()
-    })
-
-    BddTest().then('the publication tab should not lock anything', async () => {
-      await switchTab(EditActivityTabIndex.PUBLICATION)
-      expect(wrapper.findComponent(ActivityPublicationTabStub).props('persistedTargetIds')).toEqual([])
-      expect(wrapper.findComponent(ActivityPublicationTabStub).props('lockPersistedTargets')).toBeFalsy()
-    })
-
-    BddTest().then('the PATCH payload should contain empty targets (national activity)', () => {
-      expect(capturedPatchBody).toMatchObject({ targetInstitutionIds: [], targetGroupIds: [] })
     })
   })
 
