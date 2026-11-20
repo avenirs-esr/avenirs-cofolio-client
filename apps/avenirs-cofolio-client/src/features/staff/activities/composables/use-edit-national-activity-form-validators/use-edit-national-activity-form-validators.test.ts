@@ -1,10 +1,11 @@
 import type { EditActivityAssessmentFormData } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { formatDateLocalized } from '@avenirs-esr/shared'
-import { addDays, format, parseISO } from 'date-fns'
+import { addDays, format, parseISO, subDays } from 'date-fns'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { mockedSubActivitiesOverviewDTO, mockedSubActivitiesOverviewDTOWithPeriod } from '@/__mocks__/fixtures/shared/activities.fixtures'
+import { mockedActivityContentWithDatedSubActivities, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import {
   ACTIVITY_ASSESSMENT_GRADE_MIN,
@@ -20,10 +21,18 @@ import {
 const DATE_INTERVAL_ERROR = 'La date de fin doit être postérieure à la date de début'
 const MAX_LENGTH_ERROR = 'Veuillez limiter votre saisie à {maxLength} caractères'
 const OPTION_REQUIRED_ERROR = 'Activez au moins une option\u00A0: commentaire, note ou validation'
+const PARENT_ACTIVITY_OVERFLOWED_ERROR = 'La période doit être comprise dans celle de l\'activité parente, du {startDate} au {endDate}. Pour choisir une autre période, modifiez d\'abord les dates de l\'activité parente.'
 const REQUIRED_ERROR = 'Ce champ est requis.'
 const SUB_ACTIVITIES_NOT_COVERED_ERROR = 'La période doit couvrir celle des sous-activités, du {startDate} au {endDate}. Pour choisir une autre période, modifiez d\'abord les dates des sous-activités concernées.'
 
 const NO_OPTIONS: EditActivityAssessmentFormData = { assessmentComment: false, assessmentValidation: false }
+
+const PARENT_ACTIVITY = mockedActivityContentWithSubActivities
+const PARENT_ACTIVITY_WITH_PERIOD = mockedActivityContentWithDatedSubActivities
+const PARENT_ACTIVITY_START_DATE = PARENT_ACTIVITY_WITH_PERIOD.startDate!
+const PARENT_ACTIVITY_END_DATE = PARENT_ACTIVITY_WITH_PERIOD.endDate!
+const OVERFLOWING_START_DATE = format(subDays(parseISO(PARENT_ACTIVITY_START_DATE), 1), 'yyyy-MM-dd')
+const OVERFLOWING_END_DATE = format(addDays(parseISO(PARENT_ACTIVITY_END_DATE), 1), 'yyyy-MM-dd')
 
 const SUB_ACTIVITIES = mockedSubActivitiesOverviewDTO
 const SUB_ACTIVITIES_WITH_PERIOD = mockedSubActivitiesOverviewDTOWithPeriod
@@ -31,12 +40,19 @@ const SUB_ACTIVITY_WITH_PERIOD = SUB_ACTIVITIES_WITH_PERIOD.find(({ startDate, e
 const SUB_ACTIVITY_START_DATE = SUB_ACTIVITY_WITH_PERIOD.startDate!
 const SUB_ACTIVITY_END_DATE = SUB_ACTIVITY_WITH_PERIOD.endDate!
 const UNCOVERING_START_DATE = format(addDays(parseISO(SUB_ACTIVITY_START_DATE), 1), 'yyyy-MM-dd')
+const UNCOVERING_END_DATE = format(subDays(parseISO(SUB_ACTIVITY_END_DATE), 1), 'yyyy-MM-dd')
 
 BddTest().given('an edit national activity form validators composable', () => {
   let composableResult: ReturnType<typeof useEditNationalActivityFormValidators>
 
   const maxLengthError = (maxLength: number) => {
     return MAX_LENGTH_ERROR.replace('{maxLength}', String(maxLength))
+  }
+
+  const parentActivityOverflowedError = (startDate: string, endDate: string) => {
+    return PARENT_ACTIVITY_OVERFLOWED_ERROR
+      .replace('{startDate}', formatDateLocalized(startDate, 'fr', true))
+      .replace('{endDate}', formatDateLocalized(endDate, 'fr', true))
   }
 
   const subActivitiesNotCoveredError = (startDate: string, endDate: string) => {
@@ -62,6 +78,7 @@ BddTest().given('an edit national activity form validators composable', () => {
       expect(composableResult.validateFeedbackAllowedIterations).toBeDefined()
       expect(composableResult.validateStartDate).toBeDefined()
       expect(composableResult.validateEndDate).toBeDefined()
+      expect(composableResult.validatePeriodWithinParentActivity).toBeDefined()
       expect(composableResult.validatePeriodCoversSubActivities).toBeDefined()
       expect(composableResult.validateAssessmentGrade).toBeDefined()
       expect(composableResult.validateAssessmentOptions).toBeDefined()
@@ -144,13 +161,43 @@ BddTest().given('an edit national activity form validators composable', () => {
     })
   })
 
+  BddTest().when('validating that the period is within the parent activity', () => {
+    BddTest().then('it should accept a period within it, bounds included', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: PARENT_ACTIVITY_START_DATE, endDate: PARENT_ACTIVITY_END_DATE }, PARENT_ACTIVITY_WITH_PERIOD)).toBeUndefined()
+    })
+
+    BddTest().then('it should reject a period starting before it, giving the period of the parent activity', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: OVERFLOWING_START_DATE, endDate: PARENT_ACTIVITY_END_DATE }, PARENT_ACTIVITY_WITH_PERIOD)).toBe(parentActivityOverflowedError(PARENT_ACTIVITY_START_DATE, PARENT_ACTIVITY_END_DATE))
+    })
+
+    BddTest().then('it should reject a period ending after it, giving the period of the parent activity', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: PARENT_ACTIVITY_START_DATE, endDate: OVERFLOWING_END_DATE }, PARENT_ACTIVITY_WITH_PERIOD)).toBe(parentActivityOverflowedError(PARENT_ACTIVITY_START_DATE, PARENT_ACTIVITY_END_DATE))
+    })
+
+    BddTest().then('it should not constrain an activity without a period', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: undefined, endDate: undefined }, PARENT_ACTIVITY_WITH_PERIOD)).toBeUndefined()
+    })
+
+    BddTest().then('it should not constrain an incomplete period', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: OVERFLOWING_START_DATE, endDate: undefined }, PARENT_ACTIVITY_WITH_PERIOD)).toBeUndefined()
+    })
+
+    BddTest().then('it should not constrain the period when the parent activity has none', () => {
+      expect(composableResult.validatePeriodWithinParentActivity({ startDate: OVERFLOWING_START_DATE, endDate: OVERFLOWING_END_DATE }, PARENT_ACTIVITY)).toBeUndefined()
+    })
+  })
+
   BddTest().when('validating that the period covers the sub-activities', () => {
     BddTest().then('it should accept a period covering them, bounds included', () => {
       expect(composableResult.validatePeriodCoversSubActivities({ startDate: SUB_ACTIVITY_START_DATE, endDate: SUB_ACTIVITY_END_DATE }, SUB_ACTIVITIES_WITH_PERIOD)).toBeUndefined()
     })
 
-    BddTest().then('it should reject a period not covering them, giving the period of the uncovered sub-activities', () => {
+    BddTest().then('it should reject a period starting after them, giving the period of the uncovered sub-activities', () => {
       expect(composableResult.validatePeriodCoversSubActivities({ startDate: UNCOVERING_START_DATE, endDate: SUB_ACTIVITY_END_DATE }, SUB_ACTIVITIES_WITH_PERIOD)).toBe(subActivitiesNotCoveredError(SUB_ACTIVITY_START_DATE, SUB_ACTIVITY_END_DATE))
+    })
+
+    BddTest().then('it should reject a period ending before them, giving the period of the uncovered sub-activities', () => {
+      expect(composableResult.validatePeriodCoversSubActivities({ startDate: SUB_ACTIVITY_START_DATE, endDate: UNCOVERING_END_DATE }, SUB_ACTIVITIES_WITH_PERIOD)).toBe(subActivitiesNotCoveredError(SUB_ACTIVITY_START_DATE, SUB_ACTIVITY_END_DATE))
     })
 
     BddTest().then('it should not constrain an activity without a period', () => {

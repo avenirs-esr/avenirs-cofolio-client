@@ -1,9 +1,9 @@
 import type { AvLocale } from '@avenirs-esr/shared'
-import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityAssessmentFormData, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { formatDateLocalized, useFormValidators } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
+import { getOverflowedParentActivityPeriod, getUncoveredSubActivitiesPeriod } from '@/common/activities/utils/activity-period'
 import {
   ACTIVITY_ASSESSMENT_GRADE_MIN,
   ACTIVITY_CONSIGN_MAX_LENGTH,
@@ -68,6 +68,25 @@ export function useEditNationalActivityFormValidators () {
     return validateRequired(endDate) ?? validateDateInterval({ startDate, endDate })
   }
 
+  function validatePeriodWithinParentActivity (
+    { startDate, endDate }: Pick<EditActivityFormData, 'startDate' | 'endDate'>,
+    parentActivity: ActivityContentDTO
+  ) {
+    if (!startDate || !endDate) {
+      return undefined
+    }
+
+    const overflowedPeriod = getOverflowedParentActivityPeriod(parentActivity, startDate, endDate)
+    if (!overflowedPeriod) {
+      return undefined
+    }
+
+    return t('staff.activities.composables.useEditNationalActivityFormValidators.period.parentActivityOverflowed', {
+      startDate: formatDateLocalized(overflowedPeriod.startDate, locale.value as AvLocale, true),
+      endDate: formatDateLocalized(overflowedPeriod.endDate, locale.value as AvLocale, true),
+    })
+  }
+
   function validatePeriodCoversSubActivities (
     { startDate, endDate }: Pick<EditActivityFormData, 'startDate' | 'endDate'>,
     subActivities: SubActivityOverviewDTO[]
@@ -113,6 +132,7 @@ export function useEditNationalActivityFormValidators () {
     validateTitle,
     validateStartDate,
     validateEndDate,
+    validatePeriodWithinParentActivity,
     validatePeriodCoversSubActivities,
     validateAssessmentGrade,
     validateAssessmentOptions,
