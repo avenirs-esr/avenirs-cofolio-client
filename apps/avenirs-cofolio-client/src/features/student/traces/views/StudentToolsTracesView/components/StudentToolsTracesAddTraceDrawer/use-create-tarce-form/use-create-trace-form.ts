@@ -103,7 +103,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       onSubmit ({ value }: { value: TraceFormData }) {
         return buildValidators(value)
       },
-      onChange ({ value }: { value: TraceFormData }) {
+      onBlur ({ value }: { value: TraceFormData }) {
         return buildValidators(value)
       }
     },
