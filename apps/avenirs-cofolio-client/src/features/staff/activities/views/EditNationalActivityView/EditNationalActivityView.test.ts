@@ -7,7 +7,7 @@ import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EActivityStatus, getGetActivityContentUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { addDays, format, parseISO } from 'date-fns'
+import { addDays, format, parseISO, subDays } from 'date-fns'
 import { http, HttpResponse } from 'msw'
 import { vi } from 'vitest'
 import { toValue } from 'vue'
@@ -17,6 +17,7 @@ import {
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityContentWithSubActivities,
+  mockedSubActivityContentWithPeriod,
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedDevStudentGroupNode, mockedPrimaryInstitutionNode, mockedProgramNode } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
 import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
@@ -48,6 +49,17 @@ const COVERING_PERIOD: ActivityDraftUpdateRequest = {
 const UNCOVERING_PERIOD: ActivityDraftUpdateRequest = {
   ...COVERING_PERIOD,
   startDate: format(addDays(parseISO(SUB_ACTIVITY_START_DATE), 1), 'yyyy-MM-dd')
+}
+
+const DATED_SUB_ACTIVITY = mockedSubActivityContentWithPeriod
+const WITHIN_PERIOD: ActivityDraftUpdateRequest = {
+  startDate: DATED_SUB_ACTIVITY.startDate,
+  endDate: DATED_SUB_ACTIVITY.endDate,
+  enableCompletionPeriod: true
+}
+const OVERFLOWING_PERIOD: ActivityDraftUpdateRequest = {
+  ...WITHIN_PERIOD,
+  startDate: format(subDays(parseISO(DATED_ACTIVITY.startDate!), 1), 'yyyy-MM-dd')
 }
 
 const mockMode = ref('edit')
@@ -823,6 +835,112 @@ BddTest().given('a national activity view', () => {
       beforeEach(async () => {
         await getContext(wrapper).save({
           ...UNCOVERING_PERIOD,
+          enableCompletionPeriod: false
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the disabling', () => {
+        expect(capturedPatchBody).toMatchObject({
+          enableCompletionPeriod: false
+        })
+      })
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity of an activity with a period', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+    let isParentActivityFetched: boolean
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+      isParentActivityFetched = false
+      server.use(
+        http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, ({ params }) => {
+          if (params.activityId === DATED_ACTIVITY.id) {
+            isParentActivityFetched = true
+          }
+        }),
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+        }),
+      )
+
+      await mountView(DATED_SUB_ACTIVITY.id)
+      await vi.waitFor(() => {
+        expect(isParentActivityFetched).toBe(true)
+      })
+      await flushPromises()
+    })
+
+    BddTest().and('a period overflowing the parent activity is entered', () => {
+      beforeEach(async () => {
+        const { form } = getContext(wrapper)
+        form.setFieldValue('startDate', OVERFLOWING_PERIOD.startDate)
+        form.setFieldValue('endDate', OVERFLOWING_PERIOD.endDate)
+        await form.validate('change')
+      })
+
+      BddTest().then('it should flag the end date', () => {
+        expect(getContext(wrapper).form.getFieldMeta('endDate')?.errors).toHaveLength(1)
+      })
+
+      BddTest().and('another change is autosaved', () => {
+        beforeEach(async () => {
+          await getContext(wrapper).save({
+            title: 'Updated title'
+          })
+          await flushPromises()
+        })
+
+        BddTest().then('it should still flag the end date', () => {
+          expect(getContext(wrapper).form.getFieldMeta('endDate')?.errors).toHaveLength(1)
+        })
+      })
+    })
+
+    BddTest().and('a period overflowing the parent activity is autosaved', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save(OVERFLOWING_PERIOD)
+        await flushPromises()
+      })
+
+      BddTest().then('it should not save the activity', () => {
+        expect(capturedPatchBody).toBeUndefined()
+      })
+    })
+
+    BddTest().and('a period overflowing the parent activity is autosaved with another change', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save({
+          ...OVERFLOWING_PERIOD,
+          title: 'Updated title'
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the other change without the period', () => {
+        expect(capturedPatchBody).toEqual({
+          title: 'Updated title'
+        })
+      })
+    })
+
+    BddTest().and('a period within the parent activity is autosaved', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save(WITHIN_PERIOD)
+        await flushPromises()
+      })
+
+      BddTest().then('it should save the period', () => {
+        expect(capturedPatchBody).toEqual(WITHIN_PERIOD)
+      })
+    })
+
+    BddTest().and('the period is disabled while a period overflowing the parent activity is pending', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).save({
+          ...OVERFLOWING_PERIOD,
           enableCompletionPeriod: false
         })
         await flushPromises()

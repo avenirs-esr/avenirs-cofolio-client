@@ -14,7 +14,8 @@
             "optionRequired": "Activez au moins une option\u00A0: commentaire, note ou validation"
           },
           "period": {
-            "subActivitiesNotCovered": "La période doit couvrir celle des sous-activités, du {startDate} au {endDate}. Pour choisir une autre période, modifiez d'abord les dates des sous-activités concernées."
+            "subActivitiesNotCovered": "La période doit couvrir celle des sous-activités, du {startDate} au {endDate}. Pour choisir une autre période, modifiez d'abord les dates des sous-activités concernées.",
+            "parentActivityOverflowed": "La période doit être comprise dans celle de l'activité parente, du {startDate} au {endDate}. Pour choisir une autre période, modifiez d'abord les dates de l'activité parente."
           }
         }
       },
