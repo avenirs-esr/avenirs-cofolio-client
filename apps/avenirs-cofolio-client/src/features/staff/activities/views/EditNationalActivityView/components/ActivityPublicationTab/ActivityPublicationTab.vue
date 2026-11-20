@@ -20,12 +20,10 @@ import { useToasterStore } from '@/store'
 
 interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO
-  persistedTargetIds?: string[]
-  lockPersistedTargets?: boolean
   hasPublishRight?: boolean
 }
 
-const { activity, persistedTargetIds = [], lockPersistedTargets = false, hasPublishRight = false } = defineProps<ActivityPublicationTabProps>()
+const { activity, hasPublishRight = false } = defineProps<ActivityPublicationTabProps>()
 
 const emit = defineEmits<{
   (e: 'published'): void
@@ -64,7 +62,6 @@ const publishBlockedMessage = computed(() => {
       ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
       : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError')
   }
-
   if (hasUnpublishableSubActivities.value) {
     return t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishUnpublishableSubActivitiesError')
   }
@@ -122,8 +119,6 @@ async function publishActivityDraft () {
       >
         <ActivityTargetsFormField
           :form="form"
-          :persisted-ids="persistedTargetIds"
-          :lock-persisted="lockPersistedTargets"
           @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>

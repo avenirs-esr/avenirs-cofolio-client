@@ -72,7 +72,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
   function mountTab (
     FormWrapper: FormWrapperComponent,
     activity = mockedActivityDetail,
-    targetProps: { persistedTargetIds?: string[], lockPersistedTargets?: boolean, hasPublishRight?: boolean } = {},
+    targetProps: { hasPublishRight?: boolean } = {},
   ) {
     wrapper = mountComponent(FormWrapper, {
       slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, hasPublishRight: true, ...targetProps }) },
@@ -82,7 +82,6 @@ BddTest().given('an ActivityPublicationTab component', () => {
     tab = wrapper.findComponent(ActivityPublicationTab)
   }
 
-  const getActivityTargetsFormField = () => tab.findComponent(ActivityTargetsFormFieldStub)
   const getPublishButton = () => getAvButtonByTestId(tab, 'publish-button')
 
   beforeEach(() => {
@@ -102,12 +101,6 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should render ActivityTitleFormField', () => {
       expect(tab.findComponent(ActivityTitleFormFieldStub).exists()).toBe(true)
-    })
-
-    BddTest().then('it should render ActivityTargetsFormField with no persisted target', () => {
-      expect(getActivityTargetsFormField().exists()).toBe(true)
-      expect(getActivityTargetsFormField().props('persistedIds')).toEqual([])
-      expect(getActivityTargetsFormField().props('lockPersisted')).toBe(false)
     })
 
     BddTest().then('it should render ActivityBannerFormField', () => {
@@ -132,17 +125,6 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should render ConfirmationModal', () => {
       expect(tab.findComponent(ConfirmationModalStub).exists()).toBe(true)
-    })
-  })
-
-  BddTest().when('the activity has persisted targets and enrolled learners', () => {
-    beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapper, mockedActivityDetail, { persistedTargetIds: ['target-1'], lockPersistedTargets: true })
-    })
-
-    BddTest().then('it should forward them to ActivityTargetsFormField', () => {
-      expect(getActivityTargetsFormField().props('persistedIds')).toEqual(['target-1'])
-      expect(getActivityTargetsFormField().props('lockPersisted')).toBe(true)
     })
   })
 

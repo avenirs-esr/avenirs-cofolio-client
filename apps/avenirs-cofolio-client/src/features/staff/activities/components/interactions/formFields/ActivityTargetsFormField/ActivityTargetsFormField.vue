@@ -16,16 +16,13 @@ import SelectedAssociateItemsContainer
 
 interface ActivityTargetsFormFieldProps {
   form: EditActivityForm
-  persistedIds?: string[]
-  lockPersisted?: boolean
 }
 
 interface SelectedTarget extends IdTitle {
   typeLabel: string
-  locked: boolean
 }
 
-const { form, persistedIds = [], lockPersisted = false } = defineProps<ActivityTargetsFormFieldProps>()
+const { form } = defineProps<ActivityTargetsFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
@@ -45,10 +42,7 @@ const availableTargetsById = computed(() => new Map(availableTargets.value.map(t
 
 const selectedIds = computed(() => [...institutionIds.value, ...groupIds.value])
 const isNationalField = form.useField({ name: 'isNational' })
-
-function isLocked (id: string): boolean {
-  return lockPersisted && persistedIds.includes(id)
-}
+const hasOldTargets = selectedIds.value.length > 0
 
 function getTypeLabel (target: ActivityTarget): string {
   return t(`staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.types.${target.type}`)
@@ -75,7 +69,6 @@ function toSelectedTarget (id: string, isInstitution: boolean): SelectedTarget {
     typeLabel: target
       ? getTypeLabel(target)
       : t(`staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.types.${isInstitution ? 'INSTITUTION' : 'GROUP'}`),
-    locked: isLocked(id),
   }
 }
 
@@ -83,8 +76,6 @@ const selectedTargets = computed<SelectedTarget[]>(() => [
   ...institutionIds.value.map(id => toSelectedTarget(id, true)),
   ...groupIds.value.map(id => toSelectedTarget(id, false)),
 ])
-
-const hasLockedTargets = computed(() => selectedTargets.value.some(target => target.locked))
 
 const isNational = computed({
   get: () => isNationalField.state.value.value === true,
@@ -114,7 +105,7 @@ const selectedOptions = computed<AvAutocompleteOption[]>({
     .map(toOption),
   set: (newOptions) => {
     const pickedIds = new Set(newOptions.map(option => option.value.toString()))
-    const keepsId = (id: string) => pickedIds.has(id) || isLocked(id) || !availableTargetsById.value.has(id)
+    const keepsId = (id: string) => pickedIds.has(id) || !availableTargetsById.value.has(id)
     const addedTargets = [...pickedIds]
       .filter(id => !selectedIds.value.includes(id))
       .map(id => availableTargetsById.value.get(id)!)
@@ -127,10 +118,6 @@ const selectedOptions = computed<AvAutocompleteOption[]>({
 })
 
 function removeTarget (id: string) {
-  if (isLocked(id)) {
-    return
-  }
-
   updateTargets(
     institutionIds.value.filter(institutionId => institutionId !== id),
     groupIds.value.filter(groupId => groupId !== id),
@@ -149,7 +136,6 @@ function removeTarget (id: string) {
       data-testid="activity-national-parameter-toggle"
       :title="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.nationalToggleTitle')"
       :icon="MDI_ICONS.MAP_MARKER_MULTIPLE_OUTLINE"
-      :disabled="hasLockedTargets"
       :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.nationalToggleDisabledTooltip')"
     >
       <span class="b2-regular av-text-text1">{{
@@ -195,17 +181,16 @@ function removeTarget (id: string) {
     </QuerySuspense>
 
     <AvMessage
-      v-if="hasLockedTargets"
-      type="info"
-      data-testid="activity-targets-locked-message"
-      :message="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.locked')"
+      v-if="hasOldTargets"
+      type="warning"
+      data-testid="activity-older-targets-message"
+      :message="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.olderTargets')"
     />
 
     <SelectedAssociateItemsContainer
       v-if="selectedTargets.length > 0"
       :items="selectedTargets"
       horizontal
-      :is-item-disabled="target => target.locked"
       :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.removeDisabledTooltip')"
       data-testid="activity-targets-selected-list"
       @delete="removeTarget"
