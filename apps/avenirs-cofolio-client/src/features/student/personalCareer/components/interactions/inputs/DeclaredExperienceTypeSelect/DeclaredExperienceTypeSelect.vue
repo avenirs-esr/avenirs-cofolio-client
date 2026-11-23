@@ -43,6 +43,7 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   options: options.value,
   labelVisible: true,
   width: '100%',
+  teleport: true,
 }))
 </script>
 
