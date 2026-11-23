@@ -69,13 +69,13 @@ BddTest().given('the router scroll behavior', () => {
 BddTest().given('a page title formatter', () => {
   BddTest().when('a specific title is provided', () => {
     BddTest().then('it should prefix the main title', () => {
-      expect(getPageTitle('Administration')).toBe('Administration - CofolioBackOffice')
+      expect(getPageTitle('Administration')).toBe('Administration - Cofolio Back Office')
     })
   })
 
   BddTest().when('no specific title is provided', () => {
     BddTest().then('it should return the main title', () => {
-      expect(getPageTitle()).toBe('CofolioBackOffice')
+      expect(getPageTitle()).toBe('Cofolio Back Office')
     })
   })
 })
