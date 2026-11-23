@@ -110,7 +110,7 @@ watch(activeContextType, () => {
       @delete="onDeleteItem"
     >
       <template #beforeSearch>
-        <div class="av-row av-gap-xs av-align-end">
+        <div class="av-col av-row--md av-gap-xs av-align-end">
           <AssociationContextTypeSelect
             v-model="activeContextType"
             :context-types="selectableContextTypes"
