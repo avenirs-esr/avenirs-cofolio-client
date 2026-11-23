@@ -2,10 +2,9 @@ import type { AvLocale } from '@avenirs-esr/shared'
 import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { http, HttpResponse } from 'msw'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
-import { createGetAlertConfigHandler } from '@/__mocks__/msw/handlers/global-alert.handlers'
+import { createGetAlertConfigHandler, getAlertConfigForbiddenHandler } from '@/__mocks__/msw/handlers/global-alert.handlers'
 import { server } from '@/__mocks__/msw/server'
 
 BddTest().given('the Backoffice shared HTTP configuration', () => {
@@ -83,7 +82,7 @@ BddTest().given('the Backoffice shared HTTP configuration', () => {
   BddTest().when('the API responds with 403 Forbidden', () => {
     beforeEach(async () => {
       vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
-      server.use(http.get('*', () => new HttpResponse(null, { status: 403 })))
+      server.use(getAlertConfigForbiddenHandler)
       await api.getAlertConfig().catch(() => undefined)
     })
 

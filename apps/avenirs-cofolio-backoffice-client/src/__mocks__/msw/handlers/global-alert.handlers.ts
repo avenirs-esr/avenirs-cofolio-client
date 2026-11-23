@@ -1,11 +1,17 @@
 import type { AlertConfigurationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { HttpHandler } from 'msw'
+import { HttpStatusCode } from '@avenirs-esr/shared'
 import { getGetAlertConfigUrl, getPutAlertConfigUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
-import { http } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { mockedAlertConfigurationDTO } from '@/__mocks__/fixtures/global-alert.fixtures'
 
 export const getAlertConfigErrorHandler = http.get(`*${getGetAlertConfigUrl()}`, internalServerError)
+
+export const getAlertConfigForbiddenHandler = http.get(
+  `*${getGetAlertConfigUrl()}`,
+  () => new HttpResponse(null, { status: HttpStatusCode.FORBIDDEN }),
+)
 
 export function createGetAlertConfigHandler (onRequest?: (request: Request) => void): HttpHandler {
   return http.get(`*${getGetAlertConfigUrl()}`, ({ request }) => {

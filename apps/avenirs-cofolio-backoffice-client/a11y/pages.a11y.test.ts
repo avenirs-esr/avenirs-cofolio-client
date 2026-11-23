@@ -12,6 +12,7 @@ const routesToCheck = [
   ROUTES.TERMS_OF_SERVICE,
   ROUTES.GLOBAL_ALERT.DETAILS,
   ROUTES.GLOBAL_ALERT.UPDATE,
+  ROUTES.FORBIDDEN,
 ]
 
 test.describe('routes', () => {

@@ -1,4 +1,4 @@
-import { AvIsoLocaleMap, configureSharedFetch, FetchInterceptorManager } from '@avenirs-esr/shared'
+import { AvIsoLocaleMap, configureSharedFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
 import { i18n } from '@/plugins/vue-i18n'
 
 const interceptorManager = new FetchInterceptorManager()
@@ -18,7 +18,7 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
 })
 
 interceptorManager.addResponseInterceptor(async (response: Response): Promise<Response> => {
-  if (response.status === 403) {
+  if (response.status === HttpStatusCode.FORBIDDEN) {
     const { default: router } = await import('@/router')
     const { ROUTES } = await import('@/constants')
     await router.replace(ROUTES.FORBIDDEN)
