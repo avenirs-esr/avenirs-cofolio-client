@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { LoaderStub, PaginationStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EExperienceType, ESortField, ESortOrder } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
@@ -9,7 +9,6 @@ import { countMockedDeclaredExperiencesByType } from '@/__mocks__/fixtures/stude
 import { declaredExperiencesQueryEmptyHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { SortSelectStub } from '@/common/components/interaction/selects/SortSelect/SortSelect.stub'
-import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { DeclaredExperienceCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.stub'
 import { AddDeclaredExperienceDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.stub'
 import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
@@ -19,20 +18,17 @@ import { ExperienceTypeMultiselectStub } from '@/features/student/personalCareer
 const mockOnUpdateCurrentPage = vi.fn()
 const mockOnUpdatePageSize = vi.fn()
 
-vi.mock('@/common/composables/use-pagination/use-pagination', () => ({
-  usePagination: vi.fn(() => ({
-    currentPage: ref(0),
-    pageSizeSelected: ref(PageSizes.FOUR),
-    onUpdateCurrentPage: mockOnUpdateCurrentPage,
-    onUpdatePageSize: mockOnUpdatePageSize
-  }))
-}))
-
 vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
-    useBaseApiExceptionToast: vi.fn()
+    useBaseApiExceptionToast: vi.fn(),
+    usePagination: vi.fn(() => ({
+      currentPage: ref(0),
+      pageSizeSelected: ref(PageSizes.FOUR),
+      onUpdateCurrentPage: mockOnUpdateCurrentPage,
+      onUpdatePageSize: mockOnUpdatePageSize
+    }))
   }
 })
 

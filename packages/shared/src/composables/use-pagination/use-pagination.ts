@@ -1,5 +1,6 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { Ref } from 'vue'
+import { toRef, watch } from 'vue'
 
 export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelected: Ref<PageSizes>, totalPages?: Ref<number>) {
   const currentPage = toRef(storeCurrentPage)

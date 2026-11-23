@@ -11,6 +11,7 @@ import {
   pageSizeValues,
   useAvBreakpoints
 } from '@avenirs-esr/avenirs-dsav'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface PaginationProps {
@@ -34,6 +35,8 @@ const { t } = useI18n()
 const totalPages = computed(() => pageInfo.totalPages)
 const pages = computed(() => getPaginationPages(totalPages))
 const truncLimit = computed(() => isMobile.value ? 1 : undefined)
+
+const paginationKey = 'global.components.navigation.Pagination'
 
 function handleSelectChange (val: AvTagPickerOption): void {
   const numberVal = Number(val.value)
@@ -66,13 +69,13 @@ function handleSelectChange (val: AvTagPickerOption): void {
         id="top-pagination"
         :current-page="pageInfo.page"
         :pages="pages"
-        :aria-label="t('global.avPagination.topAriaLabel')"
+        :aria-label="t(`${paginationKey}.topAriaLabel`)"
         compact
-        :prev-page-disabled-tooltip="t('global.avPagination.prevPageDisabledTooltip')"
-        :prev-page-label="t('global.avPagination.prevPageTitle')"
-        :next-page-disabled-tooltip="t('global.avPagination.nextPageDisabledTooltip')"
-        :next-page-label="t('global.avPagination.nextPageTitle')"
-        :compact-current-page-label="t('global.avPagination.current', {
+        :prev-page-disabled-tooltip="t(`${paginationKey}.prevPageDisabledTooltip`)"
+        :prev-page-label="t(`${paginationKey}.prevPageTitle`)"
+        :next-page-disabled-tooltip="t(`${paginationKey}.nextPageDisabledTooltip`)"
+        :next-page-label="t(`${paginationKey}.nextPageTitle`)"
+        :compact-current-page-label="t(`${paginationKey}.current`, {
           current: (pageInfo.page + 1),
           total: (pageInfo.totalPages),
         })"
@@ -87,15 +90,15 @@ function handleSelectChange (val: AvTagPickerOption): void {
         id="bottom-pagination"
         :current-page="pageInfo.page"
         :pages="pages"
-        :aria-label="t('global.avPagination.bottomAriaLabel')"
-        :first-page-disabled-tooltip="t('global.avPagination.firstPageDisabledTooltip')"
-        :first-page-label="t('global.avPagination.firstPageTitle')"
-        :prev-page-disabled-tooltip="t('global.avPagination.prevPageDisabledTooltip')"
-        :prev-page-label="t('global.avPagination.prevPageTitle')"
-        :next-page-disabled-tooltip="t('global.avPagination.nextPageDisabledTooltip')"
-        :next-page-label="t('global.avPagination.nextPageTitle')"
-        :last-page-disabled-tooltip="t('global.avPagination.lastPageDisabledTooltip')"
-        :last-page-label="t('global.avPagination.lastPageTitle')"
+        :aria-label="t(`${paginationKey}.bottomAriaLabel`)"
+        :first-page-disabled-tooltip="t(`${paginationKey}.firstPageDisabledTooltip`)"
+        :first-page-label="t(`${paginationKey}.firstPageTitle`)"
+        :prev-page-disabled-tooltip="t(`${paginationKey}.prevPageDisabledTooltip`)"
+        :prev-page-label="t(`${paginationKey}.prevPageTitle`)"
+        :next-page-disabled-tooltip="t(`${paginationKey}.nextPageDisabledTooltip`)"
+        :next-page-label="t(`${paginationKey}.nextPageTitle`)"
+        :last-page-disabled-tooltip="t(`${paginationKey}.lastPageDisabledTooltip`)"
+        :last-page-label="t(`${paginationKey}.lastPageTitle`)"
         :trunc-limit="truncLimit"
         @update:current-page="onUpdateCurrentPage"
       />

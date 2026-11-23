@@ -2,9 +2,9 @@ import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { EUserCategory, ExternalUserAffiliationOverviewDTO, GetAffiliationsParams, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComputedRef, Ref } from 'vue'
+import { usePagination } from '@avenirs-esr/shared'
 import { useGetAffiliations } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { usePagination } from '@/common/composables'
 
 export interface UsePaginatedAffiliationsParams {
   pageRef: Ref<number>

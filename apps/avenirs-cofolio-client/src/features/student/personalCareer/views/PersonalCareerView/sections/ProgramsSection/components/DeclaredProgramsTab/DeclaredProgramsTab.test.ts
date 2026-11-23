@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { LoaderStub, PaginationStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { DeclaredProgramCardStub } from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.stub'
 import { AddDeclaredProgramDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.stub'
 import { DeclaredProgramsMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.stub'
@@ -16,20 +15,17 @@ const mockDisplayAddDeclaredProgramDrawer = vi.fn()
 const mockOnUpdateCurrentPage = vi.fn()
 const mockOnUpdatePageSize = vi.fn()
 
-vi.mock('@/common/composables/use-pagination/use-pagination', () => ({
-  usePagination: vi.fn(() => ({
-    currentPage: ref(0),
-    pageSizeSelected: ref(PageSizes.FOUR),
-    onUpdateCurrentPage: mockOnUpdateCurrentPage,
-    onUpdatePageSize: mockOnUpdatePageSize
-  }))
-}))
-
 vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
     ...actual,
-    useBaseApiExceptionToast: vi.fn()
+    useBaseApiExceptionToast: vi.fn(),
+    usePagination: vi.fn(() => ({
+      currentPage: ref(0),
+      pageSizeSelected: ref(PageSizes.FOUR),
+      onUpdateCurrentPage: mockOnUpdateCurrentPage,
+      onUpdatePageSize: mockOnUpdatePageSize
+    }))
   }
 })
 

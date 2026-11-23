@@ -7,9 +7,9 @@ import type {
   PageInfoDTO
 } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ComputedRef, Ref } from 'vue'
+import { usePagination } from '@avenirs-esr/shared'
 import { useGetDeclaredActivitiesToAssess } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { usePagination } from '@/common/composables'
 
 export interface UsePaginatedStaffAssessmentsParams {
   statusesRef: Ref<EActivityAssessmentStatus[] | undefined>

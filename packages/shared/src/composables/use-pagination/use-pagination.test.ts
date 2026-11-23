@@ -1,9 +1,9 @@
 import type { Ref } from 'vue'
+import { usePagination } from '#shared/composables/use-pagination/use-pagination'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { nextTick } from 'vue'
-import { usePagination } from '@/common/composables/use-pagination/use-pagination'
+import { nextTick, ref } from 'vue'
 
 BddTest().given('an usePagination composable', () => {
   BddTest().and('initial pagination state', () => {

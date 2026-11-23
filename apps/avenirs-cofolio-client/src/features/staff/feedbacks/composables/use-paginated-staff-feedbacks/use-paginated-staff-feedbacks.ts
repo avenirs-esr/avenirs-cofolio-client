@@ -3,9 +3,9 @@ import type { BaseApiException } from '@avenirs-esr/shared'
 import type { FeedbackStaffListItemDTO, PagedResponseFeedbackStaffListItemDTO, PageInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UseQueryOptions, UseQueryReturnType } from '@tanstack/vue-query'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import { usePagination } from '@avenirs-esr/shared'
 import { EFeedbackStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
-import { usePagination } from '@/common/composables'
 
 type FetchFn = (
   params: MaybeRef<{ page: number, pageSize: PageSizes, status?: EFeedbackStatus }>,

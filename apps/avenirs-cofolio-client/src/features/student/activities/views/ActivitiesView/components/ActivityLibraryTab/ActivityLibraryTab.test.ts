@@ -1,13 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { LoaderStub, PaginationStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EActivityThematic, EDeclaredActivityStatus, ESortField, ESortOrder, getGetDeclaredActivitiesViewUrl } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { emptyLibraryActivitiesHandler, libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { ActivityErrorMessageStub } from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.stub'
 import { ActivityLibraryCardStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.stub'
 import { ActivityLibraryFiltersStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryFilters/ActivityLibraryFilters.stub'
@@ -26,9 +25,13 @@ const FILTERS = {
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 
-vi.mock('@/common/composables/use-pagination/use-pagination', () => ({
-  usePagination: vi.fn(() => paginationMock),
-}))
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+  return {
+    ...actual,
+    usePagination: vi.fn(() => paginationMock),
+  }
+})
 
 BddTest().given('an activity library tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityLibraryTab>>

@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { ICONS, QuerySuspense, useBaseApiExceptionToast, useModal } from '@avenirs-esr/shared'
+import { ICONS, Pagination, QuerySuspense, useBaseApiExceptionToast, useModal, usePagination } from '@avenirs-esr/shared'
 import { useGetDeclaredPrograms } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { Pagination } from '@/common/components'
-import { usePagination } from '@/common/composables'
 import { AddDeclaredProgramDrawer } from '@/features/student/personalCareer'
 import DeclaredProgramCard from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
