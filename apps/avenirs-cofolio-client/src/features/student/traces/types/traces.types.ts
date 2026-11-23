@@ -1,3 +1,4 @@
+import type { AnyFormApi } from '@avenirs-esr/shared'
 import type { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 
@@ -28,3 +29,4 @@ export interface TraceFormDataLink extends TraceFormDataBase {
 }
 
 export type TraceFormData = TraceFormDataFile | TraceFormDataLink
+export type TraceFormDataApi = AnyFormApi<TraceFormData>

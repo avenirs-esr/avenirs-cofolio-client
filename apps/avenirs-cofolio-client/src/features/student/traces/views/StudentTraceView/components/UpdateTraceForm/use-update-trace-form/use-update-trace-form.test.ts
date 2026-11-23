@@ -96,14 +96,46 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     BddTest().then('it should initialize modified flag to false', () => {
       expect(mockSetUpdateTraceFormModified).toHaveBeenCalledWith(false)
     })
+
+    BddTest().then('it should have onChange and onSubmit validators defined', () => {
+      const validators = composableResult.form.options.validators
+      expect(validators).toBeDefined()
+      expect(typeof validators?.onChange).toBe('function')
+      expect(typeof validators?.onSubmit).toBe('function')
+    })
   })
 
-  BddTest().when('form is validated with invalid data', () => {
+  BddTest().when('the form is validated onChange with valid data', () => {
+    BddTest().then('it should return no validation errors', () => {
+      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+      const validData: TraceFormData = {
+        file: mockFile,
+        traceType: TraceType.FILE,
+        traceName: 'My Trace Name',
+        personalNote: 'Optional note',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        valorized: false,
+        iaJustification: ''
+      }
+
+      const onChangeValidator = composableResult.form.options.validators?.onChange
+      expect(onChangeValidator).toBeDefined()
+
+      const validationResult = onChangeValidator!({ value: validData, formApi: composableResult.form })
+
+      expect(validationResult?.fields?.file).toBeUndefined()
+      expect(validationResult?.fields?.traceName).toBeUndefined()
+      expect(validationResult?.fields?.authorType).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the form is validated onChange with invalid data', () => {
     BddTest().then('it should return validation errors', () => {
       const invalidData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
-        traceName: '',
+        traceName: 'My Trace Name',
         personalNote: '',
         authorType: null,
         useIA: false,
@@ -111,15 +143,59 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         iaJustification: ''
       }
 
-      const validator = composableResult.form.options.validators?.onSubmit
+      const onChangeValidator = composableResult.form.options.validators?.onChange
+      expect(onChangeValidator).toBeDefined()
 
-      expect(validator).toBeDefined()
+      const validationResult = onChangeValidator!({ value: invalidData, formApi: composableResult.form })
 
-      const result = validator!({ value: invalidData })
+      expect(validationResult?.fields?.authorType).toBeDefined()
+    })
+  })
 
-      expect(result?.fields?.file).toEqual('Ce champ est requis.')
-      expect(result?.fields?.traceName).toEqual('Ce champ est requis.')
-      expect(result?.fields?.authorType).toEqual('Ce champ est requis.')
+  BddTest().when('the form is validated onSubmit with valid data', () => {
+    BddTest().then('it should return no validation errors', () => {
+      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+      const validData: TraceFormData = {
+        file: mockFile,
+        traceType: TraceType.FILE,
+        traceName: 'My Trace Name',
+        personalNote: 'Optional note',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        valorized: false,
+        iaJustification: ''
+      }
+
+      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+      expect(onSubmitValidator).toBeDefined()
+
+      const validationResult = onSubmitValidator!({ value: validData, formApi: composableResult.form })
+
+      expect(validationResult?.fields?.file).toBeUndefined()
+      expect(validationResult?.fields?.traceName).toBeUndefined()
+      expect(validationResult?.fields?.authorType).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the form is validated onSubmit with invalid data', () => {
+    BddTest().then('it should return validation errors', () => {
+      const invalidData: TraceFormData = {
+        file: null,
+        traceType: TraceType.FILE,
+        traceName: 'My Trace Name',
+        personalNote: '',
+        authorType: null,
+        useIA: false,
+        valorized: false,
+        iaJustification: ''
+      }
+
+      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+      expect(onSubmitValidator).toBeDefined()
+
+      const validationResult = onSubmitValidator!({ value: invalidData, formApi: composableResult.form })
+
+      expect(validationResult?.fields?.authorType).toBeDefined()
     })
   })
 
@@ -138,7 +214,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       const validator = composableResult.form.options.validators?.onSubmit
 
-      const result = validator!({ value: validData })
+      const result = validator!({ value: validData, formApi: composableResult.form })
 
       expect(result?.fields?.file).toBeUndefined()
       expect(result?.fields?.traceName).toBeUndefined()
@@ -161,7 +237,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       const validator = composableResult.form.options.validators?.onSubmit
 
-      const result = validator!({ value: data })
+      const result = validator!({ value: data, formApi: composableResult.form })
 
       expect(result?.fields?.link).toEqual('Ce champ est requis.')
     })
@@ -180,7 +256,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       const validator = composableResult.form.options.validators?.onSubmit
 
-      const result = validator!({ value: data })
+      const result = validator!({ value: data, formApi: composableResult.form })
 
       expect(result?.fields?.link).toBeUndefined()
     })
@@ -201,7 +277,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       const validator = composableResult.form.options.validators?.onSubmit
 
-      const result = validator!({ value: data })
+      const result = validator!({ value: data, formApi: composableResult.form })
 
       expect(result?.fields?.iaJustification).toEqual('Ce champ est requis.')
     })
@@ -323,6 +399,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     BddTest().then('it should keep validating after submit', () => {
       const validator = composableResult.form.options.validators?.onSubmit
 
+      composableResult.form.setFieldMeta('traceName', meta => ({ ...meta, isTouched: true }))
       const result = validator?.({
         value: {
           file: null,
@@ -333,7 +410,8 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           useIA: false,
           valorized: false,
           iaJustification: ''
-        }
+        },
+        formApi: composableResult.form
       })
 
       expect(result?.fields?.traceName).toEqual('Ce champ est requis.')
@@ -353,7 +431,8 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           useIA: false,
           valorized: false,
           iaJustification: ''
-        }
+        },
+        formApi: composableResult.form
       })
 
       expect(result?.fields?.link).toEqual('Ce champ est requis.')
@@ -372,7 +451,8 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           useIA: true,
           valorized: false,
           iaJustification: ''
-        }
+        },
+        formApi: composableResult.form
       })
 
       expect(result?.fields?.iaJustification).toEqual('Ce champ est requis.')

@@ -1,4 +1,4 @@
-import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import type { TraceFormData, TraceFormDataApi, } from '@/features/student/traces/types/traces.types'
 import { useFormValidators } from '@avenirs-esr/shared'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH, TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
@@ -13,12 +13,14 @@ export function useTraceFormValidators () {
   const { validateLink, validateRequired, validateMaxLength } = useFormValidators()
   const { validateFile } = useTraceFileValidation(true)
 
-  function buildValidators (value: TraceFormData) {
+  function buildValidators (value: TraceFormData, formApi: TraceFormDataApi) {
+    const isTraceNameTouched = formApi.getFieldMeta('traceName')?.isTouched ?? false
+
     return {
       fields: {
         file: isTraceFileType(value) ? validateFile(value.file) : undefined,
         link: isTraceLinkType(value) ? validateLink(value.link, true) ?? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
-        traceName: validateRequired(value.traceName) ?? validateMaxLength(value.traceName, TRACE_NAME_MAX_LENGTH),
+        traceName: (isTraceNameTouched ? validateRequired(value.traceName) : undefined) ?? validateMaxLength(value.traceName, TRACE_NAME_MAX_LENGTH),
         authorType: validateRequired(value.authorType),
         iaJustification: value.useIA && (validateRequired(value.iaJustification) ?? validateMaxLength(value.iaJustification, TRACE_IA_JUSTIFICATION_MAX_LENGTH)),
         personalNote: validateMaxLength(value.personalNote, TRACE_PERSONAL_NOTE_MAX_LENGTH)
