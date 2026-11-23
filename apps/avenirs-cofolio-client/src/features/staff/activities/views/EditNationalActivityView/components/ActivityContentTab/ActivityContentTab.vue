@@ -225,7 +225,7 @@ function deleteSelectedResources (
     <div :id="ContentSectionId.SUB_ACTIVITIES">
       <IconTitleCardContainer
         :title="t('global.activities.contentSectionTypes.SUB_ACTIVITIES')"
-        :title-icon="MDI_ICONS.FILE_TREE_OUTLINE"
+        :title-icon="ICONS.SUB_ACTIVITY"
         collapsible
       >
         <template #title>
