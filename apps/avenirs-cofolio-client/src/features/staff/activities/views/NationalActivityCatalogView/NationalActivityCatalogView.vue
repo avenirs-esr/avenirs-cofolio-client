@@ -9,6 +9,8 @@ import { ROUTES } from '@/common/constants'
 import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import DeleteDraftActivityConfirmationModal
   from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import EditPublishedActivityConfirmationModal
+  from '@/features/staff/activities/components/modals/EditPublishedActivityConfirmationModal/EditPublishedActivityConfirmationModal.vue'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
 import ActivityRightsSection
@@ -70,9 +72,12 @@ const trailingLinks = computed(() => [
   { text: activity.value?.title ?? '' }
 ])
 
-const isDraft = computed(() => status === EActivityStatus.DRAFT)
+const isDraft = computed(() => activityStatus.value === EActivityStatus.DRAFT)
 
-const canEdit = computed(() => activity.value?.rights.includes(EActivityRight.EDIT) ?? false)
+const requiresEditConfirmation = computed(() => isSubActivity.value && !isDraft.value && !activity.value?.haveDraft)
+
+const hasEditRight = computed(() => activity.value?.rights.includes(EActivityRight.EDIT) ?? false)
+const canEdit = computed(() => !error.value && hasEditRight.value)
 
 const canManageAuthorizations = computed(() => activity.value?.rights.includes(EActivityRight.MANAGE_AUTHORIZATIONS) ?? false)
 
@@ -84,14 +89,21 @@ const tabsDisabledTooltip = computed(() =>
     : undefined,
 )
 
-const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft') : t('global.buttons.update'))
+const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft
+  ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft')
+  : t('global.buttons.update'))
 
-const editDeleteTooltip = computed(() =>
-  !canEdit.value
-    ? t('staff.activities.views.ActivitiesView.MoreActionsDropdown.editRightOnlyTooltip')
-    : undefined,
-)
+const editDeleteTooltip = computed(() => {
+  if (error.value) {
+    return t('staff.activities.views.NationalActivityCatalogView.errors.fetchActivityContent')
+  }
+  if (!hasEditRight.value) {
+    return t('staff.activities.views.ActivitiesView.MoreActionsDropdown.editRightOnlyTooltip')
+  }
+  return undefined
+})
 const { modalOpened: deleteConfirmationOpened, openModal: openDeleteConfirmation, closeModal: closeDeleteConfirmation } = useModal()
+const { modalOpened: editConfirmationOpened, openModal: openEditConfirmation, closeModal: closeEditConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
 
@@ -99,16 +111,29 @@ const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, National
 
 const { mutate: createDraftFromActivity, isPending: isCreatingDraft } = useCreateDraftFromActivity({
   mutation: {
-    onSuccess: draft => navigateToStaffActivitiesEditNationalActivity({ id: draft.draftId }),
+    onSuccess: () => navigateToStaffActivitiesEditNationalActivity({ id: activityId.value }),
   },
 })
 
-function updateActivity (id: string) {
+function createDraft () {
+  createDraftFromActivity({ activityId: parentActivityId.value || activityId.value })
+}
+
+function updateActivity () {
   if (isDraft.value) {
-    return navigateToStaffActivitiesEditNationalActivity({ id })
+    return navigateToStaffActivitiesEditNationalActivity({ id: activityId.value })
   }
 
-  createDraftFromActivity({ activityId: id })
+  if (requiresEditConfirmation.value) {
+    return openEditConfirmation()
+  }
+
+  createDraft()
+}
+
+function confirmEdit () {
+  closeEditConfirmation()
+  createDraft()
 }
 </script>
 
@@ -123,13 +148,13 @@ function updateActivity (id: string) {
       >
         <AvButton
           :icon="MDI_ICONS.PENCIL_OUTLINE"
-          :is-loading="isCreatingDraft"
+          :is-loading="isLoading || isCreatingDraft"
           :label="buttonLabel"
           :disabled="!canEdit"
           :disabled-tooltip="editDeleteTooltip"
           data-testid="edit-draft-button"
           variant="FLAT"
-          @click="() => updateActivity(id)"
+          @click="updateActivity"
         />
         <AvButton
           v-if="!isSubActivity && isDraft"
@@ -205,6 +230,14 @@ function updateActivity (id: string) {
       </AvTabs>
     </template>
   </QuerySuspense>
+
+  <EditPublishedActivityConfirmationModal
+    v-if="activity"
+    :activity
+    :opened="editConfirmationOpened"
+    @close="closeEditConfirmation"
+    @confirm="confirmEdit"
+  />
 
   <DeleteDraftActivityConfirmationModal
     :activity-id="id"

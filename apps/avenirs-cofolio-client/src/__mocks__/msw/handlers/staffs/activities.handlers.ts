@@ -262,6 +262,13 @@ export const staffCreateDraftFromActivityUrl = http.post(
   ({ params }) => {
     const activityId = params.activityId as string
 
+    if (allMockedActivityContentDTO.some(({ id, mainActivityId }) => id === activityId && !!mainActivityId)) {
+      return HttpResponse.json(
+        { code: EErrorCode.SUB_ACTIVITY_OPERATION_NOT_ALLOWED, message: 'This operation is not allowed on a sub-activity' },
+        { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
     const knownPublishedActivityIds = [
       mockedActivityContentWithEnrolledStudent1.id,
       mockedActivityContentWithoutEnrolledStudent.id,
