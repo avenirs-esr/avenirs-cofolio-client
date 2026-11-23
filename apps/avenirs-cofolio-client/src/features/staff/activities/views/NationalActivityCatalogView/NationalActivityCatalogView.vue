@@ -20,7 +20,7 @@ import NationalActivityContentTab
 import { NationalActivityCatalogTabs }
   from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
 
-interface NationalActivityCatalogViewProps {
+export interface NationalActivityCatalogViewProps {
   status: EActivityStatus
   id: string
 }
@@ -132,7 +132,7 @@ function updateActivity (id: string) {
           @click="() => updateActivity(id)"
         />
         <AvButton
-          v-if="isDraft"
+          v-if="!isSubActivity && isDraft"
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           :label="t('global.buttons.delete')"
           data-testid="delete-draft-button"
@@ -150,53 +150,60 @@ function updateActivity (id: string) {
     :error-title="t('staff.activities.views.NationalActivityCatalogView.errors.fetchActivityContent')"
     :is-loading
   >
-    <AvTabs
-      v-if="activity"
-      v-model="activeTab"
-    >
-      <AvTab
-        :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
-        :disabled="hasPendingRightsChanges"
-        :disabled-tooltip="tabsDisabledTooltip"
-        data-testid="national-activity-catalog-content-tab-item"
+    <template v-if="activity">
+      <NationalActivityContentTab
+        v-if="isSubActivity"
+        :activity="activity"
+        :status="status"
+      />
+      <AvTabs
+        v-else
+        v-model="activeTab"
       >
-        <NationalActivityContentTab
-          :activity="activity"
-          :status="status"
-        />
-      </AvTab>
-      <AvTab
-        :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
-        :disabled="hasPendingRightsChanges"
-        :disabled-tooltip="tabsDisabledTooltip"
-        data-testid="national-activity-catalog-preview-tab-item"
-      >
-        <NationalActivityCatalogPreviewTab
-          :activity-id="activity.id"
-          :status="status"
-        />
-      </AvTab>
-      <AvTab
-        :icon="RI_ICONS.DASHBOARD_2_LINE"
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.dashboard')"
-        data-testid="national-activity-catalog-key-figures-tab-item"
-      >
-        <div class="av-col av-gap-md">
-          <ActivityDashboardSection
+        <AvTab
+          :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+          :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
+          :disabled="hasPendingRightsChanges"
+          :disabled-tooltip="tabsDisabledTooltip"
+          data-testid="national-activity-catalog-content-tab-item"
+        >
+          <NationalActivityContentTab
+            :activity="activity"
+            :status="status"
+          />
+        </AvTab>
+        <AvTab
+          :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+          :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
+          :disabled="hasPendingRightsChanges"
+          :disabled-tooltip="tabsDisabledTooltip"
+          data-testid="national-activity-catalog-preview-tab-item"
+        >
+          <NationalActivityCatalogPreviewTab
             :activity-id="activity.id"
             :status="status"
           />
-          <ActivityRightsSection
-            :activity-id="activity.id"
-            :status="status"
-            :can-edit="canManageAuthorizations"
-            @dirty-change="hasPendingRightsChanges = $event"
-          />
-        </div>
-      </AvTab>
-    </AvTabs>
+        </AvTab>
+        <AvTab
+          :icon="RI_ICONS.DASHBOARD_2_LINE"
+          :title="t('staff.activities.views.NationalActivityCatalogView.tabs.dashboard')"
+          data-testid="national-activity-catalog-key-figures-tab-item"
+        >
+          <div class="av-col av-gap-md">
+            <ActivityDashboardSection
+              :activity-id="activity.id"
+              :status="status"
+            />
+            <ActivityRightsSection
+              :activity-id="activity.id"
+              :status="status"
+              :can-edit="canManageAuthorizations"
+              @dirty-change="hasPendingRightsChanges = $event"
+            />
+          </div>
+        </AvTab>
+      </AvTabs>
+    </template>
   </QuerySuspense>
 
   <DeleteDraftActivityConfirmationModal

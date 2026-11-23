@@ -1,4 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { Component } from 'vue'
+import type { NationalActivityCatalogViewProps } from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
@@ -10,23 +12,25 @@ import { createGetActivityContentErrorHandler, getActivityContentErrorHandler } 
 import { server } from '@/__mocks__/msw/server'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
-import {
-  DeleteDraftActivityConfirmationModalStub
-} from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
-import {
-  ActivityDashboardSectionStub
-} from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.stub'
-import { ActivityRightsSectionStub }
-  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.stub'
-import {
-  NationalActivityCatalogPreviewTabStub
-} from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
-import {
-  NationalActivityContentTabStub
-} from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
-import { NationalActivityCatalogTabs }
-  from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
+import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
+import { ActivityDashboardSectionStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.stub'
+import { ActivityRightsSectionStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.stub'
+import { NationalActivityCatalogPreviewTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
+import { NationalActivityContentTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
+import { NationalActivityCatalogTabs } from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
+
+const DELETE_LABEL = 'Supprimer'
+const ERROR_TITLE = 'Impossible de charger l\'activité'
+const PAGE_TITLE = 'Toutes les activités disponibles dans mon établissement'
+const RESUME_DRAFT_LABEL = 'Reprendre le brouillon'
+const TABS_DISABLED_TOOLTIP = 'Enregistrez ou annulez vos modifications de droits avant de changer d\'onglet'
+const UPDATE_LABEL = 'Modifier'
+
+const defaultProps: NationalActivityCatalogViewProps = {
+  status: EActivityStatus.DRAFT,
+  id: mockedActivityContent.id,
+}
 
 const mockNavigateToStaffActivities = vi.fn()
 const mockNavigateToStaffActivitiesEditNationalActivity = vi.fn()
@@ -54,81 +58,88 @@ function mockActiveTab (tab: NationalActivityCatalogTabs) {
 BddTest().given('a national activity catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityCatalogView>>
 
-  function getDeleteDraftActivityConfirmationModal () {
-    return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
-  }
-
-  function getQuerySuspense () {
-    return wrapper.findComponent(QuerySuspenseStub)
-  }
-
-  function getNationalActivityContentTab () {
-    return wrapper.findComponent(NationalActivityContentTabStub)
-  }
-
   const stubs = {
-    PageTitle: PageTitleStub,
-    QuerySuspense: QuerySuspenseStub,
-    NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
-    NationalActivityContentTab: NationalActivityContentTabStub,
     ActivityDashboardSection: ActivityDashboardSectionStub,
     ActivityRightsSection: ActivityRightsSectionStub,
     AvButton: AvButtonStub,
-    DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
-    AvTabs: AvTabsStub,
     AvTab: AvTabStub,
+    AvTabs: AvTabsStub,
+    DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
+    NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
+    NationalActivityContentTab: NationalActivityContentTabStub,
+    PageTitle: PageTitleStub,
+    QuerySuspense: QuerySuspenseStub,
   }
 
-  const mountView = (status = EActivityStatus.DRAFT, id = mockedActivityContent.id) =>
-    mountComponent(NationalActivityCatalogView, {
-      props: { status, id },
-      global: { stubs },
-    })
+  const mountWith = (
+    props: Partial<NationalActivityCatalogViewProps> = {},
+    tab = NationalActivityCatalogTabs.CONTENT,
+    stubOverrides: Record<string, Component> = {},
+  ) => {
+    vi.clearAllMocks()
+    mockActiveTab(tab)
 
-  const mountViewWithoutRights = (status: EActivityStatus, id: string) =>
-    mountComponent(NationalActivityCatalogView, {
-      props: { status, id, },
-      global: { stubs },
+    wrapper = mountComponent(NationalActivityCatalogView, {
+      props: {
+        ...defaultProps,
+        ...props,
+      },
+      global: {
+        stubs: {
+          ...stubs,
+          ...stubOverrides,
+        }
+      }
     })
+  }
+
+  const getPageTitle = () => wrapper.findComponent(PageTitleStub)
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+  const getTabs = () => wrapper.findComponent(AvTabsStub)
+  const getTabItems = () => wrapper.findAllComponents(AvTabStub)
+  const getNationalActivityContentTab = () => wrapper.findComponent(NationalActivityContentTabStub)
+  const getNationalActivityCatalogPreviewTab = () => wrapper.findComponent(NationalActivityCatalogPreviewTabStub)
+  const getActivityDashboardSection = () => wrapper.findComponent(ActivityDashboardSectionStub)
+  const getActivityRightsSection = () => wrapper.findComponent(ActivityRightsSectionStub)
+  const getDeleteDraftActivityConfirmationModal = () => wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
+
+  const getButton = (testid: string) => wrapper.findComponent(`[data-testid="${testid}"]`) as VueWrapper<InstanceType<typeof AvButtonStub>>
+  const getEditButton = () => getButton('edit-draft-button')
+  const getDeleteButton = () => getButton('delete-draft-button')
 
   const waitForLoaded = async () => {
     await vi.waitFor(() => {
-      expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
+      expect(getQuerySuspense().props('isLoading')).toBe(false)
     })
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockActiveTab(NationalActivityCatalogTabs.CONTENT)
-    wrapper = mountView()
-  })
-
   BddTest().when('the view is mounted', () => {
-    let pageTitle: VueWrapper<InstanceType<typeof PageTitleStub>>
-
     beforeEach(() => {
-      pageTitle = wrapper.findComponent(PageTitleStub)
+      mountWith()
     })
 
     BddTest().then('it should render PageTitle with the correct title', () => {
-      expect(pageTitle.props('title')).toBe('Toutes les activités disponibles dans mon établissement')
+      expect(getPageTitle().props('title')).toBe(PAGE_TITLE)
     })
 
     BddTest().then('it should render PageTitle with the correct breadcrumb links', async () => {
       await vi.waitFor(() => {
-        expect(pageTitle.props('trailingLinks')).toEqual([
+        expect(getPageTitle().props('trailingLinks')).toEqual([
           { text: mockedActivityContent.title },
         ])
       })
     })
 
     BddTest().then('it should render QuerySuspense with the correct error title', () => {
-      expect(getQuerySuspense().props('errorTitle')).toBe('Impossible de charger l\'activité')
+      expect(getQuerySuspense().props('errorTitle')).toBe(ERROR_TITLE)
     })
   })
 
   BddTest().when('the activity is loaded', () => {
-    beforeEach(waitForLoaded)
+    beforeEach(async () => {
+      mountWith()
+      await waitForLoaded()
+    })
 
     BddTest().then('it should render NationalActivityContentTab with the correct activity', () => {
       expect(getNationalActivityContentTab().props('activity')).toEqual(mockedActivityContent)
@@ -138,7 +149,7 @@ BddTest().given('a national activity catalog view', () => {
   BddTest().when('the API returns an error', () => {
     beforeEach(() => {
       server.use(getActivityContentErrorHandler)
-      wrapper = mountView()
+      mountWith()
     })
 
     BddTest().then('it should render QuerySuspense with an error', async () => {
@@ -150,28 +161,40 @@ BddTest().given('a national activity catalog view', () => {
 
   BddTest().when('the status is DRAFT and the activity is loaded', () => {
     beforeEach(async () => {
-      wrapper = mountView(EActivityStatus.DRAFT)
+      mountWith({
+        status: EActivityStatus.DRAFT,
+      })
       await waitForLoaded()
     })
 
     BddTest().then('it should render the edit and delete buttons', () => {
-      expect(wrapper.find('[data-testid="edit-draft-button"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(true)
+      expect(getEditButton().exists()).toBe(true)
+      expect(getDeleteButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should label the edit button to resume the draft', () => {
+      expect(getEditButton().props('label')).toBe(RESUME_DRAFT_LABEL)
+    })
+
+    BddTest().then('it should label the delete button', () => {
+      expect(getDeleteButton().props('label')).toBe(DELETE_LABEL)
     })
 
     BddTest().and('the edit button is clicked', () => {
       beforeEach(async () => {
-        await wrapper.find('[data-testid="edit-draft-button"]').trigger('click')
+        await getEditButton().trigger('click')
       })
 
       BddTest().then('it should navigate directly to the edit view', () => {
-        expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({ id: mockedActivityContent.id })
+        expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({
+          id: mockedActivityContent.id,
+        })
       })
     })
 
     BddTest().and('the delete button is clicked', () => {
       beforeEach(async () => {
-        await wrapper.find('[data-testid="delete-draft-button"]').trigger('click')
+        await getDeleteButton().trigger('click')
       })
 
       BddTest().then('it should open the confirmation modal', () => {
@@ -202,21 +225,27 @@ BddTest().given('a national activity catalog view', () => {
 
   BddTest().when('the status is PUBLISHED and the activity is loaded', () => {
     beforeEach(async () => {
-      wrapper = mountView(EActivityStatus.PUBLISHED)
+      mountWith({
+        status: EActivityStatus.PUBLISHED,
+      })
       await waitForLoaded()
     })
 
     BddTest().then('it should render the edit button', () => {
-      expect(wrapper.find('[data-testid="edit-draft-button"]').exists()).toBe(true)
+      expect(getEditButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should label the edit button to update the activity', () => {
+      expect(getEditButton().props('label')).toBe(UPDATE_LABEL)
     })
 
     BddTest().then('it should not render the delete button', () => {
-      expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(false)
+      expect(getDeleteButton().exists()).toBe(false)
     })
 
     BddTest().and('the edit button is clicked', () => {
       beforeEach(async () => {
-        await wrapper.find('[data-testid="edit-draft-button"]').trigger('click')
+        await getEditButton().trigger('click')
         await flushPromises()
       })
 
@@ -230,96 +259,85 @@ BddTest().given('a national activity catalog view', () => {
 
   BddTest().when('the key figures tab is active', () => {
     beforeEach(async () => {
-      mockActiveTab(NationalActivityCatalogTabs.DASHBOARD)
-      wrapper = mountView()
+      mountWith({}, NationalActivityCatalogTabs.DASHBOARD)
       await waitForLoaded()
     })
 
     BddTest().then('it should render ActivityDashboardSection with the loaded activity id and status', () => {
-      const dashboardSection = wrapper.findComponent(ActivityDashboardSectionStub)
+      const dashboardSection = getActivityDashboardSection()
       expect(dashboardSection.props('activityId')).toBe(mockedActivityContent.id)
       expect(dashboardSection.props('status')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should render ActivityRightsSection with the loaded activity id and status', () => {
-      const rightsSection = wrapper.findComponent(ActivityRightsSectionStub)
+      const rightsSection = getActivityRightsSection()
       expect(rightsSection.props('activityId')).toBe(mockedActivityContent.id)
       expect(rightsSection.props('status')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should not render the other tabs content', () => {
       expect(getNationalActivityContentTab().exists()).toBe(false)
-      expect(wrapper.findComponent(NationalActivityCatalogPreviewTabStub).exists()).toBe(false)
+      expect(getNationalActivityCatalogPreviewTab().exists()).toBe(false)
     })
   })
 
   BddTest().when('the rights section reports pending changes', () => {
     const AllTabsStub = defineComponent({ name: 'AvTabs', template: '<div><slot /></div>' })
-    const EachTabStub = defineComponent({
-      name: 'AvTab',
-      props: { disabled: { type: Boolean, default: false }, disabledTooltip: { type: String, default: undefined } },
-      template: '<div><slot /></div>',
-    })
-    const getTabs = () => wrapper.findAllComponents(EachTabStub)
 
     beforeEach(async () => {
-      mockActiveTab(NationalActivityCatalogTabs.DASHBOARD)
-      wrapper = mountComponent(NationalActivityCatalogView, {
-        props: { status: EActivityStatus.DRAFT, id: mockedActivityContent.id },
-        global: { stubs: { ...stubs, AvTabs: AllTabsStub, AvTab: EachTabStub } },
+      mountWith({}, NationalActivityCatalogTabs.DASHBOARD, {
+        AvTabs: AllTabsStub,
       })
       await waitForLoaded()
     })
 
     BddTest().then('it should keep the tabs enabled by default', () => {
-      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([false, false, false])
+      expect(getTabItems().map(tab => tab.props('disabled'))).toEqual([false, false, false])
     })
 
     BddTest().then('it should disable the content and preview tabs, and re-enable them once changes are gone', async () => {
-      const rightsSection = wrapper.findComponent(ActivityRightsSectionStub)
+      const rightsSection = getActivityRightsSection()
       rightsSection.vm.$emit('dirtyChange', true)
       await flushPromises()
-      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([true, true, false])
-      expect(getTabs().map(tab => tab.props('disabledTooltip'))).toEqual([
-        'Enregistrez ou annulez vos modifications de droits avant de changer d\'onglet',
-        'Enregistrez ou annulez vos modifications de droits avant de changer d\'onglet',
+      expect(getTabItems().map(tab => tab.props('disabled'))).toEqual([true, true, false])
+      expect(getTabItems().map(tab => tab.props('disabledTooltip'))).toEqual([
+        TABS_DISABLED_TOOLTIP,
+        TABS_DISABLED_TOOLTIP,
         undefined,
       ])
 
       rightsSection.vm.$emit('dirtyChange', false)
       await flushPromises()
-      expect(getTabs().map(tab => tab.props('disabled'))).toEqual([false, false, false])
+      expect(getTabItems().map(tab => tab.props('disabled'))).toEqual([false, false, false])
     })
   })
 
   BddTest().when('the status is DRAFT and the activity is loaded by a staff without the edit right', () => {
     beforeEach(async () => {
-      wrapper = mountViewWithoutRights(EActivityStatus.DRAFT, 'WITHOUT_RIGHTS_ID')
+      mountWith({
+        status: EActivityStatus.DRAFT,
+        id: 'WITHOUT_RIGHTS_ID',
+      })
       await waitForLoaded()
     })
 
     BddTest().then('it should disable both edit and delete buttons', () => {
-      const editButton = wrapper.findAllComponents(AvButtonStub)
-        .find(button => button.props('label') === 'Reprendre le brouillon')
-      const deleteButton = wrapper.findAllComponents(AvButtonStub)
-        .find(button => button.props('label') === 'Supprimer')
-
-      expect(editButton).toBeDefined()
-      expect(deleteButton).toBeDefined()
-
-      expect(editButton!.props('disabled')).toBe(true)
-      expect(deleteButton!.props('disabled')).toBe(true)
+      expect(getEditButton().props('disabled')).toBe(true)
+      expect(getDeleteButton().props('disabled')).toBe(true)
     })
   })
 
   BddTest().when('the activity is a sub-activity', () => {
     beforeEach(() => {
-      wrapper = mountView(EActivityStatus.PUBLISHED, mockedSubActivityContent.id)
+      mountWith({
+        status: EActivityStatus.PUBLISHED,
+        id: mockedSubActivityContent.id,
+      })
     })
 
     BddTest().then('it should prefix the breadcrumb with a link to the parent activity', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(PageTitleStub).props('trailingLinks')).toEqual([
+        expect(getPageTitle().props('trailingLinks')).toEqual([
           {
             text: mockedActivityContentWithSubActivities.title,
             to: {
@@ -331,15 +349,48 @@ BddTest().given('a national activity catalog view', () => {
             },
           },
           { text: expect.any(String) },
-          { text: mockedSubActivityContent.title }
+          { text: mockedSubActivityContent.title },
         ])
+      })
+    })
+
+    BddTest().then('it should render the content tab directly, without tabs', async () => {
+      await vi.waitFor(() => {
+        expect(getNationalActivityContentTab().props('activity')).toEqual(mockedSubActivityContent)
+      })
+      expect(getTabs().exists()).toBe(false)
+    })
+
+    BddTest().and('the status is DRAFT', () => {
+      beforeEach(async () => {
+        mountWith({
+          status: EActivityStatus.DRAFT,
+          id: mockedSubActivityContent.id,
+        })
+        await vi.waitFor(() => {
+          expect(getNationalActivityContentTab().exists()).toBe(true)
+        })
+      })
+
+      BddTest().then('it should render the edit button', () => {
+        expect(getEditButton().exists()).toBe(true)
+      })
+
+      BddTest().then('it should not render the delete button', () => {
+        expect(getDeleteButton().exists()).toBe(false)
       })
     })
 
     BddTest().and('the parent activity fails to load', () => {
       beforeEach(() => {
-        server.use(createGetActivityContentErrorHandler(EActivityStatus.PUBLISHED, mockedActivityContentWithSubActivities.id))
-        wrapper = mountView(EActivityStatus.PUBLISHED, mockedSubActivityContent.id)
+        server.use(createGetActivityContentErrorHandler(
+          EActivityStatus.PUBLISHED,
+          mockedActivityContentWithSubActivities.id
+        ))
+        mountWith({
+          status: EActivityStatus.PUBLISHED,
+          id: mockedSubActivityContent.id,
+        })
       })
 
       BddTest().then('it should render QuerySuspense with an error', async () => {
