@@ -30,6 +30,9 @@ export const ACTIVITY_WITH_AUTHORIZATIONS_ID
 export const ACTIVITY_WITH_SUB_ACTIVITIES_ID
   = '7a1b5f22-4a1e-1f34-b8d0-0a7c3f2d6b03'
 
+export const ACTIVITY_WITH_ONE_SUB_ACTIVITY_ID
+  = '3e8a1c57-b2d4-4f96-8c0e-5a7b9d2f1e63'
+
 export const ACTIVITY_WITH_SUB_ACTIVITIES_AND_ENROLLED_STUDENTS_ID
   = '1b26fd3f-0a88-41ac-9ca5-96802ee26744'
 
@@ -247,6 +250,12 @@ export const mockedSubActivityContent: ActivityContentDTO = {
   mainActivityId: mockedActivityContentWithSubActivities.id,
 }
 
+export const mockedActivityContentWithOneSubActivity: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: ACTIVITY_WITH_ONE_SUB_ACTIVITY_ID,
+  subActivities: mockedActivityContentWithSubActivities.subActivities.slice(0, 1),
+}
+
 export const mockedActivityContentWithSubActivitiesAndEnrolledStudents: ActivityContentDTO = {
   ...mockedActivityContentWithEnrolledStudent1,
   id: ACTIVITY_WITH_SUB_ACTIVITIES_AND_ENROLLED_STUDENTS_ID,
@@ -310,6 +319,7 @@ export const allMockedActivityContentDTO: ActivityContentDTO[] = [
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithSubActivities,
   mockedSubActivityContent,
+  mockedActivityContentWithOneSubActivity,
   mockedActivityContentWithSubActivitiesAndEnrolledStudents,
   mockedSubActivityContentWithEnrolledStudents,
   mockedActivityContentWithSubActivitiesAndDraft,

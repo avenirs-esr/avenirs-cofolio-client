@@ -74,7 +74,7 @@ const trailingLinks = computed(() => [
 
 const isDraft = computed(() => activityStatus.value === EActivityStatus.DRAFT)
 
-const requiresEditConfirmation = computed(() => isSubActivity.value && !isDraft.value && !activity.value?.haveDraft)
+const requiresEditConfirmation = computed(() => !isDraft.value && !activity.value?.haveDraft)
 
 const hasEditRight = computed(() => activity.value?.rights.includes(EActivityRight.EDIT) ?? false)
 const canEdit = computed(() => !error.value && hasEditRight.value)

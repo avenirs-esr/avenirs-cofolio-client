@@ -63,13 +63,17 @@
           "title": "Are you sure you want to delete this national activity?"
         },
         "EditPublishedActivityConfirmationModal": {
+          "subActivitiesComplement": "You will also be able to edit its sub-activity. | You will also be able to edit its sub-activities.",
           "title": {
+            "activity": "Do you want to edit the activity \"{title}\"?",
             "subActivity": "Do you want to edit the sub-activity \"{title}\"?"
           },
           "withEnrolledStudents": {
+            "activity": "A draft will be created. The current version will remain published and accessible to learners who are already enrolled until your changes are published.",
             "subActivity": "A draft of the parent activity \"{parentTitle}\" will be created. The current version will remain published and accessible to learners who are already enrolled until your changes are published."
           },
           "withoutEnrolledStudents": {
+            "activity": "It will be unpublished and moved back to draft until your changes are published.",
             "subActivity": "The parent activity \"{parentTitle}\" will be unpublished and moved back to draft until your changes are published."
           }
         },
