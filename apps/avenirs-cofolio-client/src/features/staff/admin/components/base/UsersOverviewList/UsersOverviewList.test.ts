@@ -3,10 +3,11 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
+import { EGroupType, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { UserCategoryBadgeStub } from '@/features/staff/admin/components/badges/UserCategoryBadge/UserCategoryBadge.stub'
 import { GroupNameStub } from '@/features/staff/admin/components/base/GroupName/GroupName.stub'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'
@@ -46,6 +47,7 @@ BddTest().given('a users overview list', () => {
         { id: 'group-1', name: 'Groupe 1', type: EGroupType.STUDENT_GROUP, usersCount: 0 },
         { id: 'group-2', name: 'Groupe 2', type: EGroupType.STUDENT_GROUP, usersCount: 0 },
       ],
+      categories: [EUserCategory.STAFF, EUserCategory.STUDENT],
     },
     {
       id: 'user-2',
@@ -55,13 +57,15 @@ BddTest().given('a users overview list', () => {
         { id: 'formation-3', name: 'Formation 3', type: EGroupType.PROGRAM, usersCount: 0 },
       ],
       groups: [],
+      categories: [EUserCategory.STUDENT],
     },
   ]
 
   const columns: AvTableColumn<UsersListRow>[] = [
-    { key: 'user', label: 'Utilisateurs', width: '40%' },
-    { key: 'formations', label: 'Formations', width: '30%' },
-    { key: 'groups', label: 'Groupes', width: '30%' },
+    { key: 'user', label: 'Utilisateur(rice)s', width: '34%' },
+    { key: 'formations', label: 'Formations', width: '22%' },
+    { key: 'groups', label: 'Groupes', width: '22%' },
+    { key: 'categories', label: 'Rôles', width: '22%' },
   ]
 
   const stubs = {
@@ -69,6 +73,7 @@ BddTest().given('a users overview list', () => {
     UserInfo: UserInfoStub,
     GroupName: GroupNameStub,
     UsersOverviewCard: UsersOverviewCardStub,
+    UserCategoryBadge: UserCategoryBadgeStub,
   }
 
   const mountWith = async (options: {
@@ -157,6 +162,20 @@ BddTest().given('a users overview list', () => {
       expect(firstRowGroups[1].props('group')).toEqual(rows[0].groups?.[1])
       expect(firstRowGroups[1].props('withNav')).toBe(true)
     })
+
+    BddTest().then('it should render categories in the table slot', () => {
+      const lists = wrapper.findAll('[data-testid="categories-list"]')
+      expect(lists).toHaveLength(2)
+
+      const firstRowBadges = lists[0].findAllComponents(UserCategoryBadgeStub)
+      expect(firstRowBadges).toHaveLength(2)
+      expect(firstRowBadges[0].props('category')).toBe(EUserCategory.STAFF)
+      expect(firstRowBadges[1].props('category')).toBe(EUserCategory.STUDENT)
+
+      const secondRowBadges = lists[1].findAllComponents(UserCategoryBadgeStub)
+      expect(secondRowBadges).toHaveLength(1)
+      expect(secondRowBadges[0].props('category')).toBe(EUserCategory.STUDENT)
+    })
   })
 
   BddTest().when('the screen is below the large breakpoint', () => {
@@ -177,9 +196,11 @@ BddTest().given('a users overview list', () => {
       expect(getCards()[0].props('user')).toEqual(rows[0].user)
       expect(getCards()[0].props('formations')).toEqual(rows[0].formations)
       expect(getCards()[0].props('groups')).toEqual(rows[0].groups)
+      expect(getCards()[0].props('categories')).toEqual(rows[0].categories)
       expect(getCards()[1].props('user')).toEqual(rows[1].user)
       expect(getCards()[1].props('formations')).toEqual(rows[1].formations)
       expect(getCards()[1].props('groups')).toEqual(rows[1].groups)
+      expect(getCards()[1].props('categories')).toEqual(rows[1].categories)
     })
   })
 
@@ -191,6 +212,7 @@ BddTest().given('a users overview list', () => {
     BddTest().then('it should not pass formations and groups to the cards', () => {
       expect(getCards()[0].props('formations')).toEqual([])
       expect(getCards()[0].props('groups')).toEqual([])
+      expect(getCards()[0].props('categories')).toEqual(rows[0].categories)
     })
   })
 
@@ -202,6 +224,7 @@ BddTest().given('a users overview list', () => {
     BddTest().then('it should not render formations and groups lists in table', () => {
       expect(wrapper.findAll('[data-testid="formations-list"]')).toHaveLength(0)
       expect(wrapper.findAll('[data-testid="groups-list"]')).toHaveLength(0)
+      expect(wrapper.findAll('[data-testid="categories-list"]')).toHaveLength(2)
     })
   })
 

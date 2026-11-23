@@ -1,22 +1,25 @@
 <script lang="ts" setup>
-import type { GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { EUserCategory, GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
+import UserCategoryBadge from '@/features/staff/admin/components/badges/UserCategoryBadge/UserCategoryBadge.vue'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 
 export interface UsersOverviewCardProps {
   user: UserInfoType
   formations?: GroupOverviewDTO[]
   groups?: GroupOverviewDTO[]
+  categories?: EUserCategory[]
 }
 
-const { user, formations = [], groups = [] } = defineProps<UsersOverviewCardProps>()
+const { user, formations = [], groups = [], categories = [] } = defineProps<UsersOverviewCardProps>()
 
 const { t } = useI18n()
+
 const { isStaffAdminGroupsRoute } = useIdentifyRoute()
 const route = useRoute()
 
@@ -88,6 +91,17 @@ const to = computed(() => {
             {{ groupsNames }}
           </span>
         </AvTooltip>
+        <div
+          v-if="categories.length"
+          class="av-row av-gap-xs av-wrap"
+          data-testid="categories"
+        >
+          <UserCategoryBadge
+            v-for="category in categories"
+            :key="category"
+            :category="category"
+          />
+        </div>
       </div>
     </Card>
   </RouterLink>

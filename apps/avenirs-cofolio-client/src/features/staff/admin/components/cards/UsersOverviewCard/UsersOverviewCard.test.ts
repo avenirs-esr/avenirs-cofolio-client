@@ -3,11 +3,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { CardStub } from '@avenirs-esr/shared'
-import { EGroupType } from '@avenirs-esr/shared/api/avenir-esr'
+import { EGroupType, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { ROUTES } from '@/common/constants'
+import { UserCategoryBadgeStub } from '@/features/staff/admin/components/badges/UserCategoryBadge/UserCategoryBadge.stub'
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import UsersOverviewCard from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.vue'
 
@@ -62,26 +63,31 @@ BddTest().given('a users overview card', () => {
     { id: 'g-2', name: 'Groupe B', type: EGroupType.STUDENT_GROUP, usersCount: 20 },
   ]
 
+  const mockCategories: EUserCategory[] = [EUserCategory.STAFF, EUserCategory.STUDENT]
+
   const stubs = {
     AvTooltip: AvTooltipStub,
     RouterLink: RouterLinkStub,
     Card: CardStub,
     UserInfo: UserInfoStub,
+    UserCategoryBadge: UserCategoryBadgeStub,
   }
 
   const mountWith = async (options: {
     user?: UserInfoType
     formations?: GroupOverviewDTO[]
     groups?: GroupOverviewDTO[]
+    categories?: EUserCategory[]
   } = {}) => {
     const {
       user = mockUser,
       formations = [],
       groups = [],
+      categories = [],
     } = options
 
     wrapper = mountComponent(UsersOverviewCard, {
-      props: { user, formations, groups },
+      props: { user, formations, groups, categories },
       global: { stubs },
     })
   }
@@ -91,6 +97,7 @@ BddTest().given('a users overview card', () => {
   const getUserInfo = () => wrapper.findComponent(UserInfoStub)
   const getFormations = () => wrapper.find('[data-testid="formations"]')
   const getGroups = () => wrapper.find('[data-testid="groups"]')
+  const getCategories = () => wrapper.find('[data-testid="categories"]')
   const getTooltips = () => wrapper.findAllComponents(AvTooltipStub)
 
   beforeEach(() => {
@@ -119,9 +126,10 @@ BddTest().given('a users overview card', () => {
       })
     })
 
-    BddTest().then('it should not render formations or groups', () => {
+    BddTest().then('it should not render formations, groups or categories', () => {
       expect(getFormations().exists()).toBe(false)
       expect(getGroups().exists()).toBe(false)
+      expect(getCategories().exists()).toBe(false)
       expect(getTooltips()).toHaveLength(0)
     })
   })
@@ -161,6 +169,19 @@ BddTest().given('a users overview card', () => {
       expect(getTooltips()[0].props('disabled')).toBe(true)
       expect(getTooltips()[1].props('content')).toBe('Groupe A, Groupe B')
       expect(getTooltips()[1].props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is rendered with categories', () => {
+    beforeEach(async () => {
+      await mountWith({ categories: mockCategories })
+    })
+
+    BddTest().then('it should render a badge per category', () => {
+      const badges = wrapper.findAllComponents(UserCategoryBadgeStub)
+      expect(badges).toHaveLength(2)
+      expect(badges[0].props('category')).toBe(EUserCategory.STAFF)
+      expect(badges[1].props('category')).toBe(EUserCategory.STUDENT)
     })
   })
 

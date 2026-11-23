@@ -2,6 +2,7 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import UserCategoryBadge from '@/features/staff/admin/components/badges/UserCategoryBadge/UserCategoryBadge.vue'
 import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
 import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import UsersOverviewCard from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.vue'
@@ -29,6 +30,7 @@ const { isBelowLg } = useAvBreakpoints()
       :user="row.user"
       :formations="!groupUsersMode ? row.formations : undefined"
       :groups="!groupUsersMode ? row.groups : undefined"
+      :categories="row.categories"
     />
   </div>
   <AvTable
@@ -83,6 +85,19 @@ const { isBelowLg } = useAvBreakpoints()
           />
         </li>
       </ul>
+    </template>
+    <template #cell(categories)="{ row }">
+      <div
+        v-if="row.categories?.length"
+        class="av-row av-gap-xs av-wrap"
+        data-testid="categories-list"
+      >
+        <UserCategoryBadge
+          v-for="category in row.categories"
+          :key="category"
+          :category="category"
+        />
+      </div>
     </template>
   </AvTable>
 </template>
