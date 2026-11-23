@@ -1,12 +1,29 @@
+import type { CreateLocalToolRequest, CreateNationalToolRequest } from '#shared/api/avenir-esr'
 import {
+  createMockedCreatedLocalToolDTO,
+  createMockedCreatedNationalToolDTO,
   createMockedGetAvailableToolsResponse,
   createMockedGetLocalToolsResponse,
   createMockedGetNationalToolsResponse,
+  createMockedToolBannerFileDTO,
   getToolDTO
 } from '#shared/__mocks__/fixtures/tools.fixtures'
-import { EToolType, getGetAvailableToolsUrl, getGetLocalToolsUrl, getGetLocalToolUrl, getGetNationalToolsUrl, getGetNationalToolUrl } from '#shared/api/avenir-esr'
+import {
+  EToolType,
+  getCreateLocalToolUrl,
+  getCreateNationalToolUrl,
+  getGetAvailableToolsUrl,
+  getGetLocalToolsUrl,
+  getGetLocalToolUrl,
+  getGetNationalToolsUrl,
+  getGetNationalToolUrl,
+  getUploadLocalToolBannerUrl,
+  getUploadNationalToolBannerUrl
+} from '#shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { http } from 'msw'
+
+export const INTERNAL_ERROR_TOOL_ID = 'INTERNAL_ERROR_ID'
 
 export const getNationalToolsErrorHandler = http.get(`*${getGetNationalToolsUrl()}`, async () => {
   return internalServerError()
@@ -80,10 +97,50 @@ const getLocalToolHandler = http.get(`*${getGetLocalToolUrl(':toolId')}`, async 
   return successJsonResponse(getToolDTO(0, EToolType.LOCAL))
 })
 
+export const createNationalToolErrorHandler = http.post(`*${getCreateNationalToolUrl()}`, async () => {
+  return internalServerError()
+})
+
+const createNationalToolHandler = http.post(`*${getCreateNationalToolUrl()}`, async ({ request }) => {
+  const body = await request.json() as CreateNationalToolRequest
+
+  return successJsonResponse(createMockedCreatedNationalToolDTO(body))
+})
+
+const createLocalToolHandler = http.post(`*${getCreateLocalToolUrl()}`, async ({ request }) => {
+  const body = await request.json() as CreateLocalToolRequest
+
+  return successJsonResponse(createMockedCreatedLocalToolDTO(body))
+})
+
+const uploadNationalToolBannerHandler = http.post(`*${getUploadNationalToolBannerUrl(':toolId')}`, async ({ params }) => {
+  const toolId = String(params.toolId)
+
+  if (toolId === INTERNAL_ERROR_TOOL_ID) {
+    return internalServerError()
+  }
+
+  return successJsonResponse(createMockedToolBannerFileDTO(toolId))
+})
+
+const uploadLocalToolBannerHandler = http.post(`*${getUploadLocalToolBannerUrl(':toolId')}`, async ({ params }) => {
+  const toolId = String(params.toolId)
+
+  if (toolId === INTERNAL_ERROR_TOOL_ID) {
+    return internalServerError()
+  }
+
+  return successJsonResponse(createMockedToolBannerFileDTO(toolId))
+})
+
 export const toolsHandlers = [
   getNationalToolsHandler,
   getLocalToolsHandler,
   getAvailableToolsHandler,
   getNationalToolHandler,
-  getLocalToolHandler
+  getLocalToolHandler,
+  createNationalToolHandler,
+  createLocalToolHandler,
+  uploadNationalToolBannerHandler,
+  uploadLocalToolBannerHandler,
 ]

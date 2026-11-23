@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useImageUpload () {
@@ -36,7 +36,7 @@ export function useImageUpload () {
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      error.value = t('global.error.file.size')
+      error.value = t('global.composables.useImageUpload.size')
       return
     }
 
@@ -46,7 +46,7 @@ export function useImageUpload () {
 
     error.value = undefined
     name.value = file.name
-    valid.value = t('global.success.file.loaded')
+    valid.value = t('global.composables.useImageUpload.loaded')
     previewUrl.value = URL.createObjectURL(file)
   }
 

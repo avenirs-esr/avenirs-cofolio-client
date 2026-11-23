@@ -1,6 +1,6 @@
 import type { EActivityStatus, EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action } from '@avenirs-esr/shared'
 
 export const ActivityDetailedDropdownStub = defineComponent({
   name: 'ActivityDetailedDropdown',

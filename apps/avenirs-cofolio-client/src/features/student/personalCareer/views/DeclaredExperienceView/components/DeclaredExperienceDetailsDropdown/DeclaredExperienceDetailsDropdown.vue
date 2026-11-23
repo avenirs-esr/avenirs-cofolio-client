@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { Action } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageAssociableEntityDropdown from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 
 export interface DeclaredExperienceDetailsDropdownProps {

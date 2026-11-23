@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { Association } from '@/features/student/associations/types/associations.types'
-import { ConfirmationModal, ICONS, QuerySuspense, useModal, useTaskLoading, useToasterStore } from '@avenirs-esr/shared'
+import { Action, ConfirmationModal, ICONS, QuerySuspense, useModal, useTaskLoading, useToasterStore } from '@avenirs-esr/shared'
 import { EAssociationContextType, useGetAssociations } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 import AssociationContextTypeSelect from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.vue'
 import AssociationSearchFilterSelect from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { Action, ActionItem } from '#shared/ui/components/interactions/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { AvDropdownItem, AvDropdownProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { moreActionConfig } from '#shared/ui/components/interactions/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
 import { AvDropdown } from '@avenirs-esr/avenirs-dsav'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
 
 export interface ManageEntityDropdownProps extends AvInteractiveProps {
   entityName: string
@@ -31,7 +32,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const label = computed(() => {
-  const base = t('global.buttons.manage')
+  const base = t('global.components.interactions.dropdowns.ManageEntityDropdown.manage')
   const name = entityName?.trim()
   return name ? `${base} ${name.toLowerCase()}` : base
 })

@@ -233,15 +233,6 @@
         "sizeLabel": "Poids\u00A0:",
         "title": "Ajouter un fichier"
       },
-      "imageUpload": {
-        "deleteConfirmation": "Confirmer la suppression\u00A0?",
-        "dragAndDrop": "ou glisser et déposer ici",
-        "filesIndication": "Format\u00A0: ",
-        "filesTypes": "JPG, JPEG, PNG •",
-        "size": "5 Mo max",
-        "sizeIndication": "Poids\u00A0: ",
-        "title": "Ajouter une image"
-      },
       "invalidForm": "Le formulaire n'est pas valide",
       "noResults": "Aucun résultat"
     },
@@ -606,8 +597,7 @@
     },
     "vueFlow": {
       "NodeDropdown": {
-        "entityName": "le noeud",
-        "updateInProfile": "Mettre à jour dans mon profil"
+        "entityName": "le noeud"
       },
       "state": {
         "saved": "État sauvegardé avec succès dans l'emplacement {index}."

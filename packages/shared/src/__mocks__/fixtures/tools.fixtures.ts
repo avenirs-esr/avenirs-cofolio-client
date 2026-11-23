@@ -1,10 +1,13 @@
 import type {
+  CreateLocalToolRequest,
+  CreateNationalToolRequest,
+  FileDTO,
   GetLocalToolsParams,
   GetNationalToolsParams,
   PagedResponseToolDTO,
   ToolDTO
 } from '#shared/api/avenir-esr'
-import { EToolType } from '#shared/api/avenir-esr'
+import { EFileType, EToolType } from '#shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
 export function getToolDTO (index: number, forcedType?: EToolType): ToolDTO {
@@ -97,5 +100,41 @@ export function createMockedGetAvailableToolsResponse (
   return {
     data: paginatedAvailableTools,
     page: { pageSize, totalElements: filteredAvailableTools.length, totalPages, page }
+  }
+}
+
+export const CREATED_TOOL_ID = 'created-tool-id'
+
+export function createMockedCreatedNationalToolDTO (request: CreateNationalToolRequest, overrides: Partial<ToolDTO> = {}): ToolDTO {
+  return {
+    id: CREATED_TOOL_ID,
+    name: request.name,
+    description: request.description,
+    url: request.url,
+    type: EToolType.NATIONAL,
+    ...overrides,
+  }
+}
+
+export function createMockedCreatedLocalToolDTO (request: CreateLocalToolRequest, overrides: Partial<ToolDTO> = {}): ToolDTO {
+  return {
+    id: CREATED_TOOL_ID,
+    name: request.name,
+    description: request.description,
+    url: request.url,
+    type: EToolType.LOCAL,
+    ...(request.institutionId && { institution: { id: request.institutionId, name: 'Établissement' } }),
+    ...overrides,
+  }
+}
+
+export function createMockedToolBannerFileDTO (toolId: string, fileName = 'banner.png'): FileDTO {
+  return {
+    id: `${toolId}-banner`,
+    fileName,
+    fileType: EFileType.PNG,
+    fileSize: 1024,
+    url: `https://example.com/${toolId}/${fileName}`,
+    uploadedAt: '2026-11-23T10:00:00Z',
   }
 }

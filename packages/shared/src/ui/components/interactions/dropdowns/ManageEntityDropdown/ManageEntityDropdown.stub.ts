@@ -1,7 +1,7 @@
-import type { AvDropdownProps } from '@avenirs-esr/avenirs-dsav'
+import type { Action, ActionItem } from '#shared/ui/components/interactions/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { PropType } from 'vue'
-import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { defineComponent } from 'vue'
 
 export const ManageEntityDropdownStub = defineComponent({
   name: 'ManageEntityDropdown',
@@ -24,7 +24,7 @@ export const ManageEntityDropdownStub = defineComponent({
       default: false,
     },
     triggerSize: {
-      type: String as PropType<AvDropdownProps['triggerSize']>,
+      type: String,
       default: 'MD',
     },
   },

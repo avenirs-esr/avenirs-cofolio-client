@@ -233,15 +233,6 @@
         "sizeLabel": "Size:",
         "title": "Add a file"
       },
-      "imageUpload": {
-        "deleteConfirmation": "Confirm deletion?",
-        "dragAndDrop": "or drag and drop here",
-        "filesIndication": "Format: ",
-        "filesTypes": "JPG, JPEG, PNG •",
-        "size": "5 MB max",
-        "sizeIndication": "Size\u00A0: ",
-        "title": "Add an image"
-      },
       "invalidForm": "The form is not valid",
       "noResults": "No results"
     },
@@ -606,8 +597,7 @@
     },
     "vueFlow": {
       "NodeDropdown": {
-        "entityName": "the node",
-        "updateInProfile": "Update in my profile"
+        "entityName": "the node"
       },
       "state": {
         "saved": "State successfully saved in slot {index}."

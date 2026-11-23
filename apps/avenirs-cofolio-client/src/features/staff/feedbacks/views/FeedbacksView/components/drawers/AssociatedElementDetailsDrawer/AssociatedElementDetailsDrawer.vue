@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
+import { Drawer } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { Drawer } from '@/common/components'
 import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { StudentTraceDetails } from '@/features/student/traces'

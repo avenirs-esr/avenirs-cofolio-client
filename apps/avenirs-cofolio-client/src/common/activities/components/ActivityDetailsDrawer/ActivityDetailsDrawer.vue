@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { ActivityContentDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Drawer } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
-import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
 
 export interface ActivityDetailsDrawerProps {
   show: boolean

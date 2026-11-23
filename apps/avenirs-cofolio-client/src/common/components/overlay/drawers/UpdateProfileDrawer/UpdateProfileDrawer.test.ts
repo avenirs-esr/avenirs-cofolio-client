@@ -9,15 +9,13 @@ import {
   AvInputStub,
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub, FormCancelConfirmButtonsStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, DrawerStub, FormCancelConfirmButtonsStub, ImageUploadStub } from '@avenirs-esr/shared'
 import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { ImageUploadStub } from '@/common/components/interaction/files/ImageUpload/ImageUpload.stub'
-import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 

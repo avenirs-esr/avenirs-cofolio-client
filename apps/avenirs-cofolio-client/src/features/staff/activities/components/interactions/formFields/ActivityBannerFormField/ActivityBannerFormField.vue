@@ -2,10 +2,10 @@
 import type { AnyFieldApi } from '@avenirs-esr/shared'
 import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityForm, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { ImageUpload } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ACTIVITY_BANNER_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
+import { ACTIVITY_BANNER_RATIO } from '@/common/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 
 interface ActivityBannerFormFieldProps {

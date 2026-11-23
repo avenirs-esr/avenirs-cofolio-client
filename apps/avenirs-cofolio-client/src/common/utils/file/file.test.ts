@@ -1,7 +1,7 @@
 import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { EFileType } from '@avenirs-esr/shared/api/avenir-esr'
-import { bytesToMegabytes, canvasToFile, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
+import { bytesToMegabytes, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
 
 BddTest().given('the file  helper', () => {
   BddTest().when('a file size in bytes is provided', () => {
@@ -273,44 +273,6 @@ BddTest().given('the file size formatter', () => {
   BddTest().when('the size is not a whole number of megabytes', () => {
     BddTest().then('it should display the size with two decimal places', () => {
       expect(formatFileSizeInMegabytes(1024 * 1024 * 1.11111, 'fr')).toBe('1,11')
-    })
-  })
-})
-
-BddTest().given('the canvas to file utility', () => {
-  BddTest().when('the canvas is valid', () => {
-    BddTest().then('it should return a File object', async () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = 100
-      canvas.height = 100
-
-      const blob = new Blob(['test'], { type: 'image/png' })
-      vi.spyOn(canvas, 'toBlob').mockImplementation((callback) => {
-        callback(blob)
-      })
-
-      const file = await canvasToFile(canvas, 'image.png')
-      expect(file).toBeInstanceOf(File)
-      expect(file?.name).toBe('image.png')
-    })
-  })
-
-  BddTest().when('the canvas is invalid', () => {
-    BddTest().then('it should return null', async () => {
-      const canvas = document.createElement('canvas')
-      vi.spyOn(canvas, 'toBlob').mockImplementation((callback) => {
-        callback(null)
-      })
-
-      const file = await canvasToFile(canvas, 'image.png')
-      expect(file).toBeNull()
-    })
-  })
-
-  BddTest().when('the canvas is null', () => {
-    BddTest().then('it should return null', async () => {
-      const file = await canvasToFile(null, 'image.png')
-      expect(file).toBeNull()
     })
   })
 })

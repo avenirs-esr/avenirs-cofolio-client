@@ -1,7 +1,7 @@
+import { useImageUpload } from '#shared/composables/use-image-upload/use-image-upload'
+import { mountComposable } from '#shared/test-utils/mount-composable'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
-import { useImageUpload } from '@/common/composables/use-image-upload/use-image-upload'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an useImageUpload composable', () => {
   let imageUpload: ReturnType<typeof useImageUpload>

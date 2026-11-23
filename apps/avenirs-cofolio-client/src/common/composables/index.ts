@@ -1,6 +1,5 @@
 export * from './use-drawer/use-drawer'
 export * from './use-file-validation/use-file-validation'
-export * from './use-image-upload/use-image-upload'
 export * from './use-infinite-scroll-pagination/use-infinite-scroll-pagination'
 export * from './use-invalidate-query/use-invalidate-query'
 export * from './use-navigation'

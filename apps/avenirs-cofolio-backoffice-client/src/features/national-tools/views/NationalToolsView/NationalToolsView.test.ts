@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { PageTitleStub, ToolsPaginatedListStub } from '@avenirs-esr/shared'
+import { ManageToolsDropdownStub, PageTitleStub, ToolsPaginatedListStub } from '@avenirs-esr/shared'
 import { EToolType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
-import { expect } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 import { ROUTES } from '@/constants'
 import NationalToolsView from '@/features/national-tools/views/NationalToolsView/NationalToolsView.vue'
 
@@ -13,6 +13,7 @@ BddTest().given('a national tools view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     ToolsPaginatedList: ToolsPaginatedListStub,
+    ManageToolsDropdown: ManageToolsDropdownStub,
   }
 
   const mountView = () => {
@@ -38,6 +39,13 @@ BddTest().given('a national tools view', () => {
       expect(getToolsPaginatedList().exists()).toBe(true)
       expect(getToolsPaginatedList().props('baseRouteName')).toBe(ROUTES.NATIONAL_TOOL.name)
       expect(getToolsPaginatedList().props('type')).toBe(EToolType.NATIONAL)
+    })
+
+    BddTest().then('the national tools management dropdown is rendered in the page title actions', () => {
+      const dropdown = getPageTitle().findComponent(ManageToolsDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+      expect(dropdown.props('isNational')).toBe(true)
+      expect(dropdown.props('entityName')).toBe('les outils nationaux')
     })
   })
 })
