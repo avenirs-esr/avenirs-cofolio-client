@@ -82,6 +82,10 @@
                 "label": "Filtrer par groupes",
                 "placeholder": "Sélectionnez un/des groupe(s)",
                 "searchPlaceholder": "Rechercher des groupes"
+              },
+              "UserCategoriesMultiselect": {
+                "label": "Filtrer par rôle",
+                "placeholder": "Sélectionnez un/des rôle(s)"
               }
             }
           },

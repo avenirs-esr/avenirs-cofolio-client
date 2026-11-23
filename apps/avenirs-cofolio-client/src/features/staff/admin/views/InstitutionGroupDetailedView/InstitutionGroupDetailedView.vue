@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { DetailPageTitle, QuerySuspense } from '@avenirs-esr/shared'
 import { useGetGroupById, useGetSubGroupsOfGroup } from '@avenirs-esr/shared/api/avenir-esr'
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
 import UsersList from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.vue'
+import UserCategoriesMultiselect from '@/features/staff/admin/views/AdminInstitutionUsersView/components/selects/UserCategoriesMultiselect/UserCategoriesMultiselect.vue'
 import GroupMainInfo from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.vue'
 
 export interface InstitutionGroupDetailedViewProps {
@@ -16,6 +18,8 @@ const props = defineProps<InstitutionGroupDetailedViewProps>()
 const { groupId } = toRefs(props)
 
 const { t } = useI18n()
+
+const selectedCategories = ref<EUserCategory[]>([])
 
 const { data: group, error, isFetching } = useGetGroupById(groupId)
 const { data: subGroups } = useGetSubGroupsOfGroup(groupId, { query: { enabled: !!groupId.value } })
@@ -56,8 +60,11 @@ const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
         <UsersList
           v-if="groupId"
           :group-ids="[groupId]"
+          :categories="selectedCategories"
           group-users-mode
-        />
+        >
+          <UserCategoriesMultiselect v-model="selectedCategories" />
+        </UsersList>
       </IconTitleCardContainer>
     </div>
   </QuerySuspense>

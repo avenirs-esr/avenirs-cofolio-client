@@ -82,6 +82,10 @@
                 "label": "Filter by groups",
                 "placeholder": "Select one/many group(s)",
                 "searchPlaceholder": "Search groups"
+              },
+              "UserCategoriesMultiselect": {
+                "label": "Filter by role",
+                "placeholder": "Select one/many role(s)"
               }
             }
           },
