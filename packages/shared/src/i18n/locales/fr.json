@@ -20,6 +20,10 @@
         "Card": {
           "collapse": "Réduire",
           "expand": "Développer"
+        },
+        "ToolCard": {
+          "button": "Accéder à l'outil",
+          "imgAlt": "Image décorative de l'outil"
         }
       },
       "interactions": {

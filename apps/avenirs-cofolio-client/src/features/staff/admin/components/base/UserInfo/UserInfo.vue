@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useStorageImage } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { ROUTES } from '@/common/constants'
 import { toFullName } from '@/common/utils/user/user'
 

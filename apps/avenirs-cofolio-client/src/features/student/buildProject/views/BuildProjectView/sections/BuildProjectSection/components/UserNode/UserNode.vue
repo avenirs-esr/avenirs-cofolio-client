@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { NodeProps } from '@vue-flow/core'
+import { useStorageImage } from '@avenirs-esr/shared'
 import { Handle, Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
-import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 defineProps<NodeProps>()

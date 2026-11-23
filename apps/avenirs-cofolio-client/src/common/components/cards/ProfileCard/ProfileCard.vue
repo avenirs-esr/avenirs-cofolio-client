@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { Slot } from 'vue'
-import { Card } from '@avenirs-esr/shared'
+import { Card, useStorageImage } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { toFullName } from '@/common/utils/user/user'
 
 export interface ProfileCardProps {
