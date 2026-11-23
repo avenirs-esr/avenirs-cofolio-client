@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociationSelections } from '@/features/student/associations'
 import { AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, DrawerStub } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { AddDeclaredSkillDrawer } from '@/features/student/declaredSkills'
 import {

@@ -3,7 +3,8 @@ import { useGetLocalTool, useGetNationalTool } from '#shared/api/avenir-esr/inde
 import ToolBanner from '#shared/ui/components/base/ToolBanner/ToolBanner.vue'
 import ToolInstitution from '#shared/ui/components/base/ToolInstitution/ToolInstitution.vue'
 import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
-import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import ToolDescriptionTextarea from '#shared/ui/components/interactions/inputs/ToolDescriptionTextarea/ToolDescriptionTextarea.vue'
+import ToolNameInput from '#shared/ui/components/interactions/inputs/ToolNameInput/ToolNameInput.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -51,11 +52,9 @@ const i18nKey = 'global.components.containers.ToolDetailsContainer.labels'
 
       <div class="av-col av-row--md av-gap-md">
         <div class="av-col av-gap-sm av-flex-fill">
-          <AvInput
+          <ToolNameInput
             :model-value="tool?.name"
-            :label="t(`${i18nKey}.name`)"
             disabled
-            width="100%"
           />
           <ToolInstitution
             v-if="tool"
@@ -81,14 +80,9 @@ const i18nKey = 'global.components.containers.ToolDetailsContainer.labels'
           </div>
         </div>
         <div class="av-col av-gap-sm av-flex-fill">
-          <AvInput
+          <ToolDescriptionTextarea
             :model-value="tool?.description"
-            class="tool-description"
-            :label="t(`${i18nKey}.description`)"
             disabled
-            width="100%"
-            textarea-min-height="14rem"
-            is-textarea
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import type { FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { AssociationSelections } from '@/features/student/associations'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub, ToggleStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, DrawerStub, ToggleStub } from '@avenirs-esr/shared'
 import {
   EAssociationContextType,
   ETraceAuthorType
@@ -12,7 +12,6 @@ import * as avenirEsrApi from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'

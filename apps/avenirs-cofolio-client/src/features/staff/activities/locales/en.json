@@ -102,7 +102,6 @@
             "deleteDisabledTooltip": "You can only delete a draft activity",
             "editRightOnlyTooltip": "You must hold the edit right on the activity to access this action",
             "leaderOnlyTooltip": "You must be a leader of the activity to access this action",
-            "navigateToFeedbacks": "Navigate to feedback requests",
             "navigateToFeedbacksDisabledTooltip": "Feedback requests are only available for a published activity",
             "unpublishDisabledTooltip": "You can only unpublish a published activity"
           },
@@ -259,6 +258,7 @@
             "title": "Feedback request"
           },
           "ActivityPublicationTab": {
+            "imageTitle": "Add an image",
             "title": "Prepare publication"
           },
           "ActivityReflectionFormField": {

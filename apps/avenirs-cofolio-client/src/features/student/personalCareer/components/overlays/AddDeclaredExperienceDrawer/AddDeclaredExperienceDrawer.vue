@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
-import { Drawer } from '@/common/components'
 import { AssociationSelectionSection } from '@/features/student/associations'
 import DeclaredExperienceActivitySectorFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'

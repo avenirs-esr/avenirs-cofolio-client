@@ -5,6 +5,16 @@
       "expandButtonLabel": "Voir le fil d'Ariane"
     },
     "composables": {
+      "useAddToolForm": {
+        "errors": {
+          "create": "Erreur lors de l'ajout de l'outil"
+        },
+        "partialSuccess": {
+          "description": "La bannière n'a pas pu être enregistrée.",
+          "title": "L'outil a été ajouté sans sa bannière"
+        },
+        "success": "L'outil a été ajouté."
+      },
       "useFormValidators": {
         "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début",
         "invalidLink": "Veuillez renseigner une URL valide (ex.\u00A0: http://www.exemple.com). N'oubliez pas d'inclure le protocole (http:// ou https://).",
@@ -13,6 +23,10 @@
         "min": "Veuillez renseigner une valeur supérieure ou égale à {min}",
         "requiredEndDate": "Veuillez renseigner une date de fin.",
         "requiredField": "Ce champ est requis."
+      },
+      "useImageUpload": {
+        "loaded": "Document chargé.",
+        "size": "La taille du fichier dépasse la limite autorisée."
       }
     },
     "components": {
@@ -33,8 +47,6 @@
       "containers": {
         "ToolDetailsContainer": {
           "labels": {
-            "description": "Description de l'outil",
-            "name": "Nom de l'outil",
             "url": "URL de l'outil"
           }
         }
@@ -45,6 +57,49 @@
             "cancel": "Annuler",
             "invalidForm": "Le formulaire n'est pas valide",
             "save": "Enregistrer"
+          }
+        },
+        "dropdowns": {
+          "ManageEntityDropdown": {
+            "actions": {
+              "add": "Ajouter",
+              "associate": "Associer",
+              "clone": "Dupliquer",
+              "collapse": "Réduire",
+              "delete": "Supprimer",
+              "dissociate": "Dissocier",
+              "download": "Télécharger",
+              "expand": "Développer",
+              "navigateToFeedbacks": "Accéder aux demandes de feedback",
+              "publish": "Publier",
+              "resubscribe": "Me réinscrire",
+              "unpublish": "Dépublier",
+              "unsubscribe": "Me désinscrire",
+              "update": "Modifier",
+              "updateInProfile": "Mettre à jour dans mon profil"
+            },
+            "manage": "Gérer"
+          },
+          "ManageToolsDropdown": {
+            "entityName": "les outils"
+          }
+        },
+        "files": {
+          "ImageUpload": {
+            "close": "Fermer",
+            "delete": "Supprimer",
+            "deleteConfirmation": "Confirmer la suppression\u00A0?",
+            "dragAndDrop": "ou glisser et déposer ici",
+            "errors": {
+              "acceptType": "Le fichier ne respecte pas le format attendu.",
+              "size": "La taille du fichier dépasse la limite autorisée."
+            },
+            "filesIndication": "Format\u00A0: ",
+            "filesTypes": "JPG, JPEG, PNG •",
+            "reset": "Réinitialiser",
+            "size": "5 Mo max",
+            "sizeIndication": "Poids\u00A0: ",
+            "title": "Ajouter une image"
           }
         },
         "inputs": {
@@ -102,6 +157,14 @@
             "underline": "Souligné (Ctrl+U)",
             "undo": "Annuler (Ctrl+Z)",
             "unsetLink": "Supprimer le lien"
+          },
+          "ToolDescriptionTextarea": {
+            "label": "Description de l'outil",
+            "placeholder": "Décrire l'outil"
+          },
+          "ToolNameInput": {
+            "label": "Nom de l'outil",
+            "placeholder": "Saisir le nom de l'outil"
           }
         },
         "lists": {
@@ -153,6 +216,31 @@
         }
       },
       "overlay": {
+        "drawers": {
+          "AddToolDrawer": {
+            "add": "Ajouter",
+            "confirmationModal": {
+              "description": "Les informations renseignées ne seront pas enregistrées."
+            },
+            "fields": {
+              "banner": {
+                "alt": "Bannière de l'outil",
+                "label": "Bannière"
+              },
+              "url": {
+                "label": "URL de l'outil",
+                "placeholder": "https://www.exemple.com"
+              }
+            },
+            "title": {
+              "local": "Ajouter un outil local",
+              "national": "Ajouter un outil national"
+            }
+          },
+          "Drawer": {
+            "cancel": "Annuler"
+          }
+        },
         "InformationTooltip": {
           "triggerAriaLabel": "Informations"
         },

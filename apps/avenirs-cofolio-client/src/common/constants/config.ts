@@ -5,3 +5,7 @@ export const AUTO_SAVE_DEBOUNCE_DELAY = 5000
 export const QUICK_LINKS_REFRESH_INTERVAL = 5 * 60 * 1000
 
 export const LINK_MAX_LENGTH = 2000
+
+export const PROFILE_PICTURE_RATIO = 1
+
+export const PROFILE_BANNER_RATIO = 5 / 1

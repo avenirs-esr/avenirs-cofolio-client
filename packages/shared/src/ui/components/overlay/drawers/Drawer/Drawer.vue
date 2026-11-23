@@ -2,6 +2,7 @@
 import type { AvCancelConfirmButtonsProps, AvDrawerProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import { AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface DrawerProps extends AvDrawerProps {
@@ -32,7 +33,7 @@ defineSlots<{
 const { t } = useI18n()
 
 const confirmCancelPropsWithDefaults = computed<Partial<AvCancelConfirmButtonsProps>>(() => ({
-  cancelLabel: t('global.buttons.cancel'),
+  cancelLabel: t('global.components.overlay.drawers.Drawer.cancel'),
   cancelIcon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   confirmIcon: MDI_ICONS.CONTENT_SAVE_OUTLINE,
   ...(confirmLabel && { confirmLabel }),

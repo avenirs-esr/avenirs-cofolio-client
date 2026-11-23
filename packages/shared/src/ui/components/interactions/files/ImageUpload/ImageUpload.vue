@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { useImageUpload } from '#shared/composables/use-image-upload/use-image-upload'
+import { useModal } from '#shared/composables/use-modal/use-modal'
+import ConfirmationModal from '#shared/ui/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
+import { canvasToFile } from '#shared/utils/file/file'
+import { ACCEPTED_IMAGE_TYPES, SQUARE_PICTURE_RATIO } from '#shared/utils/image.config'
 import { AvButton, AvFileUpload, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, useModal } from '@avenirs-esr/shared'
-import { nextTick } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
-import { ACCEPTED_IMAGE_TYPES, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import { useImageUpload } from '@/common/composables'
-import { canvasToFile } from '@/common/utils/file/file'
 import 'vue-advanced-cropper/dist/style.css'
 
 /**
@@ -30,7 +31,7 @@ interface ImageUploadProps {
 
   /**
    * Aspect ratio for the cropper
-   * @default PROFILE_PICTURE_RATIO
+   * @default SQUARE_PICTURE_RATIO
    */
   aspectRatio?: number
 
@@ -53,7 +54,7 @@ const {
   imageAlt,
   onUpdate,
   onDeleteImage,
-  aspectRatio = PROFILE_PICTURE_RATIO,
+  aspectRatio = SQUARE_PICTURE_RATIO,
 } = defineProps<ImageUploadProps>()
 
 const modelValue = defineModel<File | null>({
@@ -65,6 +66,8 @@ const { t } = useI18n()
 const imageUpload = useImageUpload()
 const { modalOpened, openModal, closeModal } = useModal()
 const { modalOpened: cropperModalOpened, openModal: openCropperModal, closeModal: closeCropperModal } = useModal()
+
+const i18nKey = 'global.components.interactions.files.ImageUpload'
 
 /**
  * File displayed by AvFileUpload.
@@ -199,11 +202,11 @@ function backToInitialCrop () {
 }
 
 function onAcceptTypeError () {
-  imageUpload.error.value = t('global.error.file.acceptType')
+  imageUpload.error.value = t(`${i18nKey}.errors.acceptType`)
 }
 
 function onFileSizeError () {
-  imageUpload.error.value = t('global.error.file.size')
+  imageUpload.error.value = t(`${i18nKey}.errors.size`)
 }
 </script>
 
@@ -215,9 +218,9 @@ function onFileSizeError () {
       v-model="files"
       :accept="ACCEPTED_IMAGE_TYPES"
       :max-file-size-mb="5"
-      :title="t('global.information.imageUpload.title')"
-      :description="t('global.information.imageUpload.dragAndDrop')"
-      :delete-button-label="t('global.buttons.delete')"
+      :title="t(`${i18nKey}.title`)"
+      :description="t(`${i18nKey}.dragAndDrop`)"
+      :delete-button-label="t(`${i18nKey}.delete`)"
       :file-name="defaultImageName"
       :aria-describedby="describedBy"
       @change="onSelectImage"
@@ -238,13 +241,13 @@ function onFileSizeError () {
     </AvFileUpload>
 
     <span class="caption-light av-text-text2">
-      {{ t('global.information.imageUpload.filesIndication') }}
+      {{ t(`${i18nKey}.filesIndication`) }}
       <span class="caption-bold av-text-text2">
-        {{ t('global.information.imageUpload.filesTypes') }}
+        {{ t(`${i18nKey}.filesTypes`) }}
       </span>
-      {{ t('global.information.imageUpload.sizeIndication') }}
+      {{ t(`${i18nKey}.sizeIndication`) }}
       <span class="caption-bold av-text-text2">
-        {{ t('global.information.imageUpload.size') }}
+        {{ t(`${i18nKey}.size`) }}
       </span>
     </span>
 
@@ -260,7 +263,7 @@ function onFileSizeError () {
 
   <ConfirmationModal
     :opened="cropperModalOpened"
-    :close-button-label="t('global.buttons.close')"
+    :close-button-label="t(`${i18nKey}.close`)"
     data-testid="image-upload-cropper-modal"
     @confirm="onConfirmCropper"
     @close="onCloseCropper"
@@ -268,7 +271,7 @@ function onFileSizeError () {
     <template #header>
       <div class="av-row av-justify-end av-w-full">
         <AvButton
-          :label="t('global.buttons.reset')"
+          :label="t(`${i18nKey}.reset`)"
           :icon="MDI_ICONS.RESTORE"
           @click="backToInitialCrop"
         />
@@ -287,7 +290,7 @@ function onFileSizeError () {
 
   <ConfirmationModal
     :opened="modalOpened"
-    :title="t('global.information.imageUpload.deleteConfirmation')"
+    :title="t(`${i18nKey}.deleteConfirmation`)"
     description=""
     data-testid="image-upload-confirm-modal"
     @confirm="onConfirmDeleteImage"

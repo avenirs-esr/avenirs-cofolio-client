@@ -2,7 +2,8 @@
   "national-tools": {
     "views": {
       "NationalToolsView": {
-        "title": "Outils nationaux"
+        "title": "Outils nationaux",
+        "toolsEntityName": "les outils nationaux"
       }
     }
   }

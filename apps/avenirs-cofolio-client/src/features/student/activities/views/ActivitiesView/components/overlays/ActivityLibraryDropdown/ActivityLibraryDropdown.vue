@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import type { ActionItem } from '@avenirs-esr/shared'
+import { Action, ManageEntityDropdown } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
 export interface ActivityLibraryDropdownProps {
   unsubscribeDisabled?: boolean

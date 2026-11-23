@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export const ImageUploadStub = defineComponent({
   name: 'ImageUpload',

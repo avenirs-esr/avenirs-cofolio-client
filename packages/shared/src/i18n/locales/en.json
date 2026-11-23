@@ -5,6 +5,16 @@
       "expandButtonLabel": "View breadcrumb"
     },
     "composables": {
+      "useAddToolForm": {
+        "errors": {
+          "create": "Error while adding the tool"
+        },
+        "partialSuccess": {
+          "description": "The banner could not be saved.",
+          "title": "The tool was added without its banner"
+        },
+        "success": "The tool has been added."
+      },
       "useFormValidators": {
         "endDateBeforeStartDate": "End date must be after start date",
         "invalidLink": "Please provide a valid URL (e.g.: http://www.example.com). Don't forget to include the protocol (http:// or https://).",
@@ -13,6 +23,10 @@
         "min": "Please enter a value greater than or equal to {min}",
         "requiredEndDate": "Please provide an end date.",
         "requiredField": "This field is required."
+      },
+      "useImageUpload": {
+        "loaded": "File loaded.",
+        "size": "The file size exceeds the allowed limit."
       }
     },
     "components": {
@@ -33,8 +47,6 @@
       "containers": {
         "ToolDetailsContainer": {
           "labels": {
-            "description": "Tool description",
-            "name": "Tool name",
             "url": "Tool URL"
           }
         }
@@ -45,6 +57,49 @@
             "cancel": "Cancel",
             "invalidForm": "The form is not valid",
             "save": "Save"
+          }
+        },
+        "dropdowns": {
+          "ManageEntityDropdown": {
+            "actions": {
+              "add": "Add",
+              "associate": "Associate",
+              "clone": "Duplicate",
+              "collapse": "Collapse",
+              "delete": "Remove",
+              "dissociate": "Dissociate",
+              "download": "Download",
+              "expand": "Expand",
+              "navigateToFeedbacks": "Navigate to feedback requests",
+              "publish": "Publish",
+              "resubscribe": "Subscribe again",
+              "unpublish": "Unpublish",
+              "unsubscribe": "Unsubscribe",
+              "update": "Edit",
+              "updateInProfile": "Update in my profile"
+            },
+            "manage": "Manage"
+          },
+          "ManageToolsDropdown": {
+            "entityName": "tools"
+          }
+        },
+        "files": {
+          "ImageUpload": {
+            "close": "Close",
+            "delete": "Delete",
+            "deleteConfirmation": "Confirm deletion?",
+            "dragAndDrop": "or drag and drop here",
+            "errors": {
+              "acceptType": "The file does not meet the expected format.",
+              "size": "The file size exceeds the allowed limit."
+            },
+            "filesIndication": "Format: ",
+            "filesTypes": "JPG, JPEG, PNG •",
+            "reset": "Reset",
+            "size": "5 MB max",
+            "sizeIndication": "Size\u00A0: ",
+            "title": "Add an image"
           }
         },
         "inputs": {
@@ -102,6 +157,14 @@
             "underline": "Underline (Ctrl+U)",
             "undo": "Undo (Ctrl+Z)",
             "unsetLink": "Remove link"
+          },
+          "ToolDescriptionTextarea": {
+            "label": "Tool description",
+            "placeholder": "Describe the tool"
+          },
+          "ToolNameInput": {
+            "label": "Tool name",
+            "placeholder": "Enter the tool name"
           }
         },
         "lists": {
@@ -153,6 +216,31 @@
         }
       },
       "overlay": {
+        "drawers": {
+          "AddToolDrawer": {
+            "add": "Add",
+            "confirmationModal": {
+              "description": "The information entered will not be saved."
+            },
+            "fields": {
+              "banner": {
+                "alt": "Tool banner",
+                "label": "Banner"
+              },
+              "url": {
+                "label": "Tool URL",
+                "placeholder": "https://www.example.com"
+              }
+            },
+            "title": {
+              "local": "Add a local tool",
+              "national": "Add a national tool"
+            }
+          },
+          "Drawer": {
+            "cancel": "Cancel"
+          }
+        },
         "InformationTooltip": {
           "triggerAriaLabel": "Informations"
         },

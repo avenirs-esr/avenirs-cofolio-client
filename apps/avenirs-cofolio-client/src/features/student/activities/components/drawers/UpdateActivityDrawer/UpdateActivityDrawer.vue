@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import { startOfDay } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import { isActivityPeriodEditingDisabled } from '@/common/activities/rules/activities.rules'
-import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
 import ActivityPeriodFormField
   from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 import KitValorizationToggleFormField

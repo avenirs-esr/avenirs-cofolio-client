@@ -3,7 +3,9 @@ import { ToolBannerStub } from '#shared/ui/components/base/ToolBanner/ToolBanner
 import { ToolInstitutionStub } from '#shared/ui/components/base/ToolInstitution/ToolInstitution.stub'
 import { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
 import ToolDetailsContainer from '#shared/ui/components/containers/ToolDetailsContainer/ToolDetailsContainer.vue'
-import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ToolDescriptionTextareaStub } from '#shared/ui/components/interactions/inputs/ToolDescriptionTextarea/ToolDescriptionTextarea.stub'
+import { ToolNameInputStub } from '#shared/ui/components/interactions/inputs/ToolNameInput/ToolNameInput.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
@@ -11,14 +13,16 @@ BddTest().given('a tool details container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ToolDetailsContainer>>
 
   const stubs = {
-    AvInput: AvInputStub,
+    ToolNameInput: ToolNameInputStub,
+    ToolDescriptionTextarea: ToolDescriptionTextareaStub,
     QuerySuspense: QuerySuspenseStub,
     ToolBanner: ToolBannerStub,
     ToolInstitution: ToolInstitutionStub,
   }
 
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
-  const getInputs = () => wrapper.findAllComponents(AvInputStub)
+  const getNameInput = () => wrapper.findComponent(ToolNameInputStub)
+  const getDescriptionTextarea = () => wrapper.findComponent(ToolDescriptionTextareaStub)
   const getBanner = () => wrapper.findComponent(ToolBannerStub)
   const getToolInstitution = () => wrapper.findComponent(ToolInstitutionStub)
 
@@ -43,17 +47,13 @@ BddTest().given('a tool details container', () => {
     })
 
     BddTest().then('it should render the tool details in read-only fields', () => {
-      expect(getInputs()).toHaveLength(2)
-      expect(getInputs()[0].props()).toMatchObject({
+      expect(getNameInput().props()).toMatchObject({
         modelValue: 'Outil national 0',
-        label: 'Nom de l\'outil',
         disabled: true,
       })
-      expect(getInputs()[1].props()).toMatchObject({
+      expect(getDescriptionTextarea().props()).toMatchObject({
         modelValue: 'Description pour l\'outil national 0',
-        label: 'Description de l\'outil',
         disabled: true,
-        isTextarea: true,
       })
     })
 
@@ -82,7 +82,7 @@ BddTest().given('a tool details container', () => {
     })
 
     BddTest().then('it should display the local tool details', () => {
-      expect(getInputs()[0].props('modelValue')).toBe('Outil local 0')
+      expect(getNameInput().props('modelValue')).toBe('Outil local 0')
       expect(wrapper.get('a').attributes('href')).toBe('https://example.com/local-tool-0')
     })
 
@@ -98,7 +98,8 @@ BddTest().given('a tool details container', () => {
 
     BddTest().then('it should forward the error to QuerySuspense', () => {
       expect(getQuerySuspense().props('error')).toBeTruthy()
-      expect(getInputs()).toHaveLength(0)
+      expect(getNameInput().exists()).toBe(false)
+      expect(getDescriptionTextarea().exists()).toBe(false)
     })
   })
 })

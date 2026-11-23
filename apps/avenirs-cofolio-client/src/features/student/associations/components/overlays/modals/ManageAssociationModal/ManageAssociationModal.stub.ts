@@ -1,6 +1,6 @@
+import type { Action } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 
 export const ManageAssociationModalStub = defineComponent({
   name: 'ManageAssociationModal',

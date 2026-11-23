@@ -44,6 +44,7 @@
     "pinia": "catalog:",
     "pinia-plugin-persistedstate": "catalog:",
     "vue": "catalog:",
+    "vue-advanced-cropper": "catalog:",
     "vue-i18n": "catalog:",
     "vue-router": "catalog:"
   },
@@ -70,6 +71,9 @@
       "optional": true
     },
     "vue": {
+      "optional": true
+    },
+    "vue-advanced-cropper": {
       "optional": true
     },
     "vue-i18n": {
@@ -103,6 +107,7 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
+    "vue-advanced-cropper": "catalog:",
     "vue-component-type-helpers": "catalog:",
     "vue-i18n": "catalog:",
     "vue-router": "catalog:",

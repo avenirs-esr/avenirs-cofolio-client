@@ -66,7 +66,7 @@ const { form, queueAutoSave } = useEditNationalActivityViewContext()
 
     <div :id="PublicationSectionId.IMAGE">
       <IconTitleCardContainer
-        :title="t('global.information.imageUpload.title')"
+        :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.imageTitle')"
         :title-icon="ICONS.ACTIVITY"
       >
         <ActivityBannerFormField

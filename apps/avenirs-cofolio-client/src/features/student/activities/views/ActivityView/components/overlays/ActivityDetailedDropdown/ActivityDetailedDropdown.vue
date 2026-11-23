@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@avenirs-esr/shared'
 import type { EDeclaredActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
-import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action } from '@avenirs-esr/shared'
 import { EActivityStatus, EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { isDeclaredActivityCompleted, isDeclaredActivitySubmittedForAssessment, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageAssociableEntityDropdown from '@/features/student/associations/components/overlays/dropdowns/ManageAssociableEntityDropdown/ManageAssociableEntityDropdown.vue'
 
 export interface ActivityDetailedDropdownProps {

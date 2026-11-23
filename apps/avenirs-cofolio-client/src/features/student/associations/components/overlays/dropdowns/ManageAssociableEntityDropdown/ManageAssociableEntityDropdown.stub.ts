@@ -1,8 +1,8 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { ActionItem } from '@avenirs-esr/shared'
 import type { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
-import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action } from '@avenirs-esr/shared'
 
 export const ManageAssociableEntityDropdownStub = defineComponent({
   name: 'ManageAssociableEntityDropdown',

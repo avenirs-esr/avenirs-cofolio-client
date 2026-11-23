@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons, useModal, useUnsavedChangesGuard } from '@avenirs-esr/shared'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
-import { Drawer } from '@/common/components'
 import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
 import CategoryElementTitleInputFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'

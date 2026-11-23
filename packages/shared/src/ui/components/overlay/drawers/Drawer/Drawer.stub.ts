@@ -1,5 +1,6 @@
 import type { AvCancelConfirmButtonsProps } from '@avenirs-esr/avenirs-dsav'
 import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export const DrawerStub = defineComponent({
   name: 'Drawer',

@@ -1,9 +1,10 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
+import ImageUpload from '#shared/ui/components/interactions/files/ImageUpload/ImageUpload.vue'
+import { ConfirmationModalStub } from '#shared/ui/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { AvButtonStub, AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
-import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
+import { defineComponent, ref } from 'vue'
 
 const ACCEPT_TYPE_ERROR_MESSAGE = 'Le fichier ne respecte pas le format attendu.'
 const FILE_SIZE_ERROR_MESSAGE = 'La taille du fichier dépasse la limite autorisée.'
@@ -44,8 +45,8 @@ const defaultProps: ComponentProps = {
   onDeleteImage: mockOnDeleteImage,
 }
 
-vi.mock('@avenirs-esr/shared', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
+vi.mock('#shared/composables/use-modal/use-modal', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('#shared/composables/use-modal/use-modal')>()
   return {
     ...actual,
     useModal: () => ({
@@ -56,8 +57,8 @@ vi.mock('@avenirs-esr/shared', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
+vi.mock('#shared/composables/use-image-upload/use-image-upload', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('#shared/composables/use-image-upload/use-image-upload')>()
 
   return {
     ...actual,
@@ -72,8 +73,8 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/utils/file/file', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/utils/file/file')>()
+vi.mock('#shared/utils/file/file', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('#shared/utils/file/file')>()
 
   return {
     ...actual,

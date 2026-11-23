@@ -4,7 +4,7 @@ import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { Card, ICONS } from '@avenirs-esr/shared'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import { ACTIVITY_BANNER_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { ACTIVITY_BANNER_RATIO } from '@/common/activities/config'
 
 export interface ActivityCatalogHeaderProps {
   title: string

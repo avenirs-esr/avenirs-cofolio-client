@@ -1,4 +1,4 @@
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action } from '@avenirs-esr/shared'
 
 export const TraceSettingsDropdownStub = defineComponent({
   name: 'TraceSettingsDropdown',
