@@ -35,9 +35,10 @@
       },
       "usersTable": {
         "columns": {
+          "categories": "Rôles",
           "formations": "Formations",
           "groups": "Groupes",
-          "user": "Utilisateurs"
+          "user": "Utilisateur(rice)s"
         }
       },
       "views": {

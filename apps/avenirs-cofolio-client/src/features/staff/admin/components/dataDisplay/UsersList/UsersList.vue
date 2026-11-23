@@ -60,24 +60,28 @@ const rows = computed<UsersListRow[]>(() => users.value.map(user => ({
     : (user.groups?.filter(group => group.type === EGroupType.PROGRAM) ?? []),
   groups: props.groupUsersMode
     ? []
-    : (user.groups?.filter(group => group.type !== EGroupType.PROGRAM) ?? [])
+    : (user.groups?.filter(group => group.type !== EGroupType.PROGRAM) ?? []),
+
+  categories: user.categories ?? []
+
 })))
 
 const WIDTH_MAP: Record<string, string | undefined> = {
-  user: '40%',
-  formations: '30%',
-  groups: '30%'
+  user: '34%',
+  formations: '22%',
+  groups: '22%',
+  categories: '22%',
 }
 
 const columns = computed<AvTableColumn<UsersListRow>[]>(() => {
   const columnKeys = props.groupUsersMode
-    ? (['user'] as const)
-    : (['user', 'formations', 'groups'] as const)
+    ? (['user', 'categories'] as const)
+    : (['user', 'formations', 'groups', 'categories'] as const)
 
   return columnKeys.map(key => ({
     key,
     label: t(`staff.admin.usersTable.columns.${key}`),
-    width: props.groupUsersMode ? undefined : WIDTH_MAP[key]
+    width: props.groupUsersMode ? (key === 'user' ? '80%' : '20%') : WIDTH_MAP[key]
   }))
 })
 

@@ -35,6 +35,7 @@
       },
       "usersTable": {
         "columns": {
+          "categories": "Roles",
           "formations": "Programs",
           "groups": "Groups",
           "user": "Users"

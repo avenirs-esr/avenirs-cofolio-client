@@ -6,7 +6,7 @@ import type {
 } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException, QuerySuspenseStub } from '@avenirs-esr/shared'
-import { EGroupType, EUniverse } from '@avenirs-esr/shared/api/avenir-esr'
+import { EGroupType, EUniverse, EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -25,7 +25,7 @@ const mockUsers: ExternalUserAffiliationOverviewDTO[] = [{
   profilePictureId: undefined,
   hasConnected: true,
   universes: [EUniverse.STAFF],
-  categories: [],
+  categories: [EUserCategory.STAFF],
   groups: [
     {
       id: 'p-1',
@@ -174,15 +174,17 @@ BddTest().given('a users list', () => {
           },
           formations: [mockUsers[0].groups[0]],
           groups: [mockUsers[0].groups[1]],
+          categories: user.categories,
         })),
       )
     })
 
     BddTest().then('it should pass the columns to UsersOverviewList', () => {
       expect(getUsersOverviewList().props('columns')).toStrictEqual([
-        { key: 'user', label: 'Utilisateurs', width: '40%' },
-        { key: 'formations', label: 'Formations', width: '30%' },
-        { key: 'groups', label: 'Groupes', width: '30%' },
+        { key: 'user', label: 'Utilisateur(rice)s', width: '34%' },
+        { key: 'formations', label: 'Formations', width: '22%' },
+        { key: 'groups', label: 'Groupes', width: '22%' },
+        { key: 'categories', label: 'Rôles', width: '22%' },
       ])
     })
 
@@ -249,13 +251,15 @@ BddTest().given('a users list', () => {
           },
           formations: [],
           groups: [],
+          categories: user.categories,
         })),
       )
     })
 
     BddTest().then('it should pass only the user column without width to UsersOverviewList', () => {
       expect(getUsersOverviewList().props('columns')).toStrictEqual([
-        { key: 'user', label: 'Utilisateurs', width: undefined },
+        { key: 'user', label: 'Utilisateur(rice)s', width: '80%' },
+        { key: 'categories', label: 'Rôles', width: '20%' },
       ])
     })
 

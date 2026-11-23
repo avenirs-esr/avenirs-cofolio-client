@@ -1,4 +1,4 @@
-import type { GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { EUserCategory, GroupOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { PropType } from 'vue'
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 
@@ -18,5 +18,9 @@ export const UsersOverviewCardStub = defineComponent({
       type: Array as PropType<GroupOverviewDTO[]>,
       default: () => [],
     },
+    categories: {
+      type: Array as PropType<EUserCategory[]>,
+      default: () => [],
+    }
   },
 })
