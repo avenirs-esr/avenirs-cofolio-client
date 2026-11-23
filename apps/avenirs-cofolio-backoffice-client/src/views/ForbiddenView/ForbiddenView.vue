@@ -6,15 +6,15 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div
-    class="forbidden-view av-col av-align-center av-justify-center av-gap-lg"
+  <main
+    class="forbidden-view av-col av-align-center av-justify-center av-gap-lg av-text-center"
     data-testid="forbidden-view"
   >
     <AvLogo class="logo" />
 
     <div class="av-col av-align-center av-gap-md content">
       <p
-        class="code av-text-primary1"
+        class="n1 av-text-primary1"
         aria-hidden="true"
       >
         403
@@ -28,13 +28,12 @@ const { t } = useI18n()
         {{ t('global.views.ForbiddenView.description') }}
       </p>
     </div>
-  </div>
+  </main>
 </template>
 
 <style lang="scss" scoped>
 .forbidden-view {
   min-height: 80vh;
-  text-align: center;
 
   .logo {
     max-width: 12rem;
@@ -42,12 +41,6 @@ const { t } = useI18n()
 
   .content {
     max-width: 36rem;
-
-    .code {
-      font-size: 4rem;
-      font-weight: 700;
-      line-height: 1;
-    }
   }
 }
 </style>

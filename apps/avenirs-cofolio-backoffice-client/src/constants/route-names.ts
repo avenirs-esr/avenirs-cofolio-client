@@ -3,17 +3,17 @@
  */
 export const ROUTES = {
   /**
+   * Route name and path of the access forbidden page.
+   */
+  FORBIDDEN: { name: 'forbidden', path: '/forbidden' },
+
+  /**
    * Route names and paths for the global alert module.
    */
   GLOBAL_ALERT: {
     DETAILS: { name: 'global-alert-details', path: '/global-alert/details' },
     UPDATE: { name: 'global-alert-update', path: '/global-alert/update' },
   },
-
-  /**
-   * Route name and path of the access forbidden page.
-   */
-  FORBIDDEN: { name: 'forbidden', path: '/forbidden' },
 
   /**
    * Route names and paths for the home module.
