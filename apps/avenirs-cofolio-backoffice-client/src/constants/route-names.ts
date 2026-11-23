@@ -23,6 +23,7 @@ export const ROUTES = {
   /**
    * Route names and paths for the national tools module.
    */
+  NATIONAL_TOOL: { name: 'national-tool', path: '/national-tool/:id' },
   NATIONAL_TOOLS: { name: 'national-tools', path: '/national-tools' },
 
   /**
