@@ -21,5 +21,5 @@ export const scrollBehavior: RouterScrollBehavior = (to, _from, savedPosition) =
 
 export function getPageTitle (title?: string | null): string {
   const specificTitle = title ? `${title} - ` : ''
-  return `${specificTitle}CofolioBackOffice`
+  return `${specificTitle}Cofolio Back Office`
 }
