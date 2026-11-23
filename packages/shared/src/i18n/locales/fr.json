@@ -235,6 +235,7 @@
         "STUDENT_DECLARED_ALREADY_EXIST": "Cette compétence déclarée est déjà attribuée à l'apprenant",
         "STUDENT_PROGRESS_NOT_FOUND": "Progression de l'apprenant introuvable",
         "SUB_ACTIVITY_DELETION_NOT_ALLOWED": "Une sous-activité ne peut pas être supprimée d'une activité à laquelle des apprenant(e)s sont inscrit(e)s",
+        "SUB_ACTIVITY_OPERATION_NOT_ALLOWED": "Cette action n'est possible que sur l'activité parente, pas sur une sous-activité",
         "SUB_ACTIVITY_ORDER_MISMATCH": "L'ordre des sous-activités n'est pas valide",
         "TITLE_TOO_LONG": "La longueur du titre est trop longue",
         "TOO_LONG": "Le champ dépasse la longueur maximale autorisée",

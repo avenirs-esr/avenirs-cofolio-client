@@ -62,6 +62,17 @@
           "deleteSuccess": "L'activité a été supprimée avec succès",
           "title": "Êtes-vous certain(e) de vouloir supprimer cette activité nationale\u00A0?"
         },
+        "EditPublishedActivityConfirmationModal": {
+          "title": {
+            "subActivity": "Souhaitez-vous modifier la sous-activité \"{title}\"\u00A0?"
+          },
+          "withEnrolledStudents": {
+            "subActivity": "Un brouillon de l'activité parente \"{parentTitle}\" sera créé. La version actuelle restera publiée et accessible aux apprenants déjà inscrits jusqu'à la publication de vos modifications."
+          },
+          "withoutEnrolledStudents": {
+            "subActivity": "L'activité parente \"{parentTitle}\" sera dépubliée et repassera en brouillon jusqu'à la publication de vos modifications."
+          }
+        },
         "UnpublishActivityConfirmationModal": {
           "title": "Êtes-vous certain(e) de vouloir dépublier cette activité\u00A0?",
           "unpublishError": "Une erreur est survenue lors de la dépublication de l'activité",

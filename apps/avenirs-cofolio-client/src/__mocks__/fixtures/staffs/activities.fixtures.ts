@@ -30,6 +30,12 @@ export const ACTIVITY_WITH_AUTHORIZATIONS_ID
 export const ACTIVITY_WITH_SUB_ACTIVITIES_ID
   = '7a1b5f22-4a1e-1f34-b8d0-0a7c3f2d6b03'
 
+export const ACTIVITY_WITH_SUB_ACTIVITIES_AND_ENROLLED_STUDENTS_ID
+  = '1b26fd3f-0a88-41ac-9ca5-96802ee26744'
+
+export const ACTIVITY_WITH_SUB_ACTIVITIES_AND_DRAFT_ID
+  = '9d4f2c61-3b7e-4a85-b1c9-6e0a2f8d4b57'
+
 export const ACTIVITY_WITH_UNPUBLISHABLE_SUB_ACTIVITIES_ID
   = 'c8e3f91a-6b42-4d75-9a1c-f0e7b35d82a6'
 
@@ -110,6 +116,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
+  hasEnrolledStudent: false,
   rights: Object.values(EActivityRight),
   subActivities: [],
   createdAt: '2024-01-15T10:00:00Z',
@@ -235,9 +242,37 @@ export const mockedActivityContentWithSubActivities: ActivityContentDTO = {
 
 export const mockedSubActivityContent: ActivityContentDTO = {
   ...mockedActivityContent,
-  id: mockedSubActivitiesOverviewDTO[0].id,
-  title: mockedSubActivitiesOverviewDTO[0].title,
-  mainActivityId: ACTIVITY_WITH_SUB_ACTIVITIES_ID,
+  id: mockedActivityContentWithSubActivities.subActivities[0].id,
+  title: mockedActivityContentWithSubActivities.subActivities[0].title,
+  mainActivityId: mockedActivityContentWithSubActivities.id,
+}
+
+export const mockedActivityContentWithSubActivitiesAndEnrolledStudents: ActivityContentDTO = {
+  ...mockedActivityContentWithEnrolledStudent1,
+  id: ACTIVITY_WITH_SUB_ACTIVITIES_AND_ENROLLED_STUDENTS_ID,
+  subActivities: mockedSubActivitiesOverviewDTO
+}
+
+export const mockedSubActivityContentWithEnrolledStudents: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: mockedActivityContentWithSubActivitiesAndEnrolledStudents.subActivities[1].id,
+  title: mockedActivityContentWithSubActivitiesAndEnrolledStudents.subActivities[1].title,
+  hasEnrolledStudent: mockedActivityContentWithSubActivitiesAndEnrolledStudents.hasEnrolledStudent,
+  mainActivityId: mockedActivityContentWithSubActivitiesAndEnrolledStudents.id,
+}
+
+export const mockedActivityContentWithSubActivitiesAndDraft: ActivityContentDTO = {
+  ...mockedActivityContentWithSubActivities,
+  id: ACTIVITY_WITH_SUB_ACTIVITIES_AND_DRAFT_ID,
+  haveDraft: true,
+}
+
+export const mockedSubActivityContentWithDraft: ActivityContentDTO = {
+  ...mockedActivityContent,
+  id: mockedActivityContentWithSubActivitiesAndDraft.subActivities[2].id,
+  title: mockedActivityContentWithSubActivitiesAndDraft.subActivities[2].title,
+  haveDraft: mockedActivityContentWithSubActivitiesAndDraft.haveDraft,
+  mainActivityId: mockedActivityContentWithSubActivitiesAndDraft.id,
 }
 
 export const mockedActivityContentWithUnpublishableSubActivities: ActivityContentDTO = {
@@ -275,6 +310,10 @@ export const allMockedActivityContentDTO: ActivityContentDTO[] = [
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithSubActivities,
   mockedSubActivityContent,
+  mockedActivityContentWithSubActivitiesAndEnrolledStudents,
+  mockedSubActivityContentWithEnrolledStudents,
+  mockedActivityContentWithSubActivitiesAndDraft,
+  mockedSubActivityContentWithDraft,
   mockedActivityContentWithUnpublishableSubActivities,
   mockedActivityContentWithDatedSubActivities,
   mockedSubActivityContentWithPeriod,
