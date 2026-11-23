@@ -30,6 +30,9 @@ export default defineConfig({
         test: {
           name: 'composables',
           environment: 'jsdom',
+          setupFiles: [
+            fileURLToPath(new URL('./vitest-msw-setup.ts', import.meta.url)),
+          ],
           include: ['src/composables/**/*.test.ts'],
         },
       },
@@ -40,6 +43,7 @@ export default defineConfig({
           environment: 'jsdom',
           setupFiles: [
             fileURLToPath(new URL('./vitest-setup.ts', import.meta.url)),
+            fileURLToPath(new URL('./vitest-msw-setup.ts', import.meta.url)),
           ],
           include: ['src/ui/**/*.test.ts'],
         },

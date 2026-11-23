@@ -118,6 +118,7 @@
           "lastPageTitle": "Last page",
           "nextPageDisabledTooltip": "You already are on the last page",
           "nextPageTitle": "Next page",
+          "pageSizePicker": "Number of results per page:",
           "prevPageDisabledTooltip": "You already are on the first page",
           "prevPageTitle": "Previous page",
           "topAriaLabel": "Top pagination"

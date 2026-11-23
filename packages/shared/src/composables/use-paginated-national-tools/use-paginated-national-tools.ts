@@ -1,9 +1,9 @@
-import type { BaseApiException } from '@avenirs-esr/shared'
-import type { GetNationalToolsParams, PageInfoDTO, ToolDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { GetNationalToolsParams, PageInfoDTO, ToolDTO } from '#shared/api/avenir-esr'
+import type { BaseApiException } from '#shared/exceptions'
 import type { ComputedRef, Ref } from 'vue'
+import { useGetNationalTools } from '#shared/api/avenir-esr'
+import { usePagination } from '#shared/composables/use-pagination/use-pagination'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { usePagination } from '@avenirs-esr/shared'
-import { useGetNationalTools } from '@avenirs-esr/shared/api/avenir-esr'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { computed, toRef } from 'vue'
 

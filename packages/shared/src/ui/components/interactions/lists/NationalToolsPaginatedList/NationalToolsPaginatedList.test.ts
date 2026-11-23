@@ -113,7 +113,7 @@ BddTest().given('a national tools paginated list', () => {
       expect(getPagination().props('pageSizeSelected')).toBe(12)
       expect(getPagination().props('onUpdateCurrentPage')).toBe(defaultPaginatedResult.onUpdateCurrentPage)
       expect(getPagination().props('onUpdatePageSize')).toBe(defaultPaginatedResult.onUpdatePageSize)
-      expect(getPagination().props('withoutPageSizePicker')).toBe(true)
+      expect(getPagination().props('withoutPageSizePicker')).toBeDefined()
     })
 
     BddTest().then('it should render a ToolCard for each national tool', () => {

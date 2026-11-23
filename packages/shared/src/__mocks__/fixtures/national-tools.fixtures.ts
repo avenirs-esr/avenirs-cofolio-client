@@ -1,4 +1,4 @@
-import type { GetNationalToolsParams, PagedResponseToolDTO, ToolDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { GetNationalToolsParams, PagedResponseToolDTO, ToolDTO } from '#shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
 function getNationalToolDTO (index: number): ToolDTO {

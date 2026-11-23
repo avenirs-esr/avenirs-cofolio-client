@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { UsePaginatedNationalToolsParams } from '#shared/composables/use-paginated-national-tools/use-paginated-national-tools'
 import { usePaginatedNationalTools } from '#shared/composables/use-paginated-national-tools/use-paginated-national-tools'
-import { useNationalToolsStore } from '#shared/stores/index'
+import { useNationalToolsStore } from '#shared/stores/national-tools/national-tools.store'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
+import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import Pagination from '#shared/ui/components/navigation/Pagination/Pagination.vue'
-import { QuerySuspense } from '#shared/ui/index'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { computed, toRef } from 'vue'
 

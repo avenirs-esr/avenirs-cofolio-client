@@ -424,9 +424,6 @@
         }
       }
     },
-    "pageSizePicker": {
-      "label": "Number of results per page:"
-    },
     "roles": {
       "ROLE_ACTIVITY_ADMIN": {
         "label": "Activity admin",
