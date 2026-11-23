@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { DetailPageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { EUserCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -9,6 +10,7 @@ import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { GroupsListStub } from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.stub'
 import { UsersListStub } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.stub'
+import { UserCategoriesMultiselectStub } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/selects/UserCategoriesMultiselect/UserCategoriesMultiselect.stub'
 import { GroupMainInfoStub } from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.stub'
 import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 
@@ -22,6 +24,7 @@ BddTest().given('an institution group detailed view', () => {
     IconTitleCardContainer: IconTitleCardContainerStub,
     GroupsList: GroupsListStub,
     UsersList: UsersListStub,
+    UserCategoriesMultiselect: UserCategoriesMultiselectStub,
   }
 
   const mountWith = async (groupId: string) => {
@@ -41,6 +44,9 @@ BddTest().given('an institution group detailed view', () => {
   const getUsersSection = () => getSections()[1]
   const getGroupsList = () => wrapper.findComponent(GroupsListStub)
   const getUsersList = () => wrapper.findComponent(UsersListStub)
+  const getUserCategoriesMultiselect = () => wrapper.findComponent(UserCategoriesMultiselectStub)
+  const selectCategories = (categories: EUserCategory[]) =>
+    getUserCategoriesMultiselect().vm.$emit('update:modelValue', categories)
 
   BddTest().when('the group exists', () => {
     beforeEach(async () => {
@@ -99,6 +105,24 @@ BddTest().given('an institution group detailed view', () => {
       expect(getUsersList().exists()).toBe(true)
       expect(getUsersList().props('groupIds')).toEqual([mockGroup.id])
       expect(getUsersList().props('groupUsersMode')).toBe(true)
+      expect(getUsersList().props('categories')).toEqual([])
+    })
+
+    BddTest().then('it should render the user categories multiselect', () => {
+      expect(getUserCategoriesMultiselect().exists()).toBe(true)
+    })
+
+    BddTest().and('the user selects categories', () => {
+      const selectedCategories = [EUserCategory.STAFF, EUserCategory.STUDENT]
+
+      beforeEach(async () => {
+        selectCategories(selectedCategories)
+        await flushPromises()
+      })
+
+      BddTest().then('the users list should receive the selected categories', () => {
+        expect(getUsersList().props('categories')).toEqual(selectedCategories)
+      })
     })
   })
 
