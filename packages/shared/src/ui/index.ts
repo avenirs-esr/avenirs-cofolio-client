@@ -31,6 +31,8 @@ export { default as Input } from '#shared/ui/components/interactions/inputs/Inpu
 export { RichTextEditorStub } from '#shared/ui/components/interactions/inputs/RichTextEditor/RichTextEditor.stub'
 export type { RichTextEditorProps } from '#shared/ui/components/interactions/inputs/RichTextEditor/RichTextEditor.vue'
 export { default as RichTextEditor } from '#shared/ui/components/interactions/inputs/RichTextEditor/RichTextEditor.vue'
+export { NationalToolsPaginatedListStub } from '#shared/ui/components/interactions/lists/NationalToolsPaginatedList/NationalToolsPaginatedList.stub'
+export { default as NationalToolsPaginatedList } from '#shared/ui/components/interactions/lists/NationalToolsPaginatedList/NationalToolsPaginatedList.vue'
 export { SortableListStub } from '#shared/ui/components/interactions/lists/SortableList/SortableList.stub'
 export { default as SortableList } from '#shared/ui/components/interactions/lists/SortableList/SortableList.vue'
 export type { SortableListProps } from '#shared/ui/components/interactions/lists/SortableList/SortableList.vue'

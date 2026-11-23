@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue'
+
 export const PaginationStub = defineComponent({
   name: 'Pagination',
   props: ['pageInfo', 'pageSizeSelected', 'withoutPageSizePicker', 'onUpdateCurrentPage', 'onUpdatePageSize'],

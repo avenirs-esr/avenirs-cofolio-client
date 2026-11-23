@@ -2640,7 +2640,7 @@
               "application/octet-stream": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -3555,7 +3555,7 @@
               "application/octet-stream": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -3917,7 +3917,7 @@
               "application/octet-stream": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -4233,7 +4233,7 @@
               "application/octet-stream": {
                 "schema": {
                   "type": "string",
-                  "format": "byte"
+                  "format": "binary"
                 }
               }
             }
@@ -4628,6 +4628,190 @@
           },
           {
             "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/tools/national/{toolId}": {
+      "get": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "getNationalTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "updateNationalTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateToolRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteNationalTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/tools/local/{toolId}": {
+      "get": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "getLocalTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "updateLocalTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateToolRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteLocalTool",
+        "parameters": [
+          {
+            "name": "toolId",
             "in": "path",
             "required": true,
             "schema": {
@@ -5045,6 +5229,297 @@
         }
       }
     },
+    "/back-office/tools/national": {
+      "get": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "getNationalTools",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "createNationalTool",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNationalToolRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/tools/national/{toolId}/banner": {
+      "post": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "uploadNationalToolBanner",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteNationalToolBanner",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/tools/local": {
+      "get": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "getLocalTools",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "NATIONAL",
+                "REGIONAL",
+                "LOCAL"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseToolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "createLocalTool",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocalToolRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/tools/local/{toolId}/banner": {
+      "post": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "uploadLocalToolBanner",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteLocalToolBanner",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/back-office/seeder/reset": {
       "post": {
         "tags": [
@@ -5064,6 +5539,55 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/files": {
+      "post": {
+        "tags": [
+          "file-controller"
+        ],
+        "operationId": "upload1",
+        "parameters": [
+          {
+            "name": "isRestricted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -5290,6 +5814,46 @@
         }
       }
     },
+    "/back-office/admin/external-users/provision": {
+      "post": {
+        "tags": [
+          "external-user-affiliation-provisioning-controller"
+        ],
+        "operationId": "provision",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProvisionExternalUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProvisionExternalUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/admin/external-users/affiliations": {
       "post": {
         "tags": [
@@ -5386,6 +5950,122 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/tools/available": {
+      "get": {
+        "tags": [
+          "tool-controller"
+        ],
+        "operationId": "getAvailableTools",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "NATIONAL",
+                "REGIONAL",
+                "LOCAL"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseToolDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/tools/available/{toolId}": {
+      "get": {
+        "tags": [
+          "tool-controller"
+        ],
+        "operationId": "getAvailableTool",
+        "parameters": [
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/storage/{fileId}": {
+      "get": {
+        "tags": [
+          "storage-controller"
+        ],
+        "operationId": "getResourceByFileId1",
+        "parameters": [
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -6181,19 +6861,35 @@
         "operationId": "searchStaff",
         "parameters": [
           {
-            "name": "eppn",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "keyword",
             "in": "query",
             "required": false,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "institutionIds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "groupIds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
             }
           },
           {
@@ -8387,6 +9083,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "title": {
+            "type": "string"
+          },
           "startDate": {
             "type": "string",
             "format": "date"
@@ -8395,17 +9094,14 @@
             "type": "string",
             "format": "date"
           },
-          "title": {
-            "type": "string"
-          },
           "publishable": {
             "type": "boolean"
           }
         },
         "required": [
           "id",
-          "title",
-          "publishable"
+          "publishable",
+          "title"
         ]
       },
       "UserInfoDTO": {
@@ -10279,6 +10975,7 @@
           "FEEDBACK_NOT_FOUND",
           "NOTIFICATION_NOT_FOUND",
           "CGU_NOT_FOUND",
+          "TOOL_NOT_FOUND",
           "ACCESS_DENIED",
           "USER_NOT_AUTHORIZED",
           "ACTIVITY_AUTHORIZATION_CHANGE_NOT_ALLOWED",
@@ -10303,7 +11000,6 @@
           "ASSOCIATION_ALREADY_EXIST",
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
-          "ACTIVITY_TARGET_REMOVAL_NOT_ALLOWED",
           "SUB_ACTIVITY_OPERATION_NOT_ALLOWED",
           "SUB_ACTIVITY_ADDITION_NOT_ALLOWED",
           "SUB_ACTIVITY_DELETION_NOT_ALLOWED",
@@ -10330,6 +11026,7 @@
           "SELF_KNOWLEDGE_CATEGORY_IS_MANDATORY",
           "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED",
           "NOT_BLANK",
+          "SUB_ACTIVITY_NOT_PUBLISHABLE",
           "NOT_NULL",
           "TOO_LONG",
           "ENRICHED_TEXT_TOO_LONG",
@@ -10573,6 +11270,8 @@
           "ROLE_EXTERNAL_USER_VIEWER",
           "ROLE_EXTERNAL_USER_MANAGER",
           "ROLE_EXTERNAL_SKILL_MANAGER",
+          "ROLE_NATIONAL_TOOL_MANAGER",
+          "ROLE_LOCAL_TOOL_MANAGER",
           "ROLE_CONFIG_VIEWER",
           "ROLE_CONFIG_MANAGER",
           "ROLE_RBAC_AUDITOR",
@@ -10609,6 +11308,52 @@
           "PROGRAM_OPTION",
           "STUDENT_GROUP"
         ]
+      },
+      "UpdateToolRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "ToolDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "NATIONAL",
+              "REGIONAL",
+              "LOCAL"
+            ]
+          },
+          "institution": {
+            "$ref": "#/components/schemas/InstitutionReferenceDTO"
+          },
+          "banner": {
+            "$ref": "#/components/schemas/FileDTO"
+          }
+        }
       },
       "ExternalUserData": {
         "type": "object",
@@ -10881,6 +11626,38 @@
           }
         }
       },
+      "CreateNationalToolRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateLocalToolRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
       "ExternalUserImportFailureResponse": {
         "type": "object",
         "properties": {
@@ -11146,24 +11923,62 @@
           }
         }
       },
-      "ExternalUserAffiliationData": {
+      "Affiliation": {
         "type": "object",
         "properties": {
-          "eppn": {
-            "type": "string"
-          },
-          "institutionUAI": {
-            "type": "string"
-          },
-          "groupIdSISco": {
-            "type": "string"
-          },
           "category": {
             "type": "string",
             "enum": [
               "STAFF",
               "STUDENT"
             ]
+          },
+          "institutionUAI": {
+            "type": "string"
+          },
+          "groupIdSISco": {
+            "type": "string"
+          }
+        }
+      },
+      "ProvisionExternalUserRequest": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TEACHER",
+                "SUIO",
+                "STUDENT"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "institutionUAI": {
+            "type": "string"
+          },
+          "affiliations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Affiliation"
+            }
           }
         }
       },
@@ -11226,6 +12041,38 @@
           }
         }
       },
+      "ProvisionExternalUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/ExternalUserImportSummaryResponse"
+          },
+          "affiliations": {
+            "$ref": "#/components/schemas/ExternalUserAffiliationImportSummaryResponse"
+          }
+        }
+      },
+      "ExternalUserAffiliationData": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "institutionUAI": {
+            "type": "string"
+          },
+          "groupIdSISco": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
+          }
+        }
+      },
       "StaffAccessCheckRequest": {
         "type": "object",
         "properties": {
@@ -11247,6 +12094,24 @@
             }
           }
         }
+      },
+      "PagedResponseToolDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
       },
       "InstitutionDTO": {
         "type": "object",
