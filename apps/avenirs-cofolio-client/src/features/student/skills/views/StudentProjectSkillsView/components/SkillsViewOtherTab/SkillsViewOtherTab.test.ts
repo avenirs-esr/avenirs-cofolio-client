@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QuerySuspenseStub } from '@avenirs-esr/shared'
+import { PaginationStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { RouterLinkStub } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
@@ -9,14 +9,15 @@ import { beforeEach, expect } from 'vitest'
 import { createMockedPagedResponseSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { StudentDetailedDeclaredSkillCardStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.stub'
 import SkillsViewOtherTab from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.vue'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 
-vi.mock('@/common/composables/use-pagination/use-pagination', () => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
+    ...actual,
     usePagination: vi.fn(() => paginationMock)
   }
 })

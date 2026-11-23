@@ -3,7 +3,6 @@ export { default as ProfileCard, type ProfileCardProps } from './cards/ProfileCa
 export { default as CreationUpdateDateDetails, type CreationUpdateDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as ImageUpload } from './interaction/files/ImageUpload/ImageUpload.vue'
-export { default as Pagination } from './navigation/Pagination/Pagination.vue'
 export { default as Drawer, type DrawerProps } from './overlay/drawers/Drawer/Drawer.vue'
 export { default as AssociationBadge, type AssociationBadgeProps } from '@/common/components/badges/AssociationBadge/AssociationBadge.vue'
 export { default as EnabledDisabledStatusBadge } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'

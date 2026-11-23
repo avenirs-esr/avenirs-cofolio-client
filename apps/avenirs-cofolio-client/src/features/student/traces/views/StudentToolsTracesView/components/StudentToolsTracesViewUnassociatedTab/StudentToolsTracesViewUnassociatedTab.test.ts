@@ -2,6 +2,7 @@ import type { PagedResponseTraceViewDTO } from '@avenirs-esr/shared/api/avenir-e
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { PaginationStub } from '@avenirs-esr/shared'
 import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
@@ -11,15 +12,16 @@ import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { beforeEach, expect, vi } from 'vitest'
 import { createTracesViewHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import StudentToolsTracesViewUnassociatedTab from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewUnassociatedTab/StudentToolsTracesViewUnassociatedTab.vue'
 import { TraceFilterContainerStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.stub'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 let traceFiltersMock: ReturnType<typeof createUseTraceFiltersMock>
 
-vi.mock('@/common/composables/use-pagination/use-pagination', () => {
+vi.mock('@avenirs-esr/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/shared')>()
   return {
+    ...actual,
     usePagination: vi.fn(() => paginationMock)
   }
 })

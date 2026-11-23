@@ -21,6 +21,8 @@ const pageInfo = computed(() => data.value?.page)
 
 const totalPages = computed(() => pageInfo.value?.totalPages ?? 0)
 const pages = computed(() => getPaginationPages(totalPages))
+
+const paginationI18nKey = 'global.components.navigation.Pagination'
 </script>
 
 <template>
@@ -58,11 +60,11 @@ const pages = computed(() => getPaginationPages(totalPages))
             :current-page="pageInfo.page"
             :pages="pages"
             compact
-            :prev-page-disabled-tooltip="t('global.avPagination.prevPageDisabledTooltip')"
-            :prev-page-label="t('global.avPagination.prevPageTitle')"
-            :next-page-disabled-tooltip="t('global.avPagination.nextPageDisabledTooltip')"
-            :next-page-label="t('global.avPagination.nextPageTitle')"
-            :compact-current-page-label="t('global.avPagination.current', {
+            :prev-page-disabled-tooltip="t(`${paginationI18nKey}.prevPageDisabledTooltip`)"
+            :prev-page-label="t(`${paginationI18nKey}.prevPageTitle`)"
+            :next-page-disabled-tooltip="t(`${paginationI18nKey}.nextPageDisabledTooltip`)"
+            :next-page-label="t(`${paginationI18nKey}.nextPageTitle`)"
+            :compact-current-page-label="t(`${paginationI18nKey}.current`, {
               current: (pageInfo.page + 1),
               total: (pageInfo.totalPages),
             })"
