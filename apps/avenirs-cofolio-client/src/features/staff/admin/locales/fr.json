@@ -88,6 +88,11 @@
           "title": "Utilisateurs de l'établissement"
         },
         "AdminToolsView": {
+          "tabs": {
+            "localTools": "Outils établissement",
+            "nationalTools": "Outils nationaux",
+            "regionalTools": "Outils régionaux"
+          },
           "title": "Outils pour les apprenant(e)s"
         },
         "InstitutionGroupDetailedView": {

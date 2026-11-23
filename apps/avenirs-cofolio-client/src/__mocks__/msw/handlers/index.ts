@@ -2,6 +2,7 @@ import { cguHandlers } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { externalUserHandlers } from '@/__mocks__/msw/handlers/shared/external-user.handlers'
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
 import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handlers'
+import { nationalToolsHandlers } from '@/__mocks__/msw/handlers/shared/national-tools.handlers'
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { staffAffiliationsHandlers } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
@@ -52,5 +53,6 @@ export const handlers = [
   ...overviewsHandlers,
   ...studentKitHandlers,
   ...genericHandlers,
-  ...externalUserHandlers
+  ...externalUserHandlers,
+  ...nationalToolsHandlers
 ]

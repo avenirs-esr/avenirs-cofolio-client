@@ -40,6 +40,7 @@
     "@tanstack/vue-query": "catalog:",
     "@vue/test-utils": "catalog:",
     "pinia": "catalog:",
+    "pinia-plugin-persistedstate": "catalog:",
     "vue": "catalog:",
     "vue-i18n": "catalog:",
     "vue-router": "catalog:"
@@ -61,6 +62,9 @@
       "optional": true
     },
     "pinia": {
+      "optional": true
+    },
+    "pinia-plugin-persistedstate": {
       "optional": true
     },
     "vue": {
@@ -91,6 +95,7 @@
     "msw": "catalog:",
     "orval": "catalog:",
     "pinia": "catalog:",
+    "pinia-plugin-persistedstate": "catalog:",
     "sass-embedded": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

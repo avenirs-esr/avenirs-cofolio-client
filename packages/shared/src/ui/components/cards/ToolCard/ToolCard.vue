@@ -67,12 +67,22 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
       </template>
 
       <template #footer>
-        <div class="av-row av-w-full av-justify-end">
+        <div
+          v-if="!baseRouteName"
+          class="av-row av-w-full av-justify-end"
+        >
           <AvButton
-            v-if="!baseRouteName"
             :label="t(`${i18nKey}.button`)"
             :href="tool.url"
           />
+        </div>
+        <div
+          v-else
+          class="ellipsis-container"
+        >
+          <span class="caption-regular av-ellipsis">
+            {{ tool.url }}
+          </span>
         </div>
       </template>
     </FloatingIconCard>

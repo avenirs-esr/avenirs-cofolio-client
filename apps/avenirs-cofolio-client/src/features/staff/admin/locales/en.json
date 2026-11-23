@@ -88,6 +88,11 @@
           "title": "Institution users"
         },
         "AdminToolsView": {
+          "tabs": {
+            "localTools": "Institution tools",
+            "nationalTools": "National tools",
+            "regionalTools": "Regional tools"
+          },
           "title": "Tools for learners"
         },
         "InstitutionGroupDetailedView": {
