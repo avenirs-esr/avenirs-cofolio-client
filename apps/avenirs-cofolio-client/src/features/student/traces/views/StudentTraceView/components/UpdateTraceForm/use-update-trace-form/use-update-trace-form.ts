@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { TraceDetailDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import type { TraceFormData, TraceFormDataApi } from '@/features/student/traces/types/traces.types'
 import { useApiErrors, useFormValidators, useTaskLoading } from '@avenirs-esr/shared'
 import { ELanguage, invalidateGetTraceDetail, invalidateTracesView, useUpdateTrace, useUploadAttachment } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm, useStore } from '@tanstack/vue-form'
@@ -64,11 +64,11 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
       valorized: trace?.valorized ?? false
     } as TraceFormData,
     validators: {
-      onSubmit ({ value }: { value: TraceFormData }) {
-        return buildValidators(value)
+      onSubmit ({ value, formApi }: { value: TraceFormData, formApi: TraceFormDataApi }) {
+        return buildValidators(value, formApi)
       },
-      onChange ({ value }: { value: TraceFormData }) {
-        return buildValidators(value)
+      onChange ({ value, formApi }: { value: TraceFormData, formApi: TraceFormDataApi }) {
+        return buildValidators(value, formApi)
       }
     },
     onSubmit: async ({ value }: { value: TraceFormData }) => {

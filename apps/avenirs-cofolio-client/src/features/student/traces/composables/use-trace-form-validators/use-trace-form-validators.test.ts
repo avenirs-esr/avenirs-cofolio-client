@@ -1,4 +1,4 @@
-import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import type { TraceFormData, TraceFormDataApi } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComposable } from 'tests/utils'
@@ -6,6 +6,14 @@ import { beforeEach, expect } from 'vitest'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH, TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { TraceType } from '@/features/student/traces/types/traces.types'
+
+function createMockFormApi (isTouched = false): TraceFormDataApi {
+  return {
+    getFieldMeta: (fieldName: string) => ({
+      isTouched: fieldName === 'traceName' ? isTouched : false
+    })
+  } as TraceFormDataApi
+}
 
 function buildLinkTraceFormData (overrides: Partial<TraceFormData> = {}): TraceFormData {
   return {
@@ -52,14 +60,20 @@ BddTest().given('a trace form validators composable', () => {
   BddTest().when('validating a file trace', () => {
     BddTest().and('file is missing', () => {
       BddTest().then('it should return required error for file', () => {
-        const result = composableResult.buildValidators(buildFileTraceFormData({ file: null }))
+        const result = composableResult.buildValidators(
+          buildFileTraceFormData({ file: null }),
+          createMockFormApi()
+        )
         expect(result.fields.file).toBe('Ce champ est requis.')
       })
     })
 
     BddTest().and('all values are valid', () => {
       BddTest().then('it should not return file or link errors', () => {
-        const result = composableResult.buildValidators(buildFileTraceFormData())
+        const result = composableResult.buildValidators(
+          buildFileTraceFormData(),
+          createMockFormApi()
+        )
         expect(result.fields.file).toBeUndefined()
         expect(result.fields.link).toBeUndefined()
       })
@@ -69,14 +83,20 @@ BddTest().given('a trace form validators composable', () => {
   BddTest().when('validating a link trace', () => {
     BddTest().and('link is empty', () => {
       BddTest().then('it should return required error for link', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ link: '' }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ link: '' }),
+          createMockFormApi()
+        )
         expect(result.fields.link).toBe('Ce champ est requis.')
       })
     })
 
     BddTest().and('link format is invalid', () => {
       BddTest().then('it should return invalid URL error', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ link: 'invalid-link' }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ link: 'invalid-link' }),
+          createMockFormApi()
+        )
         expect(result.fields.link).toBe('Veuillez renseigner une URL valide (ex.\u00A0: http://www.exemple.com). N\'oubliez pas d\'inclure le protocole (http:// ou https://).')
       })
     })
@@ -84,44 +104,72 @@ BddTest().given('a trace form validators composable', () => {
     BddTest().and('link exceeds max length', () => {
       BddTest().then('it should return max length error for link', () => {
         const tooLongValidLink = `https://example.com/${'a'.repeat(TRACE_LINK_MAX_LENGTH)}`
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ link: tooLongValidLink }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ link: tooLongValidLink }),
+          createMockFormApi()
+        )
         expect(result.fields.link).toBe(`Veuillez limiter votre saisie à ${TRACE_LINK_MAX_LENGTH} caractères`)
       })
     })
   })
 
   BddTest().when('validating common fields', () => {
-    BddTest().and('traceName is empty', () => {
+    BddTest().and('traceName is empty and field is touched', () => {
       BddTest().then('it should return required error for traceName', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ traceName: '' }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ traceName: '' }),
+          createMockFormApi(true)
+        )
         expect(result.fields.traceName).toBe('Ce champ est requis.')
+      })
+    })
+
+    BddTest().and('traceName is empty and field is not touched', () => {
+      BddTest().then('it should not return required error for traceName', () => {
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ traceName: '' }),
+          createMockFormApi(false)
+        )
+        expect(result.fields.traceName).toBeUndefined()
       })
     })
 
     BddTest().and('traceName exceeds max length', () => {
       BddTest().then('it should return max length error for traceName', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ traceName: 'a'.repeat(TRACE_NAME_MAX_LENGTH + 1) }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ traceName: 'a'.repeat(TRACE_NAME_MAX_LENGTH + 1) }),
+          createMockFormApi()
+        )
         expect(result.fields.traceName).toBe(`Veuillez limiter votre saisie à ${TRACE_NAME_MAX_LENGTH} caractères`)
       })
     })
 
     BddTest().and('authorType is null', () => {
       BddTest().then('it should return required error for authorType', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ authorType: null }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ authorType: null }),
+          createMockFormApi()
+        )
         expect(result.fields.authorType).toBe('Ce champ est requis.')
       })
     })
 
     BddTest().and('authorType is valid', () => {
       BddTest().then('it should not return error for authorType', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ authorType: ETraceAuthorType.THIRD_PARTY }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ authorType: ETraceAuthorType.THIRD_PARTY }),
+          createMockFormApi()
+        )
         expect(result.fields.authorType).toBeUndefined()
       })
     })
 
     BddTest().and('useIA is true and iaJustification is empty', () => {
       BddTest().then('it should return required error for IA justification', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ useIA: true, iaJustification: '' }))
+        const result = composableResult.buildValidators(
+          buildLinkTraceFormData({ useIA: true, iaJustification: '' }),
+          createMockFormApi()
+        )
         expect(result.fields.iaJustification).toBe('Ce champ est requis.')
       })
     })
@@ -132,7 +180,8 @@ BddTest().given('a trace form validators composable', () => {
           buildLinkTraceFormData({
             useIA: true,
             iaJustification: 'a'.repeat(TRACE_IA_JUSTIFICATION_MAX_LENGTH + 1)
-          })
+          }),
+          createMockFormApi()
         )
         expect(result.fields.iaJustification).toBe(`Veuillez limiter votre saisie à ${TRACE_IA_JUSTIFICATION_MAX_LENGTH} caractères`)
       })
@@ -141,7 +190,8 @@ BddTest().given('a trace form validators composable', () => {
     BddTest().and('personalNote exceeds max length', () => {
       BddTest().then('it should return max length error for personalNote', () => {
         const result = composableResult.buildValidators(
-          buildLinkTraceFormData({ personalNote: 'a'.repeat(TRACE_PERSONAL_NOTE_MAX_LENGTH + 1) })
+          buildLinkTraceFormData({ personalNote: 'a'.repeat(TRACE_PERSONAL_NOTE_MAX_LENGTH + 1) }),
+          createMockFormApi()
         )
         expect(result.fields.personalNote).toBe(`Veuillez limiter votre saisie à ${TRACE_PERSONAL_NOTE_MAX_LENGTH} caractères`)
       })

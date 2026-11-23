@@ -8,7 +8,9 @@ import { beforeEach, expect, vi } from 'vitest'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { TraceType } from '@/features/student/traces/types/traces.types'
-import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
+import {
+  useCreateTraceForm
+} from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 
 interface AssociationRequest {
   contextType: EAssociationContextType
@@ -56,14 +58,46 @@ BddTest().given('the useCreateTraceForm composable', () => {
       expect(composableResult.isFormValid).toBeDefined()
       expect(composableResult.isFormValid.value).toBe(false)
     })
+
+    BddTest().then('it should have onChange and onSubmit validators defined', () => {
+      const validators = composableResult.form.options.validators
+      expect(validators).toBeDefined()
+      expect(typeof validators?.onChange).toBe('function')
+      expect(typeof validators?.onSubmit).toBe('function')
+    })
   })
 
-  BddTest().when('form is validated with invalid data', () => {
+  BddTest().when('the form is validated onChange with valid data', () => {
+    BddTest().then('it should return no validation errors', () => {
+      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+      const validData: TraceFormData = {
+        file: mockFile,
+        traceType: TraceType.FILE,
+        traceName: 'My Trace Name',
+        personalNote: 'Optional note',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        valorized: false,
+        iaJustification: ''
+      }
+
+      const onChangeValidator = composableResult.form.options.validators?.onChange
+      expect(onChangeValidator).toBeDefined()
+
+      const validationResult = onChangeValidator!({ value: validData, formApi: composableResult.form })
+
+      expect(validationResult?.fields?.file).toBeUndefined()
+      expect(validationResult?.fields?.traceName).toBeUndefined()
+      expect(validationResult?.fields?.authorType).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the form is validated onChange with invalid data', () => {
     BddTest().then('it should return validation errors', () => {
       const invalidData: TraceFormData = {
-        file: null as unknown as File,
+        file: null,
         traceType: TraceType.FILE,
-        traceName: '',
+        traceName: 'My Trace Name',
         personalNote: '',
         authorType: null,
         useIA: false,
@@ -71,18 +105,16 @@ BddTest().given('the useCreateTraceForm composable', () => {
         iaJustification: ''
       }
 
-      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      expect(onSubmitValidator).toBeDefined()
+      const onChangeValidator = composableResult.form.options.validators?.onChange
+      expect(onChangeValidator).toBeDefined()
 
-      const validationResult = onSubmitValidator!({ value: invalidData })
+      const validationResult = onChangeValidator!({ value: invalidData, formApi: composableResult.form })
 
-      expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
-      expect(validationResult?.fields?.traceName).toContain('Ce champ est requis.')
-      expect(validationResult?.fields?.authorType).toEqual('Ce champ est requis.')
+      expect(validationResult?.fields?.authorType).toBeDefined()
     })
   })
 
-  BddTest().when('form is validated with valid data', () => {
+  BddTest().when('the form is validated onSubmit with valid data', () => {
     BddTest().then('it should return no validation errors', () => {
       const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
       const validData: TraceFormData = {
@@ -99,10 +131,33 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
       expect(onSubmitValidator).toBeDefined()
 
-      const validationResult = onSubmitValidator!({ value: validData })
+      const validationResult = onSubmitValidator!({ value: validData, formApi: composableResult.form })
 
       expect(validationResult?.fields?.file).toBeUndefined()
       expect(validationResult?.fields?.traceName).toBeUndefined()
+      expect(validationResult?.fields?.authorType).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the form is validated onSubmit with invalid data', () => {
+    BddTest().then('it should return validation errors', () => {
+      const invalidData: TraceFormData = {
+        file: null,
+        traceType: TraceType.FILE,
+        traceName: 'My Trace Name',
+        personalNote: '',
+        authorType: null,
+        useIA: false,
+        valorized: false,
+        iaJustification: ''
+      }
+
+      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+      expect(onSubmitValidator).toBeDefined()
+
+      const validationResult = onSubmitValidator!({ value: invalidData, formApi: composableResult.form })
+
+      expect(validationResult?.fields?.authorType).toBeDefined()
     })
   })
 
@@ -125,7 +180,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
       expect(onSubmitValidator).toBeDefined()
-      const validationResult = onSubmitValidator!({ value: validFormData })
+      const validationResult = onSubmitValidator!({ value: validFormData, formApi: composableResult.form })
       expect(validationResult?.fields?.file).toBeUndefined()
       expect(validationResult?.fields?.traceName).toBeUndefined()
     })
@@ -145,7 +200,8 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
       expect(onSubmitValidator).toBeDefined()
 
-      const validationResult = onSubmitValidator!({ value: invalidFormData })
+      composableResult.form.setFieldMeta('traceName', meta => ({ ...meta, isTouched: true }))
+      const validationResult = onSubmitValidator!({ value: invalidFormData, formApi: composableResult.form })
       expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
       expect(validationResult?.fields?.traceName).toEqual('Ce champ est requis.')
       expect(validationResult?.fields?.authorType).toEqual('Ce champ est requis.')
@@ -225,7 +281,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
       expect(onSubmitValidator).toBeDefined()
 
-      const validationResult = onSubmitValidator!({ value: formDataWithoutJustification })
+      const validationResult = onSubmitValidator!({ value: formDataWithoutJustification, formApi: composableResult.form })
       expect(validationResult?.fields?.iaJustification).toEqual('Ce champ est requis.')
     })
 
@@ -242,7 +298,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
 
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      const validationResult = onSubmitValidator!({ value: formData })
+      const validationResult = onSubmitValidator!({ value: formData, formApi: composableResult.form })
 
       expect(validationResult?.fields?.link).toEqual('Ce champ est requis.')
     })
@@ -260,7 +316,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
 
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      const validationResult = onSubmitValidator!({ value: formData })
+      const validationResult = onSubmitValidator!({ value: formData, formApi: composableResult.form })
 
       expect(validationResult?.fields?.link).toBeUndefined()
     })

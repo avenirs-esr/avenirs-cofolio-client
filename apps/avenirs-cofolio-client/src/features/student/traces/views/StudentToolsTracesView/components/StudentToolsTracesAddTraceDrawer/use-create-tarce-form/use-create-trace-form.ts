@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ComputedRef } from 'vue'
-import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import type { TraceFormData, TraceFormDataApi, } from '@/features/student/traces/types/traces.types'
 import { useApiErrors, useFormValidators, useTaskLoading } from '@avenirs-esr/shared'
 import { EAssociationContextType, ELanguage, invalidateGetTracesSummary, invalidateTracesView, useCreateTrace, useUploadAttachment } from '@avenirs-esr/shared/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
@@ -100,11 +100,11 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       associationSelections: {}
     } as TraceFormData,
     validators: {
-      onSubmit ({ value }: { value: TraceFormData }) {
-        return buildValidators(value)
+      onSubmit ({ value, formApi }: { value: TraceFormData, formApi: TraceFormDataApi }) {
+        return buildValidators(value, formApi)
       },
-      onChange ({ value }: { value: TraceFormData }) {
-        return buildValidators(value)
+      onChange ({ value, formApi }: { value: TraceFormData, formApi: TraceFormDataApi }) {
+        return buildValidators(value, formApi)
       }
     },
     onSubmit: ({ value }: { value: TraceFormData }) => {
