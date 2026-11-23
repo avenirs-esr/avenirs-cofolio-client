@@ -63,13 +63,17 @@
           "title": "Êtes-vous certain(e) de vouloir supprimer cette activité nationale\u00A0?"
         },
         "EditPublishedActivityConfirmationModal": {
+          "subActivitiesComplement": "Vous pourrez également modifier sa sous-activité. | Vous pourrez également modifier ses sous-activités.",
           "title": {
+            "activity": "Souhaitez-vous modifier l'activité \"{title}\"\u00A0?",
             "subActivity": "Souhaitez-vous modifier la sous-activité \"{title}\"\u00A0?"
           },
           "withEnrolledStudents": {
+            "activity": "Un brouillon sera créé. La version actuelle restera publiée et accessible aux apprenants déjà inscrits jusqu'à la publication de vos modifications.",
             "subActivity": "Un brouillon de l'activité parente \"{parentTitle}\" sera créé. La version actuelle restera publiée et accessible aux apprenants déjà inscrits jusqu'à la publication de vos modifications."
           },
           "withoutEnrolledStudents": {
+            "activity": "Elle sera dépubliée et repassera en brouillon jusqu'à la publication de vos modifications.",
             "subActivity": "L'activité parente \"{parentTitle}\" sera dépubliée et repassera en brouillon jusqu'à la publication de vos modifications."
           }
         },

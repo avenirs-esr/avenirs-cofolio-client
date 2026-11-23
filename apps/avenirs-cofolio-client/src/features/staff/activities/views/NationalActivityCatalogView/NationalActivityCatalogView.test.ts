@@ -7,7 +7,7 @@ import { EActivityStatus } from '@avenirs-esr/shared/api/avenir-esr'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { mockedActivityContent, mockedActivityContentWithSubActivities, mockedSubActivityContent, mockedSubActivityContentWithDraft } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithSubActivities, mockedActivityContentWithSubActivitiesAndDraft, mockedSubActivityContent, mockedSubActivityContentWithDraft } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { createGetActivityContentErrorHandler, getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
@@ -266,9 +266,69 @@ BddTest().given('a national activity catalog view', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should create a draft and navigate to the edit view of the activity', () => {
-        expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({
-          id: mockedActivityContent.id,
+      BddTest().then('it should ask for a confirmation before creating the draft', () => {
+        expect(getEditPublishedActivityConfirmationModal().props('opened')).toBe(true)
+        expect(getEditPublishedActivityConfirmationModal().props('activity')).toEqual(mockedActivityContent)
+        expect(mockNavigateToStaffActivitiesEditNationalActivity).not.toHaveBeenCalled()
+      })
+
+      BddTest().and('the confirmation is cancelled', () => {
+        beforeEach(async () => {
+          getEditPublishedActivityConfirmationModal().vm.$emit('close')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the confirmation modal without creating the draft', () => {
+          expect(getEditPublishedActivityConfirmationModal().props('opened')).toBe(false)
+          expect(mockNavigateToStaffActivitiesEditNationalActivity).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().and('the confirmation is confirmed', () => {
+        beforeEach(async () => {
+          getEditPublishedActivityConfirmationModal().vm.$emit('confirm')
+          await flushPromises()
+        })
+
+        BddTest().then('it should close the confirmation modal', () => {
+          expect(getEditPublishedActivityConfirmationModal().props('opened')).toBe(false)
+        })
+
+        BddTest().then('it should create a draft and navigate to the edit view of the activity', () => {
+          expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({
+            id: mockedActivityContent.id,
+          })
+        })
+      })
+    })
+
+    BddTest().and('the activity already has a draft', () => {
+      beforeEach(async () => {
+        mountWith({
+          status: EActivityStatus.PUBLISHED,
+          id: mockedActivityContentWithSubActivitiesAndDraft.id,
+        })
+        await waitForLoaded()
+      })
+
+      BddTest().then('it should label the edit button to resume the draft', () => {
+        expect(getEditButton().props('label')).toBe(RESUME_DRAFT_LABEL)
+      })
+
+      BddTest().and('the edit button is clicked', () => {
+        beforeEach(async () => {
+          await getEditButton().trigger('click')
+          await flushPromises()
+        })
+
+        BddTest().then('it should not ask for a confirmation', () => {
+          expect(getEditPublishedActivityConfirmationModal().props('opened')).toBe(false)
+        })
+
+        BddTest().then('it should resume the draft and navigate to the edit view of the activity', () => {
+          expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({
+            id: mockedActivityContentWithSubActivitiesAndDraft.id,
+          })
         })
       })
     })

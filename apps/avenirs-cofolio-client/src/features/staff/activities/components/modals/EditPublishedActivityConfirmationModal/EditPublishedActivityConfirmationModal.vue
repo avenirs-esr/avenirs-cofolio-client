@@ -32,15 +32,18 @@ const { data: parentActivity } = useGetActivityContent(EActivityStatus.PUBLISHED
   }
 })
 
-const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent ?? false)
+const activityTypeKey = computed(() => isSubActivity.value ? 'subActivity' : 'activity')
+const enrollmentKey = computed(() => activity.hasEnrolledStudent ? 'withEnrolledStudents' : 'withoutEnrolledStudents')
 
-const title = computed(() => t(`${i18nKey}.title.subActivity`, { title: activity.title }))
-const description = computed(() => {
-  const parentTitle = parentActivity.value?.title ?? ''
-  return hasEnrolledStudent.value
-    ? t(`${i18nKey}.withEnrolledStudents.subActivity`, { parentTitle })
-    : t(`${i18nKey}.withoutEnrolledStudents.subActivity`, { parentTitle })
-})
+const title = computed(() => t(`${i18nKey}.title.${activityTypeKey.value}`, { title: activity.title }))
+
+const consequence = computed(() => t(`${i18nKey}.${enrollmentKey.value}.${activityTypeKey.value}`, { parentTitle: parentActivity.value?.title ?? '' }))
+
+const subActivitiesComplement = computed(() => !isSubActivity.value && activity.subActivities.length > 0
+  ? t(`${i18nKey}.subActivitiesComplement`, activity.subActivities.length)
+  : undefined)
+
+const description = computed(() => [consequence.value, subActivitiesComplement.value].filter(Boolean).join(' '))
 </script>
 
 <template>
@@ -48,6 +51,7 @@ const description = computed(() => {
     :opened="opened"
     :title="title"
     :description="description"
+    data-testid="edit-published-activity-confirmation-modal"
     @close="emit('close')"
     @confirm="emit('confirm')"
   />

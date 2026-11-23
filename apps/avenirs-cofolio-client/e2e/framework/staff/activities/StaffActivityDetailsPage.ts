@@ -3,13 +3,17 @@ import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { EditPublishedActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/EditPublishedActivityConfirmationModal'
 import { expect } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffActivityDetailsPage')
 export class StaffActivityDetailsPage extends BasePage {
+  private editPublishedActivityConfirmationModal: EditPublishedActivityConfirmationModal
+
   constructor (public page: Page) {
     super(page)
+    this.editPublishedActivityConfirmationModal = new EditPublishedActivityConfirmationModal(page)
   }
 
   private getEditPublishedActivityButton () {
@@ -38,6 +42,7 @@ export class StaffActivityDetailsPage extends BasePage {
   @When('the user clicks on the edit published activity button')
   async clickEditPublishedActivityButton () {
     await clickOnElement(this.getEditPublishedActivityButton())
+    await this.editPublishedActivityConfirmationModal.clickConfirm()
     await waitForPageLoad(this.page)
   }
 
