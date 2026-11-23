@@ -41,6 +41,7 @@ const selectedOption = computed<AvSelectSelectedOption | null>({
     :label="label ?? t('student.associations.interactions.AssociationSearchFilterSelect.label')"
     :label-visible="labelVisible"
     :placeholder="t('student.associations.interactions.AssociationSearchFilterSelect.placeholder')"
+    width="100%"
     data-testid="association-search-filter-select"
   />
 </template>
