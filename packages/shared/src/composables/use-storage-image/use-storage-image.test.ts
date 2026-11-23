@@ -1,8 +1,8 @@
+import { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
+import { mountComposable } from '#shared/test-utils/mount-composable'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { afterEach, beforeEach, expect } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick, shallowRef } from 'vue'
-import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 
 const mockFile = shallowRef<Blob>()
 const mockDefaultProfile = shallowRef<Blob>()

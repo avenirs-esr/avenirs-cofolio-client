@@ -8,6 +8,7 @@ export { useLanguageSwitcher } from '#shared/composables/use-language-switcher/u
 export type { UseModalReturn } from '#shared/composables/use-modal/use-modal'
 export { useModal } from '#shared/composables/use-modal/use-modal'
 export { usePagination } from '#shared/composables/use-pagination/use-pagination'
+export { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
 export { useTaskLoading } from '#shared/composables/use-task-loading/use-task-loading'
 export { useBaseApiExceptionToast } from '#shared/composables/use-toast/use-toast'
 export type { UseUnsavedChangesGuardOptions } from '#shared/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
