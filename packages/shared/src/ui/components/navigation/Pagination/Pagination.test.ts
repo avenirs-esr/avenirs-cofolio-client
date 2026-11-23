@@ -3,6 +3,7 @@ import { AvPageSizePickerStub, AvPaginationStub, BddTest } from '@avenirs-esr/av
 import { Pagination } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ref } from 'vue'
 
 export const mockIsMobile = ref(false)
 

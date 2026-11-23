@@ -30,7 +30,10 @@ BddTest().given('an admin tools view', () => {
   const getTabTitles = () => getAvTabs().vm.$slots.default?.().map(tab => tab.props?.title)
 
   const selectTab = async (tabIndex: number) => {
-    await getAvTabs().vm.$emit('update:modelValue', tabIndex)
+    const exposed = getAvTabs().vm.$.exposed
+
+    expect(exposed).toBeDefined()
+    exposed!.selectTab(tabIndex)
     await flushPromises()
   }
 
@@ -66,7 +69,7 @@ BddTest().given('an admin tools view', () => {
       })
 
       BddTest().then('it should render the regional tools placeholder', () => {
-        expect(wrapper.text()).toContain('Placeholder...')
+        expect(wrapper.text()).toContain('TODO #3228')
       })
 
       BddTest().then('it should not render the national tools list', () => {
@@ -80,7 +83,7 @@ BddTest().given('an admin tools view', () => {
       })
 
       BddTest().then('it should render the local tools placeholder', () => {
-        expect(wrapper.text()).toContain('Placeholder...')
+        expect(wrapper.text()).toContain('TODO #3228')
       })
 
       BddTest().then('it should not render the national tools list', () => {

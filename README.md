@@ -97,6 +97,8 @@ The `a11y` entry point exports `A11Y_TEST_TIMEOUT`, `waitMswToStart` and `create
 
 Browser MSW handlers use the `msw` entry point for request and pagination helpers without loading Playwright or unit-test tooling.
 
+Shared fixtures and browser-compatible handlers live under `packages/shared/src/__mocks__` and can be imported by both applications using `@avenirs-esr/shared/mocks/fixtures/<name>` and `@avenirs-esr/shared/mocks/msw/<name>`. These patterns resolve respectively to `<name>.fixtures.ts` and `<name>.handlers.ts`, including in subdirectories. Shared's composable and UI Vitest projects configure `sharedFetch` and the local MSW server in `vitest-msw-setup.ts`; handlers can be overridden with `server.use()` and are reset after each test.
+
 Vue, Vue Test Utils, Pinia, TanStack Form, TanStack Query and Playwright are optional peers and explicit development dependencies of shared. Runtime consumers do not acquire mandatory test-tool dependencies. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine. Shared component stubs are co-located under `src/ui` and exported from `@avenirs-esr/shared`; application-specific stubs remain local.
 
 Each utility's `.test.ts` file is co-located with its implementation under `src/` or `test-utils/`. The library TypeScript projects exclude tests; the dedicated test project includes them. The shared Vitest configuration defines a Node `runtime` project and a JSDOM `test-utils` project. No JavaScript library build is required.

@@ -1,4 +1,4 @@
-import type { ToolDTO } from '#shared/api/avenir-esr/index'
+import type { ToolDTO } from '#shared/api/avenir-esr/generated/types/toolDTO'
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 

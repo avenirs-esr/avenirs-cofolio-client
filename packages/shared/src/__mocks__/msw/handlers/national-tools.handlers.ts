@@ -1,7 +1,7 @@
-import { getGetNationalToolsUrl } from '@avenirs-esr/shared/api/avenir-esr'
+import { createMockedGetNationalToolsResponse } from '#shared/__mocks__/fixtures/national-tools.fixtures'
+import { getGetNationalToolsUrl } from '#shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { http } from 'msw'
-import { createMockedGetNationalToolsResponse } from '@/__mocks__/fixtures/national-tools.fixtures'
 
 export const getNationalToolsErrorHandler = http.get(`*${getGetNationalToolsUrl()}`, async () => {
   return internalServerError()

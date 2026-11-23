@@ -18,6 +18,8 @@
     "./api/avenir-esr": "./src/api/avenir-esr/index.ts",
     "./api/specs/*": "./api/specs/*",
     "./i18n/locales/*": "./src/i18n/locales/*",
+    "./mocks/fixtures/*": "./src/__mocks__/fixtures/*.fixtures.ts",
+    "./mocks/msw/*": "./src/__mocks__/msw/handlers/*.handlers.ts",
     "./orval": "./orval/avenir-esr.ts",
     "./test-utils/a11y": "./test-utils/a11y/index.ts",
     "./test-utils/msw": "./test-utils/msw/index.ts",
