@@ -12,7 +12,7 @@ import ActivityResourcesList from '@/common/components/interaction/lists/Activit
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
 import NationalActivitySubActivitiesList from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySubActivitiesList/NationalActivitySubActivitiesList.vue'
 
-interface NationalActivityContentTabProps {
+export interface NationalActivityContentTabProps {
   activity: ActivityContentDTO
   status: EActivityStatus
 }
@@ -21,6 +21,7 @@ const { activity, status } = defineProps<NationalActivityContentTabProps>()
 
 const { t } = useI18n()
 
+const isSubActivity = computed(() => !!activity.mainActivityId)
 const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.links?.length ?? 0))
 </script>
 
@@ -31,7 +32,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
   >
     <div class="av-col av-gap-xs av-wrap">
       <AvIconText
-        :icon="ICONS.ACTIVITY"
+        :icon="isSubActivity ? ICONS.SUB_ACTIVITY : ICONS.ACTIVITY"
         :text="activity.title"
         typography-class="n4 av-text-regular"
         text-color="var(--dark-background-primary1)"
@@ -39,7 +40,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
         data-testid="national-activity-content-tab-title"
       />
       <ActivityThematicBadge
-        v-if="activity.thematic"
+        v-if="!isSubActivity && activity.thematic"
         :thematic="activity.thematic"
         data-testid="national-activity-content-tab-thematic-badge"
       />
@@ -86,7 +87,10 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
       />
     </IconTitleCardContainer>
 
-    <NationalActivitySettingDetails :activity="activity" />
+    <NationalActivitySettingDetails
+      v-if="!isSubActivity"
+      :activity="activity"
+    />
 
     <NationalActivitySubActivitiesList
       v-if="activity.subActivities.length > 0"
