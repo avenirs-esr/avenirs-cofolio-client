@@ -1,4 +1,4 @@
-import { nationalToolsHandlers } from '@avenirs-esr/shared/mocks/msw/national-tools'
+import { adminToolsHandlers } from '@avenirs-esr/shared/mocks/msw/admin-tools'
 import { cguHandlers } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { externalUserHandlers } from '@/__mocks__/msw/handlers/shared/external-user.handlers'
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
@@ -11,7 +11,6 @@ import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.han
 import { staffGroupsHandlers } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
 import { staffNotificationsHandlers } from '@/__mocks__/msw/handlers/staffs/notifications.handlers'
 import { staffsScopeHandlers } from '@/__mocks__/msw/handlers/staffs/staff-scope.handlers'
-import { localToolsHandlers } from '@/__mocks__/msw/handlers/staffs/tools.handlers'
 import { staffUserHandlers } from '@/__mocks__/msw/handlers/staffs/user.handlers'
 import { activitiesHandlers } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { activityFeedbacksHandlers as studentFeedbacksHandlers } from '@/__mocks__/msw/handlers/student/activity-feedbacks.handlers'
@@ -55,6 +54,5 @@ export const handlers = [
   ...studentKitHandlers,
   ...genericHandlers,
   ...externalUserHandlers,
-  ...nationalToolsHandlers,
-  ...localToolsHandlers
+  ...adminToolsHandlers,
 ]

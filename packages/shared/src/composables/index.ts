@@ -7,6 +7,7 @@ export { useFormValidators } from '#shared/composables/use-form-validators/use-f
 export { useLanguageSwitcher } from '#shared/composables/use-language-switcher/use-language-switcher'
 export type { UseModalReturn } from '#shared/composables/use-modal/use-modal'
 export { useModal } from '#shared/composables/use-modal/use-modal'
+export { usePaginatedAdminTools } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
 export { usePagination } from '#shared/composables/use-pagination/use-pagination'
 export { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
 export { useTaskLoading } from '#shared/composables/use-task-loading/use-task-loading'
