@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { NationalToolsPaginatedList, PageTitle } from '@avenirs-esr/shared'
+import { AdminToolsPaginatedList, PageTitle } from '@avenirs-esr/shared'
+import { EToolType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/constants'
 
@@ -8,5 +9,8 @@ const { t } = useI18n()
 
 <template>
   <PageTitle :title="t('national-tools.views.NationalToolsView.title')" />
-  <NationalToolsPaginatedList :base-route-name="ROUTES.NATIONAL_TOOL.name" />
+  <AdminToolsPaginatedList
+    :type="EToolType.NATIONAL"
+    :base-route-name="ROUTES.NATIONAL_TOOL.name"
+  />
 </template>

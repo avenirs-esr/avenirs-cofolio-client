@@ -1,40 +1,45 @@
 <script lang="ts" setup>
-import type { UsePaginatedNationalToolsParams } from '#shared/composables/use-paginated-national-tools/use-paginated-national-tools'
-import { usePaginatedNationalTools } from '#shared/composables/use-paginated-national-tools/use-paginated-national-tools'
-import { useNationalToolsStore } from '#shared/stores/national-tools/national-tools.store'
+import type { EToolType } from '#shared/api/avenir-esr/index'
+import type { UsePaginatedAdminToolsParams } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
+import { usePaginatedAdminTools } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
+import { useAdminToolsStore } from '#shared/stores/index'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import Pagination from '#shared/ui/components/navigation/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { computed, toRef } from 'vue'
+import { computed, toRef, toRefs } from 'vue'
 
-export interface NationalToolsPaginatedListProps {
+export interface AdminToolsPaginatedListProps {
   baseRouteName?: string
+  type: EToolType | undefined
 }
 
-const { baseRouteName } = defineProps<NationalToolsPaginatedListProps>()
+const props = defineProps<AdminToolsPaginatedListProps>()
 
-const nationalToolsStore = useNationalToolsStore()
+const adminToolsStore = useAdminToolsStore()
 
-const usePaginatedNationalToolsParams = computed<UsePaginatedNationalToolsParams>(() => ({
-  currentPageRef: toRef(nationalToolsStore, 'nationalToolsCurrentPage'),
+const { baseRouteName, type } = toRefs(props)
+
+const usePaginatedAdminToolsParams = computed<UsePaginatedAdminToolsParams>(() => ({
+  currentPageRef: toRef(adminToolsStore, 'localToolsCurrentPage'),
+  typeRef: type,
 }))
 
 const {
-  nationalTools,
+  tools,
   pageInfo,
   isFetching,
   error,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePaginatedNationalTools(usePaginatedNationalToolsParams.value)
+} = usePaginatedAdminTools(usePaginatedAdminToolsParams.value)
 </script>
 
 <template>
   <QuerySuspense
     :is-loading="isFetching"
     :error="error"
-    :is-empty="nationalTools.length === 0 || !pageInfo"
+    :is-empty="tools.length === 0 || !pageInfo"
     preserve-content
   >
     <Pagination
@@ -46,7 +51,7 @@ const {
     >
       <div class="av-row av-wrap av-gap-sm">
         <ToolCard
-          v-for="tool in nationalTools"
+          v-for="tool in tools"
           :key="tool.id"
           :tool="tool"
           :base-route-name="baseRouteName"

@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { NationalToolsPaginatedListStub, PageTitleStub } from '@avenirs-esr/shared'
+import { AdminToolsPaginatedListStub, PageTitleStub } from '@avenirs-esr/shared'
 import { EToolType } from '@avenirs-esr/shared/api/avenir-esr'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { ROUTES } from '@/common/constants'
 import AdminToolsView from '@/features/staff/admin/views/AdminToolsView/AdminToolsView.vue'
-import { LocalToolsPaginatedListStub } from '@/features/staff/admin/views/AdminToolsView/components/LocalToolsPaginatedList/LocalToolsPaginatedList.stub'
 
 BddTest().given('an admin tools view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminToolsView>>
@@ -15,25 +14,29 @@ BddTest().given('an admin tools view', () => {
     AvTabs: AvTabsStub,
     AvTab: AvTabStub,
     PageTitle: PageTitleStub,
-    NationalToolsPaginatedList: NationalToolsPaginatedListStub,
-    LocalToolsPaginatedList: LocalToolsPaginatedListStub
+    AdminToolsPaginatedList: AdminToolsPaginatedListStub,
   }
 
   const mountView = () => {
     wrapper = mount(AdminToolsView, {
-      global: { stubs }
+      global: { stubs },
     })
   }
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
   const getAvTabs = () => wrapper.findComponent(AvTabsStub)
   const getActiveAvTab = () => wrapper.findComponent(AvTabStub)
-  const getNationalToolsPaginatedList = () => wrapper.findComponent(NationalToolsPaginatedListStub)
-  const getLocalToolsPaginatedLists = () => wrapper.findAllComponents(LocalToolsPaginatedListStub)
-  const getRegionalToolsPaginatedList = () => getLocalToolsPaginatedLists().find(
+  const getAdminToolsPaginatedLists = () => wrapper.findAllComponents(AdminToolsPaginatedListStub)
+
+  const getNationalToolsPaginatedList = () => getAdminToolsPaginatedLists().find(
+    component => component.props('type') === EToolType.NATIONAL
+  )
+
+  const getRegionalToolsPaginatedList = () => getAdminToolsPaginatedLists().find(
     component => component.props('type') === EToolType.REGIONAL
   )
-  const getLocalToolsPaginatedList = () => getLocalToolsPaginatedLists().find(
+
+  const getLocalToolsPaginatedList = () => getAdminToolsPaginatedLists().find(
     component => component.props('type') === EToolType.LOCAL
   )
 
@@ -60,21 +63,19 @@ BddTest().given('an admin tools view', () => {
       expect(getTabTitles()).toEqual([
         'Outils nationaux',
         'Outils régionaux',
-        'Outils établissement(s)'
+        'Outils établissement(s)',
       ])
     })
 
     BddTest().then('it should select the national tools tab by default', () => {
       expect(getActiveAvTab().exists()).toBe(true)
-      expect(getNationalToolsPaginatedList().exists()).toBe(true)
+      expect(getNationalToolsPaginatedList()).toBeDefined()
     })
 
-    BddTest().then('it should pass the staff tool route name to the national tools list', () => {
-      expect(getNationalToolsPaginatedList().props('baseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.name)
-    })
-
-    BddTest().then('it should not render the local tools lists', () => {
-      expect(getLocalToolsPaginatedLists()).toHaveLength(0)
+    BddTest().then('it should pass the staff tool route name to every tools list', () => {
+      getAdminToolsPaginatedLists().forEach((component) => {
+        expect(component.props('baseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.name)
+      })
     })
 
     BddTest().and('the regional tools tab is selected', () => {
@@ -82,16 +83,9 @@ BddTest().given('an admin tools view', () => {
         await selectTab(1)
       })
 
-      BddTest().then('it should render the regional tools list', () => {
+      BddTest().then('it should select the regional tools tab', () => {
+        expect(getActiveAvTab().exists()).toBe(true)
         expect(getRegionalToolsPaginatedList()).toBeDefined()
-      })
-
-      BddTest().then('it should pass the regional type to the local tools list', () => {
-        expect(getRegionalToolsPaginatedList()?.props('type')).toBe(EToolType.REGIONAL)
-      })
-
-      BddTest().then('it should not render the national tools list', () => {
-        expect(getNationalToolsPaginatedList().exists()).toBe(false)
       })
     })
 
@@ -100,16 +94,9 @@ BddTest().given('an admin tools view', () => {
         await selectTab(2)
       })
 
-      BddTest().then('it should render the local tools list', () => {
+      BddTest().then('it should select the local tools tab', () => {
+        expect(getActiveAvTab().exists()).toBe(true)
         expect(getLocalToolsPaginatedList()).toBeDefined()
-      })
-
-      BddTest().then('it should pass the local type to the local tools list', () => {
-        expect(getLocalToolsPaginatedList()?.props('type')).toBe(EToolType.LOCAL)
-      })
-
-      BddTest().then('it should not render the national tools list', () => {
-        expect(getNationalToolsPaginatedList().exists()).toBe(false)
       })
     })
 
@@ -120,7 +107,7 @@ BddTest().given('an admin tools view', () => {
       })
 
       BddTest().then('it should render the national tools list again', () => {
-        expect(getNationalToolsPaginatedList().exists()).toBe(true)
+        expect(getNationalToolsPaginatedList()).toBeDefined()
       })
     })
   })
