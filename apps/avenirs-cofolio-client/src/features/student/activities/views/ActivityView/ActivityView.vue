@@ -22,10 +22,12 @@ export interface ActivityViewProps {
 
 const { id } = defineProps<ActivityViewProps>()
 
+const activityId = computed(() => id)
+
 const { t } = useI18n()
 
-const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclaredActivityDetails(id, { query: {
-  enabled: !!id,
+const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclaredActivityDetails(activityId, { query: {
+  enabled: computed(() => !!activityId.value),
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
 
