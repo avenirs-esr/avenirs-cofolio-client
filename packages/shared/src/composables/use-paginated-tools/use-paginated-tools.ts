@@ -1,18 +1,19 @@
-import type { GetLocalToolsParams, GetNationalToolsParams, PageInfoDTO, ToolDTO } from '#shared/api/avenir-esr'
+import type { GetAvailableToolsParams, GetLocalToolsParams, GetNationalToolsParams, PageInfoDTO, ToolDTO } from '#shared/api/avenir-esr'
 import type { BaseApiException } from '#shared/exceptions'
 import type { ComputedRef, Ref } from 'vue'
-import { EToolType, useGetLocalTools, useGetNationalTools } from '#shared/api/avenir-esr'
+import { EToolType, useGetAvailableTools, useGetLocalTools, useGetNationalTools } from '#shared/api/avenir-esr'
 import { usePagination } from '#shared/composables/use-pagination/use-pagination'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { computed, toRef } from 'vue'
 
-export interface UsePaginatedAdminToolsParams {
+export interface UsePaginatedToolsParams {
   currentPageRef: Ref<number>
   typeRef: Ref<EToolType | undefined>
+  previewModeRef: Ref<boolean>
 }
 
-export interface UsePaginatedAdminToolsResult {
+export interface UsePaginatedToolsResult {
   tools: ComputedRef<ToolDTO[]>
   pageInfo: ComputedRef<PageInfoDTO | undefined>
   isFetching: Ref<boolean>
@@ -21,10 +22,11 @@ export interface UsePaginatedAdminToolsResult {
   onUpdatePageSize: (size: number) => void
 }
 
-export function usePaginatedAdminTools ({
+export function usePaginatedTools ({
   currentPageRef,
   typeRef,
-}: UsePaginatedAdminToolsParams): UsePaginatedAdminToolsResult {
+  previewModeRef,
+}: UsePaginatedToolsParams): UsePaginatedToolsResult {
   const {
     currentPage,
     onUpdateCurrentPage,
@@ -43,6 +45,14 @@ export function usePaginatedAdminTools ({
     pageSize: PageSizes.TWELVE,
     type: typeRef.value,
   }))
+
+  const availableParams = computed<GetAvailableToolsParams>(() => {
+    return {
+      page: currentPage.value,
+      pageSize: PageSizes.TWELVE,
+      type: typeRef.value,
+    }
+  })
 
   const {
     data: nationalData,
@@ -66,10 +76,44 @@ export function usePaginatedAdminTools ({
     }
   })
 
-  const tools = computed(() => (isNational.value ? nationalData.value?.data : localData.value?.data) ?? [])
-  const pageInfo = computed(() => (isNational.value ? nationalData.value?.page : localData.value?.page))
-  const isFetching = computed(() => isNational.value ? isNationalFetching.value : isLocalFetching.value)
-  const error = computed(() => isNational.value ? nationalError.value : localError.value)
+  const {
+    data: availableData,
+    error: availableError,
+    isFetching: isAvailableFetching
+  } = useGetAvailableTools(availableParams, {
+    query: {
+      enabled: previewModeRef,
+      placeholderData: keepPreviousData
+    }
+  })
+
+  const tools = computed(() => {
+    if (previewModeRef.value) {
+      return availableData.value?.data ?? []
+    }
+    return (isNational.value ? nationalData.value?.data : localData.value?.data) ?? []
+  })
+
+  const pageInfo = computed(() => {
+    if (previewModeRef.value) {
+      return availableData.value?.page
+    }
+    return isNational.value ? nationalData.value?.page : localData.value?.page
+  })
+
+  const isFetching = computed(() => {
+    if (previewModeRef.value) {
+      return isAvailableFetching.value
+    }
+    return isNational.value ? isNationalFetching.value : isLocalFetching.value
+  })
+
+  const error = computed(() => {
+    if (previewModeRef.value) {
+      return availableError.value
+    }
+    return isNational.value ? nationalError.value : localError.value
+  })
 
   return {
     tools,

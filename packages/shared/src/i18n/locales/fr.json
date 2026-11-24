@@ -100,6 +100,13 @@
             "moveDownDisabledTooltip": "Cet élément est déjà en dernière position"
           }
         },
+        "tabs": {
+          "ToolTabs": {
+            "localTools": "Outils locaux",
+            "nationalTools": "Outils nationaux",
+            "regionalTools": "Outils régionaux"
+          }
+        },
         "toggles": {
           "Toggle": {
             "activeText": "Oui",

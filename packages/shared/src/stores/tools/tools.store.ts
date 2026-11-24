@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useAdminToolsStore = defineStore('adminTools', () => {
+export const useToolsStore = defineStore('tools', () => {
   const nationalToolsCurrentPage = ref<number>(0)
   const regionalToolsCurrentPage = ref<number>(0)
   const localToolsCurrentPage = ref<number>(0)
