@@ -5380,12 +5380,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "NATIONAL",
-                "REGIONAL",
-                "LOCAL"
-              ]
+              "$ref": "#/components/schemas/EToolType"
             }
           },
           {
@@ -5969,12 +5964,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "NATIONAL",
-                "REGIONAL",
-                "LOCAL"
-              ]
+              "$ref": "#/components/schemas/EToolType"
             }
           },
           {
@@ -11341,6 +11331,7 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EToolType",
             "enum": [
               "NATIONAL",
               "REGIONAL",
@@ -12576,6 +12567,15 @@
           "INACTIVE",
           "REMOVED",
           "BLOCKED"
+        ]
+      },
+      "EToolType": {
+        "type": "string",
+        "description": "Enum for tool type",
+        "enum": [
+          "NATIONAL",
+          "REGIONAL",
+          "LOCAL"
         ]
       },
       "SkillCatalogDTO": {

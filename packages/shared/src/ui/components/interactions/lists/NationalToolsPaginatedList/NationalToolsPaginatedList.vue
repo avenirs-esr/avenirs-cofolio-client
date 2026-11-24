@@ -35,6 +35,7 @@ const {
     :is-loading="isFetching"
     :error="error"
     :is-empty="nationalTools.length === 0 || !pageInfo"
+    preserve-content
   >
     <Pagination
       :page-info="pageInfo!"
