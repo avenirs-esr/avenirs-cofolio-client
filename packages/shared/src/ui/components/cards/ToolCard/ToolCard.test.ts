@@ -2,13 +2,12 @@ import type { ToolDTO } from '#shared/api/avenir-esr/index'
 import type { ToolCardProps } from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MaybeRefOrGetter } from 'vue'
-import { EToolType } from '#shared/api/avenir-esr/index'
+import { EFileType, EToolType } from '#shared/api/avenir-esr/index'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
-import { ToolTypeBadgeStub } from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.stub'
 import { FloatingIconCardStub } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -16,15 +15,22 @@ import { computed, ref, toValue } from 'vue'
 
 const mockIsMobile = ref(false)
 const mockBannerUrl = ref<string>()
+const mockIsTruncated = ref(false)
 
 const mockUseStorageImage = vi.fn()
+const mockUseTextTruncation = vi.fn()
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
 
   return {
     ...actual,
-    useAvBreakpoints: () => ({ isMobile: mockIsMobile })
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+    useTextTruncation: (element: unknown) => {
+      mockUseTextTruncation(element)
+
+      return { isTruncated: mockIsTruncated }
+    }
   }
 })
 
@@ -42,31 +48,44 @@ const stubs = {
   FloatingIconCard: FloatingIconCardStub,
   AvButton: AvButtonStub,
   RouterLink: RouterLinkStub,
-  ToolTypeBadge: ToolTypeBadgeStub,
+  AvIconText: AvIconTextStub,
+  AvTooltip: AvTooltipStub
 }
 
 BddTest().given('a tool card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ToolCard>>
 
-  const defaultTool = {
+  const defaultTool: ToolDTO = {
     id: 'tool-123',
     name: 'Test Tool',
     banner: {
-      id: 'banner-123'
+      id: 'banner-123',
+      fileName: 'banner.jpg',
+      fileSize: 12345,
+      fileType: EFileType.JPEG,
+      url: 'http://localhost/banner',
+      uploadedAt: (new Date()).toISOString()
     },
     description: 'Test tool description',
     url: 'https://example.com'
-  } as ToolDTO
+  }
 
   const defaultProps: ToolCardProps = {
     tool: defaultTool
   }
 
+  const defaultInstitution = {
+    id: 'institution-123',
+    name: 'Test institution'
+  }
+
   const getAvButton = () => wrapper.findComponent(AvButtonStub)
+  const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
   const getFloatingIconCard = () => wrapper.findComponent(FloatingIconCardStub)
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
-  const getToolTypeBadge = () => wrapper.findComponent(ToolTypeBadgeStub)
-  const getBanner = () => wrapper.find('[data-testid="activity-banner"]')
+  const getBanner = () => wrapper.find('[data-testid="tool-banner"]')
+  const getUrl = () => wrapper.find('.url')
 
   const mountWith = async (props?: Partial<ToolCardProps>) => {
     wrapper = mountComponent(ToolCard, {
@@ -80,7 +99,9 @@ BddTest().given('a tool card', () => {
   beforeEach(() => {
     mockIsMobile.value = false
     mockBannerUrl.value = 'blob:http://localhost/banner'
+    mockIsTruncated.value = false
     mockUseStorageImage.mockClear()
+    mockUseTextTruncation.mockClear()
   })
 
   BddTest().when('the component is mounted without a base route name', () => {
@@ -108,7 +129,7 @@ BddTest().given('a tool card', () => {
       expect(card.props('headerRows')).toBe(2)
       expect(card.props('borderColorOnHover')).toBe('var(--dark-background-primary1)')
       expect(card.props('hoverable')).toBe(false)
-      expect(card.props('height')).toBe('23rem')
+      expect(card.props('height')).toBe('26rem')
       expect(card.props('width')).toBe('27rem')
       expect(card.props('radius')).toBe('var(--radius-xl)')
     })
@@ -144,24 +165,83 @@ BddTest().given('a tool card', () => {
       expect(button.props('label')).toBeTruthy()
     })
 
-    BddTest().then('it should not render the tool type badge when the type is undefined', () => {
-      expect(getToolTypeBadge().exists()).toBe(false)
+    BddTest().then('it should not render the institution information when the institution is undefined', () => {
+      expect(getAvIconText().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the URL tooltip', () => {
+      expect(getAvTooltip().exists()).toBe(false)
     })
   })
 
-  BddTest().when('the component is mounted with a tool type', () => {
+  BddTest().when('the component is mounted with a national tool', () => {
     beforeEach(async () => {
       await mountWith({
         tool: {
           ...defaultTool,
-          type: 'LOCAL'
-        } as ToolDTO
+          type: EToolType.NATIONAL,
+          institution: defaultInstitution
+        }
       })
     })
 
-    BddTest().then('it should render the tool type badge with the expected type', () => {
-      expect(getToolTypeBadge().exists()).toBe(true)
-      expect(getToolTypeBadge().props('type')).toBe(EToolType.LOCAL)
+    BddTest().then('it should not render the institution information', () => {
+      expect(getAvIconText().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a regional tool', () => {
+    beforeEach(async () => {
+      await mountWith({
+        tool: {
+          ...defaultTool,
+          type: EToolType.REGIONAL,
+          institution: defaultInstitution
+        }
+      })
+    })
+
+    BddTest().then('it should render the institution information with the regional icon', () => {
+      expect(getAvIconText().exists()).toBe(true)
+      expect(getAvIconText().props('text')).toBe(defaultInstitution.name)
+      expect(getAvIconText().props('icon')).toBe(ICONS.REGIONAL)
+    })
+  })
+
+  BddTest().when('the component is mounted with a local tool', () => {
+    beforeEach(async () => {
+      await mountWith({
+        tool: {
+          ...defaultTool,
+          type: EToolType.LOCAL,
+          institution: defaultInstitution
+        }
+      })
+    })
+
+    BddTest().then('it should render the institution information with the local icon', () => {
+      expect(getAvIconText().exists()).toBe(true)
+      expect(getAvIconText().props('text')).toBe(defaultInstitution.name)
+      expect(getAvIconText().props('icon')).toBe(ICONS.LOCAL)
+    })
+  })
+
+  BddTest().when('the component is mounted with a tool without an institution name', () => {
+    beforeEach(async () => {
+      await mountWith({
+        tool: {
+          ...defaultTool,
+          type: EToolType.LOCAL,
+          institution: {
+            ...defaultInstitution,
+            name: ''
+          }
+        }
+      })
+    })
+
+    BddTest().then('it should not render the institution information', () => {
+      expect(getAvIconText().exists()).toBe(false)
     })
   })
 
@@ -187,7 +267,29 @@ BddTest().given('a tool card', () => {
     })
 
     BddTest().then('it should display the tool URL as text', () => {
-      expect(wrapper.text()).toContain(defaultTool.url)
+      expect(getUrl().text()).toBe(defaultTool.url)
+    })
+
+    BddTest().then('it should render a tooltip disabled when the URL is not truncated', () => {
+      expect(getAvTooltip().exists()).toBe(true)
+      expect(getAvTooltip().props('content')).toBe(defaultTool.url)
+      expect(getAvTooltip().props('disabled')).toBe(true)
+      expect(getAvTooltip().props('forceFocusable')).toBe(true)
+    })
+
+    BddTest().then('it should initialize text truncation tracking', () => {
+      expect(mockUseTextTruncation).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the URL is truncated', () => {
+    beforeEach(async () => {
+      mockIsTruncated.value = true
+      await mountWith({ baseRouteName: 'staff-admin-tool' })
+    })
+
+    BddTest().then('it should enable the tooltip', () => {
+      expect(getAvTooltip().props('disabled')).toBe(false)
     })
   })
 
@@ -197,7 +299,7 @@ BddTest().given('a tool card', () => {
         tool: {
           ...defaultTool,
           banner: undefined
-        } as ToolDTO
+        }
       })
     })
 
@@ -224,8 +326,9 @@ BddTest().given('a tool card', () => {
       await mountWith()
     })
 
-    BddTest().then('it should use the full available width', () => {
+    BddTest().then('it should use the full available width and fit-content height', () => {
       expect(getFloatingIconCard().props('width')).toBe('100%')
+      expect(getFloatingIconCard().props('height')).toBe('fit-content')
     })
   })
 
@@ -235,8 +338,9 @@ BddTest().given('a tool card', () => {
       await mountWith()
     })
 
-    BddTest().then('it should use the desktop width', () => {
+    BddTest().then('it should use the desktop dimensions', () => {
       expect(getFloatingIconCard().props('width')).toBe('27rem')
+      expect(getFloatingIconCard().props('height')).toBe('26rem')
     })
   })
 })

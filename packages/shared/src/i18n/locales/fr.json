@@ -16,13 +16,6 @@
       }
     },
     "components": {
-      "badges": {
-        "ToolTypeBadge": {
-          "LOCAL": "Établissement",
-          "NATIONAL": "National",
-          "REGIONAL": "Régional"
-        }
-      },
       "cards": {
         "Card": {
           "collapse": "Réduire",
