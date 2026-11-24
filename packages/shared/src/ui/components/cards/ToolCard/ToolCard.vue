@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import type { ToolDTO } from '#shared/api/avenir-esr/index'
+import type { AvIconTextProps } from '@avenirs-esr/avenirs-dsav'
 import type { IconOptions } from '@avenirs-esr/shared'
+import { EToolType } from '#shared/api/avenir-esr/index'
 import { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
-import ToolTypeBadge from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.vue'
 import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { BANNER_RATIO } from '#shared/utils/image.config'
-import { AvButton, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { computed } from 'vue'
+import { AvButton, AvIconText, AvTooltip, useAvBreakpoints, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 
@@ -23,6 +24,10 @@ const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 const { url: bannerUrl } = useStorageImage(() => tool.banner?.id || undefined, 'cover')
 
+const urlRef = ref<HTMLElement | null>(null)
+
+const { isTruncated } = useTextTruncation(urlRef)
+
 const bannerRatio = `${BANNER_RATIO}`
 
 const iconOptions: IconOptions = {
@@ -35,6 +40,31 @@ const iconOptions: IconOptions = {
 const i18nKey = 'global.components.cards.ToolCard'
 
 const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, params: { id: tool.id } } } : {})
+
+const avIconTextProps = computed<AvIconTextProps | undefined>(() => {
+  if (!tool.institution?.name || !tool.type || tool.type === EToolType.NATIONAL) {
+    return undefined
+  }
+
+  let icon: string
+
+  switch (tool.type) {
+    case EToolType.REGIONAL:
+      icon = ICONS.REGIONAL
+      break
+    case EToolType.LOCAL:
+    default:
+      icon = ICONS.LOCAL
+  }
+
+  return {
+    icon,
+    iconColor: 'var(--icon)',
+    text: tool.institution?.name,
+    typographyClass: 'caption-regular',
+    inline: true
+  }
+})
 </script>
 
 <template>
@@ -52,7 +82,7 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
       :header-rows="2"
       border-color-on-hover="var(--dark-background-primary1)"
       :hoverable="!!baseRouteName"
-      height="23rem"
+      :height="isMobile ? 'fit-content' : '26rem'"
       :width="isMobile ? '100%' : '27rem'"
       radius="var(--radius-xl)"
     >
@@ -62,7 +92,7 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
             :src="bannerUrl"
             :alt="t(`${i18nKey}.imgAlt`)"
             class="banner av-w-full av-h-full av-radius-md"
-            data-testid="activity-banner"
+            data-testid="tool-banner"
           >
           <span class="b2-regular">
             {{ tool.description }}
@@ -71,10 +101,10 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
       </template>
 
       <template #footer>
-        <div class="av-col av-gap-xs">
-          <ToolTypeBadge
-            v-if="tool.type"
-            :type="tool.type"
+        <div class="av-col av-gap-sm">
+          <AvIconText
+            v-if="avIconTextProps"
+            v-bind="avIconTextProps"
           />
           <div
             v-if="!baseRouteName"
@@ -85,14 +115,19 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
               :href="tool.url"
             />
           </div>
-          <div
+          <AvTooltip
             v-else
-            class="ellipsis-container"
+            :content="tool.url"
+            :disabled="!isTruncated"
+            force-focusable
           >
-            <span class="caption-regular av-ellipsis">
+            <span
+              ref="urlRef"
+              class="url caption-regular av-wrap-anywhere av-max-lines"
+            >
               {{ tool.url }}
             </span>
-          </div>
+          </AvTooltip>
         </div>
       </template>
     </FloatingIconCard>
@@ -100,6 +135,10 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
 </template>
 
 <style lang="scss" scoped>
+.url {
+  --max-lines: 3;
+}
+
 .banner {
   width: 100%;
   height: auto;

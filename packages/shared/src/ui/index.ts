@@ -1,6 +1,3 @@
-export { ToolTypeBadgeStub } from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.stub'
-export { default as ToolTypeBadge } from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.vue'
-export type { ToolTypeBadgeProps } from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.vue'
 export { CardStub } from '#shared/ui/components/cards/Card/Card.stub'
 export { default as Card } from '#shared/ui/components/cards/Card/Card.vue'
 export type { CardProps } from '#shared/ui/components/cards/Card/Card.vue'
