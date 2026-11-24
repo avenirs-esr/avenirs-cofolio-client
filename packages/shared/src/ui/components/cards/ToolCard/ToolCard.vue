@@ -4,6 +4,7 @@ import type { IconOptions } from '@avenirs-esr/shared'
 import { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
+import ToolTypeBadge from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.vue'
 import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { BANNER_RATIO } from '#shared/utils/image.config'
 import { AvButton, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
@@ -70,22 +71,28 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
       </template>
 
       <template #footer>
-        <div
-          v-if="!baseRouteName"
-          class="av-row av-w-full av-justify-end"
-        >
-          <AvButton
-            :label="t(`${i18nKey}.button`)"
-            :href="tool.url"
+        <div class="av-col av-gap-xs">
+          <ToolTypeBadge
+            v-if="tool.type"
+            :type="tool.type"
           />
-        </div>
-        <div
-          v-else
-          class="ellipsis-container"
-        >
-          <span class="caption-regular av-ellipsis">
-            {{ tool.url }}
-          </span>
+          <div
+            v-if="!baseRouteName"
+            class="av-row av-w-full av-justify-end"
+          >
+            <AvButton
+              :label="t(`${i18nKey}.button`)"
+              :href="tool.url"
+            />
+          </div>
+          <div
+            v-else
+            class="ellipsis-container"
+          >
+            <span class="caption-regular av-ellipsis">
+              {{ tool.url }}
+            </span>
+          </div>
         </div>
       </template>
     </FloatingIconCard>
