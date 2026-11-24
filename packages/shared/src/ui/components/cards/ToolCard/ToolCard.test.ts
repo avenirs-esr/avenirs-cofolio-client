@@ -2,15 +2,13 @@ import type { ToolDTO } from '#shared/api/avenir-esr/index'
 import type { ToolCardProps } from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MaybeRefOrGetter } from 'vue'
+import { EToolType } from '#shared/api/avenir-esr/index'
+import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
+import { ICONS } from '#shared/constants/icons'
+import { ToolTypeBadgeStub } from '#shared/ui/components/badges/ToolTypeBadge/ToolTypeBadge.stub'
+import { FloatingIconCardStub } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import {
-  BG_COLORS,
-  FloatingIconCardStub,
-  ICON_COLORS,
-  ICONS,
-  TEXT_COLORS
-} from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -43,7 +41,8 @@ vi.mock('#shared/composables/use-storage-image/use-storage-image', () => ({
 const stubs = {
   FloatingIconCard: FloatingIconCardStub,
   AvButton: AvButtonStub,
-  RouterLink: RouterLinkStub
+  RouterLink: RouterLinkStub,
+  ToolTypeBadge: ToolTypeBadgeStub,
 }
 
 BddTest().given('a tool card', () => {
@@ -66,6 +65,7 @@ BddTest().given('a tool card', () => {
   const getAvButton = () => wrapper.findComponent(AvButtonStub)
   const getFloatingIconCard = () => wrapper.findComponent(FloatingIconCardStub)
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
+  const getToolTypeBadge = () => wrapper.findComponent(ToolTypeBadgeStub)
   const getBanner = () => wrapper.find('[data-testid="activity-banner"]')
 
   const mountWith = async (props?: Partial<ToolCardProps>) => {
@@ -143,6 +143,26 @@ BddTest().given('a tool card', () => {
       expect(button.props('href')).toBe(defaultTool.url)
       expect(button.props('label')).toBeTruthy()
     })
+
+    BddTest().then('it should not render the tool type badge when the type is undefined', () => {
+      expect(getToolTypeBadge().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a tool type', () => {
+    beforeEach(async () => {
+      await mountWith({
+        tool: {
+          ...defaultTool,
+          type: 'LOCAL'
+        } as ToolDTO
+      })
+    })
+
+    BddTest().then('it should render the tool type badge with the expected type', () => {
+      expect(getToolTypeBadge().exists()).toBe(true)
+      expect(getToolTypeBadge().props('type')).toBe(EToolType.LOCAL)
+    })
   })
 
   BddTest().when('the component is mounted with a base route name', () => {
@@ -164,6 +184,10 @@ BddTest().given('a tool card', () => {
 
     BddTest().then('it should not render the external link button', () => {
       expect(getAvButton().exists()).toBe(false)
+    })
+
+    BddTest().then('it should display the tool URL as text', () => {
+      expect(wrapper.text()).toContain(defaultTool.url)
     })
   })
 

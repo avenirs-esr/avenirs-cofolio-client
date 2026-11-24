@@ -93,7 +93,7 @@
         },
         "AdminToolsView": {
           "tabs": {
-            "localTools": "Outils établissement",
+            "localTools": "Outils établissement(s)",
             "nationalTools": "Outils nationaux",
             "regionalTools": "Outils régionaux"
           },
