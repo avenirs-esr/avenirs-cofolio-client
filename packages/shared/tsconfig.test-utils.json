@@ -9,12 +9,8 @@
   },
   "include": [
     "test-utils/**/*.ts",
-    "src/api/http-status.ts",
-    "src/api/avenir-esr/generated/types/**/*.ts",
-    "src/exceptions/base-api-error-codes.ts",
-    "src/exceptions/error-codes.ts",
-    "src/ui/**/*.stub.ts",
-    "src/types/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.vue"
   ],
   "exclude": [
     "test-utils/**/*.test.ts",

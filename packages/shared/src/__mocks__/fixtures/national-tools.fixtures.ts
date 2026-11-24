@@ -1,4 +1,5 @@
 import type { GetNationalToolsParams, PagedResponseToolDTO, ToolDTO } from '#shared/api/avenir-esr'
+import { EToolType } from '#shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
 function getNationalToolDTO (index: number): ToolDTO {
@@ -7,6 +8,7 @@ function getNationalToolDTO (index: number): ToolDTO {
     name: `Outil national ${index}`,
     description: `Description pour l'outil national ${index}`,
     url: `https://example.com/tool-${index}`,
+    type: EToolType.NATIONAL
   }
 }
 
@@ -18,7 +20,7 @@ export function createMockedGetNationalToolsResponse (
   getNationalToolsParams: GetNationalToolsParams,
   totalElements: number
 ): PagedResponseToolDTO {
-  const { page = 0, pageSize = PageSizes.FOUR } = getNationalToolsParams
+  const { page = 0, pageSize = PageSizes.TWELVE } = getNationalToolsParams
 
   const mockedNationalTools = generateToolDTOs(totalElements)
 
