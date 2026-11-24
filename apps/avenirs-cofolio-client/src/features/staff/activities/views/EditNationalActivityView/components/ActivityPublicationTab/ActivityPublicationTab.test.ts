@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { ConfirmationModalStub, ICONS } from '@avenirs-esr/shared'
 import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
-import { mockedActivityDetail, mockedActivityPresentationWithUnpublishableSubActivities } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { mockedActivityDetail, mockedActivityPresentationWithSubActivities, mockedActivityPresentationWithUnpublishableSubActivities } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
 import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
@@ -72,7 +72,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
   function mountTab (
     FormWrapper: FormWrapperComponent,
     activity = mockedActivityDetail,
-    targetProps: { hasPublishRight?: boolean } = {},
+    targetProps: { hasPublishRight?: boolean, isSubActivity?: boolean } = {},
   ) {
     wrapper = mountComponent(FormWrapper, {
       slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, hasPublishRight: true, ...targetProps }) },
@@ -83,6 +83,11 @@ BddTest().given('an ActivityPublicationTab component', () => {
   }
 
   const getPublishButton = () => getAvButtonByTestId(tab, 'publish-button')
+
+  const getActivityTitleCard = () =>
+    tab
+      .findAllComponents(IconTitleCardContainerStub)
+      .find(card => card.props('titleIcon') === ICONS.ACTIVITY)!
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -273,6 +278,26 @@ BddTest().given('an ActivityPublicationTab component', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalled()
       })
+    })
+  })
+
+  BddTest().when('the activity is a main activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityDetail, { isSubActivity: false })
+    })
+
+    BddTest().then('it should display the activity title label', () => {
+      expect(getActivityTitleCard().props('title')).toBe('Titre de l\'activité')
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityPresentationWithSubActivities, { isSubActivity: true })
+    })
+
+    BddTest().then('it should display the sub-activity title label', () => {
+      expect(getActivityTitleCard().props('title')).toBe('Titre de la sous-activité')
     })
   })
 })

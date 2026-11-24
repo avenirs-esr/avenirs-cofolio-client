@@ -7,6 +7,7 @@ export const ActivityContentTabStub = defineComponent({
     activity: {
       type: Object as PropType<ActivityContentDTO>,
     },
+    isSubActivity: Boolean
   },
   emits: ['nextStep'],
   template: '<div data-testid="activity-content-tab-stub"></div>',

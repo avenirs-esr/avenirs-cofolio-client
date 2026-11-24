@@ -8,16 +8,20 @@ import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy
 import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 
-const props = defineProps<AddNationalActivitySideNavigationProps>()
-const { activeTab } = toRefs(props)
+interface AddNationalActivitySideNavigationProps {
+  activeTab: EditActivityTabIndex
+  isSubActivity?: boolean
+}
+
+const {
+  activeTab,
+  isSubActivity = false,
+} = defineProps<AddNationalActivitySideNavigationProps>()
 
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
-interface AddNationalActivitySideNavigationProps {
-  activeTab: EditActivityTabIndex
-}
 const { activeElementId } = useScrollSpy([
   ContentSectionId.TITLE,
   ContentSectionId.THEMATIC,
@@ -34,7 +38,9 @@ const selectedItem = ref<AvSideNavigationSelectedItem>({ itemId: '' })
 const contentItems = computed<AvSideNavigationMenuItem[]>(() => [
   {
     id: 'CONTENT',
-    label: t('staff.activities.views.AddNationalActivityView.sideNavigation.contentHeader'),
+    label: isSubActivity
+      ? t('staff.activities.views.AddNationalActivityView.sideNavigation.contentHeaderSubActivity')
+      : t('staff.activities.views.AddNationalActivityView.sideNavigation.contentHeader'),
     icon: MDI_ICONS.PENCIL_OUTLINE,
     expanded: true,
     children: Object.values(ContentSectionId).map(id => ({
@@ -58,7 +64,7 @@ const publicationItems = computed<AvSideNavigationMenuItem[]>(() => [
 ])
 
 const items = computed<AvSideNavigationMenuItem[]>(() => {
-  return activeTab.value === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
+  return activeTab === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
 })
 
 function navigateToSelectedItem (item: AvSideNavigationSelectedItem) {
@@ -83,7 +89,7 @@ watch(activeElementId, () => {
   }
 })
 
-watch(activeTab, (newValue) => {
+watch(() => activeTab, (newValue) => {
   requestAnimationFrame(() => {
     const itemId = newValue === EditActivityTabIndex.PUBLICATION ? publicationItems.value[0].id : contentItems.value[0].id
     selectedItem.value = { itemId }

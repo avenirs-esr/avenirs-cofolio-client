@@ -410,6 +410,7 @@ provideEditNationalActivityViewContext({
         <AddNationalActivitySideNavigation
           v-if="!isMobile"
           :active-tab="activeTab"
+          :is-sub-activity="isSubActivity"
         />
         <div class="av-col av-flex-fill">
           <AvTabs
@@ -425,6 +426,7 @@ provideEditNationalActivityViewContext({
             >
               <ActivityContentTab
                 :activity="content!"
+                :is-sub-activity="isSubActivity"
                 @next-step="onNextStep"
               />
             </AvTab>
@@ -441,6 +443,7 @@ provideEditNationalActivityViewContext({
                 :persisted-target-ids="persistedTargetIds"
                 :lock-persisted-targets="content?.hasEnrolledStudent"
                 :has-publish-right="hasPublishRight"
+                :is-sub-activity="isSubActivity"
                 @published="onPublished"
               />
             </AvTab>

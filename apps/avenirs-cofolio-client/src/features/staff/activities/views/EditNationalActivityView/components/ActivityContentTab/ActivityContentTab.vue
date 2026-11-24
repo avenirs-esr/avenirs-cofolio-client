@@ -30,6 +30,7 @@ import { useEditNationalActivityViewContext } from '@/features/staff/activities/
 
 interface ActivityContentTabProps {
   activity: ActivityContentDTO
+  isSubActivity?: boolean
 }
 
 const { activity } = defineProps<ActivityContentTabProps>()
@@ -117,7 +118,10 @@ function deleteSelectedResources (
   >
     <div :id="ContentSectionId.TITLE">
       <IconTitleCardContainer
-        :title="withRequiredMark(t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity'))"
+        :title="isSubActivity
+          ? withRequiredMark(t('staff.activities.interactions.inputs.ActivityTitleInput.label.subActivity'))
+          : withRequiredMark(t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity'))"
+
         :title-icon="ICONS.ACTIVITY"
       >
         <ActivityTitleFormField
