@@ -1,4 +1,4 @@
-import { adminToolsHandlers } from '@avenirs-esr/shared/mocks/msw/admin-tools'
+import { toolsHandlers } from '@avenirs-esr/shared/mocks/msw/tools'
 import { cguHandlers } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { externalUserHandlers } from '@/__mocks__/msw/handlers/shared/external-user.handlers'
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
@@ -54,5 +54,5 @@ export const handlers = [
   ...studentKitHandlers,
   ...genericHandlers,
   ...externalUserHandlers,
-  ...adminToolsHandlers,
+  ...toolsHandlers,
 ]

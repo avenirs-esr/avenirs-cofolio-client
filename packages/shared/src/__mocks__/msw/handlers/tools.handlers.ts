@@ -1,6 +1,10 @@
 import type { EToolType } from '#shared/api/avenir-esr'
-import { createMockedGetLocalToolsResponse, createMockedGetNationalToolsResponse } from '#shared/__mocks__/fixtures/admin-tools.fixtures'
-import { getGetLocalToolsUrl, getGetNationalToolsUrl } from '#shared/api/avenir-esr'
+import {
+  createMockedGetAvailableToolsResponse,
+  createMockedGetLocalToolsResponse,
+  createMockedGetNationalToolsResponse
+} from '#shared/__mocks__/fixtures/tools.fixtures'
+import { getGetAvailableToolsUrl, getGetLocalToolsUrl, getGetNationalToolsUrl } from '#shared/api/avenir-esr'
 import { internalServerError, successJsonResponse } from '@avenirs-esr/shared/test-utils/msw'
 import { http } from 'msw'
 
@@ -33,7 +37,23 @@ const getLocalToolsHandler = http.get(`*${getGetLocalToolsUrl()}`, async ({ requ
   return successJsonResponse(response)
 })
 
-export const adminToolsHandlers = [
+export const getAvailableToolsErrorHandler = http.get(`*${getGetAvailableToolsUrl()}`, async () => {
+  return internalServerError()
+})
+
+const getAvailableToolsHandler = http.get(`*${getGetAvailableToolsUrl()}`, async ({ request }) => {
+  const searchParams = new URL(request.url).searchParams
+  const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined
+  const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
+  const type = searchParams.has('type') ? searchParams.get('type') as EToolType : undefined
+
+  const response = createMockedGetAvailableToolsResponse({ page, pageSize, type }, 30)
+
+  return successJsonResponse(response)
+})
+
+export const toolsHandlers = [
   getNationalToolsHandler,
-  getLocalToolsHandler
+  getLocalToolsHandler,
+  getAvailableToolsHandler
 ]

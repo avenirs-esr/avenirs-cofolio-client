@@ -1,13 +1,13 @@
-import type { UsePaginatedAdminToolsResult } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
+import type { UsePaginatedToolsResult } from '#shared/composables/use-paginated-tools/use-paginated-tools'
 import type { VueWrapper } from '@vue/test-utils'
-import { generateToolDTOs } from '#shared/__mocks__/fixtures/admin-tools.fixtures'
+import { generateToolDTOs } from '#shared/__mocks__/fixtures/tools.fixtures'
 import { EToolType } from '#shared/api/avenir-esr/index'
-import { usePaginatedAdminTools } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
+import { usePaginatedTools } from '#shared/composables/use-paginated-tools/use-paginated-tools'
 import { BaseApiException } from '#shared/exceptions'
 import { mountComponent } from '#shared/test-utils/unit/mount-component'
 import { ToolCardStub } from '#shared/ui/components/cards/ToolCard/ToolCard.stub'
 import { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
-import AdminToolsPaginatedList from '#shared/ui/components/interactions/lists/AdminToolsPaginatedList/AdminToolsPaginatedList.vue'
+import ToolsPaginatedList from '#shared/ui/components/interactions/lists/ToolsPaginatedList/ToolsPaginatedList.vue'
 import { PaginationStub } from '#shared/ui/components/navigation/Pagination/Pagination.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -26,31 +26,35 @@ const mockPageInfo = {
 
 const mockError = new BaseApiException('error')
 
-const mockLocalToolsCurrentPage = ref(0)
+const mockNationalToolsCurrentPage = ref(1)
+const mockRegionalToolsCurrentPage = ref(2)
+const mockLocalToolsCurrentPage = ref(3)
 
-const defaultPaginatedResult = {
+const defaultPaginatedResult: UsePaginatedToolsResult = {
   tools: computed(() => mockTools),
   pageInfo: computed(() => mockPageInfo),
   isFetching: ref(false),
   error: ref(null),
   onUpdateCurrentPage: vi.fn(),
   onUpdatePageSize: vi.fn(),
-} as unknown as UsePaginatedAdminToolsResult
+}
 
-vi.mock('#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools', () => ({
-  usePaginatedAdminTools: vi.fn(),
+vi.mock('#shared/composables/use-paginated-tools/use-paginated-tools', () => ({
+  usePaginatedTools: vi.fn(),
 }))
 
 vi.mock('#shared/stores/index', () => ({
-  useAdminToolsStore: () => ({
+  useToolsStore: vi.fn(() => ({
+    nationalToolsCurrentPage: mockNationalToolsCurrentPage,
+    regionalToolsCurrentPage: mockRegionalToolsCurrentPage,
     localToolsCurrentPage: mockLocalToolsCurrentPage,
-  }),
+  })),
 }))
 
-const mockUsePaginatedAdminTools = vi.mocked(usePaginatedAdminTools)
+const mockUsePaginatedTools = vi.mocked(usePaginatedTools)
 
-BddTest().given('an admin tools paginated list', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AdminToolsPaginatedList>>
+BddTest().given('a tools paginated list', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ToolsPaginatedList>>
 
   const stubs = {
     QuerySuspense: QuerySuspenseStub,
@@ -60,19 +64,22 @@ BddTest().given('an admin tools paginated list', () => {
 
   const mountWith = async ({
     baseRouteName,
-    type = EToolType.LOCAL,
+    type,
     paginatedResult = defaultPaginatedResult,
   }: {
     baseRouteName?: string
-    type?: EToolType
-    paginatedResult?: UsePaginatedAdminToolsResult
+    type?: EToolType | undefined
+    paginatedResult?: ReturnType<typeof usePaginatedTools>
   } = {}) => {
     vi.clearAllMocks()
 
-    mockUsePaginatedAdminTools.mockReturnValue(paginatedResult)
+    mockUsePaginatedTools.mockReturnValue(paginatedResult)
 
-    wrapper = mountComponent(AdminToolsPaginatedList, {
-      props: { baseRouteName, type },
+    wrapper = mountComponent(ToolsPaginatedList, {
+      props: {
+        baseRouteName,
+        type: type ?? EToolType.LOCAL,
+      },
       global: { stubs },
     })
 
@@ -84,7 +91,9 @@ BddTest().given('an admin tools paginated list', () => {
   const getToolCards = () => wrapper.findAllComponents(ToolCardStub)
 
   beforeEach(async () => {
-    mockLocalToolsCurrentPage.value = 0
+    mockNationalToolsCurrentPage.value = 1
+    mockRegionalToolsCurrentPage.value = 2
+    mockLocalToolsCurrentPage.value = 3
 
     await mountWith()
   })
@@ -96,10 +105,15 @@ BddTest().given('an admin tools paginated list', () => {
       expect(getQuerySuspense().props('error')).toBe(null)
     })
 
-    BddTest().then('it should pass the current page and type to the paginated composable', () => {
-      const params = mockUsePaginatedAdminTools.mock.calls[0][0]
+    BddTest().then('it should enable preview mode when no base route name is provided', () => {
+      const params = mockUsePaginatedTools.mock.calls[0][0]
 
-      expect(params.currentPageRef.value).toBe(0)
+      expect(params.previewModeRef.value).toBe(true)
+    })
+
+    BddTest().then('it should pass the current page and type to the paginated composable', () => {
+      const params = mockUsePaginatedTools.mock.calls[0][0]
+
       expect(params.typeRef.value).toBe(EToolType.LOCAL)
     })
 
@@ -127,30 +141,38 @@ BddTest().given('an admin tools paginated list', () => {
 
   BddTest().when('the component receives a base route name', () => {
     beforeEach(async () => {
-      await mountWith({ baseRouteName: 'admin-tool-details' })
+      await mountWith({ baseRouteName: 'tool-details' })
+    })
+
+    BddTest().then('it should disable preview mode', () => {
+      const params = mockUsePaginatedTools.mock.calls[0][0]
+
+      expect(params.previewModeRef.value).toBe(false)
     })
 
     BddTest().then('it should pass the base route name to every ToolCard', () => {
       getToolCards().forEach((card) => {
-        expect(card.props('baseRouteName')).toBe('admin-tool-details')
+        expect(card.props('baseRouteName')).toBe('tool-details')
       })
     })
   })
 
   BddTest().when('the component receives a different tool type', () => {
-    BddTest().then('it should pass the REGIONAL type to the paginated composable', async () => {
+    BddTest().then('it should use the regional tools current page', async () => {
       await mountWith({ type: EToolType.REGIONAL })
 
-      const params = mockUsePaginatedAdminTools.mock.calls[0][0]
+      const params = mockUsePaginatedTools.mock.calls[0][0]
 
+      expect(params.currentPageRef.value).toBe(2)
       expect(params.typeRef.value).toBe(EToolType.REGIONAL)
     })
 
-    BddTest().then('it should pass the NATIONAL type to the paginated composable', async () => {
+    BddTest().then('it should use the national tools current page', async () => {
       await mountWith({ type: EToolType.NATIONAL })
 
-      const params = mockUsePaginatedAdminTools.mock.calls[0][0]
+      const params = mockUsePaginatedTools.mock.calls[0][0]
 
+      expect(params.currentPageRef.value).toBe(1)
       expect(params.typeRef.value).toBe(EToolType.NATIONAL)
     })
   })
@@ -160,7 +182,7 @@ BddTest().given('an admin tools paginated list', () => {
       ...defaultPaginatedResult,
       tools: computed(() => []),
       pageInfo: computed(() => undefined),
-    } as unknown as UsePaginatedAdminToolsResult
+    } as unknown as ReturnType<typeof usePaginatedTools>
 
     beforeEach(async () => {
       await mountWith({ paginatedResult: emptyResult })
@@ -182,7 +204,7 @@ BddTest().given('an admin tools paginated list', () => {
         paginatedResult: {
           ...defaultPaginatedResult,
           error: ref(mockError),
-        } as UsePaginatedAdminToolsResult,
+        } as ReturnType<typeof usePaginatedTools>,
       })
     })
 
@@ -199,7 +221,7 @@ BddTest().given('an admin tools paginated list', () => {
         paginatedResult: {
           ...defaultPaginatedResult,
           isFetching: ref(true),
-        } as UsePaginatedAdminToolsResult,
+        } as ReturnType<typeof usePaginatedTools>,
       })
     })
 

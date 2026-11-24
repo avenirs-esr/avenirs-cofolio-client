@@ -1,8 +1,16 @@
 import type { EToolType } from '#shared/api/avenir-esr'
-import { createMockedGetLocalToolsResponse, createMockedGetNationalToolsResponse } from '#shared/__mocks__/fixtures/admin-tools.fixtures'
-import { getLocalToolsErrorHandler, getNationalToolsErrorHandler } from '#shared/__mocks__/msw/handlers/admin-tools.handlers'
+import {
+  createMockedGetAvailableToolsResponse,
+  createMockedGetLocalToolsResponse,
+  createMockedGetNationalToolsResponse,
+} from '#shared/__mocks__/fixtures/tools.fixtures'
+import {
+  getAvailableToolsErrorHandler,
+  getLocalToolsErrorHandler,
+  getNationalToolsErrorHandler,
+} from '#shared/__mocks__/msw/handlers/tools.handlers'
 import { server } from '#shared/__mocks__/msw/server'
-import { usePaginatedAdminTools } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
+import { usePaginatedTools } from '#shared/composables/use-paginated-tools/use-paginated-tools'
 import { mountComposable } from '#shared/test-utils/mount-composable'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -18,16 +26,20 @@ afterEach(() => {
 function mountUsePaginatedTools ({
   currentPage = 0,
   type,
+  previewMode = false,
 }: {
   currentPage?: number
   type?: EToolType
+  previewMode?: boolean
 } = {}) {
   const currentPageRef = ref(currentPage)
   const typeRef = ref(type)
+  const previewModeRef = ref(previewMode)
 
-  const { result, unmount } = mountComposable(() => usePaginatedAdminTools({
+  const { result, unmount } = mountComposable(() => usePaginatedTools({
     currentPageRef,
     typeRef,
+    previewModeRef,
   }), { useTanstack: true })
 
   unmounts.push(unmount)
@@ -36,6 +48,7 @@ function mountUsePaginatedTools ({
     ...result,
     currentPageRef,
     typeRef,
+    previewModeRef,
   }
 }
 
@@ -115,6 +128,56 @@ BddTest().given('a usePaginatedTools composable', () => {
     })
   })
 
+  BddTest().when('the type is REGIONAL', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+
+    beforeEach(() => {
+      result = mountUsePaginatedTools({ type: 'REGIONAL' as EToolType })
+    })
+
+    BddTest().then('it should return local tools filtered by the regional type', async () => {
+      const expected = createMockedGetLocalToolsResponse({
+        page: 0,
+        pageSize: PageSizes.TWELVE,
+        type: result.typeRef.value!,
+      }, 30)
+
+      await vi.waitFor(() => {
+        expect(result.tools.value).toEqual(expected.data)
+        expect(result.pageInfo.value).toEqual(expected.page)
+      })
+    })
+  })
+
+  BddTest().when('the preview mode is enabled', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+
+    beforeEach(() => {
+      result = mountUsePaginatedTools({
+        type: 'LOCAL' as EToolType,
+        previewMode: true,
+      })
+    })
+
+    BddTest().then('it should return available tools and page info from the API', async () => {
+      const expected = createMockedGetAvailableToolsResponse({
+        page: 0,
+        pageSize: PageSizes.TWELVE,
+        type: 'LOCAL' as EToolType,
+      }, 30)
+
+      await vi.waitFor(() => {
+        expect(result.tools.value).toEqual(expected.data)
+        expect(result.pageInfo.value).toEqual(expected.page)
+      })
+    })
+
+    BddTest().then('it should expose the fetching state and error', () => {
+      expect(result.isFetching.value).toBeDefined()
+      expect(result.error.value).toBeNull()
+    })
+  })
+
   BddTest().when('the current page changes', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
@@ -190,6 +253,59 @@ BddTest().given('a usePaginatedTools composable', () => {
     })
   })
 
+  BddTest().when('the preview mode changes from disabled to enabled', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+
+    beforeEach(() => {
+      result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+    })
+
+    BddTest().then('it should request available tools', async () => {
+      await vi.waitFor(() => expect(result.pageInfo.value?.page).toBe(0))
+
+      result.previewModeRef.value = true
+
+      const expected = createMockedGetAvailableToolsResponse({
+        page: 0,
+        pageSize: PageSizes.TWELVE,
+        type: 'LOCAL' as EToolType,
+      }, 30)
+
+      await vi.waitFor(() => {
+        expect(result.tools.value).toEqual(expected.data)
+        expect(result.pageInfo.value).toEqual(expected.page)
+      })
+    })
+  })
+
+  BddTest().when('the preview mode changes from enabled to disabled', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+
+    beforeEach(() => {
+      result = mountUsePaginatedTools({
+        type: 'LOCAL' as EToolType,
+        previewMode: true,
+      })
+    })
+
+    BddTest().then('it should request local tools', async () => {
+      await vi.waitFor(() => expect(result.pageInfo.value?.page).toBe(0))
+
+      result.previewModeRef.value = false
+
+      const expected = createMockedGetLocalToolsResponse({
+        page: 0,
+        pageSize: PageSizes.TWELVE,
+        type: 'LOCAL' as EToolType,
+      }, 30)
+
+      await vi.waitFor(() => {
+        expect(result.tools.value).toEqual(expected.data)
+        expect(result.pageInfo.value).toEqual(expected.page)
+      })
+    })
+  })
+
   BddTest().when('the API returns a national tools error', () => {
     BddTest().then('it should expose the error', async () => {
       server.use(getNationalToolsErrorHandler)
@@ -206,6 +322,17 @@ BddTest().given('a usePaginatedTools composable', () => {
       server.use(getLocalToolsErrorHandler)
 
       const result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+
+      await vi.waitFor(() => expect(result.error.value).not.toBeNull())
+      expect(result.tools.value).toEqual([])
+    })
+  })
+
+  BddTest().when('the API returns an available tools error', () => {
+    BddTest().then('it should expose the error', async () => {
+      server.use(getAvailableToolsErrorHandler)
+
+      const result = mountUsePaginatedTools({ previewMode: true })
 
       await vi.waitFor(() => expect(result.error.value).not.toBeNull())
       expect(result.tools.value).toEqual([])

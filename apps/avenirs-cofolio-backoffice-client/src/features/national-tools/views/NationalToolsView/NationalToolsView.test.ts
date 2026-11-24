@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { AdminToolsPaginatedListStub, PageTitleStub } from '@avenirs-esr/shared'
+import { PageTitleStub, ToolsPaginatedListStub } from '@avenirs-esr/shared'
 import { EToolType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
@@ -12,7 +12,7 @@ BddTest().given('a national tools view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
-    AdminToolsPaginatedList: AdminToolsPaginatedListStub,
+    ToolsPaginatedList: ToolsPaginatedListStub,
   }
 
   const mountView = () => {
@@ -20,7 +20,7 @@ BddTest().given('a national tools view', () => {
   }
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
-  const getAdminToolsPaginatedList = () => wrapper.findComponent(AdminToolsPaginatedListStub)
+  const getToolsPaginatedList = () => wrapper.findComponent(ToolsPaginatedListStub)
 
   BddTest().when('the view is mounted', () => {
     beforeEach(mountView)
@@ -35,9 +35,9 @@ BddTest().given('a national tools view', () => {
     })
 
     BddTest().then('the national tools paginated list is rendered with the national tool route', () => {
-      expect(getAdminToolsPaginatedList().exists()).toBe(true)
-      expect(getAdminToolsPaginatedList().props('baseRouteName')).toBe(ROUTES.NATIONAL_TOOL.name)
-      expect(getAdminToolsPaginatedList().props('type')).toBe(EToolType.NATIONAL)
+      expect(getToolsPaginatedList().exists()).toBe(true)
+      expect(getToolsPaginatedList().props('baseRouteName')).toBe(ROUTES.NATIONAL_TOOL.name)
+      expect(getToolsPaginatedList().props('type')).toBe(EToolType.NATIONAL)
     })
   })
 })

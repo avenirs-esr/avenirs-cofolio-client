@@ -1,14 +1,14 @@
-import { useAdminToolsStore } from '#shared/stores/admin-tools/admin-tools.store'
+import { useToolsStore } from '#shared/stores/tools/tools.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('an admin tools store', () => {
-  let store: ReturnType<typeof useAdminToolsStore>
+BddTest().given('a tools store', () => {
+  let store: ReturnType<typeof useToolsStore>
 
   beforeEach(() => {
     setActivePinia(createPinia())
-    store = useAdminToolsStore()
+    store = useToolsStore()
   })
 
   BddTest().when('the store is initialized', () => {

@@ -1,5 +1,5 @@
-import { adminToolsHandlers } from '#shared/__mocks__/msw/handlers/admin-tools.handlers'
+import { toolsHandlers } from '#shared/__mocks__/msw/handlers/tools.handlers'
 
 export const handlers = [
-  ...adminToolsHandlers,
+  ...toolsHandlers,
 ]

@@ -1,28 +1,41 @@
 <script lang="ts" setup>
-import type { EToolType } from '#shared/api/avenir-esr/index'
-import type { UsePaginatedAdminToolsParams } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
-import { usePaginatedAdminTools } from '#shared/composables/use-paginated-admin-tools/use-paginated-admin-tools'
-import { useAdminToolsStore } from '#shared/stores/index'
+import type { UsePaginatedToolsParams } from '#shared/composables/use-paginated-tools/use-paginated-tools'
+import { EToolType } from '#shared/api/avenir-esr/index'
+import { usePaginatedTools } from '#shared/composables/use-paginated-tools/use-paginated-tools'
+import { useToolsStore } from '#shared/stores/index'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import Pagination from '#shared/ui/components/navigation/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { computed, toRef, toRefs } from 'vue'
 
-export interface AdminToolsPaginatedListProps {
+export interface ToolsPaginatedListProps {
   baseRouteName?: string
   type: EToolType | undefined
 }
 
-const props = defineProps<AdminToolsPaginatedListProps>()
+const props = defineProps<ToolsPaginatedListProps>()
 
-const adminToolsStore = useAdminToolsStore()
+const toolsStore = useToolsStore()
 
 const { baseRouteName, type } = toRefs(props)
 
-const usePaginatedAdminToolsParams = computed<UsePaginatedAdminToolsParams>(() => ({
-  currentPageRef: toRef(adminToolsStore, 'localToolsCurrentPage'),
+const currentPageRef = computed(() => {
+  if (!type.value || type.value === EToolType.NATIONAL) {
+    return toRef(toolsStore, 'nationalToolsCurrentPage')
+  }
+  if (type.value === EToolType.REGIONAL) {
+    return toRef(toolsStore, 'regionalToolsCurrentPage')
+  }
+  return toRef(toolsStore, 'localToolsCurrentPage')
+})
+
+const isPreviewMode = computed(() => !baseRouteName.value)
+
+const usePaginatedToolsParams = computed<UsePaginatedToolsParams>(() => ({
+  currentPageRef: currentPageRef.value,
   typeRef: type,
+  previewModeRef: isPreviewMode,
 }))
 
 const {
@@ -32,7 +45,7 @@ const {
   error,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePaginatedAdminTools(usePaginatedAdminToolsParams.value)
+} = usePaginatedTools(usePaginatedToolsParams.value)
 </script>
 
 <template>
