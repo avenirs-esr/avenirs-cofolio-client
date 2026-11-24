@@ -21,9 +21,10 @@ import { useToasterStore } from '@/store'
 interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO
   hasPublishRight?: boolean
+  isSubActivity?: boolean
 }
 
-const { activity, hasPublishRight = false } = defineProps<ActivityPublicationTabProps>()
+const { activity, hasPublishRight = false, isSubActivity = false } = defineProps<ActivityPublicationTabProps>()
 
 const emit = defineEmits<{
   (e: 'published'): void
@@ -101,7 +102,11 @@ async function publishActivityDraft () {
   >
     <div :id="PublicationSectionId.ACTIVITY_TITLE">
       <IconTitleCardContainer
-        :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity')"
+        :title="
+          isSubActivity
+            ? t('staff.activities.interactions.inputs.ActivityTitleInput.label.subActivity')
+            : t('staff.activities.interactions.inputs.ActivityTitleInput.label.activity')
+        "
         :title-icon="ICONS.ACTIVITY"
         required
       >

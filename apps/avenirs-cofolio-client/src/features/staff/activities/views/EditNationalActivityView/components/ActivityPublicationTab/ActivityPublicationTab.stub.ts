@@ -13,6 +13,7 @@ export const ActivityPublicationTabStub = defineComponent({
       required: true
     },
     hasPublishRight: Boolean,
+    isSubActivity: Boolean,
   },
   emits: ['published', 'update:modelValue'],
   template: '<div data-testid="activity-publication-tab-stub"></div>',

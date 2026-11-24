@@ -1,10 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
-import { mockedActivityContent, mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithEnrolledStudent1, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
@@ -56,12 +57,14 @@ BddTest().given('an ActivityContentTab component', () => {
 
   function mountTab (
     FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty,
-    activity = mockedActivityContent
+    activity = mockedActivityContent,
+    targetProps: { isSubActivity?: boolean } = {},
   ) {
     wrapper = mount(FormWrapper, {
       slots: {
         default: h(ActivityContentTab, {
           activity,
+          ...targetProps
         }),
       },
       global: { stubs }
@@ -89,6 +92,11 @@ BddTest().given('an ActivityContentTab component', () => {
 
   const getDeleteSubActivitiesModal = () =>
     tab.findComponent(DeleteSubActivitiesModalStub)
+
+  const getActivityTitleCard = () =>
+    tab
+      .findAllComponents(IconTitleCardContainerStub)
+      .find(card => card.props('titleIcon') === ICONS.ACTIVITY)!
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -416,6 +424,26 @@ BddTest().given('an ActivityContentTab component', () => {
       BddTest().then('it should close DeleteSubActivitiesModal', () => {
         expect(getDeleteSubActivitiesModal().props('opened')).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('the activity is a main activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContent, { isSubActivity: false })
+    })
+
+    BddTest().then('it should display the activity title label', () => {
+      expect(getActivityTitleCard().props('title')).toBe('Titre de l\'activité\u00A0*')
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContentWithSubActivities, { isSubActivity: true })
+    })
+
+    BddTest().then('it should display the sub-activity title label', () => {
+      expect(getActivityTitleCard().props('title')).toBe('Titre de la sous-activité\u00A0*')
     })
   })
 })

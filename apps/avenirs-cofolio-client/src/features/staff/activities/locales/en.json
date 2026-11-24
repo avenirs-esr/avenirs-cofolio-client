@@ -123,6 +123,7 @@
         "AddNationalActivityView": {
           "sideNavigation": {
             "contentHeader": "Activity content",
+            "contentHeaderSubActivity": "Sub-activity content",
             "publication": {
               "ACTIVITY_TITLE": "Activity title",
               "IMAGE": "Add an image",

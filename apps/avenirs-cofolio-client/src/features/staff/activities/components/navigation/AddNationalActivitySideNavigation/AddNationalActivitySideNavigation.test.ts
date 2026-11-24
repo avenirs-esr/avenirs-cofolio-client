@@ -26,6 +26,12 @@ vi.mock('vue-router', () => ({
 BddTest().given('AddNationalActivitySideNavigation component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AddNationalActivitySideNavigation>>
 
+  function getContentHeaderLabel () {
+    const sideNav = wrapper.findComponent(SideNavigationStub)
+    const items = sideNav.props('items') as Array<{ label: string }>
+    return items[0].label
+  }
+
   BddTest().when('mounted with content tab', () => {
     beforeEach(() => {
       wrapper = mount(AddNationalActivitySideNavigation, {
@@ -144,6 +150,36 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
     BddTest().then('it should initialize selectedItem as empty', () => {
       const selectedItem = wrapper.findComponent({ name: 'SideNavigation' }).props('selectedItem')
       expect(selectedItem.itemId).toBe('')
+    })
+  })
+
+  BddTest().when('the activity is a main activity', () => {
+    beforeEach(() => {
+      wrapper = mount(AddNationalActivitySideNavigation, {
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: false },
+        attachTo: document.body,
+        global: { stubs: { SideNavigation: SideNavigationStub } },
+      })
+    })
+
+    BddTest().then('it should display the activity content header', () => {
+      expect(getContentHeaderLabel())
+        .toBe('Contenu de l\'activité')
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      wrapper = mount(AddNationalActivitySideNavigation, {
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: true },
+        attachTo: document.body,
+        global: { stubs: { SideNavigation: SideNavigationStub } },
+      })
+    })
+
+    BddTest().then('it should display the sub-activity content header', () => {
+      expect(getContentHeaderLabel())
+        .toBe('Contenu de la sous-activité')
     })
   })
 })
