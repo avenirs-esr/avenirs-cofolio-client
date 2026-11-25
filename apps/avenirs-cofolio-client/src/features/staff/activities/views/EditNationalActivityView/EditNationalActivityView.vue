@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityDraftUpdateRequest, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, ActivityDraftUpdateRequest, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { BaseApiException, PageTitle, QuerySuspense, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
@@ -391,6 +391,45 @@ provideEditNationalActivityViewContext({
   subActivitiesOrder,
   save,
   queueAutoSave
+})
+
+function getDefaultValues (activity?: ActivityContentDTO): EditActivityFormData {
+  return {
+    title: activity?.title ?? '',
+    thematic: activity?.thematic,
+    description: activity?.description ?? '',
+    recommendedCompletionContexts:
+    activity?.recommendedCompletionContexts ?? '',
+    startDate: activity?.startDate,
+    endDate: activity?.endDate,
+    summary: activity?.summary ?? '',
+    enableReflection: activity?.enableReflection ?? true,
+    feedbackAllowedIterations:
+    activity?.feedbackAllowedIterations ?? undefined,
+    traceAllowedAssociations:
+    activity?.traceAllowedAssociations
+    ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+    bannerAction: EditActivityFormDataBannerAction.NONE,
+    files: remoteFiles.value,
+    links: activity?.links ?? [],
+    isNational: activity?.national ?? false,
+    assessmentComment: activity?.assessment?.comment ?? false,
+    assessmentGrade: activity?.assessment?.grade,
+    assessmentValidation: activity?.assessment?.validation ?? false,
+    targetInstitutionIds: activity?.targetInstitutionIds ?? [],
+    targetGroupIds: activity?.targetGroupIds ?? []
+  }
+}
+
+watch(content, (newContent) => {
+  if (!newContent) {
+    return
+  }
+  if (newContent.id !== activityId.value) {
+    return
+  }
+
+  form.reset(getDefaultValues(newContent))
 })
 </script>
 
