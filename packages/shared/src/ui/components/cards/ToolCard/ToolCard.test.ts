@@ -1,24 +1,20 @@
 import type { ToolDTO } from '#shared/api/avenir-esr/index'
 import type { ToolCardProps } from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { MaybeRefOrGetter } from 'vue'
 import { EFileType, EToolType } from '#shared/api/avenir-esr/index'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
+import { ToolBannerStub } from '#shared/ui/components/base/ToolBanner/ToolBanner.stub'
 import { FloatingIconCardStub } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import { AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { computed, ref, toValue } from 'vue'
+import { ref } from 'vue'
 
 const mockIsMobile = ref(false)
-const mockBannerUrl = ref<string>()
 const mockIsTruncated = ref(false)
-
-const mockUseStorageImage = vi.fn()
-const mockUseTextTruncation = vi.fn()
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
@@ -26,30 +22,17 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   return {
     ...actual,
     useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
-    useTextTruncation: (element: unknown) => {
-      mockUseTextTruncation(element)
-
-      return { isTruncated: mockIsTruncated }
-    }
+    useTextTruncation: () => ({ isTruncated: mockIsTruncated })
   }
 })
-
-vi.mock('#shared/composables/use-storage-image/use-storage-image', () => ({
-  useStorageImage: (fileId: MaybeRefOrGetter<string | undefined>, defaultPicture?: 'profile' | 'cover') => {
-    mockUseStorageImage(toValue(fileId), defaultPicture)
-
-    return {
-      url: computed(() => mockBannerUrl.value)
-    }
-  }
-}))
 
 const stubs = {
   FloatingIconCard: FloatingIconCardStub,
   AvButton: AvButtonStub,
   RouterLink: RouterLinkStub,
   AvIconText: AvIconTextStub,
-  AvTooltip: AvTooltipStub
+  AvTooltip: AvTooltipStub,
+  ToolBanner: ToolBannerStub
 }
 
 BddTest().given('a tool card', () => {
@@ -84,7 +67,7 @@ BddTest().given('a tool card', () => {
   const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
   const getFloatingIconCard = () => wrapper.findComponent(FloatingIconCardStub)
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
-  const getBanner = () => wrapper.find('[data-testid="tool-banner"]')
+  const getBanner = () => wrapper.findComponent(ToolBannerStub)
   const getUrl = () => wrapper.find('.url')
 
   const mountWith = async (props?: Partial<ToolCardProps>) => {
@@ -98,10 +81,7 @@ BddTest().given('a tool card', () => {
 
   beforeEach(() => {
     mockIsMobile.value = false
-    mockBannerUrl.value = 'blob:http://localhost/banner'
     mockIsTruncated.value = false
-    mockUseStorageImage.mockClear()
-    mockUseTextTruncation.mockClear()
   })
 
   BddTest().when('the component is mounted without a base route name', () => {
@@ -143,14 +123,9 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should load the cover image using the banner identifier', () => {
-      expect(mockUseStorageImage).toHaveBeenCalledWith('banner-123', 'cover')
-    })
-
-    BddTest().then('it should render the banner with the resolved URL and alternative text', () => {
+    BddTest().then('it should render the banner with its identifier', () => {
       expect(getBanner().exists()).toBe(true)
-      expect(getBanner().attributes('src')).toBe(mockBannerUrl.value)
-      expect(getBanner().attributes('alt')).toBe('Image décorative de l\'outil')
+      expect(getBanner().props('bannerId')).toBe(defaultTool.banner?.id)
     })
 
     BddTest().then('it should render the description', () => {
@@ -245,6 +220,21 @@ BddTest().given('a tool card', () => {
     })
   })
 
+  BddTest().when('the component is mounted with a tool without a type', () => {
+    beforeEach(async () => {
+      await mountWith({
+        tool: {
+          ...defaultTool,
+          institution: defaultInstitution
+        }
+      })
+    })
+
+    BddTest().then('it should not render the institution information', () => {
+      expect(getAvIconText().exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the component is mounted with a base route name', () => {
     beforeEach(async () => {
       await mountWith({ baseRouteName: 'staff-admin-tool' })
@@ -278,7 +268,7 @@ BddTest().given('a tool card', () => {
     })
 
     BddTest().then('it should initialize text truncation tracking', () => {
-      expect(mockUseTextTruncation).toHaveBeenCalled()
+      expect(getAvTooltip().props('content')).toBe(defaultTool.url)
     })
   })
 
@@ -293,7 +283,7 @@ BddTest().given('a tool card', () => {
     })
   })
 
-  BddTest().when('the component is mounted without a banner identifier', () => {
+  BddTest().when('the component is mounted without a banner', () => {
     beforeEach(async () => {
       await mountWith({
         tool: {
@@ -303,20 +293,9 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should load the default cover image', () => {
-      expect(mockUseStorageImage).toHaveBeenCalledWith(undefined, 'cover')
-    })
-  })
-
-  BddTest().when('the banner URL is not available', () => {
-    beforeEach(async () => {
-      mockBannerUrl.value = undefined
-      await mountWith()
-    })
-
-    BddTest().then('it should render the banner without a source', () => {
+    BddTest().then('it should render the banner without an identifier', () => {
       expect(getBanner().exists()).toBe(true)
-      expect(getBanner().attributes('src')).toBeUndefined()
+      expect(getBanner().props('bannerId')).toBeUndefined()
     })
   })
 

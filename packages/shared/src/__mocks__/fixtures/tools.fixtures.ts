@@ -7,7 +7,7 @@ import type {
 import { EToolType } from '#shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
-function getToolDTO (index: number, forcedType?: EToolType): ToolDTO {
+export function getToolDTO (index: number, forcedType?: EToolType): ToolDTO {
   let type = EToolType.LOCAL
 
   if (!forcedType && index % 2 === 0) {

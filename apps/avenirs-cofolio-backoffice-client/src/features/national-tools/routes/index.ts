@@ -3,6 +3,9 @@ import { BASE_BREADCRUMBS, ROUTES } from '@/constants'
 
 export const nationalToolRoute: AvRoute = {
   ...ROUTES.NATIONAL_TOOL,
+  props: route => ({
+    id: route.params.id,
+  }),
   component: () => import('@/features/national-tools/views/NationalToolDetailsView/NationalToolDetailsView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.NATIONAL_TOOLS.BASE],
