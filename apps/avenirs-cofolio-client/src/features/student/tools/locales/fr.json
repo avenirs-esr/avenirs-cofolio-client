@@ -1,6 +1,11 @@
 {
   "student": {
     "tools": {
+      "views": {
+        "LearnerToolsView": {
+          "title": "Outils nationaux et locaux"
+        }
+      }
     }
   }
 }

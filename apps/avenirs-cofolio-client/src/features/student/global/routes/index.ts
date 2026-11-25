@@ -15,6 +15,7 @@ import {
 } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentSkillsRoute } from '@/features/student/skills/routes'
+import { studentToolsToolsRoutes } from '@/features/student/tools'
 import {
   studentToolsTraceRoute,
   studentToolsTracesRoute,
@@ -89,6 +90,7 @@ export default [
         ROUTE_ROLES.STUDENT.TOOLS,
         ...studentToolsKitRoutes,
         studentToolsKitRoute,
+        ...studentToolsToolsRoutes,
         studentToolsTracesRoute,
         studentToolsTraceRoute,
         studentToolsUpdateTraceRoute,

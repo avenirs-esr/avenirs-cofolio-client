@@ -106,6 +106,7 @@ export const ROUTES = {
     TOOLS_KIT_UPDATE_DECLARED_PROGRAM: { name: 'student-tools-kit-update-declared-program', path: 'tools/kit/update-declared-program/:id' },
     TOOLS_KIT_UPDATE_SKILL: { name: 'student-tools-kit-update-skill', path: 'tools/kit/update-skill/:id' },
     TOOLS_KIT_UPDATE_TRACE: { name: 'student-tools-kit-update-trace', path: 'tools/kit/update-trace/:id' },
+    TOOLS_TOOLS: { name: 'student-tools-national-and-local-tools', path: 'tools/national-and-local-tools' },
     TOOLS_TRACE: { name: 'student-tools-trace', path: 'tools/trace/:id' },
     TOOLS_TRACES: { name: 'student-tools-traces', path: 'tools/traces' },
     TOOLS_UPDATE_TRACE: { name: 'student-tools-update-trace', path: 'tools/update-trace/:id' },

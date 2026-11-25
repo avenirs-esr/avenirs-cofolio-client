@@ -116,6 +116,7 @@ export const META_BREADCRUMBS = {
         },
         SKILLS: { textKey: 'student.global.navigation.tabs.skills', to: ROUTES.STUDENT.TOOLS_KIT_SKILLS },
       },
+      TOOLS: { textKey: 'student.global.navigation.tabs.tools.items.tools', to: ROUTES.STUDENT.TOOLS_TOOLS },
       TRACES: { textKey: 'student.global.navigation.tabs.tools.items.traces', to: ROUTES.STUDENT.TOOLS_TRACES },
     },
   },
@@ -270,6 +271,7 @@ export const BASE_BREADCRUMBS = {
         SKILLS: [...BASE_STUDENT_TOOLS_KIT_SKILLS_BREADCRUMBS],
         TRACES: [...BASE_STUDENT_TOOLS_KIT_BREADCRUMBS, { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey }],
       },
+      TOOLS: [...BASE_STUDENT_TOOLS_BREADCRUMBS, META_BREADCRUMBS.STUDENT.TOOLS.TOOLS],
       TRACES: [...BASE_STUDENT_TOOLS_BREADCRUMBS, META_BREADCRUMBS.STUDENT.TOOLS.TRACES],
     },
 

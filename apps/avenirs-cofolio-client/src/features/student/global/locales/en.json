@@ -66,6 +66,7 @@
             "header": "My tools",
             "items": {
               "kit": "My ready-to-use kit",
+              "tools": "National and local tools",
               "traces": "My traces"
             }
           }
