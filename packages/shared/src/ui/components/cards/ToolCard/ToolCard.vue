@@ -69,7 +69,7 @@ const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, 
       </template>
 
       <template #footer>
-        <div class="av-col av-gap-sm">
+        <div class="av-col av-gap-sm av-w-full">
           <ToolInstitution :tool="tool" />
           <div
             v-if="!baseRouteName"

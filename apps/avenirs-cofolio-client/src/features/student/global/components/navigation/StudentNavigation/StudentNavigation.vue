@@ -6,6 +6,7 @@ import { ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, studentPro
 import { ROUTE_ROLES } from '@/common/constants/route-roles'
 import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { studentToolsToolsRoutes } from '@/features/student/tools'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
 
 const { t } = useI18n()
@@ -19,6 +20,7 @@ const toolsMenu = computed(() => ({
     return isRouteActive({ route, routes: [
       ROUTES.STUDENT.TOOLS_KIT,
       ...studentToolsTracesRoutes,
+      ...studentToolsToolsRoutes,
     ] })
   },
   links: !hasSomeRole(roles.value, ROUTE_ROLES.STUDENT.TOOLS)
@@ -35,6 +37,11 @@ const toolsMenu = computed(() => ({
           text: t('student.global.navigation.tabs.tools.items.kit'),
           icon: MDI_ICONS.TOOLS
         },
+        {
+          to: ROUTES.STUDENT.TOOLS_TOOLS,
+          text: t('student.global.navigation.tabs.tools.items.tools'),
+          icon: ICONS.TOOLS
+        }
       ],
 }))
 

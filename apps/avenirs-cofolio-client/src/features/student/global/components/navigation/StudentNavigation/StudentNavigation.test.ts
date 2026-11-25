@@ -89,6 +89,16 @@ BddTest().given('a student navigation', () => {
         to: expect.objectContaining(ROUTES.STUDENT.SKILLS),
       })
     })
+
+    BddTest().then('it should include tools menu with submenu links', () => {
+      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
+      const navItems = avNavigation.props('navItems')
+
+      const toolsMenu = navItems.find((item: { id: string }) => item.id === 'nav-tools-menu')
+      expect(toolsMenu).toBeDefined()
+      expect(toolsMenu?.links).toBeDefined()
+      expect(toolsMenu.links.length).toBeGreaterThan(0)
+    })
   })
 
   BddTest().when('the navigation is mounted by a user holding only the activities role', () => {
