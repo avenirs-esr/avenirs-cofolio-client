@@ -9,7 +9,9 @@ import { beforeEach, expect } from 'vitest'
 BddTest().given('a tool tabs component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ToolTabs>>
 
-  const baseRouteName = 'test-route'
+  const nationalBaseRouteName = 'national-tools'
+  const regionalBaseRouteName = 'regional-tools'
+  const localBaseRouteName = 'local-tools'
 
   const stubs = {
     AvTabs: AvTabsStub,
@@ -50,9 +52,13 @@ BddTest().given('a tool tabs component', () => {
     await flushPromises()
   }
 
-  BddTest().when('the component is mounted', () => {
+  BddTest().when('the component is mounted with all base route names', () => {
     beforeEach(() => {
-      mountComponent({ baseRouteName })
+      mountComponent({
+        nationalBaseRouteName,
+        regionalBaseRouteName,
+        localBaseRouteName
+      })
     })
 
     BddTest().then('it should render the three tabs with their respective titles', () => {
@@ -68,10 +74,12 @@ BddTest().given('a tool tabs component', () => {
       expect(getNationalToolsPaginatedList()).toBeDefined()
     })
 
-    BddTest().then('it should pass the base route name to every tools list', () => {
-      getToolsPaginatedLists().forEach((component) => {
-        expect(component.props('baseRouteName')).toBe(baseRouteName)
-      })
+    BddTest().then('it should pass the correct base route name to the national tools list', () => {
+      expect(getNationalToolsPaginatedList()?.props('baseRouteName')).toBe(nationalBaseRouteName)
+    })
+
+    BddTest().then('it should render the national tools with the correct type', () => {
+      expect(getNationalToolsPaginatedList()?.props('type')).toBe(EToolType.NATIONAL)
     })
 
     BddTest().and('the regional tools tab is selected', () => {
@@ -83,6 +91,10 @@ BddTest().given('a tool tabs component', () => {
         expect(getActiveAvTab().exists()).toBe(true)
         expect(getRegionalToolsPaginatedList()).toBeDefined()
       })
+
+      BddTest().then('it should pass the correct base route name to the regional tools list', () => {
+        expect(getRegionalToolsPaginatedList()?.props('baseRouteName')).toBe(regionalBaseRouteName)
+      })
     })
 
     BddTest().and('the local tools tab is selected', () => {
@@ -93,6 +105,10 @@ BddTest().given('a tool tabs component', () => {
       BddTest().then('it should select the local tools tab', () => {
         expect(getActiveAvTab().exists()).toBe(true)
         expect(getLocalToolsPaginatedList()).toBeDefined()
+      })
+
+      BddTest().then('it should pass the correct base route name to the local tools list', () => {
+        expect(getLocalToolsPaginatedList()?.props('baseRouteName')).toBe(localBaseRouteName)
       })
     })
 
@@ -108,15 +124,38 @@ BddTest().given('a tool tabs component', () => {
     })
   })
 
-  BddTest().when('the component is mounted without a base route name', () => {
+  BddTest().when('the component is mounted without base route names', () => {
     beforeEach(() => {
       mountComponent()
     })
 
-    BddTest().then('it should not pass a base route name to the tools lists', () => {
+    BddTest().then('it should not pass base route names to the tools lists', () => {
       getToolsPaginatedLists().forEach((component) => {
         expect(component.props('baseRouteName')).toBeUndefined()
       })
+    })
+  })
+
+  BddTest().when('the component is mounted with only national and regional base route names', () => {
+    beforeEach(() => {
+      mountComponent({
+        nationalBaseRouteName,
+        regionalBaseRouteName
+      })
+    })
+
+    BddTest().then('it should pass the national base route name', () => {
+      expect(getNationalToolsPaginatedList()?.props('baseRouteName')).toBe(nationalBaseRouteName)
+    })
+
+    BddTest().then('it should render the regional tab', async () => {
+      await selectTab(1)
+      expect(getRegionalToolsPaginatedList()?.props('baseRouteName')).toBe(regionalBaseRouteName)
+    })
+
+    BddTest().then('it should not pass a base route name to the local tools list', async () => {
+      await selectTab(2)
+      expect(getLocalToolsPaginatedList()?.props('baseRouteName')).toBeUndefined()
     })
   })
 })

@@ -5,9 +5,10 @@ import { EFileType, EToolType } from '#shared/api/avenir-esr/index'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
 import { ToolBannerStub } from '#shared/ui/components/base/ToolBanner/ToolBanner.stub'
+import { ToolInstitutionStub } from '#shared/ui/components/base/ToolInstitution/ToolInstitution.stub'
 import { FloatingIconCardStub } from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
-import { AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -30,9 +31,9 @@ const stubs = {
   FloatingIconCard: FloatingIconCardStub,
   AvButton: AvButtonStub,
   RouterLink: RouterLinkStub,
-  AvIconText: AvIconTextStub,
   AvTooltip: AvTooltipStub,
-  ToolBanner: ToolBannerStub
+  ToolBanner: ToolBannerStub,
+  ToolInstitution: ToolInstitutionStub
 }
 
 BddTest().given('a tool card', () => {
@@ -63,7 +64,7 @@ BddTest().given('a tool card', () => {
   }
 
   const getAvButton = () => wrapper.findComponent(AvButtonStub)
-  const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getToolInstitution = () => wrapper.findComponent(ToolInstitutionStub)
   const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
   const getFloatingIconCard = () => wrapper.findComponent(FloatingIconCardStub)
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
@@ -140,8 +141,9 @@ BddTest().given('a tool card', () => {
       expect(button.props('label')).toBeTruthy()
     })
 
-    BddTest().then('it should not render the institution information when the institution is undefined', () => {
-      expect(getAvIconText().exists()).toBe(false)
+    BddTest().then('it should render the tool institution component', () => {
+      expect(getToolInstitution().exists()).toBe(true)
+      expect(getToolInstitution().props('tool')).toEqual(defaultTool)
     })
 
     BddTest().then('it should not render the URL tooltip', () => {
@@ -160,8 +162,12 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should not render the institution information', () => {
-      expect(getAvIconText().exists()).toBe(false)
+    BddTest().then('it should render the tool institution component with the tool data', () => {
+      expect(getToolInstitution().exists()).toBe(true)
+      expect(getToolInstitution().props('tool')).toEqual(expect.objectContaining({
+        type: EToolType.NATIONAL,
+        institution: defaultInstitution
+      }))
     })
   })
 
@@ -176,10 +182,12 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should render the institution information with the regional icon', () => {
-      expect(getAvIconText().exists()).toBe(true)
-      expect(getAvIconText().props('text')).toBe(defaultInstitution.name)
-      expect(getAvIconText().props('icon')).toBe(ICONS.REGIONAL)
+    BddTest().then('it should render the tool institution component with the tool data', () => {
+      expect(getToolInstitution().exists()).toBe(true)
+      expect(getToolInstitution().props('tool')).toEqual(expect.objectContaining({
+        type: EToolType.REGIONAL,
+        institution: defaultInstitution
+      }))
     })
   })
 
@@ -194,10 +202,12 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should render the institution information with the local icon', () => {
-      expect(getAvIconText().exists()).toBe(true)
-      expect(getAvIconText().props('text')).toBe(defaultInstitution.name)
-      expect(getAvIconText().props('icon')).toBe(ICONS.LOCAL)
+    BddTest().then('it should render the tool institution component with the tool data', () => {
+      expect(getToolInstitution().exists()).toBe(true)
+      expect(getToolInstitution().props('tool')).toEqual(expect.objectContaining({
+        type: EToolType.LOCAL,
+        institution: defaultInstitution
+      }))
     })
   })
 
@@ -215,8 +225,8 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should not render the institution information', () => {
-      expect(getAvIconText().exists()).toBe(false)
+    BddTest().then('it should still render the tool institution component (which handles the display logic)', () => {
+      expect(getToolInstitution().exists()).toBe(true)
     })
   })
 
@@ -230,8 +240,8 @@ BddTest().given('a tool card', () => {
       })
     })
 
-    BddTest().then('it should not render the institution information', () => {
-      expect(getAvIconText().exists()).toBe(false)
+    BddTest().then('it should still render the tool institution component (which handles the display logic)', () => {
+      expect(getToolInstitution().exists()).toBe(true)
     })
   })
 

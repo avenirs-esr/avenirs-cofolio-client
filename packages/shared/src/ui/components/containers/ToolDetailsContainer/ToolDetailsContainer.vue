@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useGetLocalTool, useGetNationalTool } from '#shared/api/avenir-esr/index'
 import ToolBanner from '#shared/ui/components/base/ToolBanner/ToolBanner.vue'
+import ToolInstitution from '#shared/ui/components/base/ToolInstitution/ToolInstitution.vue'
 import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { computed } from 'vue'
@@ -55,6 +56,11 @@ const i18nKey = 'global.components.containers.ToolDetailsContainer.labels'
             :label="t(`${i18nKey}.name`)"
             disabled
             width="100%"
+          />
+          <ToolInstitution
+            v-if="tool"
+            :tool="tool"
+            typography-class="b2-regular"
           />
           <div class="av-col">
             <label

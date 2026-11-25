@@ -62,10 +62,32 @@ export const staffAdminUsersRoute: AvRoute = {
   },
 }
 
-export const staffAdminToolRoute: AvRoute = {
-  ...ROUTES.STAFF.ADMIN.TOOL,
+export const staffAdminToolLocalRoute: AvRoute = {
+  ...ROUTES.STAFF.ADMIN.TOOL.LOCAL,
   props: route => ({
-    toolId: route.params.id,
+    id: route.params.id,
+  }),
+  component: () => import('@/features/staff/admin/views/AdminToolDetailsView/AdminToolDetailsView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.ADMIN.TOOLS],
+  },
+}
+
+export const staffAdminToolNationalRoute: AvRoute = {
+  ...ROUTES.STAFF.ADMIN.TOOL.NATIONAL,
+  props: route => ({
+    id: route.params.id,
+  }),
+  component: () => import('@/features/staff/admin/views/AdminToolDetailsView/AdminToolDetailsView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.ADMIN.TOOLS],
+  },
+}
+
+export const staffAdminToolRegionalRoute: AvRoute = {
+  ...ROUTES.STAFF.ADMIN.TOOL.REGIONAL,
+  props: route => ({
+    id: route.params.id,
   }),
   component: () => import('@/features/staff/admin/views/AdminToolDetailsView/AdminToolDetailsView.vue'),
   meta: {
@@ -94,7 +116,9 @@ export const staffAdminSkillsRoutes: AvRoute[] = withRequiredRoles(
 )
 
 export const staffAdminToolsRoutes: AvRoute[] = [
-  staffAdminToolRoute,
+  staffAdminToolLocalRoute,
+  staffAdminToolNationalRoute,
+  staffAdminToolRegionalRoute,
   staffAdminToolsRoute,
 ]
 

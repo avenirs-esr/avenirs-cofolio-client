@@ -3,7 +3,15 @@ import { defineComponent } from 'vue'
 export const ToolTabsStub = defineComponent({
   name: 'ToolTabs',
   props: {
-    baseRouteName: {
+    localBaseRouteName: {
+      type: String,
+      default: undefined,
+    },
+    nationalBaseRouteName: {
+      type: String,
+      default: undefined,
+    },
+    regionalBaseRouteName: {
       type: String,
       default: undefined,
     },

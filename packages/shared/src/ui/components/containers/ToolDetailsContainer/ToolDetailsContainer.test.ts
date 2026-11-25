@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ToolBannerStub } from '#shared/ui/components/base/ToolBanner/ToolBanner.stub'
+import { ToolInstitutionStub } from '#shared/ui/components/base/ToolInstitution/ToolInstitution.stub'
 import { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
 import ToolDetailsContainer from '#shared/ui/components/containers/ToolDetailsContainer/ToolDetailsContainer.vue'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -13,11 +14,13 @@ BddTest().given('a tool details container', () => {
     AvInput: AvInputStub,
     QuerySuspense: QuerySuspenseStub,
     ToolBanner: ToolBannerStub,
+    ToolInstitution: ToolInstitutionStub,
   }
 
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getInputs = () => wrapper.findAllComponents(AvInputStub)
   const getBanner = () => wrapper.findComponent(ToolBannerStub)
+  const getToolInstitution = () => wrapper.findComponent(ToolInstitutionStub)
 
   const mountWith = async (id: string, isNational: boolean) => {
     wrapper = mountComponent(ToolDetailsContainer, {
@@ -67,6 +70,10 @@ BddTest().given('a tool details container', () => {
       expect(getBanner().exists()).toBe(true)
       expect(getBanner().props('bannerId')).toBeUndefined()
     })
+
+    BddTest().then('it should render the tool institution component', () => {
+      expect(getToolInstitution().exists()).toBe(true)
+    })
   })
 
   BddTest().when('a local tool has loaded', () => {
@@ -77,6 +84,10 @@ BddTest().given('a tool details container', () => {
     BddTest().then('it should display the local tool details', () => {
       expect(getInputs()[0].props('modelValue')).toBe('Outil local 0')
       expect(wrapper.get('a').attributes('href')).toBe('https://example.com/local-tool-0')
+    })
+
+    BddTest().then('it should render the tool institution component', () => {
+      expect(getToolInstitution().exists()).toBe(true)
     })
   })
 
