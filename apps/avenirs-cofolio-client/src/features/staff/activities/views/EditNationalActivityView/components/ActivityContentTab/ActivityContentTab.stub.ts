@@ -9,6 +9,5 @@ export const ActivityContentTabStub = defineComponent({
     },
     isSubActivity: Boolean
   },
-  emits: ['nextStep'],
-  template: '<div data-testid="activity-content-tab-stub"></div>',
+  template: '<div data-testid="activity-content-tab-stub"><slot /></div>',
 })

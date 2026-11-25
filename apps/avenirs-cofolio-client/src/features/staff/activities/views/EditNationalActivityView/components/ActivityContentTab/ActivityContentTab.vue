@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { ActivityContentDTO, FileDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { Slot } from 'vue'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
@@ -22,7 +23,6 @@ import ActivityCreationModal from '@/features/staff/activities/components/modals
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
-import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import ManageSubActivitiesDropdown from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.vue'
 import SubActivitiesSortableList from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.vue'
 import DeleteSubActivitiesModal from '@/features/staff/activities/views/EditNationalActivityView/components/modals/DeleteSubActivitiesModal/DeleteSubActivitiesModal.vue'
@@ -30,19 +30,17 @@ import { useEditNationalActivityViewContext } from '@/features/staff/activities/
 
 interface ActivityContentTabProps {
   activity: ActivityContentDTO
-  isSubActivity?: boolean
 }
 
 const { activity } = defineProps<ActivityContentTabProps>()
 
-const emit = defineEmits<{
-  (e: 'nextStep'): void
+const slots = defineSlots<{
+  default?: Slot
 }>()
 
 const {
   form,
   isSaving,
-  isBusy,
   isExecutionPeriodEnabled,
   isAssessmentEnabled,
   isAssessmentGradeEnabled,
@@ -72,6 +70,7 @@ const files = form.useStore(state => state.values.files)
 const links = form.useStore(state => state.values.links)
 const startDate = form.useStore(state => state.values.startDate)
 const endDate = form.useStore(state => state.values.endDate)
+const isSubActivity = computed(() => !!activity.mainActivityId)
 
 function addResource (payload: AddActivityResourceFormData) {
   let newLinks: string[] | undefined
@@ -131,7 +130,10 @@ function deleteSelectedResources (
       </IconTitleCardContainer>
     </div>
 
-    <div :id="ContentSectionId.THEMATIC">
+    <div
+      v-if="!isSubActivity"
+      :id="ContentSectionId.THEMATIC"
+    >
       <IconTitleCardContainer
         :title="`${t('global.activities.contentSectionTypes.THEMATIC')} *`"
         :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
@@ -202,6 +204,7 @@ function deleteSelectedResources (
           @update-execution-period-enabled="(isEnabled: boolean) => { isExecutionPeriodEnabled = isEnabled }"
         />
         <ActivityReflectionFormField
+          v-if="!isSubActivity"
           :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="queueAutoSave"
@@ -212,11 +215,13 @@ function deleteSelectedResources (
           @autosave="queueAutoSave"
         />
         <ActivityFeedbackFormField
+          v-if="!isSubActivity"
           :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="queueAutoSave"
         />
         <ActivityAssessmentFormFieldsContainer
+          v-if="!isSubActivity"
           :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="queueAutoSave"
@@ -226,7 +231,10 @@ function deleteSelectedResources (
       </IconTitleCardContainer>
     </div>
 
-    <div :id="ContentSectionId.SUB_ACTIVITIES">
+    <div
+      v-if="!isSubActivity"
+      :id="ContentSectionId.SUB_ACTIVITIES"
+    >
       <IconTitleCardContainer
         :title="t('global.activities.contentSectionTypes.SUB_ACTIVITIES')"
         :title-icon="ICONS.SUB_ACTIVITY"
@@ -251,17 +259,11 @@ function deleteSelectedResources (
       </IconTitleCardContainer>
     </div>
 
-    <div class="av-row av-wrap av-gap-sm av-justify-end">
-      <EditNationalActivityViewTabActions />
-      <AvButton
-        data-testid="activity-content-tab-next-step-button"
-        variant="FLAT"
-        :icon="MDI_ICONS.ARROW_RIGHT"
-        :label="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.nextStepLabel')"
-        :is-loading="isBusy"
-        @click="emit('nextStep')"
-      />
-    </div>
+    <template
+      v-if="slots.default"
+    >
+      <slot />
+    </template>
   </div>
 
   <ActivityCreationModal

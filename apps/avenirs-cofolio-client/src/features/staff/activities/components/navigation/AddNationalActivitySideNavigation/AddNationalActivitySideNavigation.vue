@@ -6,22 +6,24 @@ import { useRoute, useRouter } from 'vue-router'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
-import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
+import {
+  ContentSectionId,
+  ContentSectionSubActivityId,
+  EditActivityTabIndex,
+  PublicationSectionId
+} from '@/features/staff/activities/editActivity.constants'
 
-interface AddNationalActivitySideNavigationProps {
-  activeTab: EditActivityTabIndex
-  isSubActivity?: boolean
-}
-
-const {
-  activeTab,
-  isSubActivity = false,
-} = defineProps<AddNationalActivitySideNavigationProps>()
+const { activeTab, isSubActivity } = defineProps<AddNationalActivitySideNavigationProps>()
+const activeTabRef = toRef(() => activeTab)
 
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
+interface AddNationalActivitySideNavigationProps {
+  activeTab: EditActivityTabIndex
+  isSubActivity: boolean
+}
 const { activeElementId } = useScrollSpy([
   ContentSectionId.TITLE,
   ContentSectionId.THEMATIC,
@@ -43,7 +45,7 @@ const contentItems = computed<AvSideNavigationMenuItem[]>(() => [
       : t('staff.activities.views.AddNationalActivityView.sideNavigation.contentHeader'),
     icon: MDI_ICONS.PENCIL_OUTLINE,
     expanded: true,
-    children: Object.values(ContentSectionId).map(id => ({
+    children: Object.values(isSubActivity ? ContentSectionSubActivityId : ContentSectionId).map(id => ({
       id,
       label: t(`global.activities.contentSectionTypes.${id}`),
     })),
@@ -64,7 +66,7 @@ const publicationItems = computed<AvSideNavigationMenuItem[]>(() => [
 ])
 
 const items = computed<AvSideNavigationMenuItem[]>(() => {
-  return activeTab === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
+  return activeTabRef.value === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
 })
 
 function navigateToSelectedItem (item: AvSideNavigationSelectedItem) {
@@ -89,7 +91,7 @@ watch(activeElementId, () => {
   }
 })
 
-watch(() => activeTab, (newValue) => {
+watch(activeTabRef, (newValue) => {
   requestAnimationFrame(() => {
     const itemId = newValue === EditActivityTabIndex.PUBLICATION ? publicationItems.value[0].id : contentItems.value[0].id
     selectedItem.value = { itemId }

@@ -36,6 +36,7 @@ import { EditActivityFormDataBannerAction } from '@/features/staff/activities/ty
 import { toActivityAssessmentRequest } from '@/features/staff/activities/utils/activity-assessment'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
+import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
@@ -121,7 +122,6 @@ const trailingLinks = computed(() => [
 const hasPublishRight = computed(() => content.value?.rights.includes(EActivityRight.PUBLISH) ?? false)
 
 const remoteFiles = computed(() => content.value?.files ?? [])
-const persistedTargetIds = computed(() => [...(content.value?.targetInstitutionIds ?? []), ...(content.value?.targetGroupIds ?? [])])
 const subActivities = computed(() => content.value?.subActivities ?? [])
 
 const defaultValues: EditActivityFormData = reactive({
@@ -410,10 +410,11 @@ provideEditNationalActivityViewContext({
         <AddNationalActivitySideNavigation
           v-if="!isMobile"
           :active-tab="activeTab"
-          :is-sub-activity="isSubActivity"
+          :is-sub-activity
         />
         <div class="av-col av-flex-fill">
           <AvTabs
+            v-if="!isSubActivity"
             v-model="activeTab"
             data-testid="add-national-activity-tabs"
           >
@@ -426,9 +427,14 @@ provideEditNationalActivityViewContext({
             >
               <ActivityContentTab
                 :activity="content!"
-                :is-sub-activity="isSubActivity"
-                @next-step="onNextStep"
-              />
+              >
+                <EditNationalActivityViewTabActions
+                  :activity="presentation!"
+                  next-step-config
+                  :has-publish-right
+                  @next-step="onNextStep"
+                />
+              </ActivityContentTab>
             </AvTab>
             <AvTab
               :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
@@ -440,14 +446,24 @@ provideEditNationalActivityViewContext({
               <ActivityPublicationTab
                 v-model="bannerFile"
                 :activity="presentation!"
-                :persisted-target-ids="persistedTargetIds"
-                :lock-persisted-targets="content?.hasEnrolledStudent"
-                :has-publish-right="hasPublishRight"
-                :is-sub-activity="isSubActivity"
-                @published="onPublished"
-              />
+              >
+                <EditNationalActivityViewTabActions
+                  :activity="presentation!"
+                  :has-publish-right
+                  @published="onPublished"
+                />
+              </ActivityPublicationTab>
             </AvTab>
           </AvTabs>
+          <div v-else>
+            <ActivityContentTab :activity="content!">
+              <EditNationalActivityViewTabActions
+                :activity="presentation!"
+                :has-publish-right
+                @published="onPublished"
+              />
+            </ActivityContentTab>
+          </div>
         </div>
       </div>
     </QuerySuspense>

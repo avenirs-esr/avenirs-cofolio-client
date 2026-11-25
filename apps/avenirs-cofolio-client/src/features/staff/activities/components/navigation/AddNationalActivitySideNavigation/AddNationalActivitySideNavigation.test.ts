@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
-import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
+import { ContentSectionId, ContentSectionSubActivityId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 
 const replaceMock = vi.fn()
 const requestAnimationFrameMock = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback: FrameRequestCallback) => {
@@ -35,7 +35,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
   BddTest().when('mounted with content tab', () => {
     beforeEach(() => {
       wrapper = mount(AddNationalActivitySideNavigation, {
-        props: { activeTab: EditActivityTabIndex.CONTENT },
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: false },
         global: {
           stubs: {
             SideNavigation: SideNavigationStub,
@@ -59,10 +59,35 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
     })
   })
 
+  BddTest().when('mounted with content tab for a sub-activity', () => {
+    beforeEach(() => {
+      wrapper = mount(AddNationalActivitySideNavigation, {
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: true },
+        global: {
+          stubs: {
+            SideNavigation: SideNavigationStub,
+          }
+        }
+      })
+    })
+
+    BddTest().then('it should pass only the sub-activity content sections to SideNavigation', () => {
+      const items = wrapper.findComponent({ name: 'SideNavigation' }).props('items')
+      expect(items[0].id).toBe('CONTENT')
+      expect(items[0].children.map(({ id }: { id: string }) => id)).toEqual(Object.values(ContentSectionSubActivityId))
+    })
+
+    BddTest().then('it should not list the THEMATIC and SUB_ACTIVITIES sections', () => {
+      const childrenIds = wrapper.findComponent({ name: 'SideNavigation' }).props('items')[0].children.map(({ id }: { id: string }) => id)
+      expect(childrenIds).not.toContain(ContentSectionId.THEMATIC)
+      expect(childrenIds).not.toContain(ContentSectionId.SUB_ACTIVITIES)
+    })
+  })
+
   BddTest().when('mounted with publication tab', () => {
     beforeEach(() => {
       wrapper = mount(AddNationalActivitySideNavigation, {
-        props: { activeTab: EditActivityTabIndex.PUBLICATION },
+        props: { activeTab: EditActivityTabIndex.PUBLICATION, isSubActivity: false },
         global: {
           stubs: {
             SideNavigation: SideNavigationStub,
@@ -83,7 +108,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
       replaceMock.mockClear()
       requestAnimationFrameMock.mockClear()
       wrapper = mount(AddNationalActivitySideNavigation, {
-        props: { activeTab: EditActivityTabIndex.CONTENT },
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: false },
         attachTo: document.body,
         global: {
           stubs: {
@@ -118,7 +143,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
     beforeEach(async () => {
       replaceMock.mockClear()
       wrapper = mount(AddNationalActivitySideNavigation, {
-        props: { activeTab: EditActivityTabIndex.CONTENT },
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: false },
         global: {
           stubs: {
             SideNavigation: SideNavigationStub,
@@ -138,7 +163,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
     beforeEach(() => {
       window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
       wrapper = mount(AddNationalActivitySideNavigation, {
-        props: { activeTab: EditActivityTabIndex.CONTENT },
+        props: { activeTab: EditActivityTabIndex.CONTENT, isSubActivity: false },
         global: {
           stubs: {
             SideNavigation: SideNavigationStub,

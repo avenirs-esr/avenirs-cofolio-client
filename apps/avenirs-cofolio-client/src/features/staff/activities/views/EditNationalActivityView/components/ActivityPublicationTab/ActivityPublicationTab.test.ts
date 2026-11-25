@@ -1,66 +1,29 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub, ICONS } from '@avenirs-esr/shared'
-import { getAvButtonByTestId, mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS } from '@avenirs-esr/shared'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
+import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
-import { mockedActivityDetail, mockedActivityPresentationWithSubActivities, mockedActivityPresentationWithUnpublishableSubActivities } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
 import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
 import { ActivitySummaryFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.stub'
 import { ActivityTargetsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTargetsFormField/ActivityTargetsFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
+import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
-import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import {
   EditNationalActivityViewFormWrapper,
-  EditNationalActivityViewFormWrapperValid,
-  mockIsBusy,
+  mockQueueAutoSave,
   resetMockSaveState,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
-
-const REQUIRED_FIELDS_WITH_TARGETS_ERROR = 'Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l\'activité'
-const UNPUBLISHABLE_SUB_ACTIVITIES_ERROR = 'Veuillez compléter les sous-activités pour publier l\'activité'
-
-const mockAddSuccessMessage = vi.fn()
-const mockAddErrorMessage = vi.fn()
-
-vi.mock('@/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/store')>()
-  return {
-    ...actual,
-    useToasterStore: () => ({
-      addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage,
-    }),
-  }
-})
-
-vi.mock('@avenirs-esr/shared', async () => {
-  const actual = await vi.importActual<typeof import('@avenirs-esr/shared')>('@avenirs-esr/shared')
-  return {
-    ...actual,
-    useTaskLoading: () => ({
-      isLoading: ref(false),
-      withTaskLoading: async (task: () => Promise<unknown> | unknown) => await task(),
-    }),
-  }
-})
-
-type FormWrapperComponent
-  = | typeof EditNationalActivityViewFormWrapper
-    | typeof EditNationalActivityViewFormWrapperValid
 
 BddTest().given('an ActivityPublicationTab component', () => {
   let wrapper: ReturnType<typeof mountComponent>
   let tab: VueWrapper<InstanceType<typeof ActivityPublicationTab>>
 
   const stubs = {
-    AvButton: AvButtonStub,
-    AvMessage: AvMessageStub,
-    ConfirmationModal: ConfirmationModalStub,
-    EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTargetsFormField: ActivityTargetsFormFieldStub,
     ActivityBannerFormField: ActivityBannerFormFieldStub,
@@ -70,19 +33,22 @@ BddTest().given('an ActivityPublicationTab component', () => {
   }
 
   function mountTab (
-    FormWrapper: FormWrapperComponent,
-    activity = mockedActivityDetail,
-    targetProps: { hasPublishRight?: boolean, isSubActivity?: boolean } = {},
+    { withSlot = false }: { withSlot?: boolean } = {},
+    targetProps: { isSubActivity?: boolean } = {}
   ) {
-    wrapper = mountComponent(FormWrapper, {
-      slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, hasPublishRight: true, ...targetProps }) },
+    wrapper = mountComponent(EditNationalActivityViewFormWrapper, {
+      slots: {
+        default: h(
+          ActivityPublicationTab,
+          { modelValue: null, activity: mockedActivityDetail, ...targetProps },
+          withSlot ? { default: () => h('div', { 'data-testid': 'custom-slot' }) } : undefined,
+        ),
+      },
       global: { stubs },
     })
 
     tab = wrapper.findComponent(ActivityPublicationTab)
   }
-
-  const getPublishButton = () => getAvButtonByTestId(tab, 'publish-button')
 
   const getActivityTitleCard = () =>
     tab
@@ -92,11 +58,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     resetMockSaveState()
-    mountTab(EditNationalActivityViewFormWrapper)
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
+    mountTab()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -104,12 +66,23 @@ BddTest().given('an ActivityPublicationTab component', () => {
       expect(tab.findComponent(IconTitleCardContainerStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should render every publication section', () => {
+      Object.values(PublicationSectionId).forEach((id) => {
+        expect(tab.find(`#${id}`).exists()).toBe(true)
+      })
+    })
+
     BddTest().then('it should render ActivityTitleFormField', () => {
       expect(tab.findComponent(ActivityTitleFormFieldStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render ActivityBannerFormField', () => {
+    BddTest().then('it should render ActivityTargetsFormField', () => {
+      expect(tab.findComponent(ActivityTargetsFormFieldStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityBannerFormField with the remote banner', () => {
       expect(tab.findComponent(ActivityBannerFormFieldStub).exists()).toBe(true)
+      expect(tab.findComponent(ActivityBannerFormFieldStub).props('remoteBanner')).toEqual(mockedActivityDetail.banner)
     })
 
     BddTest().then('it should render ActivitySummaryFormField', () => {
@@ -120,170 +93,34 @@ BddTest().given('an ActivityPublicationTab component', () => {
       expect(tab.findComponent(ActivityRecommendedCompletionContextsFormFieldStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render EditNationalActivityViewTabActions', () => {
-      expect(tab.findComponent(EditNationalActivityViewTabActionsStub).exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the publish button', () => {
-      expect(getPublishButton().exists()).toBe(true)
-    })
-
-    BddTest().then('it should render ConfirmationModal', () => {
-      expect(tab.findComponent(ConfirmationModalStub).exists()).toBe(true)
+    BddTest().then('it should not render any slot content', () => {
+      expect(tab.find('[data-testid="custom-slot"]').exists()).toBe(false)
     })
   })
 
-  BddTest().when('a required publish field is missing', () => {
-    BddTest().then('it should disable the publish button', () => {
-      expect(getPublishButton().props('disabled')).toBe(true)
-    })
-
-    BddTest().then('it should explain why the publish button is disabled', () => {
-      expect(getPublishButton().props('disabledTooltip')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
-    })
-
-    BddTest().then('it should display the required fields warning', () => {
-      expect(tab.findComponent(AvMessageStub).exists()).toBe(true)
-    })
-  })
-
-  BddTest().when('all required publish fields are provided', () => {
+  BddTest().when('content is passed in the default slot', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapperValid)
+      mountTab({ withSlot: true })
     })
 
-    BddTest().then('it should enable the publish button', () => {
-      expect(getPublishButton().props('disabled')).toBe(false)
-    })
-
-    BddTest().then('it should not display the required fields warning', () => {
-      expect(tab.findComponent(AvMessageStub).exists()).toBe(false)
+    BddTest().then('it should render the slot content', () => {
+      expect(tab.find('[data-testid="custom-slot"]').exists()).toBe(true)
     })
   })
 
-  BddTest().when('a sub-activity is not publishable while a required publish field is missing', () => {
+  BddTest().when('a form field asks for an autosave', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapper, mockedActivityPresentationWithUnpublishableSubActivities)
+      tab.findComponent(ActivityBannerFormFieldStub).vm.$emit('autosave')
     })
 
-    BddTest().then('it should explain the missing fields first', () => {
-      expect(getPublishButton().props('disabledTooltip')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
-      expect(tab.findComponent(AvMessageStub).props('message')).toBe(REQUIRED_FIELDS_WITH_TARGETS_ERROR)
-    })
-  })
-
-  BddTest().when('a sub-activity is not publishable while all required publish fields are provided', () => {
-    beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityPresentationWithUnpublishableSubActivities)
-    })
-
-    BddTest().then('it should disable the publish button', () => {
-      expect(getPublishButton().props('disabled')).toBe(true)
-    })
-
-    BddTest().then('it should explain that some sub-activities are not publishable', () => {
-      expect(getPublishButton().props('disabledTooltip')).toBe(UNPUBLISHABLE_SUB_ACTIVITIES_ERROR)
-      expect(tab.findComponent(AvMessageStub).props('message')).toBe(UNPUBLISHABLE_SUB_ACTIVITIES_ERROR)
-    })
-  })
-
-  BddTest().when('the user does not have the publish right', () => {
-    beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityDetail, { hasPublishRight: false })
-    })
-
-    BddTest().then('it should disable the publish button with an explanatory tooltip', () => {
-      expect(getPublishButton().props('disabled')).toBe(true)
-      expect(getPublishButton().props('disabledTooltip')).toBe('Vous devez disposer du droit de publication sur l\'activité pour la publier')
-    })
-
-    BddTest().then('it should not display the required fields warning', () => {
-      expect(tab.findComponent(AvMessageStub).exists()).toBe(false)
-    })
-  })
-
-  BddTest().when('the view is busy', () => {
-    beforeEach(async () => {
-      mockIsBusy.value = true
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should mark the publish button as loading', () => {
-      expect(getPublishButton().props('isLoading')).toBe(true)
-    })
-  })
-
-  BddTest().when('publish is clicked with valid fields', () => {
-    beforeEach(async () => {
-      mountTab(EditNationalActivityViewFormWrapperValid)
-      await getPublishButton().trigger('click')
-    })
-
-    BddTest().then('it should open confirmation modal', async () => {
-      await vi.waitFor(() => {
-        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
-      })
-    })
-  })
-
-  BddTest().when('publication is confirmed successfully', () => {
-    beforeEach(async () => {
-      mountTab(EditNationalActivityViewFormWrapperValid)
-
-      await getPublishButton().trigger('click')
-
-      await vi.waitFor(() => {
-        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
-      })
-
-      await tab.findComponent(ConfirmationModalStub).vm.$emit('confirm')
-    })
-
-    BddTest().then('it should emit published', async () => {
-      await vi.waitFor(() => {
-        expect(tab.emitted('published')).toBeTruthy()
-      })
-    })
-
-    BddTest().then('it should show success message', async () => {
-      await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalled()
-      })
-    })
-  })
-
-  BddTest().when('publication fails', () => {
-    beforeEach(async () => {
-      mountTab(EditNationalActivityViewFormWrapperValid, {
-        ...mockedActivityDetail,
-        id: 'INVALID_ACTIVITY_DRAFT_ID',
-      })
-
-      await getPublishButton().trigger('click')
-
-      await vi.waitFor(() => {
-        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
-      })
-
-      await tab.findComponent(ConfirmationModalStub).vm.$emit('confirm')
-    })
-
-    BddTest().then('it should not emit published', async () => {
-      await vi.waitFor(() => {
-        expect(tab.emitted('published')).toBeFalsy()
-      })
-    })
-
-    BddTest().then('it should show error message', async () => {
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
+    BddTest().then('it should queue an autosave', () => {
+      expect(mockQueueAutoSave).toHaveBeenCalledOnce()
     })
   })
 
   BddTest().when('the activity is a main activity', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityDetail, { isSubActivity: false })
+      mountTab({}, { isSubActivity: false })
     })
 
     BddTest().then('it should display the activity title label', () => {
@@ -293,7 +130,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   BddTest().when('the activity is a sub-activity', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapperValid, mockedActivityPresentationWithSubActivities, { isSubActivity: true })
+      mountTab({}, { isSubActivity: true })
     })
 
     BddTest().then('it should display the sub-activity title label', () => {

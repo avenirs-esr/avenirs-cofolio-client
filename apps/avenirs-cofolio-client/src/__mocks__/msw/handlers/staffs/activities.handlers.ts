@@ -1,4 +1,4 @@
-import type { ActivityContentDTO, ActivityDashboardDTO, ActivityDraftCreationResponse, ActivityDraftUpdateRequest, ActivityDraftUpdateResponse, ActivityPresentationDTO, CreationResponse, EFeedbackStatus, FileDTO, InactiveStudentDTO, PagedResponseActivityFeedbacksPreviewDTO, PagedResponseActivityStaffOverviewDTO, StaffInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
+import type { ActivityContentDTO, ActivityDashboardDTO, ActivityDraftCreationResponse, ActivityDraftUpdateRequest, ActivityDraftUpdateResponse, CreationResponse, EFeedbackStatus, FileDTO, InactiveStudentDTO, PagedResponseActivityFeedbacksPreviewDTO, PagedResponseActivityStaffOverviewDTO, StaffInfoDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import {
 
@@ -28,7 +28,12 @@ import {
   getUploadDraftBannerUrl
 
 } from '@avenirs-esr/shared/api/avenir-esr'
-import { createEmptyPaginatedDatasetResponse, internalServerError, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
+import {
+  createEmptyPaginatedDatasetResponse,
+  internalServerError,
+  isEmptyDataSetRequest,
+  successJsonResponse
+} from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
@@ -326,11 +331,9 @@ export const staffsActivitiesHandlers = [
         { status: 404, headers: { 'Content-Type': 'application/json' } }
       )
     }
+    const mainActivityId = allMockedActivityContentDTO.find(({ id }: ActivityContentDTO) => id === activityId)?.mainActivityId
 
-    return HttpResponse.json<ActivityPresentationDTO>({ ...mockedActivityDetail, id: activityId as string }, {
-      status: HttpStatusCode.OK,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return successJsonResponse({ ...mockedActivityDetail, id: activityId as string, mainActivityId })
   }),
   http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
