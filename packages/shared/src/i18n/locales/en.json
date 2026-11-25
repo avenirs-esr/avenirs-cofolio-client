@@ -16,14 +16,27 @@
       }
     },
     "components": {
+      "base": {
+        "ToolBanner": {
+          "alt": "Decorative image of the tool"
+        }
+      },
       "cards": {
         "Card": {
           "collapse": "Collapse",
           "expand": "Expand"
         },
         "ToolCard": {
-          "button": "Access the tool",
-          "imgAlt": "Decorative image of the tool"
+          "button": "Access the tool"
+        }
+      },
+      "containers": {
+        "ToolDetailsContainer": {
+          "labels": {
+            "description": "Tool description",
+            "name": "Tool name",
+            "url": "Tool URL"
+          }
         }
       },
       "interactions": {

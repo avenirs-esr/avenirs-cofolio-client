@@ -10,6 +10,8 @@ export type { ToolCardProps } from '#shared/ui/components/cards/ToolCard/ToolCar
 export { QuerySuspenseStub } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.stub'
 export { default as QuerySuspense } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 export type { QuerySuspenseProps } from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
+export { ToolDetailsContainerStub } from '#shared/ui/components/containers/ToolDetailsContainer/ToolDetailsContainer.stub'
+export { default as ToolDetailsContainer } from '#shared/ui/components/containers/ToolDetailsContainer/ToolDetailsContainer.vue'
 export { EmptyStateStub } from '#shared/ui/components/feedback/EmptyState/EmptyState.stub'
 export { default as EmptyState } from '#shared/ui/components/feedback/EmptyState/EmptyState.vue'
 export type { EmptyStateProps } from '#shared/ui/components/feedback/EmptyState/EmptyState.vue'

@@ -3,9 +3,9 @@ import type { ToolDTO } from '#shared/api/avenir-esr/index'
 import type { AvIconTextProps } from '@avenirs-esr/avenirs-dsav'
 import type { IconOptions } from '@avenirs-esr/shared'
 import { EToolType } from '#shared/api/avenir-esr/index'
-import { useStorageImage } from '#shared/composables/use-storage-image/use-storage-image'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
+import ToolBanner from '#shared/ui/components/base/ToolBanner/ToolBanner.vue'
 import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { BANNER_RATIO } from '#shared/utils/image.config'
 import { AvButton, AvIconText, AvTooltip, useAvBreakpoints, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
@@ -22,7 +22,6 @@ const { tool, baseRouteName } = defineProps<ToolCardProps>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
-const { url: bannerUrl } = useStorageImage(() => tool.banner?.id || undefined, 'cover')
 
 const urlRef = ref<HTMLElement | null>(null)
 
@@ -88,12 +87,7 @@ const avIconTextProps = computed<AvIconTextProps | undefined>(() => {
     >
       <template #body>
         <div class="av-col av-gap-sm av-pt-sm">
-          <img
-            :src="bannerUrl"
-            :alt="t(`${i18nKey}.imgAlt`)"
-            class="banner av-w-full av-h-full av-radius-md"
-            data-testid="tool-banner"
-          >
+          <ToolBanner :banner-id="tool.banner?.id" />
           <span class="b2-regular">
             {{ tool.description }}
           </span>
