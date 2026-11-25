@@ -30,7 +30,11 @@ export const ROUTES = {
       },
       GROUPS: { name: 'staff-admin-groups', path: 'admin/groups' },
       SKILLS: { name: 'staff-admin-skills', path: 'admin/skills' },
-      TOOL: { name: 'staff-admin-tool', path: 'admin/tool/:id' },
+      TOOL: {
+        LOCAL: { name: 'staff-admin-local-tool', path: 'admin/tool/local/:id' },
+        NATIONAL: { name: 'staff-admin-national-tool', path: 'admin/tool/national/:id' },
+        REGIONAL: { name: 'staff-admin-regional-tool', path: 'admin/tool/regional/:id' },
+      },
       TOOLS: { name: 'staff-admin-tools', path: 'admin/tools' },
       USER: { name: 'staff-admin-user', path: 'admin/user/:id' },
       USERS: { name: 'staff-admin-users', path: 'admin/users' },

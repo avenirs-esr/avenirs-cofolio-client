@@ -22,6 +22,6 @@ const trailingLinks = computed(() => [{ text: tool.value?.name ?? '' }])
   />
   <ToolDetailsContainer
     :id="id"
-    :is-national="true"
+    is-national
   />
 </template>

@@ -6,7 +6,9 @@ import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ToolTabsProps {
-  baseRouteName?: string
+  localBaseRouteName?: string
+  nationalBaseRouteName?: string
+  regionalBaseRouteName?: string
 }
 
 defineProps<ToolTabsProps>()
@@ -24,7 +26,7 @@ const { t } = useI18n()
     >
       <ToolsPaginatedList
         :type="EToolType.NATIONAL"
-        :base-route-name="baseRouteName"
+        :base-route-name="nationalBaseRouteName"
       />
     </AvTab>
     <AvTab
@@ -33,7 +35,7 @@ const { t } = useI18n()
     >
       <ToolsPaginatedList
         :type="EToolType.REGIONAL"
-        :base-route-name="baseRouteName"
+        :base-route-name="regionalBaseRouteName"
       />
     </AvTab>
     <AvTab
@@ -42,7 +44,7 @@ const { t } = useI18n()
     >
       <ToolsPaginatedList
         :type="EToolType.LOCAL"
-        :base-route-name="baseRouteName"
+        :base-route-name="localBaseRouteName"
       />
     </AvTab>
   </AvTabs>

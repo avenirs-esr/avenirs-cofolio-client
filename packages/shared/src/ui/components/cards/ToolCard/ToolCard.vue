@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import type { ToolDTO } from '#shared/api/avenir-esr/index'
-import type { AvIconTextProps } from '@avenirs-esr/avenirs-dsav'
 import type { IconOptions } from '@avenirs-esr/shared'
-import { EToolType } from '#shared/api/avenir-esr/index'
 import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '#shared/constants/colors'
 import { ICONS } from '#shared/constants/icons'
 import ToolBanner from '#shared/ui/components/base/ToolBanner/ToolBanner.vue'
+import ToolInstitution from '#shared/ui/components/base/ToolInstitution/ToolInstitution.vue'
 import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { BANNER_RATIO } from '#shared/utils/image.config'
-import { AvButton, AvIconText, AvTooltip, useAvBreakpoints, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTooltip, useAvBreakpoints, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
@@ -39,31 +38,6 @@ const iconOptions: IconOptions = {
 const i18nKey = 'global.components.cards.ToolCard'
 
 const routerProps = computed(() => baseRouteName ? { to: { name: baseRouteName, params: { id: tool.id } } } : {})
-
-const avIconTextProps = computed<AvIconTextProps | undefined>(() => {
-  if (!tool.institution?.name || !tool.type || tool.type === EToolType.NATIONAL) {
-    return undefined
-  }
-
-  let icon: string
-
-  switch (tool.type) {
-    case EToolType.REGIONAL:
-      icon = ICONS.REGIONAL
-      break
-    case EToolType.LOCAL:
-    default:
-      icon = ICONS.LOCAL
-  }
-
-  return {
-    icon,
-    iconColor: 'var(--icon)',
-    text: tool.institution?.name,
-    typographyClass: 'caption-regular',
-    inline: true
-  }
-})
 </script>
 
 <template>
@@ -96,10 +70,7 @@ const avIconTextProps = computed<AvIconTextProps | undefined>(() => {
 
       <template #footer>
         <div class="av-col av-gap-sm">
-          <AvIconText
-            v-if="avIconTextProps"
-            v-bind="avIconTextProps"
-          />
+          <ToolInstitution :tool="tool" />
           <div
             v-if="!baseRouteName"
             class="av-row av-w-full av-justify-end"

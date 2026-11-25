@@ -22,6 +22,8 @@ export function useIdentifyRoute () {
 
   const isStaffHomeRoute = computed(() => route.name === ROUTES.STAFF.HOME.name)
 
+  const isStaffAdminNationalToolRoute = computed(() => route.name === ROUTES.STAFF.ADMIN.TOOL.NATIONAL.name)
+
   const isStaffAdminGroupsRoute = computed(() => isRouteInRoutes(staffAdminGroupsRoutes))
 
   const isStaffStudentTrackingRoute = computed(() => isRouteInRoutes(staffStudentTrackingFeedbacksRoutes))
@@ -32,6 +34,7 @@ export function useIdentifyRoute () {
 
   return {
     isStaffHomeRoute,
+    isStaffAdminNationalToolRoute,
     isStaffAdminGroupsRoute,
     isStaffStudentTrackingRoute,
     isStudentToolsTracesRoute,

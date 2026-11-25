@@ -11,5 +11,9 @@ const viewKey = 'staff.admin.views.AdminToolsView'
 <template>
   <PageTitle :title="t(`${viewKey}.title`)" />
 
-  <ToolTabs :base-route-name="ROUTES.STAFF.ADMIN.TOOL.name" />
+  <ToolTabs
+    :local-base-route-name="ROUTES.STAFF.ADMIN.TOOL.LOCAL.name"
+    :national-base-route-name="ROUTES.STAFF.ADMIN.TOOL.NATIONAL.name"
+    :regional-base-route-name="ROUTES.STAFF.ADMIN.TOOL.REGIONAL.name"
+  />
 </template>

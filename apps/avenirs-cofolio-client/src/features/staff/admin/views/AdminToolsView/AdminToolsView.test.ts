@@ -32,9 +32,20 @@ BddTest().given('an admin tools view', () => {
       expect(getPageTitle().exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the staff tool route name to ToolTabs', () => {
+    BddTest().then('it should render the tool tabs', () => {
       expect(getToolTabs().exists()).toBe(true)
-      expect(getToolTabs().props('baseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.name)
+    })
+
+    BddTest().then('it should pass the national tools route name to ToolTabs', () => {
+      expect(getToolTabs().props('nationalBaseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.NATIONAL.name)
+    })
+
+    BddTest().then('it should pass the regional tools route name to ToolTabs', () => {
+      expect(getToolTabs().props('regionalBaseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.REGIONAL.name)
+    })
+
+    BddTest().then('it should pass the local tools route name to ToolTabs', () => {
+      expect(getToolTabs().props('localBaseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.LOCAL.name)
     })
   })
 })
