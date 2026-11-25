@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/activities.fixtures'
-import { mockedActivityContent, mockedActivityContentWithEnrolledStudent1, mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentWithEnrolledStudent1, mockedSubActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityAssessmentFormFieldsContainerStub } from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
@@ -19,14 +19,12 @@ import { ActivityCreationModalStub } from '@/features/staff/activities/component
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
-import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { ManageSubActivitiesDropdownStub } from '@/features/staff/activities/views/EditNationalActivityView/components/interactions/dropdowns/ManageSubActivitiesDropdown/ManageSubActivitiesDropdown.stub'
 import { SubActivitiesSortableListStub } from '@/features/staff/activities/views/EditNationalActivityView/components/lists/SubActivitiesSortableList/SubActivitiesSortableList.stub'
 import { DeleteSubActivitiesModalStub } from '@/features/staff/activities/views/EditNationalActivityView/components/modals/DeleteSubActivitiesModal/DeleteSubActivitiesModal.stub'
 import {
   EditNationalActivityViewFormWrapper,
   EditNationalActivityViewFormWrapperDirty,
-  mockIsBusy,
   mockIsSaving,
   mockSubActivitiesOrder,
   resetMockSaveState,
@@ -47,9 +45,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityResourcesListEditable: ActivityResourcesListEditableStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
-    AvButton: AvButtonStub,
     DeleteSubActivitiesModal: DeleteSubActivitiesModalStub,
-    EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     ManageSubActivitiesDropdown: ManageSubActivitiesDropdownStub,
     SubActivitiesSortableList: SubActivitiesSortableListStub,
@@ -58,25 +54,21 @@ BddTest().given('an ActivityContentTab component', () => {
   function mountTab (
     FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty,
     activity = mockedActivityContent,
-    targetProps: { isSubActivity?: boolean } = {},
+    { withSlot = false }: { withSlot?: boolean } = {},
   ) {
     wrapper = mount(FormWrapper, {
       slots: {
-        default: h(ActivityContentTab, {
-          activity,
-          ...targetProps
-        }),
+        default: h(
+          ActivityContentTab,
+          { activity },
+          withSlot ? { default: () => h('div', { 'data-testid': 'custom-slot' }) } : undefined,
+        ),
       },
       global: { stubs }
     })
 
     tab = wrapper.findComponent(ActivityContentTab)
   }
-
-  const getNextStepButton = () =>
-    tab
-      .findAllComponents(AvButtonStub)
-      .find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
 
   const getResourcesList = () =>
     tab.findComponent(ActivityResourcesListEditableStub)
@@ -144,8 +136,12 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.findComponent(ActivityAssessmentFormFieldsContainerStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the next step button', () => {
-      expect(getNextStepButton().exists()).toBe(true)
+    BddTest().then('it should render the THEMATIC section', () => {
+      expect(tab.find(`#${ContentSectionId.THEMATIC}`).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render any slot content', () => {
+      expect(tab.find('[data-testid="custom-slot"]').exists()).toBe(false)
     })
 
     BddTest().then('it should render SubActivitiesSortableList in the SUB_ACTIVITIES section', () => {
@@ -206,14 +202,48 @@ BddTest().given('an ActivityContentTab component', () => {
     })
   })
 
-  BddTest().when('the view is busy', () => {
-    beforeEach(async () => {
-      mockIsBusy.value = true
-      await wrapper.vm.$nextTick()
+  BddTest().when('content is passed in the default slot', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContent, { withSlot: true })
     })
 
-    BddTest().then('it should show the next step button as loading', () => {
-      expect(getNextStepButton().props('isLoading')).toBe(true)
+    BddTest().then('it should render the slot content', () => {
+      expect(tab.find('[data-testid="custom-slot"]').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedSubActivityContent)
+    })
+
+    BddTest().then('it should render the sub-activity content sections', () => {
+      expect(tab.find(`#${ContentSectionId.TITLE}`).exists()).toBe(true)
+      expect(tab.find(`#${ContentSectionId.INSTRUCTIONS}`).exists()).toBe(true)
+      expect(tab.find(`#${ContentSectionId.CONTEXT}`).exists()).toBe(true)
+      expect(tab.find(`#${ContentSectionId.DOCUMENTS}`).exists()).toBe(true)
+      expect(tab.find(`#${ContentSectionId.MODALITIES}`).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the THEMATIC section', () => {
+      expect(tab.find(`#${ContentSectionId.THEMATIC}`).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the SUB_ACTIVITIES section', () => {
+      expect(tab.find(`#${ContentSectionId.SUB_ACTIVITIES}`).exists()).toBe(false)
+      expect(tab.findComponent(SubActivitiesSortableListStub).exists()).toBe(false)
+      expect(tab.findComponent(ManageSubActivitiesDropdownStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the sub-activity modalities form fields', () => {
+      expect(tab.findComponent(ActivityExecutionPeriodFormFieldStub).exists()).toBe(true)
+      expect(tab.findComponent(ActivityTraceFormFieldStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the reflection, feedback and assessment form fields', () => {
+      expect(tab.findComponent(ActivityReflectionFormFieldStub).exists()).toBe(false)
+      expect(tab.findComponent(ActivityFeedbackFormFieldStub).exists()).toBe(false)
+      expect(tab.findComponent(ActivityAssessmentFormFieldsContainerStub).exists()).toBe(false)
     })
   })
 
@@ -225,16 +255,6 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should pass the updating state to ActivityResourcesListEditable', () => {
       expect(getResourcesList().props('isUpdating')).toBe(true)
-    })
-  })
-
-  BddTest().when('the next step button is clicked', () => {
-    beforeEach(async () => {
-      await getNextStepButton().trigger('click')
-    })
-
-    BddTest().then('it should emit nextStep', () => {
-      expect(tab.emitted('nextStep')).toBeTruthy()
     })
   })
 
@@ -429,7 +449,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   BddTest().when('the activity is a main activity', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContent, { isSubActivity: false })
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContent)
     })
 
     BddTest().then('it should display the activity title label', () => {
@@ -439,7 +459,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   BddTest().when('the activity is a sub-activity', () => {
     beforeEach(() => {
-      mountTab(EditNationalActivityViewFormWrapper, mockedActivityContentWithSubActivities, { isSubActivity: true })
+      mountTab(EditNationalActivityViewFormWrapper, mockedSubActivityContent)
     })
 
     BddTest().then('it should display the sub-activity title label', () => {

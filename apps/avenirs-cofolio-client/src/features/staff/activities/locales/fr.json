@@ -246,7 +246,6 @@
             }
           },
           "ActivityContentTab": {
-            "nextStepLabel": "Étape suivante",
             "title": "Renseigner le contenu"
           },
           "ActivityExecutionPeriodFormField": {
@@ -260,15 +259,6 @@
             "title": "Demande de feedback"
           },
           "ActivityPublicationTab": {
-            "confirmDescription": "Cette action la rendra accessible à tous les apprenants de l'établissement et permettra leur inscription immédiate.",
-            "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité\u00A0? ",
-            "publishError": "Une erreur est survenue lors de la publication de l'activité",
-            "publishLabel": "Publier",
-            "publishRightOnlyTooltip": "Vous devez disposer du droit de publication sur l'activité pour la publier",
-            "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l'activité",
-            "publishRequiredFieldsWithTargetsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l'activité",
-            "publishSuccess": "L'activité a été publiée avec succès",
-            "publishUnpublishableSubActivitiesError": "Veuillez compléter les sous-activités pour publier l'activité",
             "title": "Préparer la publication"
           },
           "ActivityReflectionFormField": {
@@ -327,6 +317,17 @@
             "title": "Quelle sous-activité souhaitez-vous supprimer\u00A0? | Quelles sous-activités souhaitez-vous supprimer\u00A0?"
           },
           "EditNationalActivityViewTabActions": {
+            "backToParent": "Retour à l'activité parente",
+            "confirmDescription": "Cette action la rendra accessible à tous les apprenants de l'établissement et permettra leur inscription immédiate.",
+            "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité\u00A0? ",
+            "nextStepLabel": "Étape suivante",
+            "publishError": "Une erreur est survenue lors de la publication de l'activité",
+            "publishLabel": "Publier",
+            "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l'activité",
+            "publishRequiredFieldsSubActivityError": "Veuillez renseigner un titre, une consigne, un/des contexte(s) de réalisation conseillé(s) pour publier la sous-activité",
+            "publishRightOnlyTooltip": "Vous devez disposer du droit de publication sur l'activité pour la publier",
+            "publishSuccess": "L'activité a été publiée avec succès",
+            "publishUnpublishableSubActivitiesError": "Veuillez compléter les sous-activités pour publier l'activité",
             "saveDisabledTooltip": "Modifiez un champ avant d'enregistrer",
             "saveLabel": "Enregistrer pour plus tard"
           },

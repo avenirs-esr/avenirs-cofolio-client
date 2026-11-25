@@ -29,6 +29,7 @@ import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.c
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.stub'
 import { ActivityPublicationTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.stub'
+import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { useSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/composables/use-sub-activities-order/use-sub-activities-order'
 import { mockSubActivitiesOrder, resetMockSubActivitiesOrder } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
@@ -138,6 +139,7 @@ BddTest().given('a national activity view', () => {
     ActivityContentTab: ActivityContentTabStub,
     ActivityPublicationTab: ActivityPublicationTabStub,
     AddNationalActivitySideNavigation: AddNationalActivitySideNavigationStub,
+    EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvTabs: AvTabsStub,
     AvTab: AvTabStub,
   }
@@ -150,6 +152,9 @@ BddTest().given('a national activity view', () => {
     await flushPromises()
     await wrapper.vm.$nextTick()
   }
+
+  const getContentTabActions = () => wrapper.findComponent(ActivityContentTabStub).findComponent(EditNationalActivityViewTabActionsStub)
+  const getPublicationTabActions = () => wrapper.findComponent(ActivityPublicationTabStub).findComponent(EditNationalActivityViewTabActionsStub)
 
   const getAvTabs = () => wrapper.findComponent(AvTabsStub) as VueWrapper<InstanceType<typeof AvTabsStub>>
   const getContentTabItem = () => wrapper.findComponent(AvTabStub)
@@ -634,10 +639,85 @@ BddTest().given('a national activity view', () => {
     })
   })
 
-  BddTest().when('the content tab emits nextStep', () => {
+  BddTest().when('the view is mounted for a national activity', () => {
     beforeEach(async () => {
       await mountView()
-      wrapper.findComponent(ActivityContentTabStub).vm.$emit('nextStep')
+    })
+
+    BddTest().then('it should render the content and publication tabs', () => {
+      expect(getAvTabs().exists()).toBe(true)
+      expect(wrapper.findComponent(ActivityContentTabStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should tell AddNationalActivitySideNavigation it is not a sub-activity', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).props('isSubActivity')).toBe(false)
+    })
+
+    BddTest().then('it should render the content tab actions in next step configuration', () => {
+      expect(getContentTabActions().props()).toMatchObject({
+        nextStepConfig: true,
+        hasPublishRight: true,
+      })
+      expect(getContentTabActions().props('activity')?.id).toBe(mockedActivityContent.id)
+    })
+
+    BddTest().and('the publication tab is displayed', () => {
+      beforeEach(async () => {
+        await switchTab(EditActivityTabIndex.PUBLICATION)
+      })
+
+      BddTest().then('it should render the publication tab actions in publish configuration', () => {
+        expect(getPublicationTabActions().props()).toMatchObject({
+          nextStepConfig: false,
+          hasPublishRight: true,
+        })
+        expect(getPublicationTabActions().props('activity')?.id).toBe(mockedActivityContent.id)
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted for a sub-activity', () => {
+    beforeEach(async () => {
+      await mountView(mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should not render the tabs', () => {
+      expect(getAvTabs().exists()).toBe(false)
+      expect(wrapper.findComponent(ActivityPublicationTabStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the content tab for the sub-activity', () => {
+      expect(wrapper.findComponent(ActivityContentTabStub).props('activity')?.id).toBe(mockedSubActivityContent.id)
+    })
+
+    BddTest().then('it should tell AddNationalActivitySideNavigation it is a sub-activity', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).props('isSubActivity')).toBe(true)
+    })
+
+    BddTest().then('it should render the content tab actions without the next step configuration', () => {
+      expect(getContentTabActions().props()).toMatchObject({
+        nextStepConfig: false,
+        hasPublishRight: true,
+      })
+      expect(getContentTabActions().props('activity')?.mainActivityId).toBe(mockedSubActivityContent.mainActivityId)
+    })
+
+    BddTest().and('the actions emit published', () => {
+      beforeEach(async () => {
+        getContentTabActions().vm.$emit('published')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should navigate back to staff activities', () => {
+        expect(mockNavigateToStaffActivities).toHaveBeenCalledWith(true)
+      })
+    })
+  })
+
+  BddTest().when('the content tab actions emit nextStep', () => {
+    beforeEach(async () => {
+      await mountView()
+      getContentTabActions().vm.$emit('nextStep')
       await wrapper.vm.$nextTick()
     })
 
@@ -648,11 +728,11 @@ BddTest().given('a national activity view', () => {
     })
   })
 
-  BddTest().when('the publication tab emits published', () => {
+  BddTest().when('the publication tab actions emit published', () => {
     beforeEach(async () => {
       await mountView()
       await switchTab(EditActivityTabIndex.PUBLICATION)
-      wrapper.findComponent(ActivityPublicationTabStub).vm.$emit('published')
+      getPublicationTabActions().vm.$emit('published')
       await wrapper.vm.$nextTick()
     })
 

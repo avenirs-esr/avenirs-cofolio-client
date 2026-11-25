@@ -8,6 +8,14 @@ export enum ContentSectionId {
   SUB_ACTIVITIES = 'SUB_ACTIVITIES',
 }
 
+export enum ContentSectionSubActivityId {
+  TITLE = 'TITLE',
+  INSTRUCTIONS = 'INSTRUCTIONS',
+  CONTEXT = 'CONTEXT',
+  DOCUMENTS = 'DOCUMENTS',
+  MODALITIES = 'MODALITIES',
+}
+
 export enum PublicationSectionId {
   ACTIVITY_TITLE = 'ACTIVITY_TITLE',
   TARGETS = 'TARGETS',

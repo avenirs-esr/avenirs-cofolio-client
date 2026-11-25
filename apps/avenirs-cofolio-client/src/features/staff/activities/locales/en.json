@@ -246,7 +246,6 @@
             }
           },
           "ActivityContentTab": {
-            "nextStepLabel": "Next step",
             "title": "Fill in the content"
           },
           "ActivityExecutionPeriodFormField": {
@@ -260,15 +259,6 @@
             "title": "Feedback request"
           },
           "ActivityPublicationTab": {
-            "confirmDescription": "This action will make the activity accessible to all learners in the institution and allow them to register immediately.",
-            "confirmTitle": "Are you sure you want to publish your activity?",
-            "publishError": "An error occurred while publishing the activity",
-            "publishLabel": "Publish",
-            "publishRightOnlyTooltip": "You must hold the publish right on the activity to publish it",
-            "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction, a summary and one/many recommended completion context(s) to publish the activity",
-            "publishRequiredFieldsWithTargetsError": "Please provide a title, a thematic, an instruction, a summary, one/many recommended completion context(s) and at least one target to publish the activity",
-            "publishSuccess": "Activity published successfully",
-            "publishUnpublishableSubActivitiesError": "Please complete the sub-activities to publish the activity",
             "title": "Prepare publication"
           },
           "ActivityReflectionFormField": {
@@ -327,6 +317,17 @@
             "title": "Which sub-activity do you want to delete? | Which sub-activities do you want to delete?"
           },
           "EditNationalActivityViewTabActions": {
+            "backToParent": "Back to parent activity",
+            "confirmDescription": "This action will make the activity accessible to all learners in the institution and allow them to register immediately.",
+            "confirmTitle": "Are you sure you want to publish your activity?",
+            "nextStepLabel": "Next step",
+            "publishError": "An error occurred while publishing the activity",
+            "publishLabel": "Publish",
+            "publishRightOnlyTooltip": "You must hold the publish right on the activity to publish it",
+            "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction, a summary and one/many recommended completion context(s) and at least one target to publish the activity",
+            "publishRequiredFieldsSubActivityError": "Please provide a title, an instruction, one/many recommended completion context(s) to publish the sub-activity",
+            "publishSuccess": "Activity published successfully",
+            "publishUnpublishableSubActivitiesError": "Please complete the sub-activities to publish the activity",
             "saveDisabledTooltip": "Edit a field before saving",
             "saveLabel": "Save for later"
           },

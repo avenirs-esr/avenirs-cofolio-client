@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import type { ActivityPresentationDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
-import { AvButton, AvMessage, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, ICONS, useApiErrors, useModal, useTaskLoading } from '@avenirs-esr/shared'
-import { invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, usePublishActivityDraft } from '@avenirs-esr/shared/api/avenir-esr'
-import { useQueryClient } from '@tanstack/vue-query'
-import isEmpty from 'lodash-es/isEmpty'
+import type { Slot } from 'vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
@@ -14,85 +11,23 @@ import ActivitySummaryFormField from '@/features/staff/activities/components/int
 import ActivityTargetsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTargetsFormField/ActivityTargetsFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
-import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import { useToasterStore } from '@/store'
 
 interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO
-  hasPublishRight?: boolean
   isSubActivity?: boolean
 }
 
-const { activity, hasPublishRight = false, isSubActivity = false } = defineProps<ActivityPublicationTabProps>()
+const { activity, isSubActivity = false } = defineProps<ActivityPublicationTabProps>()
 
-const emit = defineEmits<{
-  (e: 'published'): void
+const slots = defineSlots<{
+  default?: Slot
 }>()
-
-const PUBLISH_REQUIRED_FIELDS: Array<keyof EditActivityFormData> = ['title', 'thematic', 'description', 'recommendedCompletionContexts', 'summary']
 
 const bannerFile = defineModel<File | null>()
 
 const { t } = useI18n()
-const { form, isBusy, queueAutoSave } = useEditNationalActivityViewContext()
-const { modalOpened, openModal, closeModal } = useModal()
-const { getErrorMessage } = useApiErrors()
-const { addErrorMessage, addSuccessMessage } = useToasterStore()
-const { isLoading, withTaskLoading } = useTaskLoading()
-const queryClient = useQueryClient()
-
-const { mutate: mutatePublishActivityDraft, isPending } = usePublishActivityDraft()
-
-const isFormValid = form.useStore(state => state.isValid)
-const values = form.useStore(state => state.values)
-
-const isFormPublishable = computed(() => {
-  const hasTargets = values.value.isNational
-    || !isEmpty(values.value.targetInstitutionIds)
-    || !isEmpty(values.value.targetGroupIds)
-
-  return isFormValid.value && hasTargets && PUBLISH_REQUIRED_FIELDS.every(field => !isEmpty(values.value[field]))
-})
-const hasUnpublishableSubActivities = computed(() => activity.subActivities.some(({ publishable }) => !publishable))
-const canPublish = computed(() => isFormPublishable.value && !hasUnpublishableSubActivities.value)
-
-const publishBlockedMessage = computed(() => {
-  if (!isFormPublishable.value) {
-    return t(values.value.isNational
-      ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
-      : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError')
-  }
-  if (hasUnpublishableSubActivities.value) {
-    return t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishUnpublishableSubActivitiesError')
-  }
-
-  return undefined
-})
-
-const publishDisabledTooltip = computed(() => hasPublishRight
-  ? publishBlockedMessage.value
-  : t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRightOnlyTooltip'))
-
-async function publishActivityDraft () {
-  mutatePublishActivityDraft({ activityDraftId: activity.id }, {
-    onSuccess: async () => {
-      await withTaskLoading(() => Promise.all([
-        invalidateGetStaffActivityWorkingSpace(queryClient),
-        invalidateGetStaffActivityLibrary(queryClient),
-      ]))
-      addSuccessMessage(t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishSuccess'))
-      closeModal()
-      setTimeout(() => emit('published'), 10)
-    },
-    onError: (error) => {
-      addErrorMessage({
-        title: t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishError'),
-        description: getErrorMessage(error),
-      })
-    }
-  })
-}
+const { form, queueAutoSave } = useEditNationalActivityViewContext()
 </script>
 
 <template>
@@ -172,41 +107,12 @@ async function publishActivityDraft () {
         </IconTitleCardContainer>
       </div>
     </div>
-    <div class="av-col">
-      <div class="av-row av-wrap av-gap-sm av-justify-end">
-        <EditNationalActivityViewTabActions />
-        <AvButton
-          data-testid="publish-button"
-          variant="FLAT"
-          :icon="RI_ICONS.SEND_PLANE_LINE"
-          :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
-          :is-loading="isBusy || isPending || isLoading"
-          :disabled="!hasPublishRight || !canPublish"
-          :disabled-tooltip="publishDisabledTooltip"
-          @click="openModal"
-        />
-      </div>
-      <div
-        v-if="hasPublishRight && !canPublish"
-        class="av-row av-justify-end"
-      >
-        <AvMessage
-          :message="publishBlockedMessage"
-          type="warning"
-        />
-      </div>
-    </div>
+    <template
+      v-if="slots.default"
+    >
+      <slot />
+    </template>
   </div>
-
-  <ConfirmationModal
-    data-testid="publish-confirmation-modal"
-    :opened="modalOpened"
-    :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmTitle')"
-    :description="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmDescription')"
-    :is-loading="isBusy || isPending || isLoading"
-    @confirm="publishActivityDraft"
-    @close="closeModal"
-  />
 </template>
 
 <style lang="scss" scoped>
