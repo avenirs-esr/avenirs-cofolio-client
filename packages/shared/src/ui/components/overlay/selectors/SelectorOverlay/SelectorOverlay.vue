@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { AvIcon, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectorOverlayElement extends AvInteractiveProps {
@@ -43,6 +44,8 @@ const selectedElements = defineModel<string[]>('selectedElements', { default: ()
 
 const iconScale = computed(() => small ? 0.75 : 1)
 
+const i18nKey = 'global.components.overlay.SelectorOverlay.ariaLabel'
+
 function onSelectElement (element: SelectorOverlayElement) {
   if (element.disabled || element.isLoading) {
     return
@@ -58,10 +61,10 @@ function onSelectElement (element: SelectorOverlayElement) {
 
 function getAriaLabel (element: SelectorOverlayElement) {
   if (selectedElements.value.includes(element.value)) {
-    return selectedAriaLabel ?? t('global.overlay.SelectorOverlay.ariaLabel.selected', { item: element.label })
+    return selectedAriaLabel ?? t(`${i18nKey}.selected`, { item: element.label })
   }
   else {
-    return unselectedAriaLabel ?? t('global.overlay.SelectorOverlay.ariaLabel.unselected', { item: element.label })
+    return unselectedAriaLabel ?? t(`${i18nKey}.unselected`, { item: element.label })
   }
 }
 </script>

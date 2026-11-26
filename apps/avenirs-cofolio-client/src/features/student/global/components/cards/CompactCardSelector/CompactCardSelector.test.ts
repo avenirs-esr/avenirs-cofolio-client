@@ -2,10 +2,9 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CompactCardStub } from '@avenirs-esr/shared'
+import { CompactCardStub, SelectorOverlayStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { SelectorOverlayStub } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.stub'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 BddTest().given('a compact card selector', () => {

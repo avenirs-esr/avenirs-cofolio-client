@@ -251,6 +251,14 @@
             "description": "Toutes les modifications non enregistrées seront perdues.",
             "title": "Êtes-vous sûr de vouloir quitter\u00A0?"
           }
+        },
+        "selectors": {
+          "SelectorOverlay": {
+            "ariaLabel": {
+              "selected": "Désélectionner {item}",
+              "unselected": "Sélectionner {item}"
+            }
+          }
         }
       },
       "QuerySuspense": {
