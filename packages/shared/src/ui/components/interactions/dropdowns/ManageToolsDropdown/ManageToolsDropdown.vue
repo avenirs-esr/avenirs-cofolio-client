@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { useModal } from '#shared/composables/index'
 import { Action } from '#shared/ui/components/interactions/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '#shared/ui/components/interactions/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import AddToolDrawer from '#shared/ui/components/overlay/drawers/AddToolDrawer/AddToolDrawer.vue'
+import DeleteToolsModal from '#shared/ui/components/overlay/modals/DeleteToolsModal/DeleteToolsModal.vue'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -12,9 +14,10 @@ export interface ManageToolsDropdownProps {
 
 const { isNational = false, entityName } = defineProps<ManageToolsDropdownProps>()
 
+const { modalOpened, openModal, closeModal } = useModal()
 const { t } = useI18n()
 
-const actions = [Action.ADD]
+const actions = [Action.ADD, Action.DELETE]
 
 const showAddToolDrawer = ref(false)
 
@@ -23,6 +26,9 @@ const resolvedEntityName = computed(() => entityName ?? t('global.components.int
 function onActionSelected (action: Action) {
   if (action === Action.ADD) {
     showAddToolDrawer.value = true
+  }
+  if (action === Action.DELETE) {
+    openModal()
   }
 }
 </script>
@@ -37,5 +43,11 @@ function onActionSelected (action: Action) {
     :show="showAddToolDrawer"
     :is-national
     @close="showAddToolDrawer = false"
+  />
+  <DeleteToolsModal
+    :opened="modalOpened"
+    :is-national="isNational"
+    @cancel="closeModal"
+    @deleted="closeModal"
   />
 </template>

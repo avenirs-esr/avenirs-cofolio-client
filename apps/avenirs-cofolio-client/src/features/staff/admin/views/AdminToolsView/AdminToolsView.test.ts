@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { PageTitleStub, ToolTabsStub } from '@avenirs-esr/shared'
+import { ManageToolsDropdownStub, PageTitleStub, ToolTabsStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { ROUTES } from '@/common/constants'
@@ -12,6 +12,7 @@ BddTest().given('an admin tools view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     ToolTabs: ToolTabsStub,
+    ManageToolsDropdown: ManageToolsDropdownStub
   }
 
   const mountView = () => {
@@ -22,6 +23,7 @@ BddTest().given('an admin tools view', () => {
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
   const getToolTabs = () => wrapper.findComponent(ToolTabsStub)
+  const getManageToolsDropdown = () => wrapper.findComponent(ManageToolsDropdownStub)
 
   BddTest().when('the view is mounted', () => {
     beforeEach(() => {
@@ -34,6 +36,10 @@ BddTest().given('an admin tools view', () => {
 
     BddTest().then('it should render the tool tabs', () => {
       expect(getToolTabs().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the manage tools dropdown', () => {
+      expect(getManageToolsDropdown().exists()).toBe(true)
     })
 
     BddTest().then('it should pass the national tools route name to ToolTabs', () => {

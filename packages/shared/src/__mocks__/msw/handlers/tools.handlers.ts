@@ -6,12 +6,16 @@ import {
   createMockedGetLocalToolsResponse,
   createMockedGetNationalToolsResponse,
   createMockedToolBannerFileDTO,
-  getToolDTO
+  getToolDTO,
+  INVALID_TOOL_ID,
+  MOCKED_TOOLS_TOTAL_ELEMENTS
 } from '#shared/__mocks__/fixtures/tools.fixtures'
 import {
   EToolType,
   getCreateLocalToolUrl,
   getCreateNationalToolUrl,
+  getDeleteLocalToolsUrl,
+  getDeleteNationalToolsUrl,
   getGetAvailableToolsUrl,
   getGetLocalToolsUrl,
   getGetLocalToolUrl,
@@ -34,7 +38,20 @@ const getNationalToolsHandler = http.get(`*${getGetNationalToolsUrl()}`, async (
   const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined
   const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
 
-  const response = createMockedGetNationalToolsResponse({ page, pageSize }, 30)
+  const response = createMockedGetNationalToolsResponse({ page, pageSize }, MOCKED_TOOLS_TOTAL_ELEMENTS)
+
+  return successJsonResponse(response)
+})
+
+export const getNationalToolsWithInvalidIdHandler = http.get(`*${getGetNationalToolsUrl()}`, async ({ request }) => {
+  const searchParams = new URL(request.url).searchParams
+  const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined
+  const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
+  const response = createMockedGetNationalToolsResponse({ page, pageSize }, MOCKED_TOOLS_TOTAL_ELEMENTS)
+
+  if (response.data[0]) {
+    response.data[0].id = `national-${INVALID_TOOL_ID}`
+  }
 
   return successJsonResponse(response)
 })
@@ -49,7 +66,21 @@ const getLocalToolsHandler = http.get(`*${getGetLocalToolsUrl()}`, async ({ requ
   const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
   const type = searchParams.has('type') ? searchParams.get('type') as EToolType : undefined
 
-  const response = createMockedGetLocalToolsResponse({ page, pageSize, type }, 30)
+  const response = createMockedGetLocalToolsResponse({ page, pageSize, type }, MOCKED_TOOLS_TOTAL_ELEMENTS)
+
+  return successJsonResponse(response)
+})
+
+export const getLocalToolsWithInvalidIdHandler = http.get(`*${getGetLocalToolsUrl()}`, async ({ request }) => {
+  const searchParams = new URL(request.url).searchParams
+  const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined
+  const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
+  const type = searchParams.has('type') ? searchParams.get('type') as EToolType : undefined
+  const response = createMockedGetLocalToolsResponse({ page, pageSize, type }, MOCKED_TOOLS_TOTAL_ELEMENTS)
+
+  if (response.data[0]) {
+    response.data[0].id = `local-${INVALID_TOOL_ID}`
+  }
 
   return successJsonResponse(response)
 })
@@ -64,7 +95,7 @@ const getAvailableToolsHandler = http.get(`*${getGetAvailableToolsUrl()}`, async
   const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
   const type = searchParams.has('type') ? searchParams.get('type') as EToolType : undefined
 
-  const response = createMockedGetAvailableToolsResponse({ page, pageSize, type }, 30)
+  const response = createMockedGetAvailableToolsResponse({ page, pageSize, type }, MOCKED_TOOLS_TOTAL_ELEMENTS)
 
   return successJsonResponse(response)
 })
@@ -99,6 +130,26 @@ const getLocalToolHandler = http.get(`*${getGetLocalToolUrl(':toolId')}`, async 
 
 export const createNationalToolErrorHandler = http.post(`*${getCreateNationalToolUrl()}`, async () => {
   return internalServerError()
+})
+
+const deleteNationalToolsHandler = http.delete(`*${getDeleteNationalToolsUrl()}`, async ({ request }) => {
+  const toolIds = await request.json() as string[]
+
+  if (toolIds.some(id => id.includes(INVALID_TOOL_ID))) {
+    return internalServerError()
+  }
+
+  return successJsonResponse(null)
+})
+
+const deleteLocalToolsHandler = http.delete(`*${getDeleteLocalToolsUrl()}`, async ({ request }) => {
+  const toolIds = await request.json() as string[]
+
+  if (toolIds.some(id => id.includes(INVALID_TOOL_ID))) {
+    return internalServerError()
+  }
+
+  return successJsonResponse(null)
 })
 
 const createNationalToolHandler = http.post(`*${getCreateNationalToolUrl()}`, async ({ request }) => {
@@ -141,6 +192,8 @@ export const toolsHandlers = [
   getLocalToolHandler,
   createNationalToolHandler,
   createLocalToolHandler,
+  deleteNationalToolsHandler,
+  deleteLocalToolsHandler,
   uploadNationalToolBannerHandler,
   uploadLocalToolBannerHandler,
 ]

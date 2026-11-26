@@ -1,4 +1,4 @@
-import type { CreateNationalToolRequest, FileDTO, ToolDTO } from '#shared/api/avenir-esr'
+import type { CreateLocalToolRequest, CreateNationalToolRequest, FileDTO, ToolDTO } from '#shared/api/avenir-esr'
 import type { BaseApiException } from '#shared/exceptions'
 import {
   createLocalTool,
@@ -41,8 +41,10 @@ export function useAddToolForm ({ isNational, onToolAdded }: UseAddToolFormOptio
 
   const i18nKey = 'global.composables.useAddToolForm'
 
-  const { mutateAsync: createTool } = useMutation<ToolDTO, BaseApiException, CreateNationalToolRequest>({
-    mutationFn: data => isNational ? createNationalTool(data) : createLocalTool(data),
+  const { mutateAsync: createTool } = useMutation<ToolDTO, BaseApiException, CreateNationalToolRequest | CreateLocalToolRequest>({
+    mutationFn: data => isNational || !('institutionId' in data)
+      ? createNationalTool(data)
+      : createLocalTool(data),
     onError: error => addErrorMessage({
       title: t(`${i18nKey}.errors.create`),
       description: getErrorMessage(error),

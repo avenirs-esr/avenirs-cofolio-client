@@ -11,7 +11,7 @@ import { computed, toRef, toRefs } from 'vue'
 
 export interface ToolsPaginatedListProps {
   baseRouteName?: string
-  type: EToolType | undefined
+  type: EToolType
 }
 
 const props = defineProps<ToolsPaginatedListProps>()
@@ -21,13 +21,14 @@ const toolsStore = useToolsStore()
 const { baseRouteName, type } = toRefs(props)
 
 const currentPageRef = computed(() => {
-  if (!type.value || type.value === EToolType.NATIONAL) {
-    return toRef(toolsStore, 'nationalToolsCurrentPage')
+  switch (type.value) {
+    case EToolType.NATIONAL:
+      return toRef(toolsStore, 'nationalToolsCurrentPage')
+    case EToolType.REGIONAL:
+      return toRef(toolsStore, 'regionalToolsCurrentPage')
+    default:
+      return toRef(toolsStore, 'localToolsCurrentPage')
   }
-  if (type.value === EToolType.REGIONAL) {
-    return toRef(toolsStore, 'regionalToolsCurrentPage')
-  }
-  return toRef(toolsStore, 'localToolsCurrentPage')
 })
 
 const isPreviewMode = computed(() => !baseRouteName.value)

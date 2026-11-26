@@ -108,7 +108,7 @@ BddTest().given('a tools paginated list', () => {
     BddTest().then('it should enable preview mode when no base route name is provided', () => {
       const params = mockUsePaginatedTools.mock.calls[0][0]
 
-      expect(params.previewModeRef.value).toBe(true)
+      expect(params.previewModeRef?.value).toBe(true)
     })
 
     BddTest().then('it should pass the current page and type to the paginated composable', () => {
@@ -147,7 +147,7 @@ BddTest().given('a tools paginated list', () => {
     BddTest().then('it should disable preview mode', () => {
       const params = mockUsePaginatedTools.mock.calls[0][0]
 
-      expect(params.previewModeRef.value).toBe(false)
+      expect(params.previewModeRef?.value).toBe(false)
     })
 
     BddTest().then('it should pass the base route name to every ToolCard', () => {

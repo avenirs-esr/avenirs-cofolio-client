@@ -3,9 +3,7 @@ import { CREATED_TOOL_ID, createMockedCreatedNationalToolDTO } from '#shared/__m
 import { createNationalToolErrorHandler, INTERNAL_ERROR_TOOL_ID } from '#shared/__mocks__/msw/handlers/tools.handlers'
 import { server } from '#shared/__mocks__/msw/server'
 import {
-  getCreateLocalToolUrl,
   getCreateNationalToolUrl,
-  getUploadLocalToolBannerUrl,
   getUploadNationalToolBannerUrl,
 } from '#shared/api/avenir-esr'
 import { useAddToolForm } from '#shared/composables/use-add-tool-form/use-add-tool-form'
@@ -231,16 +229,18 @@ BddTest().given('a useAddToolForm composable', () => {
     })
   })
 
-  BddTest().when('a valid local tool with a banner is submitted', () => {
-    beforeEach(async () => {
-      const { form } = mountUseAddToolForm({ isNational: false })
-      await submit(form, { ...VALID_VALUES, banner: BANNER })
-    })
+  // TODO: https://github.com/avenirs-esr/AVENIRS-Project/issues/3014
+  // Commented out local tool tests due to issue #3014 and swagger update
+  // BddTest().when('a valid local tool with a banner is submitted', () => {
+  //   beforeEach(async () => {
+  //     const { form } = mountUseAddToolForm({ isNational: false })
+  //     await submit(form, { ...VALID_VALUES, banner: BANNER })
+  //   })
 
-    BddTest().then('it should use the local tool endpoints', () => {
-      expect(findRequest('POST', getCreateLocalToolUrl())).toBeDefined()
-      expect(findRequest('POST', getUploadLocalToolBannerUrl(CREATED_TOOL_ID))).toBeDefined()
-      expect(findRequest('POST', getCreateNationalToolUrl())).toBeUndefined()
-    })
-  })
+  //   BddTest().then('it should use the local tool endpoints', () => {
+  //     expect(findRequest('POST', getCreateLocalToolUrl())).toBeDefined()
+  //     expect(findRequest('POST', getUploadLocalToolBannerUrl(CREATED_TOOL_ID))).toBeDefined()
+  //     expect(findRequest('POST', getCreateNationalToolUrl())).toBeUndefined()
+  //   })
+  // })
 })

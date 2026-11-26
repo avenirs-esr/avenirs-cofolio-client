@@ -51,7 +51,8 @@ BddTest().given('a tool card', () => {
       uploadedAt: (new Date()).toISOString()
     },
     description: 'Test tool description',
-    url: 'https://example.com'
+    url: 'https://example.com',
+    type: EToolType.NATIONAL
   }
 
   const defaultProps: ToolCardProps = {
