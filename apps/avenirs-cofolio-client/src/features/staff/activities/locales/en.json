@@ -187,6 +187,9 @@
             "scheduleTitle": "Activity schedule",
             "title": "Activity content"
           },
+          "NationalActivityExecutionPeriodDetails": {
+            "title": "Defined completion period"
+          },
           "NationalActivitySettingDetails": {
             "badges": {
               "assessmentComment": "Qualitative assessment",

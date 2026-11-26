@@ -12,6 +12,7 @@ import { useI18n } from 'vue-i18n'
 type AvDatePickerPassThroughProps = Omit<AvDatePickerProps, 'key' | 'errorMessage' | 'modelValue' | 'range' | 'type'>
 
 export type DatePeriodPickerProps = AvDatePickerPassThroughProps & {
+  disabled?: boolean
   endDateErrors?: (string | undefined)[]
   inputFormat?: string
   outputFormat?: string

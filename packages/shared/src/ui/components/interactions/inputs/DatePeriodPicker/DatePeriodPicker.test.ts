@@ -197,15 +197,17 @@ BddTest().given('a date period picker', () => {
     })
   })
 
-  BddTest().when('it uses the placeholder passed as prop', () => {
+  BddTest().when('it is mounted as disabled', () => {
     beforeEach(() => {
-      mountDatePeriodPicker({
-        placeholder: 'MM/AAAA - MM/AAAA',
-      })
+      mountDatePeriodPicker({ disabled: true })
     })
 
-    BddTest().then('the placeholder is passed to the date picker', () => {
-      expect(getDatePicker().props('placeholder')).toBe('MM/AAAA - MM/AAAA')
+    BddTest().then('it should disable the date picker', () => {
+      expect(getDatePicker().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the ongoing checkbox', () => {
+      expect(getCheckbox().props('disabled')).toBe(true)
     })
   })
 

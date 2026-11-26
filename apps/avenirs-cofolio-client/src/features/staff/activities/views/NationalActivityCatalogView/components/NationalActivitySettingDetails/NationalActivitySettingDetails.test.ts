@@ -13,7 +13,11 @@ import {
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
+import { NationalActivityExecutionPeriodDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityExecutionPeriodDetails/NationalActivityExecutionPeriodDetails.stub'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
+
+const START_DATE = '2026-03-01'
+const END_DATE = '2026-03-31'
 
 BddTest().given('a national activity setting details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivitySettingDetails>>
@@ -22,7 +26,10 @@ BddTest().given('a national activity setting details component', () => {
     IconTitleCardContainer: IconTitleCardContainerStub,
     AvBadge: AvBadgeStub,
     EnabledDisabledStatusBadge: EnabledDisabledStatusBadgeStub,
+    NationalActivityExecutionPeriodDetails: NationalActivityExecutionPeriodDetailsStub,
   }
+
+  const getExecutionPeriodDetails = () => wrapper.findComponent(NationalActivityExecutionPeriodDetailsStub)
 
   const mountWith = (activity = mockedActivityContent) => {
     wrapper = mount(NationalActivitySettingDetails, {
@@ -85,6 +92,48 @@ BddTest().given('a national activity setting details component', () => {
       expect(card.exists()).toBe(true)
       expect(card.props('title')).toBe('Évaluation de l\'activité')
       expect(card.props('titleIcon')).toBe(MDI_ICONS.TEXT_BOX_CHECK_OUTLINE)
+    })
+  })
+
+  BddTest().when('the activity has an execution period', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, startDate: START_DATE, endDate: END_DATE })
+    })
+
+    BddTest().then('it should render the execution period details with the period', () => {
+      expect(getExecutionPeriodDetails().exists()).toBe(true)
+      expect(getExecutionPeriodDetails().props('startDate')).toBe(START_DATE)
+      expect(getExecutionPeriodDetails().props('endDate')).toBe(END_DATE)
+    })
+  })
+
+  BddTest().when('the activity has no execution period', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, startDate: undefined, endDate: undefined })
+    })
+
+    BddTest().then('it should not render the execution period details', () => {
+      expect(getExecutionPeriodDetails().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity only has a start date', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, startDate: START_DATE, endDate: undefined })
+    })
+
+    BddTest().then('it should not render the execution period details', () => {
+      expect(getExecutionPeriodDetails().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity only has an end date', () => {
+    beforeEach(() => {
+      mountWith({ ...mockedActivityContent, startDate: undefined, endDate: END_DATE })
+    })
+
+    BddTest().then('it should not render the execution period details', () => {
+      expect(getExecutionPeriodDetails().exists()).toBe(false)
     })
   })
 

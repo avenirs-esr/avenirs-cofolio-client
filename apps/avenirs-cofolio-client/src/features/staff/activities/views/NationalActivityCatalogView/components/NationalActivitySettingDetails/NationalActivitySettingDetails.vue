@@ -12,6 +12,7 @@ import {
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
+import NationalActivityExecutionPeriodDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityExecutionPeriodDetails/NationalActivityExecutionPeriodDetails.vue'
 
 interface NationalActivitySettingDetailsProps {
   activity: ActivityContentDTO
@@ -55,6 +56,13 @@ const assessmentGradeLabel = computed(() => t(
     :title-icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
     data-testid="national-activity-setting-details"
   >
+    <NationalActivityExecutionPeriodDetails
+      v-if="!!activity.startDate && !!activity.endDate"
+      :start-date="activity.startDate"
+      :end-date="activity.endDate"
+      data-testid="national-activity-execution-period-details"
+    />
+
     <IconTitleCardContainer
       :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
       :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"

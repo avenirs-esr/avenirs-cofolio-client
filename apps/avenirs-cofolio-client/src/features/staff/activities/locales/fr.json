@@ -187,6 +187,9 @@
             "scheduleTitle": "Déroulé de l'activité",
             "title": "Contenu de l'activité"
           },
+          "NationalActivityExecutionPeriodDetails": {
+            "title": "Période de réalisation définie"
+          },
           "NationalActivitySettingDetails": {
             "badges": {
               "assessmentComment": "Appréciation qualitative",
