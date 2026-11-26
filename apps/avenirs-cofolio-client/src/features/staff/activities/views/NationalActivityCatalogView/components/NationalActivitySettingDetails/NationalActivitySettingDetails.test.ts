@@ -55,8 +55,8 @@ BddTest().given('a national activity setting details component', () => {
     BddTest().then('it should render the modalities container with proper title and icon', () => {
       const container = findCardIn('national-activity-setting-details')
       expect(container.exists()).toBe(true)
-      expect(container.props('title')).toBe('Modalités')
-      expect(container.props('titleIcon')).toBe(MDI_ICONS.SETTINGS)
+      expect(container.props('title')).toBe('Paramètres et diffusion')
+      expect(container.props('titleIcon')).toBe(MDI_ICONS.ALERT_CIRCLE_OUTLINE)
     })
 
     BddTest().then('it should render the reflection card with proper title and icon', () => {

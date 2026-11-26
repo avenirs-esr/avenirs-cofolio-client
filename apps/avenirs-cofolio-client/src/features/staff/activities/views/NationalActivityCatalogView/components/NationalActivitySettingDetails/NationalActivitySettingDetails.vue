@@ -51,8 +51,8 @@ const assessmentGradeLabel = computed(() => t(
 
 <template>
   <IconTitleCardContainer
-    :title="t('global.activities.contentSectionTypes.MODALITIES')"
-    :title-icon="MDI_ICONS.SETTINGS"
+    :title="t('staff.activities.views.NationalActivityCatalogView.NationalActivitySettingDetails.title')"
+    :title-icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
     data-testid="national-activity-setting-details"
   >
     <IconTitleCardContainer
