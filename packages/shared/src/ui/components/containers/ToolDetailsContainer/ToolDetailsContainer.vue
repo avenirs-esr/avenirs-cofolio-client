@@ -49,7 +49,7 @@ const i18nKey = 'global.components.containers.ToolDetailsContainer.labels'
         </div>
       </div>
 
-      <div class="av-row av-gap-md">
+      <div class="av-col av-row--md av-gap-md">
         <div class="av-col av-gap-sm av-flex-fill">
           <AvInput
             :model-value="tool?.name"
@@ -97,8 +97,14 @@ const i18nKey = 'global.components.containers.ToolDetailsContainer.labels'
 </template>
 
 <style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .banner-container {
   width: 75%;
+
+  @include dsav.max-width(md) {
+    width: 100%;
+  }
 }
 
 :deep(textarea) {
