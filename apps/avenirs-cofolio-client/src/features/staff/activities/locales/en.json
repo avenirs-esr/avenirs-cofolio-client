@@ -196,7 +196,8 @@
               "traceAssociations": "1 trace | {count} traces",
               "unlimitedIterations": "Unlimited iterations",
               "unlimitedTraces": "Unlimited traces"
-            }
+            },
+            "title": "Settings and publishing"
           },
           "tabs": {
             "content": "Content",

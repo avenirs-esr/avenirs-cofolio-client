@@ -196,7 +196,8 @@
               "traceAssociations": "1 trace | {count} traces",
               "unlimitedIterations": "Itérations illimitées",
               "unlimitedTraces": "Traces illimitées"
-            }
+            },
+            "title": "Paramètres et diffusion"
           },
           "tabs": {
             "content": "Contenu",
