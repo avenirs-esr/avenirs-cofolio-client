@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { IdTitleList } from '@/types'
+import type { IdTitleList } from '@avenirs-esr/shared'
 import { ConfirmationModal, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import {
   EActivityStatus,

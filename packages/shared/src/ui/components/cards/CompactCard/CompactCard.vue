@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import type { IconOptions } from '@avenirs-esr/shared'
-import type { IdTitle } from '@/types'
-import { FloatingIconCard } from '@avenirs-esr/shared'
+import type { IdTitle } from '#shared/types/common.types'
+import type { IconOptions } from '#shared/types/icons.types'
+import FloatingIconCard from '#shared/ui/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { computed } from 'vue'
 
 export interface CompactCardProps {
   element: IdTitle

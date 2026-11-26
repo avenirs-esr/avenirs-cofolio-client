@@ -1,10 +1,11 @@
+import type { CompactCardProps } from '#shared/ui/components/cards/CompactCard/CompactCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { CompactCardProps } from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import CompactCard from '#shared/ui/components/cards/CompactCard/CompactCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { FloatingIconCardStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
-import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a side menu compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof CompactCard>>

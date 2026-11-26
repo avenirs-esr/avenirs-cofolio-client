@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import type { IdTitle } from '@avenirs-esr/shared'
 import type { ActivityDraftUpdateRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ActivityTarget } from '@/features/staff/activities/types/activity-targets.types'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import type { IdTitle } from '@/types'
 import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { QuerySuspense } from '@avenirs-esr/shared'
 import { useStaffScope } from '@avenirs-esr/shared/api/avenir-esr'

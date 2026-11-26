@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
 import type { AvAutocompleteOption, AvInputProps } from '@avenirs-esr/avenirs-dsav'
-import type { IdTitle } from '@/types'
+import type { IdTitle } from '@avenirs-esr/shared'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import SelectedAssociateItemsContainer

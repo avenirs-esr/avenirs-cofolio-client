@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import { CompactCard } from '@avenirs-esr/shared'
 import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
 
 export interface StudentTraceViewCompactCardProps {

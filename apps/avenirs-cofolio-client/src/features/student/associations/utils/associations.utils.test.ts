@@ -1,6 +1,6 @@
+import type { IdTitle } from '@avenirs-esr/shared'
 import type { AssociationsDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { ElementAssociation } from '@/features/student/associations/types/associations.types'
-import type { IdTitle } from '@/types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { expect } from 'vitest'
