@@ -87,10 +87,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
       />
     </IconTitleCardContainer>
 
-    <NationalActivitySettingDetails
-      v-if="!isSubActivity"
-      :activity="activity"
-    />
+    <NationalActivitySettingDetails :activity="activity" />
 
     <NationalActivitySubActivitiesList
       v-if="activity.subActivities.length > 0"

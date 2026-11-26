@@ -237,8 +237,8 @@ BddTest().given('a national activity content tab', () => {
       expect(getActivityThematicBadge().exists()).toBe(false)
     })
 
-    BddTest().then('it should not render the setting details', () => {
-      expect(getNationalActivitySettingDetails().exists()).toBe(false)
+    BddTest().then('it should still render the setting details', () => {
+      expect(getNationalActivitySettingDetails().exists()).toBe(true)
     })
 
     BddTest().then('it should still render the consign and the recommended completion contexts', () => {
