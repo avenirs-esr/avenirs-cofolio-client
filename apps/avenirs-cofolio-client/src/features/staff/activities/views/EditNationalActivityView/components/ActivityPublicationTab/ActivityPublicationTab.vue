@@ -55,7 +55,7 @@ const { form, queueAutoSave } = useEditNationalActivityViewContext()
     <div :id="PublicationSectionId.TARGETS">
       <IconTitleCardContainer
         :title="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.title')"
-        :title-icon="MDI_ICONS.MAP_MARKER_RADIUS_OUTLINE"
+        :title-icon="ICONS.TARGETS"
       >
         <ActivityTargetsFormField
           :form="form"

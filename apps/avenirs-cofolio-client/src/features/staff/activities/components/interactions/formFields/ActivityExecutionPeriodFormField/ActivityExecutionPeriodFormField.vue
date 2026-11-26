@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@avenirs-esr/shared/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { DatePeriodPicker } from '@avenirs-esr/shared'
+import { DatePeriodPicker, ICONS } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 
@@ -73,7 +72,7 @@ function setEndDate (value?: string) {
     v-model="inputEnabled"
     data-testid="execution-period-parameter-toggle"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityExecutionPeriodFormField.title')"
-    :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
+    :icon="ICONS.PERIOD"
   >
     <DatePeriodPicker
       v-if="inputEnabled"
