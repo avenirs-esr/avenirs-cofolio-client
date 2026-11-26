@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import type { CompactCardSelectorProps } from '@avenirs-esr/shared'
 import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, SkillProgressDTO, TraceOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BG_COLORS, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
+import { BG_COLORS, CompactCardSelector, ICON_COLORS, TEXT_COLORS } from '@avenirs-esr/shared'
 import { EAssociationContextType } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { isDeletableDeclaredActivityAssociation } from '@/common/activities/rules/activities.rules'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 import DeclaredProgramStatusBadge

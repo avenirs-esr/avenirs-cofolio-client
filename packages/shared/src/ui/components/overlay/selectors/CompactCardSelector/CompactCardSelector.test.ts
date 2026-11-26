@@ -1,11 +1,12 @@
+import type { CompactCardSelectorProps } from '#shared/ui/components/overlay/selectors/CompactCardSelector/CompactCardSelector.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { CompactCardStub } from '#shared/ui/components/cards/CompactCard/CompactCard.stub'
+import CompactCardSelector from '#shared/ui/components/overlay/selectors/CompactCardSelector/CompactCardSelector.vue'
+import { SelectorOverlayStub } from '#shared/ui/components/overlay/selectors/SelectorOverlay/SelectorOverlay.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { CompactCardStub, SelectorOverlayStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 BddTest().given('a compact card selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof CompactCardSelector>>

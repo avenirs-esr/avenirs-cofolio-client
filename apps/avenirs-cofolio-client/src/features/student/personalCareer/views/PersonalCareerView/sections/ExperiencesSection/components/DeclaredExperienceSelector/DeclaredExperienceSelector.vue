@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { CompactCardSelector } from '@avenirs-esr/shared'
 
 export interface DeclaredExperienceSelectorProps {
   declaredExperiences: { label: string, value: string }[]

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ICONS } from '@avenirs-esr/shared'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { CompactCardSelector, ICONS } from '@avenirs-esr/shared'
 
 export interface DeclaredProgramSelectorProps {
   declaredPrograms: { label: string, value: string }[]

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import { CompactCard, SelectorOverlay } from '@avenirs-esr/shared'
-import { getUnknownElementProp } from '@/features/student/global/components/cards/CompactCardSelector/utils'
+import CompactCard from '#shared/ui/components/cards/CompactCard/CompactCard.vue'
+import { getUnknownElementProp } from '#shared/ui/components/overlay/selectors/CompactCardSelector/utils'
+import SelectorOverlay from '#shared/ui/components/overlay/selectors/SelectorOverlay/SelectorOverlay.vue'
+import { computed } from 'vue'
 
 /**
  * @example

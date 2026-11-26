@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredExperienceSelectorProps } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CompactCardSelectorStub } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import DeclaredExperienceSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'
 
 BddTest().given('a declared experience selector', () => {
