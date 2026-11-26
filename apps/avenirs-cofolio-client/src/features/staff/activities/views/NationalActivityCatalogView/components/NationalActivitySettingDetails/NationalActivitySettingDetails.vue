@@ -22,6 +22,7 @@ const { activity } = defineProps<NationalActivitySettingDetailsProps>()
 
 const { t } = useI18n()
 
+const isSubActivity = computed(() => !!activity.mainActivityId)
 const isTraceEnabled = computed(() => activity.traceAllowedAssociations !== ACTIVITY_TRACE_SETTING_DISABLED_VALUE)
 const isFeedbackEnabled = computed(() => activity.feedbackAllowedIterations !== ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED)
 const hasAssessment = computed(() => isAssessmentEnabled(activity))
@@ -64,6 +65,7 @@ const assessmentGradeLabel = computed(() => t(
     />
 
     <IconTitleCardContainer
+      v-if="!isSubActivity"
       :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
       :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
       background-color="var(--other-background-base)"
@@ -91,6 +93,7 @@ const assessmentGradeLabel = computed(() => t(
       </div>
     </IconTitleCardContainer>
     <IconTitleCardContainer
+      v-if="!isSubActivity"
       :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
       :title-icon="ICONS.FEEDBACK"
       background-color="var(--other-background-base)"
@@ -108,6 +111,7 @@ const assessmentGradeLabel = computed(() => t(
       </div>
     </IconTitleCardContainer>
     <IconTitleCardContainer
+      v-if="!isSubActivity"
       :title="t('staff.activities.views.EditNationalActivityView.ActivityAssessmentFormFieldsContainer.title')"
       :title-icon="MDI_ICONS.TEXT_BOX_CHECK_OUTLINE"
       background-color="var(--other-background-base)"

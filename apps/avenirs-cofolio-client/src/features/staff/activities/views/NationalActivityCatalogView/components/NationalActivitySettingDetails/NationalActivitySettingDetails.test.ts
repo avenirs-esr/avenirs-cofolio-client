@@ -4,7 +4,7 @@ import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ICONS } from '@avenirs-esr/shared'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedSubActivityContent, mockedSubActivityContentWithPeriod } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EnabledDisabledStatusBadgeStub } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import {
@@ -37,6 +37,8 @@ BddTest().given('a national activity setting details component', () => {
       global: { stubs },
     })
   }
+
+  const findSection = (testid: string) => wrapper.find(`[data-testid="${testid}"]`)
 
   const findEnabledDisabledStatusBadgeIn = (testid: string) =>
     wrapper.find(`[data-testid="${testid}"]`).findComponent(EnabledDisabledStatusBadgeStub)
@@ -341,6 +343,44 @@ BddTest().given('a national activity setting details component', () => {
     BddTest().then('it should not display the qualitative assessment nor the grade badges', () => {
       expect(findAssessmentBadge('assessment-comment-badge')).toBeUndefined()
       expect(findAssessmentBadge('assessment-grade-badge')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the activity is a sub-activity', () => {
+    beforeEach(() => {
+      mountWith(mockedSubActivityContent)
+    })
+
+    BddTest().then('it should render the trace card with proper title and icon', () => {
+      const card = findCardIn('national-activity-setting-details-trace')
+      expect(card.exists()).toBe(true)
+      expect(card.props('title')).toBe('Association de traces')
+      expect(card.props('titleIcon')).toBe(MDI_ICONS.ATTACH_FILE)
+    })
+
+    BddTest().then('it should not render the reflection card', () => {
+      expect(findSection('national-activity-setting-details-reflection').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the feedback card', () => {
+      expect(findSection('national-activity-setting-details-feedback').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the assessment card', () => {
+      expect(findSection('national-activity-setting-details-assessment').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the sub-activity has an execution period', () => {
+    beforeEach(() => {
+      mountWith(mockedSubActivityContentWithPeriod)
+    })
+
+    BddTest().then('it should render the execution period details with the sub-activity period', () => {
+      const periodDetails = getExecutionPeriodDetails()
+      expect(periodDetails.exists()).toBe(true)
+      expect(periodDetails.props('startDate')).toBe(mockedSubActivityContentWithPeriod.startDate)
+      expect(periodDetails.props('endDate')).toBe(mockedSubActivityContentWithPeriod.endDate)
     })
   })
 })
