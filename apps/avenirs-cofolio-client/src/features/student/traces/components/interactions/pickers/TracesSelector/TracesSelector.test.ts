@@ -1,10 +1,10 @@
 import type { TraceViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { SelectorOverlayStub } from '@avenirs-esr/shared'
 import { ETraceAuthorType } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { SelectorOverlayStub } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.stub'
 import {
   StudentTraceCardStub
 } from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.stub'

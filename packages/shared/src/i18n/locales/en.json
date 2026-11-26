@@ -251,6 +251,14 @@
             "description": "Any unsaved changes will be lost.",
             "title": "Are you sure you want to exit?"
           }
+        },
+        "selectors": {
+          "SelectorOverlay": {
+            "ariaLabel": {
+              "selected": "select {item}",
+              "unselected": "unselect {item}"
+            }
+          }
         }
       },
       "QuerySuspense": {

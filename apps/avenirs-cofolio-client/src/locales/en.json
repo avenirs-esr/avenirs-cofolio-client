@@ -314,12 +314,6 @@
           "title": "Edit my profile"
         }
       },
-      "SelectorOverlay": {
-        "ariaLabel": {
-          "selected": "select {item}",
-          "unselected": "unselect {item}"
-        }
-      },
       "Tutorial": {
         "common": {
           "language-selector": {
