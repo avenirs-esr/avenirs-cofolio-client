@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { ConfirmationModalStub } from '@avenirs-esr/shared'
+import { CompactCardSelectorStub, ConfirmationModalStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -8,7 +8,6 @@ import { mockedSubActivitiesOverviewDTO } from '@/__mocks__/fixtures/shared/acti
 import { mockedActivityContentWithSubActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { ConfirmDeleteSubActivitiesModalStub } from '@/features/staff/activities/views/EditNationalActivityView/components/modals/ConfirmDeleteSubActivitiesModal/ConfirmDeleteSubActivitiesModal.stub'
 import DeleteSubActivitiesModal from '@/features/staff/activities/views/EditNationalActivityView/components/modals/DeleteSubActivitiesModal/DeleteSubActivitiesModal.vue'
-import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 
 BddTest().given('a DeleteSubActivitiesModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteSubActivitiesModal>>

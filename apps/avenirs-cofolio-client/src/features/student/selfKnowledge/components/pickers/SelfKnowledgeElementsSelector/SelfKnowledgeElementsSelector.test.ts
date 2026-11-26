@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SelfKnowledgeElementsSelectorProps } from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { CompactCardSelectorStub } from '@avenirs-esr/shared'
 import { ESelfKnowledgeCategory } from '@avenirs-esr/shared/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import SelfKnowledgeElementsSelector from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
 
 BddTest().given('a self knowledge element selector', () => {

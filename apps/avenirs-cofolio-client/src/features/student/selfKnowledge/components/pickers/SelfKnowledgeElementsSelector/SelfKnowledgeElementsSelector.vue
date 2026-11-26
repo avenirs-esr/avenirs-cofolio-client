@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@avenirs-esr/shared/api/avenir-esr'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { CompactCardSelector } from '@avenirs-esr/shared'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 
 export interface SelfKnowledgeElementsSelectorProps {

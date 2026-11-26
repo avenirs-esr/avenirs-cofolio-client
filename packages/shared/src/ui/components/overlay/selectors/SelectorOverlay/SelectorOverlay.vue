@@ -44,7 +44,7 @@ const selectedElements = defineModel<string[]>('selectedElements', { default: ()
 
 const iconScale = computed(() => small ? 0.75 : 1)
 
-const i18nKey = 'global.components.overlay.SelectorOverlay.ariaLabel'
+const i18nKey = 'global.components.overlay.selectors.SelectorOverlay.ariaLabel'
 
 function onSelectElement (element: SelectorOverlayElement) {
   if (element.disabled || element.isLoading) {

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { SubActivityOverviewDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ConfirmationModal, ICONS, useModal } from '@avenirs-esr/shared'
+import { CompactCardSelector, ConfirmationModal, ICONS, useModal } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ConfirmDeleteSubActivitiesModal from '@/features/staff/activities/views/EditNationalActivityView/components/modals/ConfirmDeleteSubActivitiesModal/ConfirmDeleteSubActivitiesModal.vue'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 export interface DeleteSubActivitiesModalProps {
   opened: boolean
