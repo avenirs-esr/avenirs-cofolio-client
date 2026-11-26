@@ -1,5 +1,5 @@
 <script lang="ts" setup generic="U extends IdTitle = IdTitle">
-import type { IdTitle } from '@/types'
+import type { IdTitle } from '@avenirs-esr/shared'
 import { Card } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'

@@ -1,4 +1,5 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { IdTitle } from '@avenirs-esr/shared'
 import type { AssociationsDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, EAssociationContextType, SkillProgressAssociationDTO, TraceAssociationDTO } from '@avenirs-esr/shared/api/avenir-esr'
 import type { QueryKey } from '@tanstack/vue-query'
 import type { AssociatedActivityCardProps } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
@@ -6,7 +7,6 @@ import type { AssociatedDeclaredExperienceCardProps } from '@/features/student/a
 import type { AssociatedDeclaredProgramCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
 import type { AssociatedSkillCardProps } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import type { AssociatedTraceCardProps } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
-import type { IdTitle } from '@/types'
 
 /**
  * An element that can be associated, as displayed by the association pickers.

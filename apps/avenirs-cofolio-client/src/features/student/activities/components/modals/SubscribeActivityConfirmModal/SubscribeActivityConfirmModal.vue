@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { BaseApiException } from '@avenirs-esr/shared'
-import type { IdTitle } from '@/types'
+import type { BaseApiException, IdTitle } from '@avenirs-esr/shared'
 import { ConfirmationModal, useApiErrors, useTaskLoading } from '@avenirs-esr/shared'
 import {
   EActivityStatus,
