@@ -14,7 +14,7 @@ import {
 } from '@/features/staff/activities/config'
 import NationalActivityExecutionPeriodDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityExecutionPeriodDetails/NationalActivityExecutionPeriodDetails.vue'
 
-interface NationalActivitySettingDetailsProps {
+export interface NationalActivitySettingDetailsProps {
   activity: ActivityContentDTO
 }
 
