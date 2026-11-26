@@ -4711,28 +4711,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "tool-admin-controller"
-        ],
-        "operationId": "deleteNationalTool",
-        "parameters": [
-          {
-            "name": "toolId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/back-office/tools/local/{toolId}": {
@@ -4801,28 +4779,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "tool-admin-controller"
-        ],
-        "operationId": "deleteLocalTool",
-        "parameters": [
-          {
-            "name": "toolId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -5295,6 +5251,31 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteNationalTools",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/back-office/tools/national/{toolId}/banner": {
@@ -5440,6 +5421,31 @@
                 }
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tool-admin-controller"
+        ],
+        "operationId": "deleteLocalTools",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -11344,7 +11350,14 @@
           "banner": {
             "$ref": "#/components/schemas/FileDTO"
           }
-        }
+        },
+        "required": [
+          "description",
+          "id",
+          "name",
+          "type",
+          "url"
+        ]
       },
       "ExternalUserData": {
         "type": "object",
@@ -11629,7 +11642,12 @@
           "url": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "description",
+          "name",
+          "url"
+        ]
       },
       "CreateLocalToolRequest": {
         "type": "object",
@@ -11647,7 +11665,13 @@
             "type": "string",
             "format": "uuid"
           }
-        }
+        },
+        "required": [
+          "description",
+          "institutionId",
+          "name",
+          "url"
+        ]
       },
       "ExternalUserImportFailureResponse": {
         "type": "object",

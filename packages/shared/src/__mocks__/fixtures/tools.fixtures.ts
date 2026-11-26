@@ -10,6 +10,9 @@ import type {
 import { EFileType, EToolType } from '#shared/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
+export const MOCKED_TOOLS_TOTAL_ELEMENTS = 30
+export const INVALID_TOOL_ID = 'INVALID_ID'
+
 export function getToolDTO (index: number, forcedType?: EToolType): ToolDTO {
   let type = EToolType.LOCAL
 

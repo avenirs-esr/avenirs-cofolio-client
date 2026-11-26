@@ -22,9 +22,17 @@ BddTest().given('a tool institution component', () => {
   const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
 
   const mountWith = (tool: Partial<ToolDTO>, typographyClass?: string) => {
+    const defaultTool: ToolDTO = {
+      id: 'default-tool',
+      name: 'Default tool',
+      description: 'Default tool description',
+      url: 'http://default-tool.com',
+      type: EToolType.NATIONAL
+    }
+
     wrapper = mountComponent(ToolInstitution, {
       props: {
-        tool,
+        tool: { ...defaultTool, ...tool },
         typographyClass,
       },
       global: { stubs },

@@ -9,8 +9,10 @@ import { computed, toRef } from 'vue'
 
 export interface UsePaginatedToolsParams {
   currentPageRef: Ref<number>
+  pageSizeRef?: Ref<number>
   typeRef: Ref<EToolType | undefined>
-  previewModeRef: Ref<boolean>
+  previewModeRef?: Ref<boolean>
+  enabledRef?: Ref<boolean>
 }
 
 export interface UsePaginatedToolsResult {
@@ -24,35 +26,40 @@ export interface UsePaginatedToolsResult {
 
 export function usePaginatedTools ({
   currentPageRef,
+  pageSizeRef,
   typeRef,
   previewModeRef,
+  enabledRef,
 }: UsePaginatedToolsParams): UsePaginatedToolsResult {
   const {
     currentPage,
+    pageSizeSelected,
     onUpdateCurrentPage,
     onUpdatePageSize
-  } = usePagination(currentPageRef, toRef(PageSizes.TWELVE))
+  } = usePagination(currentPageRef, pageSizeRef ?? toRef(PageSizes.TWELVE))
 
-  const isNational = computed(() => !typeRef.value || typeRef.value === EToolType.NATIONAL)
+  const isNational = computed(() => typeRef.value === EToolType.NATIONAL)
 
   const nationalParams = computed<GetNationalToolsParams>(() => ({
     page: currentPage.value,
-    pageSize: PageSizes.TWELVE,
+    pageSize: pageSizeSelected.value,
   }))
 
   const localParams = computed<GetLocalToolsParams>(() => ({
     page: currentPage.value,
-    pageSize: PageSizes.TWELVE,
+    pageSize: pageSizeSelected.value,
     type: typeRef.value,
   }))
 
   const availableParams = computed<GetAvailableToolsParams>(() => {
     return {
       page: currentPage.value,
-      pageSize: PageSizes.TWELVE,
+      pageSize: pageSizeSelected.value,
       type: typeRef.value,
     }
   })
+
+  const enabled = computed(() => enabledRef?.value === undefined || enabledRef?.value === true)
 
   const {
     data: nationalData,
@@ -60,7 +67,7 @@ export function usePaginatedTools ({
     isFetching: isNationalFetching
   } = useGetNationalTools(nationalParams, {
     query: {
-      enabled: isNational,
+      enabled: computed(() => isNational.value && enabled.value),
       placeholderData: keepPreviousData
     }
   })
@@ -71,7 +78,7 @@ export function usePaginatedTools ({
     isFetching: isLocalFetching
   } = useGetLocalTools(localParams, {
     query: {
-      enabled: computed(() => !isNational.value),
+      enabled: computed(() => !isNational.value && enabled.value),
       placeholderData: keepPreviousData
     }
   })
@@ -82,34 +89,34 @@ export function usePaginatedTools ({
     isFetching: isAvailableFetching
   } = useGetAvailableTools(availableParams, {
     query: {
-      enabled: previewModeRef,
+      enabled: computed(() => previewModeRef?.value === true && enabled.value),
       placeholderData: keepPreviousData
     }
   })
 
   const tools = computed(() => {
-    if (previewModeRef.value) {
+    if (previewModeRef?.value) {
       return availableData.value?.data ?? []
     }
     return (isNational.value ? nationalData.value?.data : localData.value?.data) ?? []
   })
 
   const pageInfo = computed(() => {
-    if (previewModeRef.value) {
+    if (previewModeRef?.value) {
       return availableData.value?.page
     }
     return isNational.value ? nationalData.value?.page : localData.value?.page
   })
 
   const isFetching = computed(() => {
-    if (previewModeRef.value) {
+    if (previewModeRef?.value) {
       return isAvailableFetching.value
     }
     return isNational.value ? isNationalFetching.value : isLocalFetching.value
   })
 
   const error = computed(() => {
-    if (previewModeRef.value) {
+    if (previewModeRef?.value) {
       return availableError.value
     }
     return isNational.value ? nationalError.value : localError.value

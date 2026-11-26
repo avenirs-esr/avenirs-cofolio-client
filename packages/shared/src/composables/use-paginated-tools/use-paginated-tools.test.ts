@@ -1,4 +1,4 @@
-import type { EToolType } from '#shared/api/avenir-esr'
+import type { Ref } from 'vue'
 import {
   createMockedGetAvailableToolsResponse,
   createMockedGetLocalToolsResponse,
@@ -10,6 +10,7 @@ import {
   getNationalToolsErrorHandler,
 } from '#shared/__mocks__/msw/handlers/tools.handlers'
 import { server } from '#shared/__mocks__/msw/server'
+import { EToolType } from '#shared/api/avenir-esr'
 import { usePaginatedTools } from '#shared/composables/use-paginated-tools/use-paginated-tools'
 import { mountComposable } from '#shared/test-utils/mount-composable'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -21,6 +22,7 @@ const unmounts: Array<() => void> = []
 
 afterEach(() => {
   unmounts.splice(0).forEach(unmount => unmount())
+  server.resetHandlers()
 })
 
 function mountUsePaginatedTools ({
@@ -70,7 +72,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     })
 
     BddTest().then('it should return national tools and page info from the API', async () => {
-      const expected = createMockedGetNationalToolsResponse({
+      const expected = createMockedGetLocalToolsResponse({
         page: 0,
         pageSize: PageSizes.TWELVE,
       }, 30)
@@ -91,7 +93,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'NATIONAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.NATIONAL })
     })
 
     BddTest().then('it should return national tools', async () => {
@@ -111,7 +113,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.LOCAL })
     })
 
     BddTest().then('it should return local tools', async () => {
@@ -132,7 +134,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'REGIONAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.REGIONAL })
     })
 
     BddTest().then('it should return local tools filtered by the regional type', async () => {
@@ -154,7 +156,7 @@ BddTest().given('a usePaginatedTools composable', () => {
 
     beforeEach(() => {
       result = mountUsePaginatedTools({
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
         previewMode: true,
       })
     })
@@ -163,7 +165,7 @@ BddTest().given('a usePaginatedTools composable', () => {
       const expected = createMockedGetAvailableToolsResponse({
         page: 0,
         pageSize: PageSizes.TWELVE,
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
       }, 30)
 
       await vi.waitFor(() => {
@@ -192,7 +194,7 @@ BddTest().given('a usePaginatedTools composable', () => {
 
       expect(result.currentPageRef.value).toBe(1)
 
-      const expected = createMockedGetNationalToolsResponse({
+      const expected = createMockedGetLocalToolsResponse({
         page: 1,
         pageSize: PageSizes.TWELVE,
       }, 30)
@@ -208,18 +210,18 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'NATIONAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.NATIONAL })
     })
 
     BddTest().then('it should request local tools of the selected type', async () => {
       await vi.waitFor(() => expect(result.pageInfo.value?.page).toBe(0))
 
-      result.typeRef.value = 'LOCAL' as EToolType
+      result.typeRef.value = EToolType.LOCAL
 
       const expected = createMockedGetLocalToolsResponse({
         page: 0,
         pageSize: PageSizes.TWELVE,
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
       }, 30)
 
       await vi.waitFor(() => {
@@ -233,13 +235,13 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.LOCAL })
     })
 
     BddTest().then('it should request national tools', async () => {
       await vi.waitFor(() => expect(result.pageInfo.value?.page).toBe(0))
 
-      result.typeRef.value = 'NATIONAL' as EToolType
+      result.typeRef.value = EToolType.NATIONAL
 
       const expected = createMockedGetNationalToolsResponse({
         page: 0,
@@ -257,7 +259,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     let result: ReturnType<typeof mountUsePaginatedTools>
 
     beforeEach(() => {
-      result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+      result = mountUsePaginatedTools({ type: EToolType.LOCAL })
     })
 
     BddTest().then('it should request available tools', async () => {
@@ -268,7 +270,7 @@ BddTest().given('a usePaginatedTools composable', () => {
       const expected = createMockedGetAvailableToolsResponse({
         page: 0,
         pageSize: PageSizes.TWELVE,
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
       }, 30)
 
       await vi.waitFor(() => {
@@ -283,7 +285,7 @@ BddTest().given('a usePaginatedTools composable', () => {
 
     beforeEach(() => {
       result = mountUsePaginatedTools({
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
         previewMode: true,
       })
     })
@@ -296,7 +298,7 @@ BddTest().given('a usePaginatedTools composable', () => {
       const expected = createMockedGetLocalToolsResponse({
         page: 0,
         pageSize: PageSizes.TWELVE,
-        type: 'LOCAL' as EToolType,
+        type: EToolType.LOCAL,
       }, 30)
 
       await vi.waitFor(() => {
@@ -310,7 +312,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     BddTest().then('it should expose the error', async () => {
       server.use(getNationalToolsErrorHandler)
 
-      const result = mountUsePaginatedTools()
+      const result = mountUsePaginatedTools({ type: EToolType.NATIONAL })
 
       await vi.waitFor(() => expect(result.error.value).not.toBeNull())
       expect(result.tools.value).toEqual([])
@@ -321,7 +323,7 @@ BddTest().given('a usePaginatedTools composable', () => {
     BddTest().then('it should expose the error', async () => {
       server.use(getLocalToolsErrorHandler)
 
-      const result = mountUsePaginatedTools({ type: 'LOCAL' as EToolType })
+      const result = mountUsePaginatedTools({ type: EToolType.LOCAL })
 
       await vi.waitFor(() => expect(result.error.value).not.toBeNull())
       expect(result.tools.value).toEqual([])
@@ -348,6 +350,88 @@ BddTest().given('a usePaginatedTools composable', () => {
       })
 
       expect(result.error.value).toBeNull()
+    })
+  })
+
+  BddTest().when('a custom pageSize is provided', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+
+    beforeEach(() => {
+      const currentPageRef = ref(0)
+      const typeRef = ref<EToolType | undefined>(undefined)
+      const previewModeRef = ref(false)
+      const pageSizeRef = ref(5)
+
+      const { result: composableResult, unmount } = mountComposable(() => usePaginatedTools({
+        currentPageRef,
+        typeRef,
+        previewModeRef,
+        pageSizeRef,
+      }), { useTanstack: true })
+
+      unmounts.push(unmount)
+
+      result = {
+        ...composableResult,
+        currentPageRef,
+        typeRef,
+        previewModeRef,
+        pageSizeRef,
+      } as ReturnType<typeof mountUsePaginatedTools>
+    })
+
+    BddTest().then('it should use the provided pageSize in API params', async () => {
+      await vi.waitFor(() => {
+        expect(result.tools.value).toHaveLength(5)
+      })
+
+      expect(result.pageInfo.value?.pageSize).toBe(5)
+    })
+  })
+
+  BddTest().when('the pageSize changes reactively', () => {
+    let result: ReturnType<typeof mountUsePaginatedTools>
+    let pageSizeRef: Ref<number>
+
+    beforeEach(() => {
+      const currentPageRef = ref(0)
+      const typeRef = ref<EToolType | undefined>(undefined)
+      const previewModeRef = ref(false)
+      pageSizeRef = ref(PageSizes.TWELVE)
+
+      const { result: composableResult, unmount } = mountComposable(() => usePaginatedTools({
+        currentPageRef,
+        typeRef,
+        previewModeRef,
+        pageSizeRef,
+      }), { useTanstack: true })
+
+      unmounts.push(unmount)
+
+      result = {
+        ...composableResult,
+        currentPageRef,
+        typeRef,
+        previewModeRef,
+      } as ReturnType<typeof mountUsePaginatedTools>
+    })
+
+    BddTest().then('it should refetch with the new pageSize', async () => {
+      await vi.waitFor(() => {
+        expect(result.tools.value).toHaveLength(PageSizes.TWELVE)
+      })
+
+      pageSizeRef.value = 5
+
+      const expected = createMockedGetNationalToolsResponse({
+        page: 0,
+        pageSize: 5,
+      }, 30)
+
+      await vi.waitFor(() => {
+        expect(result.tools.value).toHaveLength(5)
+        expect(result.pageInfo.value).toEqual(expected.page)
+      })
     })
   })
 

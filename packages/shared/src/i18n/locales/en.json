@@ -250,6 +250,25 @@
             "confirm": "Confirm",
             "description": "Any unsaved changes will be lost.",
             "title": "Are you sure you want to exit?"
+          },
+          "DeleteToolsModal": {
+            "confirm": "Delete the selected tool ({count}) | Delete the selected tools ({count})",
+            "confirmDeleteToolsModal": {
+              "errors": {
+                "all": "No tool could be deleted",
+                "some": "Some tools could not be deleted"
+              },
+              "LOCAL": "Local tools",
+              "NATIONAL": "National tools",
+              "REGIONAL": "Regional tools",
+              "success": {
+                "all": "All tools have been successfully deleted",
+                "some": "Some tools have been successfully deleted"
+              },
+              "title": "Are you sure you want to delete the selected tool? | Are you sure you want to delete the selected tools?"
+            },
+            "confirmDisabledTooltip": "You must select at least one tool to delete",
+            "title": "Which tool do you want to delete? | Which tools do you want to delete?"
           }
         },
         "selectors": {

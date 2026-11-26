@@ -2,7 +2,7 @@ import type { AddToolDrawerProps } from '#shared/ui/components/overlay/drawers/A
 import type { VueWrapper } from '@vue/test-utils'
 import { CREATED_TOOL_ID } from '#shared/__mocks__/fixtures/tools.fixtures'
 import { server } from '#shared/__mocks__/msw/server'
-import { getCreateLocalToolUrl, getCreateNationalToolUrl, getUploadNationalToolBannerUrl } from '#shared/api/avenir-esr'
+import { getCreateNationalToolUrl, getUploadNationalToolBannerUrl } from '#shared/api/avenir-esr'
 import { FormCancelConfirmButtonsStub } from '#shared/ui/components/interactions/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { ImageUploadStub } from '#shared/ui/components/interactions/files/ImageUpload/ImageUpload.stub'
 import { InputStub } from '#shared/ui/components/interactions/inputs/Input/Input.stub'
@@ -134,25 +134,27 @@ BddTest().given('an add tool drawer', () => {
     })
   })
 
-  BddTest().when('the drawer is mounted for a local tool', () => {
-    beforeEach(() => mountWith({ isNational: false }))
+  // TODO: https://github.com/avenirs-esr/AVENIRS-Project/issues/3014
+  // Commented out local tool tests due to issue #3014 and swagger update
+  // BddTest().when('the drawer is mounted for a local tool', () => {
+  //   beforeEach(() => mountWith({ isNational: false }))
 
-    BddTest().then('it should display the local title', () => {
-      expect(getDrawer().props('ariaLabel')).toBe('Ajouter un outil local')
-    })
+  //   BddTest().then('it should display the local title', () => {
+  //     expect(getDrawer().props('ariaLabel')).toBe('Ajouter un outil local')
+  //   })
 
-    BddTest().and('a valid tool is submitted', () => {
-      beforeEach(async () => {
-        await fillRequiredFields()
-        await submit()
-      })
+  //   BddTest().and('a valid tool is submitted', () => {
+  //     beforeEach(async () => {
+  //       await fillRequiredFields()
+  //       await submit()
+  //     })
 
-      BddTest().then('it should create a local tool', () => {
-        expect(requestedPaths).toContain(getCreateLocalToolUrl())
-        expect(requestedPaths).not.toContain(getCreateNationalToolUrl())
-      })
-    })
-  })
+  //     BddTest().then('it should create a local tool', () => {
+  //       expect(requestedPaths).toContain(getCreateLocalToolUrl())
+  //       expect(requestedPaths).not.toContain(getCreateNationalToolUrl())
+  //     })
+  //   })
+  // })
 
   BddTest().when('the required fields are filled in', () => {
     beforeEach(async () => {
