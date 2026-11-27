@@ -17,7 +17,7 @@ const addInteractiveProps = computed<AvInteractiveProps>(() => ({
 <template>
   <PageTitle
     :title="t(`${viewKey}.title`)"
-    :information-tooltip="t(`${viewKey}.informationTooltip`)"
+    :information-tooltip="t('staff.admin.tools.manageNationalDisabledTooltip')"
   >
     <template #actions>
       <ManageToolsDropdown :add-interactive-props="addInteractiveProps" />

@@ -194,6 +194,10 @@ export function useNavigation () {
     return navigate(to)
   }
 
+  const navigateToStaffAdminTools = (replace?: boolean) => {
+    return navigate(ROUTES.STAFF.ADMIN.TOOLS, replace)
+  }
+
   const navigateToStaffHome = (): Promise<NavigationFailure | void | undefined> => {
     return navigate(ROUTES.STAFF.HOME)
   }
@@ -314,6 +318,7 @@ export function useNavigation () {
     navigateToStudentToolsKitUpdateSkill,
     navigateToStudentUpdateDeclaredProgram,
     navigateToStudentToolsKitUpdateDeclaredProgram,
+    navigateToStaffAdminTools,
     navigateToStaffHome,
     navigateToStaffStudentTrackingActivityFeedbackDetails,
     navigateToActivity,
