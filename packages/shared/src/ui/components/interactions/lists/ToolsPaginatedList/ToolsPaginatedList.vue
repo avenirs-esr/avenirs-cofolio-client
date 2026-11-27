@@ -7,7 +7,7 @@ import ToolCard from '#shared/ui/components/cards/ToolCard/ToolCard.vue'
 import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QuerySuspense.vue'
 import Pagination from '#shared/ui/components/navigation/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { computed, toRef, toRefs } from 'vue'
+import { computed, toRef, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ToolsPaginatedListProps {
@@ -16,6 +16,10 @@ export interface ToolsPaginatedListProps {
 }
 
 const props = defineProps<ToolsPaginatedListProps>()
+
+const emit = defineEmits<{
+  count: [type: EToolType, value: number]
+}>()
 
 const { t } = useI18n()
 
@@ -50,6 +54,14 @@ const {
   onUpdateCurrentPage,
   onUpdatePageSize
 } = usePaginatedTools(usePaginatedToolsParams.value)
+
+watch(
+  () => pageInfo.value?.totalElements,
+  (newValue) => {
+    emit('count', type.value, newValue ?? 0)
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
