@@ -15,11 +15,16 @@ import ToggleParameterCard from '@/features/staff/global/components/cards/Toggle
 
 interface ActivityTraceFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm
+  isSubActivity: boolean
 }
 
 defineOptions({ inheritAttrs: false })
 
-const { form, disabled = false } = defineProps<ActivityTraceFormFieldProps>()
+const {
+  form,
+  isSubActivity,
+  disabled = false,
+} = defineProps<ActivityTraceFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
@@ -49,7 +54,7 @@ const traceAllowedAssociationsValidators = {
 const traceAllowedAssociations = form.useField({ name: 'traceAllowedAssociations' })
 const reflectionField = form.useField({ name: 'enableReflection' })
 
-const isDisabled = computed(() => reflectionField.state.value.value === false || disabled)
+const isDisabled = computed(() => (!isSubActivity && reflectionField.state.value.value === false) || disabled)
 
 function parseTraceAllowedAssociations (value: number | string | null | undefined): number | undefined {
   const parsed = Number(value)

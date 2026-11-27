@@ -8,6 +8,11 @@ export const ActivityTraceFormFieldStub = defineComponent({
     ...AvInteractivePropsStub,
     form: {
       type: Object as PropType<EditActivityForm>,
+      required: true,
+    },
+    isSubActivity: {
+      type: Boolean,
+      required: true,
     },
   },
   template: '<div data-testid="activity-trace-form-field-stub"></div>',

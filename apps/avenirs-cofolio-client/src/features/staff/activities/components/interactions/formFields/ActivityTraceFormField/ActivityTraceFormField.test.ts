@@ -15,6 +15,7 @@ import { ToggleParameterCardStub } from '@/features/staff/global/components/card
 
 function createTestWrapper (
   initialValue = ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+  isSubActivity = false,
   disabled = false,
 ) {
   return createFormFieldTestWrapper<EditActivityFormData, 'traceAllowedAssociations'>({
@@ -22,6 +23,7 @@ function createTestWrapper (
     fieldName: 'traceAllowedAssociations',
     defaultValue: initialValue,
     extraProps: {
+      isSubActivity,
       disabled,
     },
     useValidator: () => () => undefined,
@@ -39,9 +41,10 @@ BddTest().given('an ActivityTraceFormField component', () => {
 
   const mountField = (
     initialValue = ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+    isSubActivity = false,
     disabled = false,
   ) => {
-    const TestWrapper = createTestWrapper(initialValue, disabled)
+    const TestWrapper = createTestWrapper(initialValue, isSubActivity, disabled)
 
     wrapper = mount(TestWrapper, {
       global: { stubs },
@@ -88,9 +91,31 @@ BddTest().given('an ActivityTraceFormField component', () => {
     })
   })
 
+  BddTest().when('reflection is enabled', () => {
+    beforeEach(async () => {
+      mountField()
+      wrapper.vm.form.setFieldValue('enableReflection', true)
+    })
+
+    BddTest().then('it should keep the parameter card enabled', () => {
+      expect(getToggleParameterCard().props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('reflection is disabled', () => {
+    beforeEach(async () => {
+      mountField()
+      wrapper.vm.form.setFieldValue('enableReflection', false)
+    })
+
+    BddTest().then('it should disable the parameter card', () => {
+      expect(getToggleParameterCard().props('disabled')).toBe(true)
+    })
+  })
+
   BddTest().when('the component is mounted with disabled prop', () => {
     beforeEach(() => {
-      mountField(ACTIVITY_TRACE_SETTING_INFINITY_VALUE, true)
+      mountField(ACTIVITY_TRACE_SETTING_INFINITY_VALUE, false, true)
     })
 
     BddTest().then('it should render the disabled information message', () => {
@@ -161,6 +186,17 @@ BddTest().given('an ActivityTraceFormField component', () => {
       expect(getMessage().props('message')).toEqual(
         'Après l\'inscription d\'un premier apprenant, ce paramètre ne pourra plus être modifié.',
       )
+    })
+  })
+
+  BddTest().when('reflection is disabled on a sub-activity', () => {
+    beforeEach(async () => {
+      mountField(ACTIVITY_TRACE_SETTING_INFINITY_VALUE, true, false)
+      wrapper.vm.form.setFieldValue('enableReflection', false)
+    })
+
+    BddTest().then('it should keep the parameter card enabled', () => {
+      expect(getToggleParameterCard().props('disabled')).toBe(false)
     })
   })
 })
