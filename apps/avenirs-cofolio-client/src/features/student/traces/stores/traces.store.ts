@@ -1,8 +1,7 @@
 import type { UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { useModal } from '@avenirs-esr/shared'
+import { useDrawer, useModal } from '@avenirs-esr/shared'
 import { defineStore } from 'pinia'
-import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
 
 const DEFAULT_PAGE_SIZE = PageSizes.EIGHT
 

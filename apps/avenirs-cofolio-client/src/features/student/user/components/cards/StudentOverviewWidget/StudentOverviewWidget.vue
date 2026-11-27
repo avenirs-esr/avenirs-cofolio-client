@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useDrawer } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import { useDrawer } from '@/common/composables'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 const { t } = useI18n()

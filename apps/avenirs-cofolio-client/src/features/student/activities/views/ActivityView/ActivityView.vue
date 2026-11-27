@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { DetailPageTitle, Loader, useModal } from '@avenirs-esr/shared'
+import { DetailPageTitle, Loader, useDrawer, useModal } from '@avenirs-esr/shared'
 import { useGetDeclaredActivityDetails } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import { useDrawer, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import UpdateActivityDrawer
   from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
@@ -26,14 +26,23 @@ const activityId = computed(() => id)
 
 const { t } = useI18n()
 
-const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclaredActivityDetails(activityId, { query: {
+const {
+  data: declaredActivityDetail,
+  isLoading,
+  isError,
+  error
+} = useGetDeclaredActivityDetails(activityId, { query: {
   enabled: computed(() => !!activityId.value),
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
 
 const { navigateToStudentProjectActivities } = useNavigation()
 
-const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
+const {
+  showDrawer: showUpdateDrawer,
+  displayDrawer: displayUpdateDrawer,
+  hideDrawer: hideUpdateDrawer
+} = useDrawer()
 
 const {
   modalOpened: subscribeModalOpened,

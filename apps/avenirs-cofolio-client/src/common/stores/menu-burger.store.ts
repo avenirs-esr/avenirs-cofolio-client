@@ -1,5 +1,5 @@
+import { useDrawer } from '@avenirs-esr/shared'
 import { defineStore } from 'pinia'
-import { useDrawer } from '@/common/composables'
 
 export const useMenuBurgerStore = defineStore('menuBurger', () => {
   const {
