@@ -212,6 +212,7 @@ function deleteSelectedResources (
         <ActivityTraceFormField
           :disabled="hasEnrolledStudent"
           :form="form"
+          :is-sub-activity
           @autosave="queueAutoSave"
         />
         <ActivityFeedbackFormField

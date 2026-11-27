@@ -236,8 +236,10 @@ BddTest().given('an ActivityContentTab component', () => {
     })
 
     BddTest().then('it should render the sub-activity modalities form fields', () => {
+      const traceFormField = tab.findComponent(ActivityTraceFormFieldStub)
       expect(tab.findComponent(ActivityExecutionPeriodFormFieldStub).exists()).toBe(true)
-      expect(tab.findComponent(ActivityTraceFormFieldStub).exists()).toBe(true)
+      expect(traceFormField.exists()).toBe(true)
+      expect(traceFormField.props('isSubActivity')).toBe(true)
     })
 
     BddTest().then('it should not render the reflection, feedback and assessment form fields', () => {
