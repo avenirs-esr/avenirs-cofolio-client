@@ -33,6 +33,9 @@
           "usersCount": "Number of members"
         }
       },
+      "tools": {
+        "manageNationalDisabledTooltip": "You cannot manage national tools from this interface"
+      },
       "usersTable": {
         "columns": {
           "categories": "Roles",
@@ -93,7 +96,6 @@
         },
         "AdminToolsView": {
           "addDisabledTootlip": "Adding will be enabled as part of a future development (US#3014)",
-          "informationTooltip": "National tools cannot be administered from this interface",
           "title": "Tools for learners"
         },
         "InstitutionGroupDetailedView": {

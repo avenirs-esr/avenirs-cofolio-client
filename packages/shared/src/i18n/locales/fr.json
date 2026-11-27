@@ -80,6 +80,13 @@
             },
             "manage": "Gérer"
           },
+          "ManageToolDropdown": {
+            "entityName": {
+              "LOCAL": "l'outil local",
+              "NATIONAL": "l'outil national",
+              "REGIONAL": "l'outil régional"
+            }
+          },
           "ManageToolsDropdown": {
             "entityName": "les outils"
           }
@@ -253,6 +260,17 @@
             "confirm": "Confirmer",
             "description": "Toutes les modifications non enregistrées seront perdues.",
             "title": "Êtes-vous sûr de vouloir quitter\u00A0?"
+          },
+          "DeleteToolModal": {
+            "confirm": "Supprimer l'outil",
+            "error": "Une erreur est survenue lors de la suppression de l'outil",
+            "success": "L'outil a été supprimé avec succès",
+            "title": "Êtes-vous sûr(e) de vouloir supprimer cet outil {type}\u00A0?",
+            "type": {
+              "LOCAL": "local",
+              "NATIONAL": "national",
+              "REGIONAL": "régional"
+            }
           },
           "DeleteToolsModal": {
             "confirm": "Supprimer l'outil sélectionné ({count}) | Supprimer les outils sélectionnés ({count})",

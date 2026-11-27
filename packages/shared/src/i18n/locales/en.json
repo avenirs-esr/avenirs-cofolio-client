@@ -80,6 +80,13 @@
             },
             "manage": "Manage"
           },
+          "ManageToolDropdown": {
+            "entityName": {
+              "LOCAL": "the local tool",
+              "NATIONAL": "the national tool",
+              "REGIONAL": "the regional tool"
+            }
+          },
           "ManageToolsDropdown": {
             "entityName": "tools"
           }
@@ -253,6 +260,17 @@
             "confirm": "Confirm",
             "description": "Any unsaved changes will be lost.",
             "title": "Are you sure you want to exit?"
+          },
+          "DeleteToolModal": {
+            "confirm": "Delete tool",
+            "error": "An error occurred while deleting the tool",
+            "success": "The tool has been successfully deleted",
+            "title": "Are you sure you want to delete this {type} tool?",
+            "type": {
+              "LOCAL": "local",
+              "NATIONAL": "national",
+              "REGIONAL": "regional"
+            }
           },
           "DeleteToolsModal": {
             "confirm": "Delete the selected tool ({count}) | Delete the selected tools ({count})",
