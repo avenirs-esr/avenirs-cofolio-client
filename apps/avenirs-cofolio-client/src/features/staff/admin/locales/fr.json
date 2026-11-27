@@ -92,6 +92,8 @@
           "title": "Utilisateurs de l'établissement"
         },
         "AdminToolsView": {
+          "addDisabledTootlip": "L'ajout sera activé dans le cadre d'un développement ultérieur (US#3014)",
+          "informationTooltip": "Les outils nationaux ne sont pas administrables depuis cette interface",
           "title": "Outils pour les apprenant(e)s"
         },
         "InstitutionGroupDetailedView": {

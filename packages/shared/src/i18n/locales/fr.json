@@ -257,17 +257,11 @@
           "DeleteToolsModal": {
             "confirm": "Supprimer l'outil sélectionné ({count}) | Supprimer les outils sélectionnés ({count})",
             "confirmDeleteToolsModal": {
-              "errors": {
-                "all": "Aucun outil n'a pu être supprimé",
-                "some": "Certains outils n'ont pas pu être supprimés"
-              },
+              "error": "Une erreur est survenue lors de la suppression de l'outil | Une erreur est survenue lors de la suppression des outils",
               "LOCAL": "Outils locaux",
               "NATIONAL": "Outils nationaux",
               "REGIONAL": "Outils régionaux",
-              "success": {
-                "all": "Tous les outils ont été supprimés avec succès",
-                "some": "Certains outils ont été supprimés avec succès"
-              },
+              "success": "L'outil a été supprimé avec succès | Les outils ont été supprimés avec succès",
               "title": "Êtes-vous sûr de vouloir supprimer l'outil sélectionné\u00A0? | Êtes-vous sûr de vouloir supprimer les outils sélectionnés\u00A0?"
             },
             "confirmDisabledTooltip": "Vous devez sélectionner au moins un outil à supprimer",

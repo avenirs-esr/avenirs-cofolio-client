@@ -29,7 +29,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal, } = useModal()
-const { addErrorMessage, addWarningMessage, addSuccessMessage } = useToasterStore()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const { withTaskLoading } = useTaskLoading()
 const queryClient = useQueryClient()
 
@@ -37,7 +37,7 @@ const { pageInfo: nationalPageInfo, isFetching: isNationalPageInfoFetching, erro
   typeRef: toRef(EToolType.NATIONAL),
   currentPageRef: ref(0),
   pageSizeRef: ref(1),
-  enabledRef: computed(() => opened)
+  enabledRef: computed(() => opened && isNational)
 })
 const { pageInfo: localPageInfo, isFetching: isLocalPageInfoFetching, error: localPageInfoError } = usePaginatedTools({
   typeRef: toRef(undefined),
@@ -59,9 +59,13 @@ const { tools: localTools, isFetching: isLocalToolsFetching, error: localToolsEr
   enabledRef: computed(() => opened && (localPageInfo.value?.totalElements ?? 0) > 0)
 })
 
-const { mutateAsync: deleteNationalTools, isPending: isDeletingNationalTools } = useDeleteNationalTools()
+const { mutate: deleteNationalTools, isPending: isDeletingNationalTools } = useDeleteNationalTools({
+  mutation: { onError, onSuccess }
+})
 
-const { mutateAsync: deleteLocalTools, isPending: isDeletingLocalTools } = useDeleteLocalTools()
+const { mutate: deleteLocalTools, isPending: isDeletingLocalTools } = useDeleteLocalTools({
+  mutation: { onError, onSuccess }
+})
 
 const selectedToolIds = ref<string[]>([])
 
@@ -70,7 +74,7 @@ const isLoading = computed(() => isNationalPageInfoFetching.value
   || isDeletingNationalTools.value || isDeletingLocalTools.value)
 const error = computed(() => nationalPageInfoError.value || localPageInfoError.value || nationalToolsError.value || localToolsError.value)
 
-const tools = computed(() => [...nationalTools.value, ...localTools.value])
+const tools = computed(() => isNational ? nationalTools.value : localTools.value)
 const selectableTools = computed(() => tools.value
   .map(tool => ({ id: tool.id, title: tool.name, baseElement: tool, showSlot: true })))
 
@@ -80,10 +84,7 @@ const selectedNationalTools = computed(() => selectedTools.value.filter(({ type 
 const selectedLocalTools = computed(() => selectedTools.value.filter(({ type }) => type === EToolType.LOCAL))
 const selectedRegionalTools = computed(() => selectedTools.value.filter(({ type }) => type === EToolType.REGIONAL))
 
-const selectedNationalToolsIds = computed(() => selectedNationalTools.value.map(({ id }) => id))
-const selectedLocalToolsIds = computed(() => selectedLocalTools.value.map(({ id }) => id))
-const selectedRegionalToolsIds = computed(() => selectedRegionalTools.value.map(({ id }) => id))
-const selectedNonNationalToolsIds = computed(() => [...selectedLocalToolsIds.value, ...selectedRegionalToolsIds.value])
+const selectedToolsIds = computed(() => selectedTools.value.map(({ id }) => id))
 
 const i18nKey = 'global.components.overlay.modals.DeleteToolsModal'
 const confirmDeleteModalKey = `${i18nKey}.confirmDeleteToolsModal`
@@ -97,32 +98,27 @@ function onCancel () {
   emit('cancel')
 }
 
+function onError () {
+  addErrorMessage(t(`${confirmDeleteModalKey}.error`, { count: selectedTools.value.length }))
+}
+
+async function onSuccess () {
+  addSuccessMessage(t(`${confirmDeleteModalKey}.success`, { count: selectedTools.value.length }))
+  resetSelectedTools()
+  await withTaskLoading(() => isNational
+    ? invalidateGetNationalTools(queryClient)
+    : invalidateGetLocalTools(queryClient))
+
+  closeModal()
+  emit('deleted')
+}
+
 async function deleteTools () {
-  const promises = [
-    deleteNationalTools({ data: selectedNationalToolsIds.value }),
-    deleteLocalTools({ data: selectedNonNationalToolsIds.value })
-  ]
-  const results = await withTaskLoading(() => Promise.allSettled(promises))
-  const someRejected = results.some(result => result.status === 'rejected')
-  const allRejected = results.every(result => result.status === 'rejected')
-  const someFulfilled = results.some(result => result.status === 'fulfilled')
-  const allFulfilled = results.every(result => result.status === 'fulfilled')
-
-  if (someRejected) {
-    allRejected
-      ? addErrorMessage(t(`${confirmDeleteModalKey}.errors.all`))
-      : addWarningMessage(t(`${confirmDeleteModalKey}.errors.some`))
+  if (isNational) {
+    deleteNationalTools({ data: selectedToolsIds.value })
   }
-
-  if (someFulfilled) {
-    addSuccessMessage(t(`${confirmDeleteModalKey}.success.${allFulfilled ? 'all' : 'some'}`))
-    resetSelectedTools()
-    await withTaskLoading(() => Promise.all([
-      invalidateGetNationalTools(queryClient),
-      invalidateGetLocalTools(queryClient)
-    ]))
-    closeModal()
-    emit('deleted')
+  else {
+    deleteLocalTools({ data: selectedToolsIds.value })
   }
 }
 </script>

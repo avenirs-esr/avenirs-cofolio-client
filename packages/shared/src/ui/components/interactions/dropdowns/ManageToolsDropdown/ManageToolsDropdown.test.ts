@@ -29,28 +29,72 @@ BddTest().given('a manage tools dropdown', () => {
   BddTest().when('the dropdown is mounted with default props', () => {
     beforeEach(() => mountWith())
 
-    BddTest().then('it should manage the tools with the add and delete actions', () => {
+    BddTest().then('it should manage the tools with the default entity name and add and delete actions', () => {
       expect(getManageEntityDropdown().props('entityName')).toBe('les outils')
-      expect(getManageEntityDropdown().props('actions')).toEqual([Action.ADD, Action.DELETE])
+      expect(getManageEntityDropdown().props('actions')).toEqual([
+        { type: Action.ADD },
+        { type: Action.DELETE },
+      ])
     })
 
     BddTest().then('it should render a hidden local add tool drawer', () => {
-      expect(getAddToolDrawer().props('show')).toBe(false)
-      expect(getAddToolDrawer().props('isNational')).toBe(false)
+      expect(getAddToolDrawer().props()).toMatchObject({
+        show: false,
+        isNational: false,
+      })
     })
 
     BddTest().then('it should render a closed delete tools modal for local tools', () => {
-      expect(getDeleteToolsModal().props('opened')).toBe(false)
-      expect(getDeleteToolsModal().props('isNational')).toBe(false)
+      expect(getDeleteToolsModal().props()).toMatchObject({
+        opened: false,
+        isNational: false,
+      })
     })
   })
 
-  BddTest().when('the dropdown is mounted for national tools with a custom entity name', () => {
-    beforeEach(() => mountWith({ isNational: true, entityName: 'les outils nationaux' }))
+  BddTest().when('the dropdown is mounted with interactive props', () => {
+    const addInteractiveProps = { disabled: true, disabledTooltip: 'Add disabled' }
+    const deleteInteractiveProps = { disabled: false, disabledTooltip: 'Delete disabled' }
+
+    beforeEach(() => mountWith({ addInteractiveProps, deleteInteractiveProps }))
+
+    BddTest().then('it should pass the add interactive props to the corresponding action', () => {
+      const actions = getManageEntityDropdown().props('actions')
+
+      expect(actions[0]).toMatchObject({
+        type: Action.ADD,
+        ...addInteractiveProps,
+      })
+    })
+
+    BddTest().then('it should pass the delete interactive props to the corresponding action', () => {
+      const actions = getManageEntityDropdown().props('actions')
+
+      expect(actions[1]).toMatchObject({
+        type: Action.DELETE,
+        ...deleteInteractiveProps,
+      })
+    })
+  })
+
+  BddTest().when('the dropdown is mounted with an empty entity name', () => {
+    beforeEach(() => mountWith({ entityName: '' }))
+
+    BddTest().then('it should use the provided entity name', () => {
+      expect(getManageEntityDropdown().props('entityName')).toBe('')
+    })
+  })
+
+  BddTest().when('the dropdown is mounted with a custom entity name', () => {
+    beforeEach(() => mountWith({ entityName: 'les outils régionaux' }))
 
     BddTest().then('it should use the custom entity name', () => {
-      expect(getManageEntityDropdown().props('entityName')).toBe('les outils nationaux')
+      expect(getManageEntityDropdown().props('entityName')).toBe('les outils régionaux')
     })
+  })
+
+  BddTest().when('the dropdown is mounted for national tools', () => {
+    beforeEach(() => mountWith({ isNational: true }))
 
     BddTest().then('it should render a national add tool drawer', () => {
       expect(getAddToolDrawer().props('isNational')).toBe(true)
@@ -64,7 +108,7 @@ BddTest().given('a manage tools dropdown', () => {
   BddTest().when('the add action is selected', () => {
     beforeEach(async () => {
       mountWith()
-      await wrapper.find(`[data-testid="${Action.ADD}"]`).trigger('click')
+      await getManageEntityDropdown().vm.$emit('actionSelected', Action.ADD)
     })
 
     BddTest().then('it should show the add tool drawer', () => {
@@ -118,6 +162,21 @@ BddTest().given('a manage tools dropdown', () => {
       BddTest().then('it should close the delete tools modal', () => {
         expect(getDeleteToolsModal().props('opened')).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('an unsupported action is selected', () => {
+    beforeEach(async () => {
+      mountWith()
+      await getManageEntityDropdown().vm.$emit('actionSelected', 'unsupported')
+    })
+
+    BddTest().then('it should keep the add tool drawer hidden', () => {
+      expect(getAddToolDrawer().props('show')).toBe(false)
+    })
+
+    BddTest().then('it should keep the delete tools modal closed', () => {
+      expect(getDeleteToolsModal().props('opened')).toBe(false)
     })
   })
 })

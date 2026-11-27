@@ -257,17 +257,11 @@
           "DeleteToolsModal": {
             "confirm": "Delete the selected tool ({count}) | Delete the selected tools ({count})",
             "confirmDeleteToolsModal": {
-              "errors": {
-                "all": "No tool could be deleted",
-                "some": "Some tools could not be deleted"
-              },
+              "error": "An error occurred while deleting the tool | An error occurred while deleting the tools",
               "LOCAL": "Local tools",
               "NATIONAL": "National tools",
               "REGIONAL": "Regional tools",
-              "success": {
-                "all": "All tools have been successfully deleted",
-                "some": "Some tools have been successfully deleted"
-              },
+              "success": "The tool has been successfully deleted | The tools have been successfully deleted",
               "title": "Are you sure you want to delete the selected tool? | Are you sure you want to delete the selected tools?"
             },
             "confirmDisabledTooltip": "You must select at least one tool to delete",
