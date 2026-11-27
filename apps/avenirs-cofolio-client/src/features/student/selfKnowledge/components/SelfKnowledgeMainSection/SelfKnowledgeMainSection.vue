@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { Action, ICONS, ManageEntityDropdown, useModal } from '@avenirs-esr/shared'
+import { Action, ICONS, ManageEntityDropdown, useDrawer, useModal } from '@avenirs-esr/shared'
 import { useGetSelfKnowledgeCategories } from '@avenirs-esr/shared/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import { useDrawer } from '@/common/composables'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'

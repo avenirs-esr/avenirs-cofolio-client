@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useDrawer } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
-import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
 import { ROUTE_ROLES } from '@/common/constants/route-roles'
 import { hasSomeRole } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'

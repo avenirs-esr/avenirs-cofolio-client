@@ -1,6 +1,6 @@
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { useDrawer } from '@avenirs-esr/shared'
 import { defineStore } from 'pinia'
-import { useDrawer } from '@/common/composables'
 
 export const usePersonalCareerStore = defineStore('personalCareer', () => {
   const {
