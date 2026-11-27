@@ -6,13 +6,15 @@ import { beforeEach, expect } from 'vitest'
 import { ROUTES } from '@/common/constants'
 import AdminToolsView from '@/features/staff/admin/views/AdminToolsView/AdminToolsView.vue'
 
+const INFORMATION_TOOLTIP = 'Vous ne pouvez pas gérer les outils nationaux depuis cette interface'
+
 BddTest().given('an admin tools view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminToolsView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
     ToolTabs: ToolTabsStub,
-    ManageToolsDropdown: ManageToolsDropdownStub
+    ManageToolsDropdown: ManageToolsDropdownStub,
   }
 
   const mountView = () => {
@@ -42,6 +44,14 @@ BddTest().given('an admin tools view', () => {
       expect(getManageToolsDropdown().exists()).toBe(true)
     })
 
+    BddTest().then('it should pass the page title to PageTitle', () => {
+      expect(getPageTitle().props('title')).toBeTruthy()
+    })
+
+    BddTest().then('it should pass the information tooltip to PageTitle', () => {
+      expect(getPageTitle().props('informationTooltip')).toBe(INFORMATION_TOOLTIP)
+    })
+
     BddTest().then('it should pass the national tools route name to ToolTabs', () => {
       expect(getToolTabs().props('nationalBaseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.NATIONAL.name)
     })
@@ -55,10 +65,9 @@ BddTest().given('an admin tools view', () => {
     })
 
     BddTest().then('it should pass disabled add interactive props to ManageToolsDropdown', () => {
-      const dropdown = getManageToolsDropdown()
-      expect(dropdown.props('addInteractiveProps')).toMatchObject({
+      expect(getManageToolsDropdown().props('addInteractiveProps')).toMatchObject({
         disabled: true,
-        disabledTooltip: expect.any(String)
+        disabledTooltip: expect.any(String),
       })
     })
   })

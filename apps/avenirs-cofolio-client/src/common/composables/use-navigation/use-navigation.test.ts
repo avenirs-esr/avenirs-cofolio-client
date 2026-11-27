@@ -335,6 +335,22 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to staff admin tools', () => {
+    BddTest().then('it should navigate to staff admin tools', () => {
+      const { navigateToStaffAdminTools } = navigation
+      navigateToStaffAdminTools()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.ADMIN.TOOLS)
+    })
+  })
+
+  BddTest().when('trying to navigate to staff admin tools with replace', () => {
+    BddTest().then('it should navigate to staff admin tools with replace', () => {
+      const { navigateToStaffAdminTools } = navigation
+      navigateToStaffAdminTools(true)
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STAFF.ADMIN.TOOLS)
+    })
+  })
+
   BddTest().when('trying to navigate to staff home', () => {
     BddTest().then('it should navigate to staff home', () => {
       const { navigateToStaffHome } = navigation
