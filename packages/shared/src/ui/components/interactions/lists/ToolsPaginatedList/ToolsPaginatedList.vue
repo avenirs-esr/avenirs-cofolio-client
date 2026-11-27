@@ -8,6 +8,7 @@ import QuerySuspense from '#shared/ui/components/containers/QuerySuspense/QueryS
 import Pagination from '#shared/ui/components/navigation/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { computed, toRef, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export interface ToolsPaginatedListProps {
   baseRouteName?: string
@@ -15,6 +16,8 @@ export interface ToolsPaginatedListProps {
 }
 
 const props = defineProps<ToolsPaginatedListProps>()
+
+const { t } = useI18n()
 
 const toolsStore = useToolsStore()
 
@@ -54,6 +57,7 @@ const {
     :is-loading="isFetching"
     :error="error"
     :is-empty="tools.length === 0 || !pageInfo"
+    :empty-state-message="t('global.components.interactions.lists.ToolsPaginatedList.emptyStateMessage')"
     preserve-content
   >
     <Pagination

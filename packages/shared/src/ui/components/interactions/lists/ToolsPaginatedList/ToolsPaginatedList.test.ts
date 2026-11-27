@@ -103,6 +103,7 @@ BddTest().given('a tools paginated list', () => {
       expect(getQuerySuspense().props('isEmpty')).toBe(false)
       expect(getQuerySuspense().props('isLoading')).toBe(false)
       expect(getQuerySuspense().props('error')).toBe(null)
+      expect(getQuerySuspense().props('emptyStateMessage')).toContain('Aucun outil trouvé')
     })
 
     BddTest().then('it should enable preview mode when no base route name is provided', () => {

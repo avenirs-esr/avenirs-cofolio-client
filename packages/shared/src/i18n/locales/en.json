@@ -174,6 +174,9 @@
             "moveUpDisabledTooltip": "This item is already in the first position",
             "moveDownLabel": "Move down",
             "moveDownDisabledTooltip": "This item is already in the last position"
+          },
+          "ToolsPaginatedList": {
+            "emptyStateMessage": "No tool found"
           }
         },
         "tabs": {
