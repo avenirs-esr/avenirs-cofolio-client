@@ -1,4 +1,4 @@
-import type { CreateLocalToolRequest, CreateNationalToolRequest } from '#shared/api/avenir-esr'
+import type { CreateLocalToolRequest, CreateNationalToolRequest, ToolDTO } from '#shared/api/avenir-esr'
 import {
   createMockedCreatedLocalToolDTO,
   createMockedCreatedNationalToolDTO,
@@ -101,28 +101,31 @@ const getAvailableToolsHandler = http.get(`*${getGetAvailableToolsUrl()}`, async
 })
 
 const getNationalToolHandler = http.get(`*${getGetNationalToolUrl(':toolId')}`, async ({ params }) => {
-  const id = params.toolId
+  const id = String(params.toolId)
 
   if (id === 'INVALID_ID') {
     return internalServerError()
   }
 
-  return successJsonResponse(getToolDTO(0, EToolType.NATIONAL))
+  const response: ToolDTO = { ...getToolDTO(0, EToolType.NATIONAL), id }
+  return successJsonResponse(response)
 })
 
 const getLocalToolHandler = http.get(`*${getGetLocalToolUrl(':toolId')}`, async ({ params }) => {
-  const id = params.toolId
+  const id = String(params.toolId)
 
   if (!id || id === 'INVALID_ID') {
     return internalServerError()
   }
 
-  if (String(id).startsWith(EToolType.LOCAL.toLowerCase())) {
-    return successJsonResponse(getToolDTO(0, EToolType.LOCAL))
+  if (id.startsWith(EToolType.LOCAL.toLowerCase())) {
+    const response: ToolDTO = { ...getToolDTO(0, EToolType.LOCAL), id }
+    return successJsonResponse(response)
   }
 
-  if (String(id).startsWith(EToolType.REGIONAL.toLowerCase())) {
-    return successJsonResponse(getToolDTO(0, EToolType.REGIONAL))
+  if (id.startsWith(EToolType.REGIONAL.toLowerCase())) {
+    const response: ToolDTO = { ...getToolDTO(0, EToolType.REGIONAL), id }
+    return successJsonResponse(response)
   }
 
   return successJsonResponse(getToolDTO(0, EToolType.LOCAL))

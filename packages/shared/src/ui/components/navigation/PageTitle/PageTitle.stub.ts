@@ -12,5 +12,9 @@ export const PageTitleStub = defineComponent({
     trailingLinks: {
       type: Array as PropType<AvBreadcrumbProps['links']>
     },
+    informationTooltip: {
+      type: String,
+      required: false
+    }
   },
 })
