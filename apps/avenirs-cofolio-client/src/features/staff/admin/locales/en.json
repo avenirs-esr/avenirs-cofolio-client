@@ -92,6 +92,8 @@
           "title": "Institution users"
         },
         "AdminToolsView": {
+          "addDisabledTootlip": "Adding will be enabled as part of a future development (US#3014)",
+          "informationTooltip": "National tools cannot be administered from this interface",
           "title": "Tools for learners"
         },
         "InstitutionGroupDetailedView": {

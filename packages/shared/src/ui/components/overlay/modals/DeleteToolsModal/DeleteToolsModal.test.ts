@@ -36,10 +36,10 @@ vi.mock('#shared/stores/toaster/toaster', () => ({
 
 const nationalTools = generateToolDTOs(MOCKED_TOOLS_TOTAL_ELEMENTS, EToolType.NATIONAL)
 const localTools = generateToolDTOs(MOCKED_TOOLS_TOTAL_ELEMENTS)
-const selectableTools = [...nationalTools, ...localTools]
+
 const nationalToolIds = [nationalTools[0]!.id]
 const localToolIds = localTools.slice(0, 2).map(({ id }) => id)
-const selectedToolIds = [...nationalToolIds, ...localToolIds]
+
 const deleteRequests: Array<{ pathname: string, ids: string[] }> = []
 
 const stubs = {
@@ -61,14 +61,26 @@ BddTest().given('a delete tools modal', () => {
       global: { stubs },
     })
 
+    const expectedTools = props.isNational ? nationalTools : localTools
+
     await vi.waitFor(() => {
-      expect(getCompactCardSelector().props('elements')).toHaveLength(selectableTools.length)
+      expect(getCompactCardSelector().props('elements')).toHaveLength(expectedTools.length)
     })
+  }
+
+  const selectTools = async (ids: string[]) => {
+    await getCompactCardSelector().vm.$emit('update:modelValue', ids)
+  }
+
+  const confirmDeletion = async () => {
+    await getConfirmationModals()[0]!.vm.$emit('confirm')
+    await getConfirmationModals()[1]!.vm.$emit('confirm')
   }
 
   beforeEach(async () => {
     vi.clearAllMocks()
     deleteRequests.length = 0
+
     server.events.on('request:start', ({ request }) => {
       if (request.method === 'DELETE') {
         void request.clone().json().then((ids: string[]) => {
@@ -76,6 +88,7 @@ BddTest().given('a delete tools modal', () => {
         })
       }
     })
+
     await mountDeleteToolsModal()
   })
 
@@ -85,7 +98,7 @@ BddTest().given('a delete tools modal', () => {
     server.resetHandlers()
   })
 
-  BddTest().when('the modal is opened', () => {
+  BddTest().when('the modal is opened for local tools', () => {
     BddTest().then('it should render the confirmation modal with opened true', () => {
       expect(getConfirmationModals()[0]!.props('opened')).toBe(true)
     })
@@ -94,12 +107,27 @@ BddTest().given('a delete tools modal', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should display the available tools from the API fixtures', () => {
+    BddTest().then('it should display the available local tools from the API fixtures', () => {
       const selector = getCompactCardSelector()
 
       expect(selector.exists()).toBe(true)
-      expect(selector.props('elements')).toHaveLength(selectableTools.length)
-      expect(selector.props('elements').map(({ id }) => id)).toEqual(selectableTools.map(({ id }) => id))
+      expect(selector.props('elements')).toHaveLength(localTools.length)
+      expect(selector.props('elements').map(({ id }) => id)).toEqual(localTools.map(({ id }) => id))
+    })
+  })
+
+  BddTest().when('the modal is opened for national tools', () => {
+    beforeEach(async () => {
+      wrapper.unmount()
+      await mountDeleteToolsModal({ isNational: true })
+    })
+
+    BddTest().then('it should display the available national tools from the API fixtures', () => {
+      const selector = getCompactCardSelector()
+
+      expect(selector.exists()).toBe(true)
+      expect(selector.props('elements')).toHaveLength(nationalTools.length)
+      expect(selector.props('elements').map(({ id }) => id)).toEqual(nationalTools.map(({ id }) => id))
     })
   })
 
@@ -123,9 +151,9 @@ BddTest().given('a delete tools modal', () => {
     })
   })
 
-  BddTest().when('tools are selected', () => {
+  BddTest().when('local tools are selected', () => {
     beforeEach(async () => {
-      await getCompactCardSelector().vm.$emit('update:modelValue', selectedToolIds)
+      await selectTools(localToolIds)
     })
 
     BddTest().then('the confirm button should be enabled', () => {
@@ -154,20 +182,18 @@ BddTest().given('a delete tools modal', () => {
     })
   })
 
-  BddTest().when('selected national and local tools are confirmed for deletion', () => {
+  BddTest().when('selected local tools are confirmed for deletion', () => {
     beforeEach(async () => {
-      await getCompactCardSelector().vm.$emit('update:modelValue', selectedToolIds)
-      await getConfirmationModals()[0]!.vm.$emit('confirm')
-      await getConfirmationModals()[1]!.vm.$emit('confirm')
+      await selectTools(localToolIds)
+      await confirmDeletion()
+
       await vi.waitFor(() => expect(wrapper.emitted('deleted')).toHaveLength(1))
-      await vi.waitFor(() => expect(deleteRequests).toHaveLength(2))
+      await vi.waitFor(() => expect(deleteRequests).toHaveLength(1))
     })
 
-    BddTest().then('it should submit the selected IDs to the corresponding API endpoints', () => {
-      const nationalRequest = deleteRequests.find(({ pathname }) => pathname === getDeleteNationalToolsUrl())
+    BddTest().then('it should submit the selected IDs to the local API endpoint', () => {
       const localRequest = deleteRequests.find(({ pathname }) => pathname === getDeleteLocalToolsUrl())
 
-      expect(nationalRequest?.ids).toEqual(nationalToolIds)
       expect(localRequest?.ids).toEqual(expect.arrayContaining(localToolIds))
       expect(localRequest?.ids).toHaveLength(localToolIds.length)
     })
@@ -178,37 +204,61 @@ BddTest().given('a delete tools modal', () => {
     })
   })
 
-  BddTest().when('deleting national tools fails but local tools are deleted', () => {
+  BddTest().when('selected national tools are confirmed for deletion', () => {
     beforeEach(async () => {
       wrapper.unmount()
-      server.use(getNationalToolsWithInvalidIdHandler)
-      await mountDeleteToolsModal()
-      await getCompactCardSelector().vm.$emit('update:modelValue', [`national-${INVALID_TOOL_ID}`, ...localToolIds])
-      await getConfirmationModals()[0]!.vm.$emit('confirm')
-      await getConfirmationModals()[1]!.vm.$emit('confirm')
+      await mountDeleteToolsModal({ isNational: true })
+
+      await selectTools(nationalToolIds)
+      await confirmDeletion()
+
       await vi.waitFor(() => expect(wrapper.emitted('deleted')).toHaveLength(1))
+      await vi.waitFor(() => expect(deleteRequests).toHaveLength(1))
     })
 
-    BddTest().then('it should notify a partial failure and success', () => {
-      expect(mockToaster.addWarningMessage).toHaveBeenCalledOnce()
+    BddTest().then('it should submit the selected IDs to the national API endpoint', () => {
+      const nationalRequest = deleteRequests.find(({ pathname }) => pathname === getDeleteNationalToolsUrl())
+
+      expect(nationalRequest?.ids).toEqual(nationalToolIds)
+    })
+
+    BddTest().then('it should notify success and emit the deleted event', () => {
       expect(mockToaster.addSuccessMessage).toHaveBeenCalledOnce()
-      expect(mockToaster.addErrorMessage).not.toHaveBeenCalled()
+      expect(wrapper.emitted('deleted')).toHaveLength(1)
     })
   })
 
-  BddTest().when('deleting both national and local tools fails', () => {
+  BddTest().when('deleting local tools fails', () => {
     beforeEach(async () => {
       wrapper.unmount()
-      server.use(getNationalToolsWithInvalidIdHandler, getLocalToolsWithInvalidIdHandler)
+      server.use(getLocalToolsWithInvalidIdHandler)
       await mountDeleteToolsModal()
-      await getCompactCardSelector().vm.$emit('update:modelValue', [`national-${INVALID_TOOL_ID}`, `local-${INVALID_TOOL_ID}`])
-      await getConfirmationModals()[0]!.vm.$emit('confirm')
-      await getConfirmationModals()[1]!.vm.$emit('confirm')
+
+      await selectTools([`local-${INVALID_TOOL_ID}`])
+      await confirmDeletion()
+
       await vi.waitFor(() => expect(mockToaster.addErrorMessage).toHaveBeenCalledOnce())
     })
 
     BddTest().then('it should notify the failure without emitting deleted', () => {
-      expect(mockToaster.addWarningMessage).not.toHaveBeenCalled()
+      expect(mockToaster.addSuccessMessage).not.toHaveBeenCalled()
+      expect(wrapper.emitted('deleted')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('deleting national tools fails', () => {
+    beforeEach(async () => {
+      wrapper.unmount()
+      server.use(getNationalToolsWithInvalidIdHandler)
+      await mountDeleteToolsModal({ isNational: true })
+
+      await selectTools([`national-${INVALID_TOOL_ID}`])
+      await confirmDeletion()
+
+      await vi.waitFor(() => expect(mockToaster.addErrorMessage).toHaveBeenCalledOnce())
+    })
+
+    BddTest().then('it should notify the failure without emitting deleted', () => {
       expect(mockToaster.addSuccessMessage).not.toHaveBeenCalled()
       expect(wrapper.emitted('deleted')).toBeUndefined()
     })

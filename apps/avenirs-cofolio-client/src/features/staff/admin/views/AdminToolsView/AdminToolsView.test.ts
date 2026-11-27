@@ -53,5 +53,13 @@ BddTest().given('an admin tools view', () => {
     BddTest().then('it should pass the local tools route name to ToolTabs', () => {
       expect(getToolTabs().props('localBaseRouteName')).toBe(ROUTES.STAFF.ADMIN.TOOL.LOCAL.name)
     })
+
+    BddTest().then('it should pass disabled add interactive props to ManageToolsDropdown', () => {
+      const dropdown = getManageToolsDropdown()
+      expect(dropdown.props('addInteractiveProps')).toMatchObject({
+        disabled: true,
+        disabledTooltip: expect.any(String)
+      })
+    })
   })
 })
