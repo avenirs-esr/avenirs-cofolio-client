@@ -13,7 +13,7 @@ import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 
 const mockTools = generateToolDTOs(2, EToolType.LOCAL)
 
@@ -68,7 +68,7 @@ BddTest().given('a tools paginated list', () => {
     paginatedResult = defaultPaginatedResult,
   }: {
     baseRouteName?: string
-    type?: EToolType | undefined
+    type?: EToolType
     paginatedResult?: ReturnType<typeof usePaginatedTools>
   } = {}) => {
     vi.clearAllMocks()
@@ -115,6 +115,7 @@ BddTest().given('a tools paginated list', () => {
     BddTest().then('it should pass the current page and type to the paginated composable', () => {
       const params = mockUsePaginatedTools.mock.calls[0][0]
 
+      expect(params.currentPageRef.value).toBe(3)
       expect(params.typeRef.value).toBe(EToolType.LOCAL)
     })
 
@@ -137,6 +138,12 @@ BddTest().given('a tools paginated list', () => {
       getToolCards().forEach((card) => {
         expect(card.props('baseRouteName')).toBeUndefined()
       })
+    })
+
+    BddTest().then('it should emit the total number of tools with their type', () => {
+      expect(wrapper.emitted('count')).toStrictEqual([
+        [EToolType.LOCAL, mockTools.length],
+      ])
     })
   })
 
@@ -176,6 +183,22 @@ BddTest().given('a tools paginated list', () => {
       expect(params.currentPageRef.value).toBe(1)
       expect(params.typeRef.value).toBe(EToolType.NATIONAL)
     })
+
+    BddTest().then('it should emit the count with the regional type', async () => {
+      await mountWith({ type: EToolType.REGIONAL })
+
+      expect(wrapper.emitted('count')).toStrictEqual([
+        [EToolType.REGIONAL, mockTools.length],
+      ])
+    })
+
+    BddTest().then('it should emit the count with the national type', async () => {
+      await mountWith({ type: EToolType.NATIONAL })
+
+      expect(wrapper.emitted('count')).toStrictEqual([
+        [EToolType.NATIONAL, mockTools.length],
+      ])
+    })
   })
 
   BddTest().when('the tools query returns no tools', () => {
@@ -196,6 +219,41 @@ BddTest().given('a tools paginated list', () => {
     BddTest().then('it should not render the pagination or any ToolCard', () => {
       expect(getPagination().exists()).toBe(false)
       expect(getToolCards()).toHaveLength(0)
+    })
+
+    BddTest().then('it should emit zero when no page information is available', () => {
+      expect(wrapper.emitted('count')).toStrictEqual([
+        [EToolType.LOCAL, 0],
+      ])
+    })
+  })
+
+  BddTest().when('the total number of tools changes', () => {
+    const pageInfoRef = ref(mockPageInfo)
+
+    beforeEach(async () => {
+      pageInfoRef.value = mockPageInfo
+
+      await mountWith({
+        paginatedResult: {
+          ...defaultPaginatedResult,
+          pageInfo: computed(() => pageInfoRef.value),
+        },
+      })
+    })
+
+    BddTest().then('it should emit the updated total number of tools', async () => {
+      pageInfoRef.value = {
+        ...mockPageInfo,
+        totalElements: 5,
+      }
+
+      await nextTick()
+
+      expect(wrapper.emitted('count')).toStrictEqual([
+        [EToolType.LOCAL, mockTools.length],
+        [EToolType.LOCAL, 5],
+      ])
     })
   })
 

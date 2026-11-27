@@ -10,9 +10,12 @@ export const ToolsPaginatedListStub = defineComponent({
       required: false,
     },
     type: {
-      type: String as PropType<EToolType | undefined>,
+      type: String as PropType<EToolType>,
       required: true,
     },
+  },
+  emits: {
+    count: (_type: EToolType, _value: number) => true,
   },
   template: '<div data-testid="tools-paginated-list"></div>',
 })
