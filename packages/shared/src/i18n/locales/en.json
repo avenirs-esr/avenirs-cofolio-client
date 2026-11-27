@@ -181,9 +181,9 @@
         },
         "tabs": {
           "ToolTabs": {
-            "localTools": "Local tools",
-            "nationalTools": "National tools",
-            "regionalTools": "Regional tools"
+            "localTools": "Local tools ({count})",
+            "nationalTools": "National tools ({count})",
+            "regionalTools": "Regional tools ({count})"
           }
         },
         "toggles": {
